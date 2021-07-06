@@ -11,8 +11,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 <body id="body-pd">
+    <div id="app">
     @include('include/sidebar')
     @yield('content')
     @include('include/footer')
+    </div>
 </body>
 </html>

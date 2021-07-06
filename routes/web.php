@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
+// Route::get('/', function () {
+//     return view('dashboard');
+// });
+
+// Login Azure
+Route::get('/', [App\Http\Controllers\AuthController::class, 'SignIn']);
+Route::get('/callback', [App\Http\Controllers\AuthController::class, 'Callback']);
+
+//AzureAuth group
+Route::middleware(['AzureAuth'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'Index']);
 });

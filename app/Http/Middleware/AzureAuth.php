@@ -19,7 +19,7 @@ class AzureAuth
         $userID = session('id');
 
         if($userID != null) {
-            return redirect("/dashboard");
+            return view("dashboard");
         }
         return redirect("/");
     }

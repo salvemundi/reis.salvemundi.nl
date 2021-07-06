@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 // Login Azure
 Route::get('/', [App\Http\Controllers\AuthController::class, 'SignIn']);
 Route::get('/callback', [App\Http\Controllers\AuthController::class, 'Callback']);
+Route::get('/signout', [App\Http\Controllers\AuthController::class, 'SignOut']);
 
 //AzureAuth group
 Route::middleware(['AzureAuth'])->group(function () {

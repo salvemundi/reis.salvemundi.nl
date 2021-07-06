@@ -16,10 +16,8 @@ class AzureAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        $userID = session('id');
-
-        if($userID != null) {
-            return view("dashboard");
+        if(session('id')){
+            return $next($request);
         }
         return redirect("/");
     }

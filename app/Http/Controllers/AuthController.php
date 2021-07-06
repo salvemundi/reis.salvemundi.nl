@@ -9,7 +9,6 @@ use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model;
 use App\TokenStore\TokenCache;
 use App\Models\User;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -17,10 +16,10 @@ class AuthController extends Controller
 {
     public function SignOut()
     {
-          $tokenCache = new TokenCache();
-          $tokenCache->clearTokens();
-          Session::forget('id');
-          return redirect('/');
+        $tokenCache = new TokenCache();
+        $tokenCache->clearTokens();
+        Session::forget('id');
+        return redirect('/');
     }
 
     public function SignIn()
@@ -98,7 +97,7 @@ class AuthController extends Controller
         //   $AzureUser = User::where('AzureID',$user->getId())->first();
         //   $AzureUser->api_token = hash('sha256', $accessToken);
         //   $AzureUser->save();
-          return view('dashboard');
+          return redirect('/dashboard');
         }
         catch (League\OAuth2\Client\Provider\Exception\IdentityProviderException $e)
         {

@@ -4,5 +4,12 @@
 // Variables
 @import 'variables';
 
+//css
+@import 'sidebar';
+@import 'footer';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-icons/font/bootstrap-icons';
+.nav_link, .nav_logo{
+    text-decoration: none;
+}

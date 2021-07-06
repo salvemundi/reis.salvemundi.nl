@@ -7,9 +7,14 @@
 //css
 @import 'sidebar';
 @import 'footer';
+@import 'home_page';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-icons/font/bootstrap-icons';
 .nav_link, .nav_logo{
     text-decoration: none;
+}
+body {
+    background-color: $dark;
+    color: $dark-text;
 }

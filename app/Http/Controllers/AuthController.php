@@ -98,7 +98,7 @@ class AuthController extends Controller
         //   $AzureUser = User::where('AzureID',$user->getId())->first();
         //   $AzureUser->api_token = hash('sha256', $accessToken);
         //   $AzureUser->save();
-          return redirect('/dashboard');
+          return view('dashboard');
         }
         catch (League\OAuth2\Client\Provider\Exception\IdentityProviderException $e)
         {

@@ -18,12 +18,12 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Login Azure
-Route::get('/', [App\Http\Controllers\AuthController::class, 'SignIn']);
-Route::get('/callback', [App\Http\Controllers\AuthController::class, 'Callback']);
-Route::get('/signout', [App\Http\Controllers\AuthController::class, 'SignOut']);
+Route::get('/', [App\Http\Controllers\AuthController::class, 'signIn']);
+Route::get('/callback', [App\Http\Controllers\AuthController::class, 'callback']);
+Route::get('/signout', [App\Http\Controllers\AuthController::class, 'signOut']);
 
 //AzureAuth group
 Route::middleware(['AzureAuth'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'Index']);
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
 });

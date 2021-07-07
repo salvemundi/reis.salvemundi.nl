@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function SignOut()
+    public function signOut()
     {
         $tokenCache = new TokenCache();
         $tokenCache->clearTokens();
@@ -22,7 +22,7 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function SignIn()
+    public function signIn()
     {
       // Initialize the OAuth client
       $oauthClient = new \League\OAuth2\Client\Provider\GenericProvider([
@@ -43,7 +43,7 @@ class AuthController extends Controller
       return redirect()->away($authUrl);
     }
 
-    public function Callback(Request $request)
+    public function callback(Request $request)
     {
       // Validate state
       $expectedState = session('oauthState');

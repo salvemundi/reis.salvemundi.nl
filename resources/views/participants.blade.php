@@ -24,43 +24,51 @@
     </div>
     <div class="col-12 col-md-6 container mb-5">
         @if($selectedParticipant)
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
-                <span>
-                    <b>Verjaardag:</b> {{ $selectedParticipant->birthday}}<br>
-                    <b>Email:</b> {{ $selectedParticipant->email}}<br>
-                    <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
-                    <b>Leerjaar:</b> {{ $selectedParticipant->studentYear}}<br>
-                    <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
-                    <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
-                    <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
-                    <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
-                    <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
-                    @if ($selectedParticipant->covidTest !== 0)
-                        <b>Covid-test:</b> {{ App\Enums\CovidProof::fromValue($selectedParticipant->covidTest)->key}}<br>
-                    @endif
-                    @if (!$selectedParticipant->checkedIn)
-                    <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
-                        @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
-                        <select class="form-control" name="proof">
-                            <!-- foreach -->
-                            @foreach (\App\Enums\CovidProof::getKeys() as $item)
-                                <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                        <button type="submit" class="btn btn-success">Checkin</button>
-                    </form>
-                    @else
-                    <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Checkout</button>
-                    </form>
-                    @endif
-                </span>
+            <div class="card">
+            @if ($age <= 18)
+                <div class="card-body underEightTeen">
+            @else
+                <div class="card-body aboveEightTeen">
+            @endif
+                    <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
+                    <span>
+                        @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
+                        Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
+                        @else
+                        <b class="aboveEightTeen">Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>                        
+                        @endif
+                        <b>Email:</b> {{ $selectedParticipant->email}}<br>
+                        <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
+                        <b>Leerjaar:</b> {{ App\Enums\StudentYear::fromvalue($selectedParticipant->studentYear)->key}}<br>
+                        <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
+                        <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
+                        <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
+                        <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
+                        <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
+                        @if ($selectedParticipant->covidTest !== 0)
+                            <b>Covid-test:</b> {{ App\Enums\CovidProof::fromValue($selectedParticipant->covidTest)->key}}<br>
+                        @endif
+                        @if (!$selectedParticipant->checkedIn)
+                        <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
+                            @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
+                            <select class="form-control" name="proof">
+                                <!-- foreach -->
+                                @foreach (\App\Enums\CovidProof::getKeys() as $item)
+                                    <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
+                                @endforeach
+                            </select>
+                            <br>
+                            <button type="submit" class="btn btn-primary">Checkin</button>
+                        </form>
+                        @else
+                        <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Checkout</button>
+                        </form>
+                        @endif
+                    </span>
+                </div>
             </div>
-        </div>
         @endif
     </div>
 </div>

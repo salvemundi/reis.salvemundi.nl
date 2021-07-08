@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Participant;
 use App\Enums\CovidProof;
 use BenSampo\Enum\Rules\EnumValue;
+use Carbon\Carbon;
 
 class ParticipantController extends Controller
 {
@@ -17,7 +18,9 @@ class ParticipantController extends Controller
             $selectedParticipant = Participant::find($request->userId);
         }
 
-        return view('participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant]);
+        $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
+
+        return view('participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
     }
 
     public function checkIn(Request $request) {

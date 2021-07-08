@@ -11,6 +11,8 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
+    require('bootstrap-table');
+    require('jquery');
 } catch (e) {}
 
 /**

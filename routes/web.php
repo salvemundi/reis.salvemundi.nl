@@ -26,4 +26,8 @@ Route::get('/signout', [App\Http\Controllers\AuthController::class, 'signOut']);
 Route::middleware(['AzureAuth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
+    Route::get('/participants', [App\Http\Controllers\ParticipantController::class, 'getAllIntroParticipantsWithInformation']);
+    Route::get('/participants/{userId}', [App\Http\Controllers\ParticipantController::class, 'getAllIntroParticipantsWithInformation']);
+    Route::post('/participants/{userId}/checkIn', [App\Http\Controllers\ParticipantController::class, 'checkIn']);
+    Route::post('/participants/{userId}/checkOut', [App\Http\Controllers\ParticipantController::class, 'checkOut']);
 });

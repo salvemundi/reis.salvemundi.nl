@@ -7,6 +7,7 @@
     <!-- Links for css, etc. -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>

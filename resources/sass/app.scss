@@ -8,13 +8,18 @@
 @import 'sidebar';
 @import 'footer';
 @import 'home_page';
+@import 'participants';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-icons/font/bootstrap-icons';
 .nav_link, .nav_logo{
     text-decoration: none;
 }
+
 body {
-    background-color: $dark;
-    color: $dark-text;
+    background-color: $salvemundi-background;
+}
+
+.container {
+    margin-top: 4.5rem;
 }

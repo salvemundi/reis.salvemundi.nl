@@ -8,14 +8,14 @@
                 <img class="imgNavbar" src="{{ asset('images/logo.svg') }}" width="40" height="40"/> <span class="nav_logo-name">{{ config('app.name', 'Laravel') }}</span>
             </a>
             <div class="nav_list">
-                <a href="/dashboard" class="nav_link active">
+                <a id="dashboard" href="/dashboard" class="nav_link">
                     <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Dashboard</span>
                 </a>
-                <a href="/participants" class="nav_link">
+                <a id="participants" href="/participants" class="nav_link">
                     <i class='bx bx-user nav_icon'></i> <span class="nav_name">Users</span>
                 </a>
-                <a href="#" class="nav_link">
-                    <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Messages</span>
+                <a id="add" href="/add" class="nav_link">
+                    <i class='bx bi bi-plus-lg ml-1'></i> <span class="nav_name">Add</span>
                 </a>
                 <a href="#" class="nav_link">
                     <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Bookmark</span>

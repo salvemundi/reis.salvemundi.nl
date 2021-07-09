@@ -11,6 +11,6 @@ use BenSampo\Enum\Enum;
  */
 final class StudentYear extends Enum
 {
-    const firstYear = 0;
-    const secondYear = 1;
+    const Leerjaar1 = 0;
+    const Leerjaar2 = 1;
 }

@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<script>
+setActive("participants");
+</script>
 <div class="row">
     <div class="col-12 col-md-6 container">
         <div class="table-responsive">
@@ -23,7 +26,7 @@
         </div>
     </div>
     <div class="col-12 col-md-6 container mb-5">
-        @if($selectedParticipant)
+        @isset($selectedParticipant)
             <div class="card">
             @if ($age <= 18)
                 <div class="card-body underEightTeen">
@@ -35,7 +38,7 @@
                         @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
                         Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
                         @else
-                        <b class="aboveEightTeen">Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>                        
+                        <b class="aboveEightTeen">Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
                         @endif
                         <b>Email:</b> {{ $selectedParticipant->email}}<br>
                         <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
@@ -69,7 +72,7 @@
                     </span>
                 </div>
             </div>
-        @endif
+        @endisset
     </div>
 </div>
 

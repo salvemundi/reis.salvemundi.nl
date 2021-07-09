@@ -16,9 +16,10 @@ class AzureAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if(session('id')){
+        if (session('id')) {
             return $next($request);
         }
+
         return redirect("/");
     }
 }

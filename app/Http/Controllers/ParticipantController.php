@@ -26,6 +26,7 @@ class ParticipantController extends Controller
         $request->validate([
             'proof' => 'required',
         ]);
+
         if ($request->input('proof') == CovidProof::none) {
             return back()->with('message','Het moet bekend zijn of de persoon al is gevaccineerd!');
         }
@@ -86,6 +87,6 @@ class ParticipantController extends Controller
         $participant->checkedIn = (int)$request->input('checkedIn');
         $participant->save();
 
-        return redirect('/add')->with('message', 'Deelnemer is toegevoegd!');
+        return back()->with('message', 'Deelnemer is toegevoegd!');
     }
 }

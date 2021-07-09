@@ -14,8 +14,8 @@
                 <a href="/participants" class="nav_link">
                     <i class='bx bx-user nav_icon'></i> <span class="nav_name">Users</span>
                 </a>
-                <a href="#" class="nav_link">
-                    <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Messages</span>
+                <a href="/add" class="nav_link">
+                    <i class='bx bi bi-plus-lg ml-1'></i> <span class="nav_name">Add</span>
                 </a>
                 <a href="#" class="nav_link">
                     <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Bookmark</span>

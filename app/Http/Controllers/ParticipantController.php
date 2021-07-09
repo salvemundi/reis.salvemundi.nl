@@ -13,14 +13,13 @@ class ParticipantController extends Controller
     public function getAllIntroParticipantsWithInformation(Request $request) {
         $participants = Participant::all();
 
-        $selectedParticipant = null;
         if($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
+            $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
+            return view('participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }
 
-        $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
-
-        return view('participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
+        return view('participants', ['participants' => $participants]);
     }
 
     public function checkIn(Request $request) {
@@ -37,5 +36,39 @@ class ParticipantController extends Controller
         $participant->covidTest = CovidProof::coerce("none");
         $participant->save();
         return back();
+    }
+
+    public function viewAdd() {
+        return view('addParticipants');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'birthday' => 'required',
+            'role' => 'required',
+            'covidTest' => 'required',
+            'checkedIn' => 'required',
+        ]);
+        $participant = new Participant;
+        $participant->firstName = $request->input('firstName');
+        $participant->lastName = $request->input('lastName');
+        $participant->birthday = $request->input('birthday');
+        $participant->email = $request->input('email');
+        $participant->phoneNumber = $request->input('phoneNumber');
+        $participant->studentYear = $request->input('studentYear');
+        $participant->firstNameParent = $request->input('firstNameParent');
+        $participant->lastNameParent = $request->input('lastNameParent');
+        $participant->addressParent = $request->input('addressParent');
+        $participant->phoneNumberParent = $request->input('phoneNumberParent');
+        $participant->medicalIssues = $request->input('medicalIssues');
+        $participant->specials = $request->input('specials');
+        $participant->role = $request->input('role');
+        $participant->covidTest = $request->input('covidTest');
+        $participant->checkedIn = (int)$request->input('checkedIn');
+        $participant->save();
+        return redirect('/add')->with('message', 'Nieuws is toegevoegd');
     }
 }

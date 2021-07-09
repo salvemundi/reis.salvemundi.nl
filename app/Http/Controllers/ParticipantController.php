@@ -69,6 +69,6 @@ class ParticipantController extends Controller
         $participant->covidTest = $request->input('covidTest');
         $participant->checkedIn = (int)$request->input('checkedIn');
         $participant->save();
-        return redirect('/add')->with('message', 'Nieuws is toegevoegd');
+        return redirect('/add')->with('message', 'Deelnemer is toegevoegd');
     }
 }

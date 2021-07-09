@@ -36,16 +36,17 @@ setActive("add");
                 <input class="form-control{{ $errors->has('birthday') ? ' is-invalid' : '' }}" value="{{ old('birthday') }}" type="date" id="birthday" name="birthday" placeholder="MM-DD-JJJJ...">
             </div><br>
 
-            <div id="child" style="display: none;">
-                <div class="form-group">
+            <div class="form-group">
                     <label for="voornaam">Email</label>
                     <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" id="email" name="email" placeholder="Email...">
-                </div><br>
+            </div><br>
 
-                <div class="form-group">
+            <div class="form-group">
                     <label for="voornaam">Telefoonnummer</label>
                     <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummerfirst...">
                 </div><br>
+
+            <div id="child" style="display: none;">
 
                 <div class="form-group">
                 <select class="form-control" name="studentYear">
@@ -76,15 +77,7 @@ setActive("add");
                 </div><br>
             </div>
             <div id="dad_mom" style="display: none;">
-                <div class="form-group">
-                    <label for="voornaam">Email</label>
-                    <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" id="email" name="email" placeholder="Email...">
-                </div><br>
 
-                <div class="form-group">
-                    <label for="voornaam">Telefoonnummer</label>
-                    <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummerfirst...">
-                </div><br>
             </div>
             <div class="form-group">
                 <label for="voornaam">Allergieën</label>
@@ -103,8 +96,8 @@ setActive("add");
             </select><br>
 
             <select class="form-control" name="checkedIn">
-                <option value="true">Check in</option>
-                <option value="false">Check niet in</option>
+                <option value="1">Check in</option>
+                <option value="0">Check niet in</option>
             </select>
 
             <div class="form-group mb-5">

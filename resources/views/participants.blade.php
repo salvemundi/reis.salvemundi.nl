@@ -28,7 +28,7 @@ setActive("participants");
     <div class="col-12 col-md-6 container mb-5">
         @if (\Session::has('msg'))
             <div class="alert alert-danger m-1" role="alert">
-                {!! \Session::get('msg') !!}
+                {!! \Session::get('message') !!}
             </div>
         @endif
         @isset($selectedParticipant)
@@ -53,7 +53,7 @@ setActive("participants");
                         <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
                         <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
                         <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
-                        @if ($selectedParticipant->covidTest !== 0)
+                        @if ($selectedParticipant->covidTest !== App\Enums\CovidProof::none)
                             <b>Covid-test:</b> {{ App\Enums\CovidProof::fromValue($selectedParticipant->covidTest)->key}}<br>
                         @endif
                         @if (!$selectedParticipant->checkedIn)

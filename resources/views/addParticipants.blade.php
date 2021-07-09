@@ -20,11 +20,14 @@ setActive("add");
             <br>
             <h2 class="h2">Deelnemer toevoegen</h2>
 
-            <select id="role" class="form-control" name="role" onblur="getRole()">
-                @foreach (\App\Enums\Roles::getKeys() as $item)
-                    <option value="{{\App\Enums\Roles::fromKey($item)->value}}">{{$item}}</option>
-                @endforeach
-            </select><br>
+            <div class="form-group">
+                <label for="role">Soort persoon*</label>
+                <select id="role" class="form-control" name="role" onblur="getRole()">
+                    @foreach (\App\Enums\Roles::getKeys() as $item)
+                        <option value="{{\App\Enums\Roles::fromKey($item)->value}}">{{$item}}</option>
+                    @endforeach
+                </select><br>
+            </div>
 
             <div class="form-group">
                 <label for="voornaam">Voornaam*</label>
@@ -48,11 +51,10 @@ setActive("add");
 
             <div class="form-group">
                     <label for="voornaam">Telefoonnummer</label>
-                    <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummerfirst...">
+                    <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummer...">
                 </div><br>
 
             <div id="child" style="display: none;">
-
                 <div class="form-group">
                 <select class="form-control" name="studentYear">
                     @foreach (\App\Enums\studentYear::getKeys() as $item)
@@ -86,24 +88,30 @@ setActive("add");
             </div>
             <div class="form-group">
                 <label for="voornaam">Allergieën</label>
-                <input class="form-control{{ $errors->has('medicalIssues') ? ' is-invalid' : '' }}" value="{{ old('medicalIssues') }}" id="medicalIssues" name="medicalIssues" placeholder="allergiën...">
+                <input class="form-control{{ $errors->has('medicalIssues') ? ' is-invalid' : '' }}" value="{{ old('medicalIssues') }}" id="medicalIssues" name="medicalIssues" placeholder="Allergieën...">
             </div><br>
 
             <div class="form-group">
                 <label for="voornaam">Bijzonderheden</label>
-                <input class="form-control{{ $errors->has('specials') ? ' is-invalid' : '' }}" value="{{ old('specials') }}" id="specials" name="specials" placeholder="bijzonderheden...">
+                <input class="form-control{{ $errors->has('specials') ? ' is-invalid' : '' }}" value="{{ old('specials') }}" id="specials" name="specials" placeholder="Bijzonderheden...">
             </div><br>
 
-            <select class="form-control" name="covidTest">
-                @foreach (\App\Enums\CovidProof::getKeys() as $item)
-                    <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
-                @endforeach
-            </select><br>
+            <div class="form-group">
+                <label for="voornaam">Keuze COVID*</label>
+                <select class="form-control" name="covidTest">
+                    @foreach (\App\Enums\CovidProof::getKeys() as $item)
+                        <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
+                    @endforeach
+                </select><br>
+            </div>
 
-            <select class="form-control" name="checkedIn">
-                <option value="1">Check in</option>
-                <option value="0">Check niet in</option>
-            </select>
+            <div class="form-group">
+                <label for="voornaam">Checkedin*</label>
+                <select class="form-control" name="checkedIn">
+                    <option value="1">Check in</option>
+                    <option value="0">Check niet in</option>
+                </select>
+            </div>
 
             <div class="form-group mb-5">
                 <br>

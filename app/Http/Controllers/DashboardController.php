@@ -8,12 +8,19 @@ use App\Models\Participant;
 class DashboardController extends Controller
 {
     public function index() {
-        $amountTotal = Participant::count();
-        $amountCrew = Participant::where('role', 3)->count();
-        $amountChildren = Participant::where('role', 0)->count();
-        $amountParents = Participant::where('role', 1)->count();
-        $amountTeachers = Participant::where('role', 2)->count();
+        $viewVars = [];
 
-        return view("dashboard", ['amountTotal' => $amountTotal, 'amountCrew' => $amountCrew, 'amountChildren' => $amountChildren, 'amountParents' => $amountParents, 'amountTeachers' => $amountTeachers]);
+        $viewVars['amountTotal']                = Participant::count();
+        $viewVars['amountTotalCheckedIn']       = Participant::where('checkedIn', 1)->count();
+        $viewVars['amountCrew']                 = Participant::where('role', 3)->count();
+        $viewVars['amountCrewCheckedIn']        = Participant::where('role', 3)->where('checkedIn', 1)->count();
+        $viewVars['amountChildren']             = Participant::where('role', 0)->count();
+        $viewVars['amountChildrenCheckedIn']    = Participant::where('role', 0)->where('checkedIn', 1)->count();
+        $viewVars['amountParents']              = Participant::where('role', 1)->count();
+        $viewVars['amountParentsCheckedIn']     = Participant::where('role', 1)->where('checkedIn', 1)->count();
+        $viewVars['amountTeachers']             = Participant::where('role', 2)->count();
+        $viewVars['amountTeachersCheckedIn']    = Participant::where('role', 2)->where('checkedIn', 1)->count();
+
+        return view("dashboard", $viewVars);
     }
 }

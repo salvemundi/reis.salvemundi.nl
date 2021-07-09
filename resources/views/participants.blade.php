@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<script>
+setActive("participants");
+</script>
 <div class="row">
     <div class="col-12 col-md-6 container">
         <div class="table-responsive">

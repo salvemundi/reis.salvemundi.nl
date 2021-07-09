@@ -36,3 +36,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // Your code to run since DOM is loaded and ready
     });
+
+    window.setActive = function (activeId){
+        var element = document.getElementById(activeId);
+        element.classList.add("active");
+    }

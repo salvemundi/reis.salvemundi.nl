@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
-
+<script>
+setActive("add");
+</script>
 <div class="container center">
     <div id="contact" class="col-md-6">
         @if(session()->has('message'))

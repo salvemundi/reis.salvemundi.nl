@@ -13,7 +13,7 @@ class ParticipantController extends Controller
     public function getAllIntroParticipantsWithInformation(Request $request) {
         $participants = Participant::all();
 
-        if($request->userId) {
+        if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
             $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
             return view('participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
@@ -26,13 +26,15 @@ class ParticipantController extends Controller
         $request->validate([
             'proof' => 'required',
         ]);
-        if($request->input('proof') == 0){
+        if ($request->input('proof') == 0) {
             return back()->with('msg','Het moet bekend zijn of de persoon al is gevaccineerd!');
         }
+
         $participant = Participant::find($request->userId);
         $participant->checkedIn = true;
         $participant->covidTest = CovidProof::coerce((int)$request->proof);
         $participant->save();
+
         return back();
     }
 
@@ -41,6 +43,7 @@ class ParticipantController extends Controller
         $participant->checkedIn = false;
         $participant->covidTest = CovidProof::coerce("none");
         $participant->save();
+
         return back();
     }
 
@@ -55,12 +58,14 @@ class ParticipantController extends Controller
             'lastName' => 'required',
             'birthday' => 'required',
             'role' => 'required',
-            'proof' => 'required',
+            'covidTest' => 'required',
             'checkedIn' => 'required',
         ]);
-        if($request->input('proof') == 0){
+
+        if ($request->input('covidTest') == 0) {
             return back()->with('error','Het moet bekend zijn of de persoon al is gevaccineerd!');
         }
+
         $participant = new Participant;
         $participant->firstName = $request->input('firstName');
         $participant->lastName = $request->input('lastName');
@@ -78,6 +83,7 @@ class ParticipantController extends Controller
         $participant->covidTest = $request->input('covidTest');
         $participant->checkedIn = (int)$request->input('checkedIn');
         $participant->save();
+
         return redirect('/add')->with('message', 'Deelnemer is toegevoegd');
     }
 }

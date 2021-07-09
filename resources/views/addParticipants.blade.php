@@ -10,6 +10,11 @@ setActive("add");
             {{ session()->get('message') }}
         </div>
         @endif
+        @if(session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session()->get('error') }}
+        </div>
+        @endif
         <form action="/add/store" method="post" enctype="multipart/form-data">
             @csrf
             <br>

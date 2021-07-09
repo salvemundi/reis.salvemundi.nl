@@ -26,6 +26,11 @@ setActive("participants");
         </div>
     </div>
     <div class="col-12 col-md-6 container mb-5">
+        @if (\Session::has('msg'))
+            <div class="alert alert-danger m-1" role="alert">
+                {!! \Session::get('msg') !!}
+            </div>
+        @endif
         @isset($selectedParticipant)
             <div class="card">
             @if ($age <= 18)

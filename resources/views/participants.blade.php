@@ -26,6 +26,11 @@ setActive("participants");
         </div>
     </div>
     <div class="col-12 col-md-6 container mb-5">
+        @if (\Session::has('msg'))
+            <div class="alert alert-danger m-1" role="alert">
+                {!! \Session::get('msg') !!}
+            </div>
+        @endif
         @isset($selectedParticipant)
             <div class="card">
             @if ($age <= 18)
@@ -36,7 +41,7 @@ setActive("participants");
                     <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
                     <span>
                         @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
-                        Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
+                        <b> Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
                         @else
                         <b class="aboveEightTeen">Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
                         @endif

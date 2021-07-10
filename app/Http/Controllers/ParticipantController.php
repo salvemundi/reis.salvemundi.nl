@@ -8,6 +8,8 @@ use App\Enums\CovidProof;
 use App\Enums\Roles;
 use BenSampo\Enum\Rules\EnumValue;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ParticipantsExport;
 
 class ParticipantController extends Controller
 {
@@ -94,5 +96,9 @@ class ParticipantController extends Controller
     public function indexTestedPeople() {
         $testedParticipants = Participant::where('covidTest', CovidProof::test)->get();
         return view('test', ['testedParticipants' => $testedParticipants]);
+    }
+
+    function excel() {
+        return Excel::download(new ParticipantsExport, 'deelnemersInformatie.xlsx');
     }
 }

@@ -79,6 +79,7 @@ setActive("participants");
             </div>
         @endisset
     </div>
+    <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a>
 </div>
 
 @endsection

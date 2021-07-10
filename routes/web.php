@@ -44,4 +44,7 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::post('/bus/reset', [App\Http\Controllers\BusController::class, 'resetBusses']);
     Route::post('/bus/addBusNumber', [App\Http\Controllers\BusController::class, 'addBusNumber']);
     Route::post('/bus/addPersons', [App\Http\Controllers\BusController::class, 'addPersonsToBus']);
+
+    //Excel
+    Route::get('/export_excel/excel', [App\Http\Controllers\ParticipantController::class, 'excel'])->name('export_excel.excel');
 });

@@ -32,4 +32,6 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::post('/participants/{userId}/checkOut', [App\Http\Controllers\ParticipantController::class, 'checkOut']);
     Route::get('/add', [App\Http\Controllers\ParticipantController::class, 'viewAdd']);
     Route::post('/add/store', [App\Http\Controllers\ParticipantController::class, 'store']);
+    Route::get('/test', [App\Http\Controllers\ParticipantController::class, 'indexTestedPeople']);
+    Route::get('/bus', [App\Http\Controllers\ParticipantController::class, 'viewAdd']);
 });

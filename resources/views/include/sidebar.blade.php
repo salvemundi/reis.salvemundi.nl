@@ -17,10 +17,10 @@
                 <a id="add" href="/add" class="nav_link">
                     <i class='bx bi bi-plus-circle circlePlus'></i> <span class="nav_name">Add</span>
                 </a>
-                <a href="#" class="nav_link">
+                <a id="test" href="/test" class="nav_link">
                     <i class='fas fa-virus virus'></i> <span class="nav_name">Covid</span>
                 </a>
-                <a href="#" class="nav_link">
+                <a href="/bus" class="nav_link">
                     <i class='fas fa-bus bus'></i> <span class="nav_name">Bus</span>
                 </a>
                 <a href="#" class="nav_link">

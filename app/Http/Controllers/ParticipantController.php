@@ -89,4 +89,9 @@ class ParticipantController extends Controller
 
         return back()->with('message', 'Deelnemer is toegevoegd!');
     }
+
+    public function indexTestedPeople() {
+        $testedParticipants = Participant::where('covidTest', CovidProof::test)->get();
+        return view('test', ['testedParticipants' => $testedParticipants]);
+    }
 }

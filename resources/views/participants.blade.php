@@ -5,6 +5,7 @@ setActive("participants");
 </script>
 <div class="row">
     <div class="col-12 col-md-6 container">
+        <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a>
         <div class="table-responsive">
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"
             data-show-columns="true">
@@ -41,9 +42,9 @@ setActive("participants");
                     <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
                     <span>
                         @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
-                        <b> Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
+                            <b> Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
                         @else
-                        <b class="aboveEightTeen">Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
+                            <b class="aboveEightTeen">Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
                         @endif
                         <b>Email:</b> {{ $selectedParticipant->email}}<br>
                         <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
@@ -57,29 +58,27 @@ setActive("participants");
                             <b>Covid-test:</b> {{ App\Enums\CovidProof::fromValue($selectedParticipant->covidTest)->key}}<br>
                         @endif
                         @if (!$selectedParticipant->checkedIn)
-                        <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
-                            @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
-                            <select class="form-control" name="proof">
-                                <!-- foreach -->
-                                @foreach (\App\Enums\CovidProof::getKeys() as $item)
-                                    <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
-                                @endforeach
-                            </select>
-                            <br>
-                            <button type="submit" class="btn btn-primary">Checkin</button>
-                        </form>
+                            <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
+                                @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
+                                <select class="form-control" name="proof">
+                                    <!-- foreach -->
+                                    @foreach (\App\Enums\CovidProof::getKeys() as $item)
+                                        <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
+                                    @endforeach
+                                </select>
+                                <br>
+                                <button type="submit" class="btn btn-primary">Checkin</button>
+                            </form>
                         @else
-                        <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Checkout</button>
-                        </form>
+                            <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Checkout</button>
+                            </form>
                         @endif
                     </span>
                 </div>
             </div>
         @endisset
     </div>
-    <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a>
 </div>
-
 @endsection

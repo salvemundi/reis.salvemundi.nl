@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+    <script src="https://kit.fontawesome.com/a6479d1508.js" crossorigin="anonymous"></script>
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 <body id="body-pd">

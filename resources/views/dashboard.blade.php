@@ -4,7 +4,7 @@
 setActive("dashboard");
 </script>
 
-<div class="row">
+<div class="row mt-5">
     <h2 class="user center my-4">Welkom {{ session('userName') }}</h2>
 </div>
 <div class="row">

@@ -15,13 +15,13 @@
                     <i class='bx bx-user nav_icon'></i> <span class="nav_name">Users</span>
                 </a>
                 <a id="add" href="/add" class="nav_link">
-                    <i class='bx bi bi-plus-lg ml-1'></i> <span class="nav_name">Add</span>
+                    <i class='bx bi bi-plus-circle circlePlus'></i> <span class="nav_name">Add</span>
                 </a>
                 <a href="#" class="nav_link">
-                    <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Bookmark</span>
+                    <i class='fas fa-virus virus'></i> <span class="nav_name">Covid</span>
                 </a>
                 <a href="#" class="nav_link">
-                    <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Files</span>
+                    <i class='fas fa-bus bus'></i> <span class="nav_name">Bus</span>
                 </a>
                 <a href="#" class="nav_link">
                     <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Stats</span>

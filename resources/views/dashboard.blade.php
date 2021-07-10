@@ -13,8 +13,8 @@ setActive("dashboard");
             <div class="card-body">
                 <div class="row align-items-center gx-0">
                     <div class="col">
-                        <h6 class="text-uppercase text-muted mb-2">Mensen ingecheckt (totaal):</h6>
-                        <span class="h2 mb-0">{{ $amountTotalCheckedIn }} ({{ $amountTotal }})</span>
+                        <h6 class="text-uppercase text-muted mb-2">Mensen ingecheckt / totaal:</h6>
+                        <span class="h2 mb-0">{{ $amountTotalCheckedIn }} / {{ $amountTotal }}</span>
                         <div class="progress mt-2">
                             <div class="progress-bar bg-samu progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{100.0 / $amountTotal * $amountTotalCheckedIn}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
@@ -31,7 +31,7 @@ setActive("dashboard");
                 <div class="row align-items-center gx-0">
                     <div class="col">
                         <h6 class="text-uppercase text-muted mb-2">Aantal crewleden:</h6>
-                        <span class="h2 mb-0">{{ $amountCrewCheckedIn }} ({{ $amountCrew }})</span>
+                        <span class="h2 mb-0">{{ $amountCrewCheckedIn }} / {{ $amountCrew }}</span>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@ setActive("dashboard");
                 <div class="row align-items-center gx-0">
                     <div class="col">
                         <h6 class="text-uppercase text-muted mb-2">Aantal kinderen:</h6>
-                        <span class="h2 mb-0">{{ $amountChildrenCheckedIn }} ({{ $amountChildren }})</span>
+                        <span class="h2 mb-0">{{ $amountChildrenCheckedIn }} / {{ $amountChildren }}</span>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@ setActive("dashboard");
                 <div class="row align-items-center gx-0">
                     <div class="col">
                         <h6 class="text-uppercase text-muted mb-2">Aantal ouders:</h6>
-                        <span class="h2 mb-0">{{ $amountParentsCheckedIn }} ({{ $amountParents }})</span>
+                        <span class="h2 mb-0">{{ $amountParentsCheckedIn }} / {{ $amountParents }}</span>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@ setActive("dashboard");
                 <div class="row align-items-center gx-0">
                     <div class="col">
                         <h6 class="text-uppercase text-muted mb-2">Aantal docenten:</h6>
-                        <span class="h2 mb-0">{{ $amountTeachersCheckedIn }} ({{ $amountTeachers }})</span>
+                        <span class="h2 mb-0">{{ $amountTeachersCheckedIn }} / {{ $amountTeachers }}</span>
                     </div>
                 </div>
             </div>

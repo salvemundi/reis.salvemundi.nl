@@ -10,6 +10,7 @@
 @import 'home_page';
 @import 'participants';
 @import 'dashboard';
+@import 'bus';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-icons/font/bootstrap-icons';
@@ -24,4 +25,17 @@ body {
 
 .container {
     margin-top: 4.5rem;
+}
+
+.btn-primary {
+    background-color: $salveMundi-primary;
+    color: white;
+    border-color: $salveMundi-dark;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: $salveMundi-light;
+    color: white;
+    border-color: $salveMundi-light;
+    box-shadow: none !important;
 }

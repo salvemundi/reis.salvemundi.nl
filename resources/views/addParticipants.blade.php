@@ -23,8 +23,9 @@ setActive("add");
             <div class="form-group">
                 <label for="role">Soort persoon*</label>
                 <select id="role" class="form-control" name="role" onblur="getRole()">
-                    @foreach (\App\Enums\Roles::getKeys() as $item)
-                        <option value="{{\App\Enums\Roles::fromKey($item)->value}}">{{$item}}</option>
+                    <option selected>Selecteer...</option>
+                    @foreach (\App\Enums\Roles::getInstances() as $item)
+                        <option value="{{ $item->value }}">{{$item->description}}</option>
                     @endforeach
                 </select><br>
             </div>
@@ -55,12 +56,13 @@ setActive("add");
                 </div><br>
 
             <div id="child" style="display: none;">
+            <label for="voornaam">Leerjaar</label>
                 <div class="form-group">
-                <select class="form-control" name="studentYear">
-                    @foreach (\App\Enums\studentYear::getKeys() as $item)
-                        <option value="{{\App\Enums\StudentYear::fromKey($item)->value}}">{{$item}}</option>
-                    @endforeach
-                </select><br>
+                    <select class="form-control" name="studentYear">
+                        @foreach (\App\Enums\studentYear::getInstances() as $item)
+                            <option value="{{ $item->value }}">{{$item->description}}</option>
+                        @endforeach
+                    </select><br>
                 </div>
 
                 <div class="form-group">
@@ -99,8 +101,8 @@ setActive("add");
             <div class="form-group">
                 <label for="voornaam">Keuze COVID*</label>
                 <select class="form-control" name="covidTest">
-                    @foreach (\App\Enums\CovidProof::getKeys() as $item)
-                        <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
+                    @foreach (\App\Enums\CovidProof::getInstances() as $item)
+                        <option value="{{ $item->value }}">{{$item->description}}</option>
                     @endforeach
                 </select><br>
             </div>

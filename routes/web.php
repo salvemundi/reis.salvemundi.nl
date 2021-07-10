@@ -26,12 +26,22 @@ Route::get('/signout', [App\Http\Controllers\AuthController::class, 'signOut']);
 Route::middleware(['AzureAuth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
+
+    //Participants
     Route::get('/participants', [App\Http\Controllers\ParticipantController::class, 'getAllIntroParticipantsWithInformation']);
     Route::get('/participants/{userId}', [App\Http\Controllers\ParticipantController::class, 'getAllIntroParticipantsWithInformation']);
     Route::post('/participants/{userId}/checkIn', [App\Http\Controllers\ParticipantController::class, 'checkIn']);
     Route::post('/participants/{userId}/checkOut', [App\Http\Controllers\ParticipantController::class, 'checkOut']);
     Route::get('/add', [App\Http\Controllers\ParticipantController::class, 'viewAdd']);
     Route::post('/add/store', [App\Http\Controllers\ParticipantController::class, 'store']);
+
+    //Covid
     Route::get('/test', [App\Http\Controllers\ParticipantController::class, 'indexTestedPeople']);
-    Route::get('/bus', [App\Http\Controllers\ParticipantController::class, 'viewAdd']);
+
+    //Bus
+    Route::get('/bus', [App\Http\Controllers\BusController::class, 'index']);
+    Route::post('/bus/add', [App\Http\Controllers\BusController::class, 'addBusses']);
+    Route::post('/bus/reset', [App\Http\Controllers\BusController::class, 'resetBusses']);
+    Route::post('/bus/addBusNumber', [App\Http\Controllers\BusController::class, 'addBusNumber']);
+    Route::post('/bus/addPersons', [App\Http\Controllers\BusController::class, 'addPersonsToBus']);
 });

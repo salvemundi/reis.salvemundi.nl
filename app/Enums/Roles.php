@@ -30,7 +30,7 @@ final class Roles extends Enum
         if ($value === self::crew) {
             return 'Crew';
         }
-    
+
         return parent::getDescription($value);
     }
 }

@@ -94,7 +94,7 @@ class ParticipantController extends Controller
     }
 
     public function indexTestedPeople() {
-        $testedParticipants = Participant::where('covidTest', CovidProof::test)->get();
+        $testedParticipants = Participant::where('covidTest', CovidProof::test)->orWhere('covidTest', CovidProof::none)->get();
         return view('test', ['testedParticipants' => $testedParticipants]);
     }
 

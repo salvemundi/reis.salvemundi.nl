@@ -18,11 +18,13 @@ class AzureAuth
     {
         $userId = session('id');
 
+
+        $groupsObj = session('groups');
+
         if (!$userId || !$groupsObj) {
             return redirect("/");
         }
 
-        $groupsObj = session('groups');
         $groups = array_map(fn($val) => $val->getId(), $groupsObj);
 
         $allouwedGroups = [

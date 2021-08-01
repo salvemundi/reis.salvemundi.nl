@@ -11,6 +11,7 @@ use App\TokenStore\TokenCache;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class AuthController extends Controller
 {
@@ -19,6 +20,7 @@ class AuthController extends Controller
         $tokenCache = new TokenCache();
         $tokenCache->clearTokens();
         Session::forget('id');
+        Session::forget('groups');
         return redirect('/');
     }
 
@@ -90,7 +92,9 @@ class AuthController extends Controller
             ->setReturnType(Model\User::class)
             ->execute();
 
-          session(['id' => $user->getId()]);
+          $groups = $this->getGroupsByUserID($user->getId());
+
+          session(['id' => $user->getId(), 'groups' => $groups]);
 
           $tokenCache = new TokenCache();
           $tokenCache->storeTokens($accessToken, $user);
@@ -111,4 +115,39 @@ class AuthController extends Controller
         ->with('error', $request->query('error'))
         ->with('errorDetail', $request->query('error_description'));
     }
+
+    public function connectToAzure(): Graph
+    {
+        $guzzle = new Client();
+        $url = 'https://login.microsoftonline.com/salvemundi.onmicrosoft.com/oauth2/token';
+        $token = json_decode($guzzle->post($url, [
+            'form_params' => array(
+                'client_id' => env("OAUTH_APP_ID"),
+                'client_secret' => env("OAUTH_APP_PASSWORD"),
+                'resource' => 'https://graph.microsoft.com/',
+                'grant_type' => 'client_credentials',
+            ),
+        ])->getBody()->getContents());
+
+        $accessToken = $token->access_token;
+
+        $graph = new Graph();
+        $graph->setAccessToken($accessToken);
+        return $graph;
+    }
+
+    public function getGroupsByUserID($userID) {
+      $graph = $this->connectToAzure();
+
+      try {
+          $graphRequest = $graph->createRequest("GET", '/users/'.$userID.'/memberOf')
+              ->setReturnType(Model\Group::class)
+              ->execute();
+
+          return $graphRequest;
+      }
+      catch (GraphException $e) {
+          return false;
+      }
+  }
 }

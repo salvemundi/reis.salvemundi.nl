@@ -33,7 +33,7 @@ class CreateParticipantsTable extends Migration
             $table->boolean('checkedIn');
             $table->tinyInteger('studentYear')->unsigned()->default(StudentYear::firstYear);
             $table->tinyInteger('covidTest')->unsigned()->default(CovidProof::none);
-            $table->tinyInteger('role')->unsigned()->default(Roles::child);;
+            $table->tinyInteger('role')->unsigned()->default(Roles::child);
             $table->softDeletes();
             $table->timestamps();
         });

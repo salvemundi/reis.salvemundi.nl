@@ -48,10 +48,12 @@ setActive("participants");
                         @endif
                         <b>Email:</b> {{ $selectedParticipant->email}}<br>
                         <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
+                        @if($selectedParticipant->role == \App\Enums\Roles::child)
                         <b>Leerjaar:</b> {{ App\Enums\StudentYear::fromvalue($selectedParticipant->studentYear)->key}}<br>
                         <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
                         <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
                         <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
+                        @endif
                         <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
                         <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
                         @if ($selectedParticipant->covidTest !== App\Enums\CovidProof::none)

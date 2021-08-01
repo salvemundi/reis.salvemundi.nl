@@ -17,6 +17,11 @@ class AzureAuth
     public function handle(Request $request, Closure $next)
     {
         $userId = session('id');
+
+        if (!$userId || !$groupsObj) {
+            return redirect("/");
+        }
+
         $groupsObj = session('groups');
         $groups = array_map(fn($val) => $val->getId(), $groupsObj);
 
@@ -25,10 +30,6 @@ class AzureAuth
             '516f03f9-be0a-4514-9da8-396415f59d0b', // introCommisie
             '314044d2-bafe-43c7-99f3-c8824dbcbef0' // bhv
         ];
-
-        if (!$userId) {
-            return redirect("/");
-        }
 
         if (!array_intersect($allouwedGroups, $groups)) {
             return abort(401);

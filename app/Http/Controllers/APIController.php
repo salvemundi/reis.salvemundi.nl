@@ -15,7 +15,7 @@ class APIController extends Controller
         $url = "https://localhost/api/participants";
         $res = $client->get($url);
         $content = json_decode($res->getBody()->getContents());
-        $arr = []
+        $arr = [];
         foreach($content as $item)
         {
             // Try to find the participant first, then update their records instead of creating a new object
@@ -35,7 +35,7 @@ class APIController extends Controller
                 $tryToFind->specials = $item->specials;
                 $tryToFind->phoneNumberParent = $item->phoneNumberParent;
                 $tryToFind->studentYear = $item->studentYear;
-                $arr->push($tryToFind);
+                array_push($arr,$tryToFind);
                 //$tryToFind->save();
             }
 
@@ -54,7 +54,7 @@ class APIController extends Controller
             $newParticipant->phoneNumberParent = $item->phoneNumberParent;
             $newParticipant->studentYear = $item->studentYear;
             $newParticipant->samuId = $item->id;
-            $arr->push($tryToFind);
+            array_push($arr,$newParticipant);
             //$newParticipant->save();
         }
         dd($arr);

@@ -47,4 +47,7 @@ Route::middleware(['AzureAuth'])->group(function () {
 
     //Excel
     Route::get('/export_excel/excel', [App\Http\Controllers\ParticipantController::class, 'excel'])->name('export_excel.excel');
+
+    //Api
+    Route::get('/import', [App\Http\Controllers\APIController::class, 'GetParticipants']);
 });

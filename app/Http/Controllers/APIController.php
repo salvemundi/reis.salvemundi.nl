@@ -18,7 +18,7 @@ class APIController extends Controller
         //dd($content);
         foreach($content as $item)
         {
-            echo($item['firstName'])
+            echo($item['firstName']);
         }
     }
 }

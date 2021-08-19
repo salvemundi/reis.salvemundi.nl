@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Models\Participant;
 
 class APIController extends Controller
@@ -15,7 +16,7 @@ class APIController extends Controller
         $url = "https://localhost/api/participants";
         $res = $client->get($url);
         $content = json_decode($res->getBody()->getContents());
-        $arr = [];
+        $arr = collect();
         foreach($content as $item)
         {
             // Try to find the participant first, then update their records instead of creating a new object
@@ -35,7 +36,7 @@ class APIController extends Controller
                 $tryToFind->specials = $item->specials;
                 $tryToFind->phoneNumberParent = $item->phoneNumberParent;
                 $tryToFind->studentYear = $item->studentYear;
-                array_push($arr,$tryToFind);
+                $arr->push($tryToFind);
                 //$tryToFind->save();
             }
 
@@ -54,7 +55,7 @@ class APIController extends Controller
             $newParticipant->phoneNumberParent = $item->phoneNumberParent;
             $newParticipant->studentYear = $item->studentYear;
             $newParticipant->samuId = $item->id;
-            array_push($arr,$newParticipant);
+            $arr->push($newParticipant);
             //$newParticipant->save();
         }
         dd($arr);

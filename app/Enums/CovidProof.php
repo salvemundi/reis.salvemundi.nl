@@ -21,7 +21,7 @@ final class CovidProof extends Enum
         if ($value === self::vaccin) {
             return 'Vaccin';
         }
-    
+
         return parent::getDescription($value);
     }
 }

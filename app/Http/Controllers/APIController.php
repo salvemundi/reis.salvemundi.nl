@@ -8,10 +8,11 @@ class APIController extends Controller
 {
     public function GetParticipants()
     {
-        $client = new \GuzzleHttp\Client(['verify' => false]);
+        $client = new \GuzzleHttp\Client([
+            'verify' => false
+        ]);
         $url = "http://localhost/api/participants";
         $request = $client->get($url);
-        $response = $request->send();
-        dd($response);
+        dd($request->getBody());
     }
 }

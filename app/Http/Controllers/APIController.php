@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Participant;
 
 class APIController extends Controller
 {
@@ -11,8 +12,13 @@ class APIController extends Controller
         $client = new \GuzzleHttp\Client([
             'verify' => false
         ]);
-        $url = "http://localhost/api/participants";
-        $request = $client->get($url);
-        dd($request->getBody());
+        $url = "https://localhost/api/participants";
+        $res = $client->get($url);
+        $content = json_decode($res->getBody()->getContents());
+        //dd($content);
+        foreach($content as $item)
+        {
+            echo($item['firstName'])
+        }
     }
 }

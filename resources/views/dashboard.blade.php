@@ -16,7 +16,9 @@ setActive("dashboard");
                         <h6 class="text-uppercase text-muted mb-2">Mensen ingecheckt / totaal:</h6>
                         <span class="h2 mb-0">{{ $amountTotalCheckedIn }} / {{ $amountTotal }}</span>
                         <div class="progress mt-2">
-                            <div class="progress-bar bg-samu progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{100.0 / $amountTotal * $amountTotalCheckedIn}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            @if($amountTotal > 0 || $amountTotalCheckedIn > 0)
+                                <div class="progress-bar bg-samu progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{100.0 / $amountTotal * $amountTotalCheckedIn}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            @endif
                         </div>
                     </div>
                 </div>

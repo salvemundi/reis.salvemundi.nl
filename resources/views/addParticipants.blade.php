@@ -23,7 +23,6 @@ setActive("add");
             <div class="form-group">
                 <label for="role">Soort persoon*</label>
                 <select id="role" class="form-control" name="role" onblur="getRole()">
-                    <option selected>Selecteer...</option>
                     @foreach (\App\Enums\Roles::getInstances() as $item)
                         <option value="{{ $item->value }}">{{$item->description}}</option>
                     @endforeach
@@ -58,7 +57,7 @@ setActive("add");
             <div class="form-group">
                     <label for="voornaam">Telefoonnummer</label>
                     <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummer...">
-                </div><br>
+            </div><br>
 
             <div id="child" style="display: none;">
             <label for="voornaam">Leerjaar</label>

@@ -26,7 +26,7 @@ class APIController extends Controller
                 $tryToFind->firstName = $item->firstName;
                 $tryToFind->insertion = $item->insertion;
                 $tryToFind->lastName = $item->lastName;
-                $tryToFind->birthday = strtotime($item->birthday);
+                $tryToFind->birthday = date("Y-m-d", strtotime($item->birthday));
                 $tryToFind->email = $item->email;
                 $tryToFind->phoneNumber = $item->phoneNumber;
                 $tryToFind->firstNameParent = $item->firstNameParent;
@@ -44,7 +44,7 @@ class APIController extends Controller
             $newParticipant->firstName = $item->firstName;
             $newParticipant->insertion = $item->insertion;
             $newParticipant->lastName = $item->lastName;
-            $newParticipant->birthday = strtotime($item->birthday);
+            $newParticipant->birthday = date("Y-m-d", strtotime($item->birthday));
             $newParticipant->email = $item->email;
             $newParticipant->phoneNumber = $item->phoneNumber;
             $newParticipant->firstNameParent = $item->firstNameParent;

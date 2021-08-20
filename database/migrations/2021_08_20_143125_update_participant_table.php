@@ -14,7 +14,7 @@ class UpdateParticipantTable extends Migration
     public function up()
     {
         Schema::table('participants', function ($table) {
-            $table->boolean('checkedIn')->default(false);
+            $table->boolean('checkedIn')->default(0)->change();
         });
     }
 

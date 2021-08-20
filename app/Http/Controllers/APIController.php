@@ -58,6 +58,6 @@ class APIController extends Controller
             $arr->push($newParticipant);
             $newParticipant->save();
         }
-        dd($arr->attributes);
+        return redirect('/participants');
     }
 }

@@ -36,6 +36,11 @@ setActive("add");
             </div><br>
 
             <div class="form-group">
+                <label for="voornaam">Tussenvoegsel</label>
+                <input class="form-control{{ $errors->has('insertion') ? ' is-invalid' : '' }}" value="{{ old('insertion') }}" id="insertion" name="insertion" placeholder="Tussenvoegsel...">
+            </div><br>
+
+            <div class="form-group">
                 <label for="voornaam">Achternaam*</label>
                 <input class="form-control{{ $errors->has('lastName') ? ' is-invalid' : '' }}" value="{{ old('lastName') }}" id="lastName" name="lastName" placeholder="Achternaam...">
             </div><br>

@@ -80,6 +80,7 @@ class ParticipantController extends Controller
 
         $participant = new Participant;
         $participant->firstName = $request->input('firstName');
+        $participant->insertion = $request->input('insertion');
         $participant->lastName = $request->input('lastName');
         $participant->birthday = $request->input('birthday');
         $participant->email = $request->input('email');

@@ -17,8 +17,14 @@ class ParticipantController extends Controller
         $participants = Participant::all();
 
         if ($request->userId) {
+
             $selectedParticipant = Participant::find($request->userId);
+            if(!isset($selectedParticipant))
+            {
+                return redirect("/participants");
+            }
             $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
+
             return view('participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }
 

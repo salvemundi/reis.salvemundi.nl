@@ -36,6 +36,10 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::get('/add', [App\Http\Controllers\ParticipantController::class, 'viewAdd']);
     Route::post('/add/store', [App\Http\Controllers\ParticipantController::class, 'store']);
 
+    Route::get('/participantscheckedin', [App\Http\Controllers\ParticipantController::class, 'checkedInView']);
+    Route::get('/participantscheckedin/{userId}', [App\Http\Controllers\ParticipantController::class, 'checkedInView']);
+
+
     //Covid
     Route::get('/test', [App\Http\Controllers\ParticipantController::class, 'indexTestedPeople']);
 

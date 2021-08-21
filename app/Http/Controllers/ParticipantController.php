@@ -31,18 +31,34 @@ class ParticipantController extends Controller
         return view('participants', ['participants' => $participants]);
     }
 
-    public function checkIn(Request $request) {
-        $request->validate([
-            'proof' => 'required',
-        ]);
+    public function checkedInView(Request $request){
+        $aanwezigen = Participant::where('checkedIn', 1)->get();
+        if ($request->userId) {
 
-        if ($request->input('proof') == CovidProof::none) {
-            return back()->with('message','Het moet bekend zijn of de persoon al is gevaccineerd!');
+            $selectedParticipant = Participant::find($request->userId);
+            if(!isset($selectedParticipant))
+            {
+                return redirect("/participants");
+            }
+            $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
+
+            return view('participantCheckedIn', ['participants' => $aanwezigen, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }
+        return view('participantCheckedIn', ['participants' => $aanwezigen]);
+    }
+
+    public function checkIn(Request $request) {
+        // $request->validate([
+        //     'proof' => 'required',
+        // ]);
+
+        // if ($request->input('proof') == CovidProof::none) {
+        //     return back()->with('message','Het moet bekend zijn of de persoon al is gevaccineerd!');
+        // }
 
         $participant = Participant::find($request->userId);
         $participant->checkedIn = true;
-        $participant->covidTest = CovidProof::coerce((int)$request->proof);
+        //$participant->covidTest = CovidProof::coerce((int)$request->proof);
         $participant->save();
 
         return back();
@@ -51,7 +67,7 @@ class ParticipantController extends Controller
     public function checkOut(Request $request) {
         $participant = Participant::find($request->userId);
         $participant->checkedIn = false;
-        $participant->covidTest = CovidProof::coerce("none");
+        //$participant->covidTest = CovidProof::coerce("none");
         $participant->save();
 
         return back();
@@ -74,15 +90,14 @@ class ParticipantController extends Controller
             'lastName' => 'required',
             'birthday' => 'required',
             'email' => 'unique:participants',
-            'phoneNumber' => 'unique:participants',
+            'phoneNumber' => 'required|min:11|numeric',
             'role' => 'required',
-            'covidTest' => 'required',
             'checkedIn' => 'required',
         ]);
 
-        if ($request->input('checkedIn') && $request->input('covidTest') == CovidProof::none) {
-            return back()->with('error','Het moet bekend zijn of de persoon al is gevaccineerd!');
-        }
+        // if ($request->input('checkedIn') && $request->input('covidTest') == CovidProof::none) {
+        //     return back()->with('error','Het moet bekend zijn of de persoon al is gevaccineerd!');
+        // }
 
         $participant = new Participant;
         $participant->firstName = $request->input('firstName');
@@ -99,8 +114,8 @@ class ParticipantController extends Controller
         $participant->medicalIssues = $request->input('medicalIssues');
         $participant->specials = $request->input('specials');
         $participant->role = $request->input('role');
-        $participant->covidTest = $request->input('covidTest');
-        $participant->checkedIn = (int)$request->input('checkedIn');
+        //$participant->covidTest = $request->input('covidTest');
+        $participant->checkedIn = Roles::coerce((int)$request->input('checkedIn'));
         $participant->save();
 
         return back()->with('message', 'Deelnemer is toegevoegd!');

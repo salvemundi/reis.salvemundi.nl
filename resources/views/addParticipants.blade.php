@@ -102,14 +102,14 @@ setActive("add");
                 <input class="form-control{{ $errors->has('specials') ? ' is-invalid' : '' }}" value="{{ old('specials') }}" id="specials" name="specials" placeholder="Bijzonderheden...">
             </div><br>
 
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="voornaam">Keuze COVID*</label>
                 <select class="form-control" name="covidTest">
                     @foreach (\App\Enums\CovidProof::getInstances() as $item)
                         <option value="{{ $item->value }}">{{$item->description}}</option>
                     @endforeach
                 </select><br>
-            </div>
+            </div> --}}
 
             <div class="form-group">
                 <label for="voornaam">Checkedin*</label>

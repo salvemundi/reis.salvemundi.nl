@@ -21,26 +21,6 @@ html,body{
     border-radius: 4px;
 }
 
-.buttonPart {
-    margin-right: 60rem;
-}
-@media (max-width: 768px){
-    .buttonPart {
-        margin-right: 5rem;
-    }
-}
-@media (max-width: 414px){
-    .buttonPart {
-        margin-right: 9rem;
-    }
-}
-@media (max-width: 390px){
-    .buttonPart {
-        margin-right: 8rem;
-    }
-}
-@media (max-width: 375px){
-    .buttonPart {
-        margin-right: 6.9rem;
-    }
+.btn {
+    margin-right: 1rem;
 }

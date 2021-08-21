@@ -19,7 +19,7 @@ setActive("participants");
                     @foreach ($participants as $participant)
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
                             <td data-value="{{ $participant->firstName }}">{{$participant->firstName}} {{ $participant->lastName }}</td>
-                            <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
+                            <td data-value="{{ $participant->id }}"><a href="/participantscheckedin/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -57,17 +57,18 @@ setActive("participants");
                         <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
                         <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
 
+
                         <div style="display: flex; flex-direction: row;">
                             @if (!$selectedParticipant->checkedIn)
-                            <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
-                                @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
+                                <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
+                                    @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
                                 <br>
-                                    <button type="submit" class="btn btn-primary buttonPart">Checkin</button>
+                                    <button type="submit" class="btn btn-primary ">Checkin</button>
                                 </form>
                             @else
                                 <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger buttonPart">Checkout</button>
+                                    <button type="submit" class="btn btn-danger ">Checkout</button>
                                 </form>
                             @endif
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -100,4 +101,6 @@ setActive("participants");
         @endisset
     </div>
 </div>
+
+
 @endsection

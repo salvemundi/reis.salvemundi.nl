@@ -1,3 +1,11 @@
+html,body{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-width: 100%;
+}
+
 .center {
     display: flex !important;
     justify-content: center;
@@ -11,4 +19,23 @@
 .aboveEightTeen {
     background-color: rgb(161, 248, 161);
     border-radius: 4px;
+}
+
+.buttonPart {
+    margin-right: 60rem;
+}
+@media (max-width: 768px){
+    .buttonPart {
+        margin-right: 5rem;
+    }
+}
+@media (max-width: 414px){
+    .buttonPart {
+        margin-right: 9rem;
+    }
+}
+@media (max-width: 375px){
+    .buttonPart {
+        margin-right: 6.9rem;
+    }
 }

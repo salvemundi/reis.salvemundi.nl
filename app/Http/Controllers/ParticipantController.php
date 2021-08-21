@@ -56,6 +56,12 @@ class ParticipantController extends Controller
 
         return back();
     }
+    public function delete(Request $request) {
+        $participant = Participant::find($request->userId);
+        $participant->delete();
+
+        return redirect("/participants");
+    }
 
     public function viewAdd() {
         return view('addParticipants');

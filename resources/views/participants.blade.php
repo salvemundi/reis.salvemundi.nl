@@ -49,38 +49,66 @@ setActive("participants");
                         <b>Email:</b> {{ $selectedParticipant->email}}<br>
                         <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
                         @if($selectedParticipant->role == \App\Enums\Roles::child)
-                        <b>Leerjaar:</b> {{ App\Enums\StudentYear::fromvalue($selectedParticipant->studentYear)->key}}<br>
-                        <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
-                        <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
-                        <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
+                            <b>Leerjaar:</b> {{ App\Enums\StudentYear::fromvalue($selectedParticipant->studentYear)->key}}<br>
+                            <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
+                            <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
+                            <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
                         @endif
                         <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
                         <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
                         @if ($selectedParticipant->covidTest !== App\Enums\CovidProof::none)
                             <b>Covid-test:</b> {{ App\Enums\CovidProof::fromValue($selectedParticipant->covidTest)->key}}<br>
                         @endif
-                        @if (!$selectedParticipant->checkedIn)
-                            <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
-                                @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
-                                <select class="form-control" name="proof">
-                                    <!-- foreach -->
-                                    @foreach (\App\Enums\CovidProof::getKeys() as $item)
-                                        <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
-                                    @endforeach
-                                </select>
-                                <br>
-                                <button type="submit" class="btn btn-primary">Checkin</button>
-                            </form>
-                        @else
-                            <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">Checkout</button>
-                            </form>
-                        @endif
+                        <div style="display: flex; flex-direction: row;">
+                            @if (!$selectedParticipant->checkedIn)
+                                <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
+                                    @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
+                                    <select class="form-control" name="proof">
+                                        <!-- foreach -->
+                                        @foreach (\App\Enums\CovidProof::getKeys() as $item)
+                                            <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
+                                        @endforeach
+                                    </select>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary buttonPart">Checkin</button>
+                                </form>
+                            @else
+                                <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger buttonPart">Checkout</button>
+                                </form>
+                            @endif
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Verwijder
+                              </button>
+
+                        </div>
                     </span>
                 </div>
             </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Verwijder</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Weet je zeker dat jij deelnemer {{ $selectedParticipant->firstName. " " .$selectedParticipant->lastName }} wilt verwijderen?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <form method="post" action="/participants/{{ $selectedParticipant->id }}/delete">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Verwijder</button>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
         @endisset
     </div>
 </div>
+
+
 @endsection

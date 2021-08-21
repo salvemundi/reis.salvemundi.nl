@@ -59,17 +59,17 @@ setActive("participants");
                         @if ($selectedParticipant->covidTest !== App\Enums\CovidProof::none)
                             <b>Covid-test:</b> {{ App\Enums\CovidProof::fromValue($selectedParticipant->covidTest)->key}}<br>
                         @endif
+                        @if (!$selectedParticipant->checkedIn)
+                        <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
+                            @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
+                            <select class="form-control" name="proof">
+                                <!-- foreach -->
+                                @foreach (\App\Enums\CovidProof::getKeys() as $item)
+                                    <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
+                                @endforeach
+                            </select>
+                            <br>
                         <div style="display: flex; flex-direction: row;">
-                            @if (!$selectedParticipant->checkedIn)
-                                <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
-                                    @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
-                                    <select class="form-control" name="proof">
-                                        <!-- foreach -->
-                                        @foreach (\App\Enums\CovidProof::getKeys() as $item)
-                                            <option value="{{\App\Enums\CovidProof::fromKey($item)->value}}">{{$item}}</option>
-                                        @endforeach
-                                    </select>
-                                    <br>
                                     <button type="submit" class="btn btn-primary buttonPart">Checkin</button>
                                 </form>
                             @else

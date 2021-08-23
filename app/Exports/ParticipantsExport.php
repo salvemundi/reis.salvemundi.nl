@@ -16,7 +16,7 @@ class ParticipantsExport implements FromCollection, ShouldAutoSize, WithMapping,
     */
     public function collection()
     {
-        return Participant::all();
+        return Participant::where('checkedIn', 1)->get();
     }
 
     public function headings(): array

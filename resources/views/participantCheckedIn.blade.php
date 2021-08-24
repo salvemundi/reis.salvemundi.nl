@@ -12,6 +12,8 @@ setActive("participants");
                 <thead>
                     <tr class="tr-class-1">
                         <th data-field="firstName" data-sortable="true">Naam</th>
+                        <th data-field="role" data-sortable="true">Rol</th>
+                        <th data-field="checkedIn" data-sortable="true">checked in</th>
                         <th data-field="data" data-sortable="true">Gegevens</th>
                     </tr>
                 </thead>
@@ -19,6 +21,12 @@ setActive("participants");
                     @foreach ($participants as $participant)
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
                             <td data-value="{{ $participant->firstName }}">{{$participant->firstName}} {{ $participant->lastName }}</td>
+                            <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->key }}</td>
+                            @if($participant->checkedIn == 1)
+                            <td data-value="{{ $participant->checkedIn }}">True</td>
+                            @else
+                            <td data-value="{{ $participant->checkedIn }}">False</td>
+                            @endif
                             <td data-value="{{ $participant->id }}"><a href="/participantscheckedin/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
                         </tr>
                     @endforeach

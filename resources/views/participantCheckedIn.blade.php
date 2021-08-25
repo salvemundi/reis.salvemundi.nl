@@ -16,7 +16,7 @@ setActive("participants");
                         <th data-field="role" data-sortable="true">Rol</th>
                         <th data-field="checkedIn" data-sortable="true">checked in</th>
                         <th data-field="data" data-sortable="true">Gegevens</th>
-                        <th data-field="createdat" data-sortable="true">Aangemaakt op</th>
+                        <th data-field="createdat" data-sortable="true">Laatste aanpassing</th>
                     </tr>
                 </thead>
                 <tbody>

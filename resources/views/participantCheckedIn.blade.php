@@ -21,7 +21,7 @@ setActive("participants");
                     @foreach ($participants as $participant)
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
                             <td data-value="{{ $participant->firstName }}">{{$participant->firstName}} {{ $participant->lastName }}</td>
-                            <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->key }}</td>
+                            <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
                             @if($participant->checkedIn == 1)
                             <td data-value="{{ $participant->checkedIn }}">True</td>
                             @else

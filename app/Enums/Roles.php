@@ -15,6 +15,8 @@ final class Roles extends Enum
     const dad_mom = 1;
     const teacher = 2;
     const crew = 3;
+    const other = 4;
+
 
     public static function getDescription($value): string
     {
@@ -29,6 +31,9 @@ final class Roles extends Enum
         }
         if ($value === self::crew) {
             return 'Crew';
+        }
+        if ($value === self::other) {
+            return 'Overige';
         }
 
         return parent::getDescription($value);

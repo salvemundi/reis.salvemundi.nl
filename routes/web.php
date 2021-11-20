@@ -22,14 +22,19 @@ Route::get('/', [App\Http\Controllers\AuthController::class, 'signIn']);
 Route::get('/callback', [App\Http\Controllers\AuthController::class, 'callback']);
 Route::get('/signout', [App\Http\Controllers\AuthController::class, 'signOut']);
 
-//AzureAuth group
+// Signup
+Route::post('/signup', [App\Http\Controllers\ParticipantController::class, 'signup']);
+Route::get('/signup', [App\Http\Controllers\ParticipantController::class, 'signupIndex']);
+Route::get('/signup/verify/{token}',[App\Http\Controllers\VerificationController::class,'verify']);
+
+// AzureAuth group
 Route::middleware(['AzureAuth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
 
-    //Participants
-    Route::get('/participants', [App\Http\Controllers\ParticipantController::class, 'getAllIntroParticipantsWithInformation']);
-    Route::get('/participants/{userId}', [App\Http\Controllers\ParticipantController::class, 'getAllIntroParticipantsWithInformation']);
+    // Participants
+    Route::get('/participants', [App\Http\Controllers\ParticipantController::class, 'getParticipantsWithInformation']);
+    Route::get('/participants/{userId}', [App\Http\Controllers\ParticipantController::class, 'getParticipantsWithInformation']);
     Route::post('/participants/{userId}/checkIn', [App\Http\Controllers\ParticipantController::class, 'checkIn']);
     Route::post('/participants/{userId}/checkOut', [App\Http\Controllers\ParticipantController::class, 'checkOut']);
     Route::post('/participants/{userId}/delete', [App\Http\Controllers\ParticipantController::class, 'delete']);
@@ -39,20 +44,16 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::get('/participantscheckedin', [App\Http\Controllers\ParticipantController::class, 'checkedInView']);
     Route::get('/participantscheckedin/{userId}', [App\Http\Controllers\ParticipantController::class, 'checkedInView']);
 
-
-    //Covid
-    Route::get('/test', [App\Http\Controllers\ParticipantController::class, 'indexTestedPeople']);
-
-    //Bus
+    // Bus
     Route::get('/bus', [App\Http\Controllers\BusController::class, 'index']);
     Route::post('/bus/add', [App\Http\Controllers\BusController::class, 'addBusses']);
     Route::post('/bus/reset', [App\Http\Controllers\BusController::class, 'resetBusses']);
     Route::post('/bus/addBusNumber', [App\Http\Controllers\BusController::class, 'addBusNumber']);
     Route::post('/bus/addPersons', [App\Http\Controllers\BusController::class, 'addPersonsToBus']);
 
-    //Excel
+    // Excel
     Route::get('/export_excel/excel', [App\Http\Controllers\ParticipantController::class, 'excel'])->name('export_excel.excel');
 
-    //Api
+    // Api
     Route::get('/import', [App\Http\Controllers\APIController::class, 'GetParticipants']);
 });

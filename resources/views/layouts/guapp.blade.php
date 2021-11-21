@@ -14,6 +14,7 @@
 </head>
 <body id="body-pd">
     <div id="app">
+    @include('include/sidebarGuapp')
     @yield('content')
     </div>
 </body>

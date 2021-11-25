@@ -8,7 +8,7 @@ Binnenkort ontvang je per mail meer informatie over de introductie.
 
 Wel vragen we je om je mail te verifiëren via de volgende link:
 
-https://intro.salvemundi.nl/signup/verify/{{ $verificationToken->id }}
+https://intro.salvemundi.nl/inschrijven/verify/{{ $verificationToken->id }}
 
 Alvast bedankt!
 

@@ -23,9 +23,9 @@ Route::get('/callback', [App\Http\Controllers\AuthController::class, 'callback']
 Route::get('/signout', [App\Http\Controllers\AuthController::class, 'signOut']);
 
 // Signup
-Route::post('/signup', [App\Http\Controllers\ParticipantController::class, 'signup']);
-Route::get('/signup', [App\Http\Controllers\ParticipantController::class, 'signupIndex']);
-Route::get('/signup/verify/{token}',[App\Http\Controllers\VerificationController::class,'verify']);
+Route::post('/inschrijven', [App\Http\Controllers\ParticipantController::class, 'signup']);
+Route::get('/inschrijven', [App\Http\Controllers\ParticipantController::class, 'signupIndex']);
+Route::get('/inschrijven/verify/{token}',[App\Http\Controllers\VerificationController::class,'verify']);
 
 // AzureAuth group
 Route::middleware(['AzureAuth'])->group(function () {

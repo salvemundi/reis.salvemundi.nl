@@ -135,8 +135,6 @@ class ParticipantController extends Controller
         $token->participant()->associate($participant);
         $token->save();
 
-
-
         Mail::to($participant->email)
             ->send(new VerificationMail($participant, $token));
         return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');

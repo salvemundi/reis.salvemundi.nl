@@ -124,6 +124,10 @@ class ParticipantController extends Controller
             'email' => 'required|email:rfc,dns|max:65',
         ]);
 
+        if (Participant::where('email', $request->input('email'))->count() > 0) {
+            return back()->with('warning', 'Dit email adres bestaat al!');
+        }
+
         $participant = new Participant;
         $participant->firstName = $request->input('firstName');
         $participant->insertion = $request->input('insertion');

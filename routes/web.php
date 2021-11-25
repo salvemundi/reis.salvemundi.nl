@@ -32,6 +32,9 @@ Route::middleware(['AzureAuth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
 
+    //Registrations
+    Route::get('/registrations', [App\Http\Controllers\RegistrationController::class, 'getRegistrationsWithInformation']);
+
     // Participants
     Route::get('/participants', [App\Http\Controllers\ParticipantController::class, 'getParticipantsWithInformation']);
     Route::get('/participants/{userId}', [App\Http\Controllers\ParticipantController::class, 'getParticipantsWithInformation']);

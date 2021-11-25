@@ -1,0 +1,118 @@
+.tabber {
+    color: black !important;
+}
+
+.nav-link {
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.navbarBackground {
+    background-color: $salveMundi-primary !important;
+}
+
+.navBarText {
+    color:white !important;
+}
+
+.navbar {
+    background-size: cover;
+    color: white;
+    text-decoration: none;
+    position: sticky !important;
+    width: 100%;
+    top: 0px;
+    transition: 0.6s;
+    z-index: 69420;
+    text-shadow: 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.affix {
+    background-color: $salveMundi-primary !important;
+    transition: 0.6s;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+.navbar a {
+    color: white;
+    border-radius: 8px;
+}
+
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: 0.5s ease-in-out;
+
+}
+
+.navbar-brand {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+// .overlayVideo {
+//     background-image: linear-gradient(rgba(156, 139, 253, 0.493), rgba(214, 124, 250, 0.582));
+//     z-index: 1;
+//     margin-bottom: -10px;
+// }
+
+// @media (min-width:1900px) {
+//     .overlayVideo {
+//         height: 60em;
+//     }
+// }
+
+.navImg {
+    position: relative;
+    width: 100%;
+    z-index: -1;
+}
+
+.show {
+    display: block;
+}
+
+.imgNavbar {
+    height: 75px;
+    width: 75px;
+    transition: 0.6s;
+}
+
+.affix-img {
+    height: 50px;
+    width: 50px;
+    transition: 0.6s;
+}
+
+#hamburgerMenu {
+    color: white;
+}
+
+.removeMargin {
+    margin-top: 0px !important;
+}
+// .showCom {
+//   background-color: $salveMundi-light;
+//   border-radius: 10px;
+//   padding: 10px;
+//   max-width: 75%;
+// }
+@media only screen and (max-width: 767px) {
+    .showCom {
+        background-color: $salveMundi-light;
+        border-radius: 10px;
+        padding: 10px;
+        max-width: 75%;
+    }
+
+    .showMyAcc {
+        background-color: unset !important;
+    }
+}
+
+.navLink:hover,
+.navLink:link {
+    text-decoration: none;
+}

@@ -5,7 +5,7 @@
     <nav class="nav">
         <div>
             <a href="/dashboard" class="nav_logo">
-                <img class="imgNavbar" src="{{ asset('images/logo.svg') }}" width="40" height="40"/> <span class="nav_logo-name">{{ config('app.name', 'Laravel') }}</span>
+                <img class="imgNavbar2" src="{{ asset('images/logo.svg') }}" width="40" height="40"/> <span class="nav_logo-name">{{ config('app.name', 'Laravel') }}</span>
             </a>
             <div class="nav_list">
                 <a id="dashboard" href="/dashboard" class="nav_link">

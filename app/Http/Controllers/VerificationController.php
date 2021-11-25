@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\VerificationToken;
+use App\Models\Participant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\emailVerificationResponse;
 
 class VerificationController extends Controller
 {
@@ -15,6 +18,9 @@ class VerificationController extends Controller
         if ($token && $verificationToken !== null) {
             $verificationToken->verified = true;
             $verificationToken->save();
+
+            Mail::to($verificationToken->participant()->first()->email)
+                ->send(new emailVerificationResponse($verificationToken->participant()->first()));
             return view('verifyResponse', ['Response' => true]);
         }
 

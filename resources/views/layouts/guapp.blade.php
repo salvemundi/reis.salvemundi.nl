@@ -12,6 +12,10 @@
     <script src="{{ mix('js/app.js') }}"></script>
     <script src="https://kit.fontawesome.com/a6479d1508.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 <body id="body" style="padding-left: 0px; padding-right: 0px;">

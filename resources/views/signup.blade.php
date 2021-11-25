@@ -36,6 +36,12 @@
                             </div>
                         @endif
 
+                        @if(session()->has('warning'))
+                            <div class="alert alert-danger">
+                                {{ session()->get('warning') }}
+                            </div>
+                        @endif
+
                         <label for="firstName" class="form-label">Voornaam</label>
                         <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Voornaam">
 

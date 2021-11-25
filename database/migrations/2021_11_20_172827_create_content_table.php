@@ -14,7 +14,7 @@ class CreateContentTable extends Migration
     public function up()
     {
         Schema::create('content', function (Blueprint $table) {
-            $table->id();
+            $table->UUID('id')->primary();
             $table->longText('content');
             $table->string('name');
             $table->timestamps();

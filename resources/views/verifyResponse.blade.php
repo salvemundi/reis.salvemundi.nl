@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        {{-- <meta http-equiv="refresh" content="2;URL=https://www.salvemundi.nl/"> --}}
+        <meta http-equiv="refresh" content="5;URL=https://www.salvemundi.nl/">
     @else
         <div>
             <img class="w-100" src="images\verify.jpg" alt="">
@@ -36,6 +36,6 @@
                 </p>
             </div>
         </div>
-        {{-- <meta http-equiv="refresh" content="10;URL=https://www.intro.salvemundi.nl/inschrijven"> --}}
+        <meta http-equiv="refresh" content="10;URL=https://www.intro.salvemundi.nl/inschrijven">
     @endif
     @endsection

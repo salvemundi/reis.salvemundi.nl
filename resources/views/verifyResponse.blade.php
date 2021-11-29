@@ -35,7 +35,7 @@
                   </p>
               </div>
           </div>
-          <meta http-equiv="refresh" content="10;URL=https://www.intro.salvemundi.nl/inschrijven">
+          <meta http-equiv="refresh" content="10;URL=https://www.intro.salvemundi.nl/">
      @endif
   </div>
 @endsection

@@ -16,6 +16,9 @@ class VerificationController extends Controller
         $verificationToken = VerificationToken::find($token);
 
         if ($token && $verificationToken !== null) {
+            if($verificationToken->verified) {
+                return view('verifyResponse', ['Response' => false]);
+            }
             $verificationToken->verified = true;
             $verificationToken->save();
 

@@ -24,6 +24,9 @@ Route::get('/signout', [App\Http\Controllers\AuthController::class, 'signOut']);
 
 // Signup
 Route::post('/inschrijven', [App\Http\Controllers\ParticipantController::class, 'signup']);
+Route::get('/inschrijven', function() {
+    return redirect('/'); // Fix 405 error
+});
 Route::get('/', [App\Http\Controllers\ParticipantController::class, 'signupIndex']);
 Route::get('/inschrijven/verify/{token}',[App\Http\Controllers\VerificationController::class,'verify']);
 

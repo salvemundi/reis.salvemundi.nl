@@ -17,6 +17,12 @@
     <!-- Add the slick-theme.css if you want default styling -->
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <title>{{ config('app.name', 'Laravel') }}</title>
+    {{-- Favicons --}}
+    <link rel="shortcut icon" href="{{ asset('images/favicons/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicons/apple-touch-icon.png') }}">
+    <link rel="icon" href="{{ asset('images/favicons/favicon.ico') }}">
+    <link rel="icon" sizes="32x32" href="{{ asset('images/favicons/favicon-32x32.png') }}">
+    <link rel="icon" sizes="16x16" href="{{ asset('images/favicons/favicon-16x16.png') }}">
 </head>
 <body id="body" style="padding-left: 0px; padding-right: 0px;">
     <div id="app">

@@ -121,6 +121,9 @@ class ParticipantController extends Controller
 
     public function signup(Request $request) {
         $request->validate([
+            'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
         ]);
 

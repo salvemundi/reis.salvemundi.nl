@@ -40,7 +40,7 @@
         <!-- Right Side Of Navbar -->
             <!-- Authentication Links -->
             <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/signup">Inloggen</a>
+                <a class="nav-link" href="/login">Inloggen</a>
             </li>
         </ul>
       </div>

@@ -28,12 +28,13 @@
                     <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
                 </svg>
                 <h1 class="text-center">Deze code is niet valide! Neem contact met ons op!</h1>
-                <p>
+                <p style="white-space: pre-line">
                     Je kunt contact met ons op nemen via <a href="mailto:ict@salvemundi.nl">ict@salvemundi.nl</a>
                     Stuur hierbij je naam, en de link die je hebt gekregen.
+                    Let op: het kan ook zijn dat jij je email al geverifieerd hebt.
                 </p>
                 <div class="center">
-                    <a class="btn btn-primary w-50" href="https://intro.salvemundi.nl/">Terug</a>
+                    <a class="btn btn-primary w-50" href="{{ env('APP_URL') }}">Terug</a>
                 </div>
             </div>
         @endif

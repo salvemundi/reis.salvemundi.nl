@@ -1,6 +1,6 @@
 <nav id="TopNavbar" class="navbar navbar-expand-lg navbarText navbarBackground">
     <div class="container removeMargin">
-        <a class="navbar-brand" href="{{ url('https://salvemundi.nl/') }}">
+        <a class="navbar-brand" href="/">
             <img class="imgNavbar" src="{{ asset('/images/logo.svg') }}" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,7 +15,7 @@
                 <a class="nav-link" href="https://salvemundi.nl/inschrijven">Inschrijven</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/intro">Intro</a>
+                <a class="nav-link" href="/blogs">Intro  blogs / updates</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="https://salvemundi.nl/activiteiten">Activiteiten</a>

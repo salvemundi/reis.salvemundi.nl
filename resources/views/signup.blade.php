@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-6 px-md-5">
             <div class="box px-md-5 py-3">
-                <h2 class="mt-3 text-center">Kom je mee op <b class="purple">intro</b>? <br> <b>Schrijf je hier in</b></h2>
+                <h2 class="mt-3 text-center">Kom je mee op <b class="purple">intro</b>? <br> <b>Schrijf je hier in!</b></h2>
 
                 <div class="mb-3">
                     <form action="/inschrijven" method="post">

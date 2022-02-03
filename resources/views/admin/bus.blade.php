@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
-
+<script>
+    setActive("bus");
+</script>
 <div class="container center">
     <div class="row">
         <div class="col-md-12">

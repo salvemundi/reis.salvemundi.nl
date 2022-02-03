@@ -4,7 +4,7 @@ Beste {{ $participant->firstName }},
 
 Bedankt voor het verifiëren van je email!
 
-Alvast bedankt!
+Na je examen resultaten zul je meer van ons horen.
 
 Met vriendelijke groet,
 

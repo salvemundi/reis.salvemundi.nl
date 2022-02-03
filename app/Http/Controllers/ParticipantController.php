@@ -28,10 +28,10 @@ class ParticipantController extends Controller
             }
             $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
 
-            return view('participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
+            return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }
 
-        return view('participants', ['participants' => $participants]);
+        return view('admin/participants', ['participants' => $participants]);
     }
 
     public function checkedInView(Request $request){
@@ -45,9 +45,9 @@ class ParticipantController extends Controller
             }
             $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
 
-            return view('participantCheckedIn', ['participants' => $availableParticipants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
+            return view('admin/participantCheckedIn', ['participants' => $availableParticipants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }
-        return view('participantCheckedIn', ['participants' => $availableParticipants]);
+        return view('admin/participantCheckedIn', ['participants' => $availableParticipants]);
     }
 
     public function checkIn(Request $request) {
@@ -74,7 +74,7 @@ class ParticipantController extends Controller
     }
 
     public function viewAdd() {
-        return view('addParticipants');
+        return view('admin/addParticipants');
     }
 
     public function store(Request $request)

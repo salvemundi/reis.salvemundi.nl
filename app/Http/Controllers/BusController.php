@@ -12,12 +12,11 @@ class BusController extends Controller
         $viewVars = [];
 
         $viewVars['busses'] = Bus::all();
-        
         $viewVars['allParticipants'] = Participant::where('checkedIn', true)->count();
         $viewVars['allParticipantsInBuss'] = Bus::sum('personAmount');
         $viewVars['differenceParticipantsInBusses'] = $viewVars['allParticipants'] - $viewVars['allParticipantsInBuss'];
 
-        return view('bus', $viewVars);
+        return view('admin/bus', $viewVars);
     }
 
     public function addBusses(Request $request) {
@@ -30,11 +29,10 @@ class BusController extends Controller
     }
 
     public function addBusNumber(Request $request) {
-        $bus = Bus::find($request->input('id'));       
+        $bus = Bus::find($request->input('id'));
         $bus->busNumber = $request->input('busNumber');
 
-        if (Bus::where('busNumber', '=', $request->input('busNumber'))->first() != null)
-        {
+        if (Bus::where('busNumber', '=', $request->input('busNumber'))->first() != null) {
             return back()->with('error', 'Busnummer is al in gebruik!');
         }
 
@@ -53,7 +51,6 @@ class BusController extends Controller
 
     public function resetBusses() {
         Bus::truncate();
-
         return back()->with('message', 'De bussen zijn verwijderd!');
     }
 }

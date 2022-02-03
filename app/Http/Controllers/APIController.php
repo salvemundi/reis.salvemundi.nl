@@ -21,8 +21,7 @@ class APIController extends Controller
         {
             // Try to find the participant first, then update their records instead of creating a new object
             $tryToFind = Participant::where('samuId',$item->id)->first();
-            if($tryToFind)
-            {
+            if($tryToFind) {
                 $tryToFind->firstName = $item->firstName;
                 $tryToFind->insertion = $item->insertion;
                 $tryToFind->lastName = $item->lastName;

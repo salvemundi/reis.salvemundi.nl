@@ -21,16 +21,11 @@ class RegistrationController extends Controller
         $participants = Participant::join('verify_email', 'verify_email.participantId', '=',  'participants.id')
                ->get(['participants.*', 'verify_email.verified', 'verify_email.updated_at']);
 
-        $participantsWhoDidntVerify = $participants->where('verified', 0);
-
-        $participantsWhoDidVerify = $participants->where('verified', 1);
-        //dd($participantsWhoDidVerify);
-
         $dateToday = Carbon::now()->toDate();
         foreach($participants as $participant) {
             $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
         }
 
-        return view('registrations', ['participantsWhoDidntVerify' => $participantsWhoDidntVerify, 'participantsWhoDidVerify' => $participantsWhoDidVerify]);
+        return view('admin/registrations', ['participants' => $participants]);
     }
 }

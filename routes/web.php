@@ -30,6 +30,10 @@ Route::get('/inschrijven', function() {
 Route::get('/', [App\Http\Controllers\ParticipantController::class, 'signupIndex']);
 Route::get('/inschrijven/verify/{token}',[App\Http\Controllers\VerificationController::class,'verify']);
 
+// Blogs / news
+Route::get('/blogs',[App\Http\Controllers\BlogController::class, 'showPosts']);
+Route::get('/blogs/{postId}',[App\Http\Controllers\BlogController::class, 'showPost']);
+
 // AzureAuth group
 Route::middleware(['AzureAuth'])->group(function () {
     // Dashboard
@@ -46,9 +50,18 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::post('/participants/{userId}/delete', [App\Http\Controllers\ParticipantController::class, 'delete']);
     Route::get('/add', [App\Http\Controllers\ParticipantController::class, 'viewAdd']);
     Route::post('/add/store', [App\Http\Controllers\ParticipantController::class, 'store']);
-
     Route::get('/participantscheckedin', [App\Http\Controllers\ParticipantController::class, 'checkedInView']);
     Route::get('/participantscheckedin/{userId}', [App\Http\Controllers\ParticipantController::class, 'checkedInView']);
+
+    // Posts / blogs
+    Route::get('/blogsadmin',[App\Http\Controllers\BlogController::class, 'showPostsAdmin']);
+    Route::get('/blogsadmin/save',[App\Http\Controllers\BlogController::class, 'showPostInputs']);
+    Route::post('/blogsadmin/save',[App\Http\Controllers\BlogController::class, 'savePost']);
+        //  Update blogs / posts
+    Route::get('/blogsadmin/save/{blogId}',[App\Http\Controllers\BlogController::class, 'showPostInputs']);
+    Route::post('/blogsadmin/save/{blogId}',[App\Http\Controllers\BlogController::class, 'savePost']);
+        // Delete blogs
+    Route::get('/blogsadmin/delete/{blogId}',[App\Http\Controllers\BlogController::class, 'deletePost']);
 
     // Bus
     Route::get('/bus', [App\Http\Controllers\BusController::class, 'index']);

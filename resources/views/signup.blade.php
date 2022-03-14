@@ -80,17 +80,19 @@
 
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>Wat is de introductie?</h3>
-            Salve Mundi organiseert jaarlijks een introductieweek: De FHICT-introductie. Het is een week vol avontuur en teambuilding in Eindhoven. Zo leer je ook de stad beter kennen.<br>
+            Salve Mundi organiseert jaarlijks een introductieweek: De FHICT-introductie. Het is een week vol avontuur en teambuilding in Eindhoven. Zo leer je ook de stad beter kennen.
             Salve Mundi is druk bezig geweest om dit allemaal mogelijk te maken voor de nieuwe studenten dit jaar.<br>
             Houd na het inschrijven je mail in de gaten voor updates, je zult later namelijk een mail ontvangen met daarin de betalingsdetails en aanvullende informatie!<br>
-            De introductie duurt 3 dagen. Op de locatie is een grote evenementenzaal met bar waar zowel alcohol (18+) als frisdrank verkocht zal worden door middel van consumptiebonnen. De locatie bevindt zich bij een bosrand en een mooi open veld. Genoeg ruimte voor activiteiten dus. <br>
+            De introductie duurt 5 dagen. Op de locatie is een grote evenementenzaal met bar waar zowel alcohol (18+) als frisdrank verkocht zal worden door middel van consumptiebonnen. De locatie bevindt zich bij een bosrand en een mooi open veld. Genoeg ruimte voor activiteiten dus.<br>
         </div>
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>Wat hebben wij nu voor jullie georganiseerd?</h3>
-            Op dinsdag hebben wij een dag voor jullie gepland met xxx.
-            Op woensdag is de Fontys dag. Je wordt om 10:00 verwacht op de Fontys Rachelsmolen. ’s Middags hebben wij weer een middagprogramma voor jullie met daarin bijvoorbeeld de crazy88. ’s Avonds is er weer een vet feest voor jullie. <br>
-            Op donderdag hebben we weer een middagprogramma voor jullie met daarin bijvoorbeeld xxx. In de namiddag is er een xxx. ’s Avonds hebben we weer een vet feest voor jullie gepland.<br>
-            Lunch en avondeten wordt door ons geregeld op alle drie de dagen.<br>
+            De introductie van Salve Mundi zal bestaan uit 5 dagen vol informatie, spelletjes en te gekke feesten op onze vette intro locatie.<br> De maandag zal in het teken staan van inchecken, algemene informatie en een dik feest om de introductie week in te luiden. Dit feest zal georganiseerd worden in samenwerking met UNIQCARTE.<br>
+            Op de dinsdag hebben we een dag vol spelletjes georganiseerd, om je nieuwe studiegenoten beter te leren kennen. Ook deze dag zal afgesloten worden met een te gekke afterparty.<br>
+            Woensdagochtend zullen we naar Fontys vertrekken en in de middag worden er verschillende activiteiten georganiseerd, waaronder een Crazy88.<br>
+            Op donderdag gaan we richting Tilburg voor het Purple Festival, hier zullen we de hele dag lekker gaan feesten, relaxen en genieten voordat we 's avonds de dag afsluiten met een dikke afterparty bij ons op de intro locatie.<br>
+            Vrijdag staat helaas in het teken van uitchecken en vertrekken, maar wij hopen dat jullie dan vol goede moed aan de opleiding gaan beginnen.
+            Tijdens de introductie zal er door ons op 3 van de 5 dagen lunch en avondeten worden geregeld. Tijdens Purple Festival zal er eigen eten geregeld moeten worden en vrijdag zal je voor het middageten alweer thuis zijn.<br>
         </div>
     </div>
 </div>

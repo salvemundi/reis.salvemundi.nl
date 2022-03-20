@@ -4,8 +4,8 @@
             <img class="imgNavbar" src="{{ asset('/images/logo.svg') }}" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+            <i id="hamburgerMenu" class="fa fa-bars"></i>
+        </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav justify-content-lg-start">
             <li class="nav-item">

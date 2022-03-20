@@ -116,3 +116,7 @@
 .navLink:link {
     text-decoration: none;
 }
+
+.navbar-toggler:focus {
+    box-shadow: none !important;
+}

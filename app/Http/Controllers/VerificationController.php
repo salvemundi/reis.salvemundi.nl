@@ -10,8 +10,7 @@ use App\Mail\emailVerificationResponse;
 
 class VerificationController extends Controller
 {
-    public function verify(Request $request)
-    {
+    public function verify(Request $request) {
         $token = $request->token;
         $verificationToken = VerificationToken::find($token);
 
@@ -19,14 +18,28 @@ class VerificationController extends Controller
             if($verificationToken->verified) {
                 return view('verifyResponse', ['Response' => false]);
             }
+
             $verificationToken->verified = true;
             $verificationToken->save();
 
             Mail::to($verificationToken->participant()->first()->email)
                 ->send(new emailVerificationResponse($verificationToken->participant()->first()));
+
             return view('verifyResponse', ['Response' => true]);
         }
 
         return view('verifyResponse', ['Response' => false]);
     }
+
+    public function getVerifiedParticipants() {
+        $userArr = [];
+        $allVerifiedTokens = VerificationToken::where('verified', true)->get();
+
+        foreach($allVerifiedTokens as $token) {
+            array_push($userArr, $token->participant);
+        }
+
+        return $userArr;
+    }
+
 }

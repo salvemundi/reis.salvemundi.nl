@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('dashboard');
-// });
-
 // Login Azure
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'signIn']);
 Route::get('/callback', [App\Http\Controllers\AuthController::class, 'callback']);
@@ -30,6 +26,11 @@ Route::get('/inschrijven', function() {
 Route::get('/', [App\Http\Controllers\ParticipantController::class, 'signupIndex']);
 Route::get('/inschrijven/verify/{token}',[App\Http\Controllers\VerificationController::class,'verify']);
 
+// Payment
+
+Route::get('/inschrijven/betalen/{token}',[App\Http\Controllers\ConfirmationController::class, 'confirmSignUpView']);
+Route::post('/inschrijven/betalen/{token}',[App\Http\Controllers\ConfirmationController::class, 'confirm']);
+
 // Blogs / news
 Route::get('/blogs',[App\Http\Controllers\BlogController::class, 'showPosts']);
 Route::get('/blogs/{postId}',[App\Http\Controllers\BlogController::class, 'showPost']);
@@ -41,6 +42,7 @@ Route::middleware(['AzureAuth'])->group(function () {
 
     //Registrations
     Route::get('/registrations', [App\Http\Controllers\RegistrationController::class, 'getRegistrationsWithInformation']);
+    Route::post('/registrations', [App\Http\Controllers\ConfirmationController::class, 'sendConfirmEmailToAllUsers']);
 
     // Participants
     Route::get('/participants', [App\Http\Controllers\ParticipantController::class, 'getParticipantsWithInformation']);

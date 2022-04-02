@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Participant;
-use App\Enums\CovidProof;
 use App\Enums\Roles;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -20,12 +19,11 @@ class ParticipantController extends Controller
         $participants = Participant::all();
 
         if ($request->userId) {
-
             $selectedParticipant = Participant::find($request->userId);
-            if(!isset($selectedParticipant))
-            {
+            if(!isset($selectedParticipant)) {
                 return redirect("/participants");
             }
+
             $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
 
             return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
@@ -36,18 +34,23 @@ class ParticipantController extends Controller
 
     public function checkedInView(Request $request){
         $availableParticipants = Participant::where('checkedIn', 1)->get();
-        if ($request->userId) {
 
+        if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
-            if(!isset($selectedParticipant))
-            {
+            if(!isset($selectedParticipant)) {
                 return redirect("/participants");
             }
+
             $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
 
             return view('admin/participantCheckedIn', ['participants' => $availableParticipants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }
+
         return view('admin/participantCheckedIn', ['participants' => $availableParticipants]);
+    }
+
+    public function getParticipant($token) {
+        return Participant::find($token);
     }
 
     public function checkIn(Request $request) {
@@ -66,6 +69,7 @@ class ParticipantController extends Controller
 
         return back();
     }
+
     public function delete(Request $request) {
         $participant = Participant::find($request->userId);
         $participant->delete();
@@ -77,38 +81,86 @@ class ParticipantController extends Controller
         return view('admin/addParticipants');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'birthday' => 'required',
-            'email' => 'unique:participants',
-            'phoneNumber' => 'required|min:11|numeric',
-            'role' => 'required',
-            'checkedIn' => 'required',
-        ]);
+    public function store(Request $request) {
+        if($request->input('confirmation') == null) {
+            $request->validate([
+                'firstName' => 'required', 'regex:/^[a-zA-Z ]+$/',
+                'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+                'lastName' => 'required', 'regex:/^[a-zA-Z ]+$/',
+                'birthday' => 'required',
+                'email' => 'required|email:rfc,dns|max:65',
+                'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
+                'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
+                'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
+                'role' => 'nullable',
+                'checkedIn' => 'nullable',
+            ]);
+        } else {
+            $request->validate([
+                'firstName' => ['nullable', 'regex:/^[a-zA-Z ]+$/]'],
+                'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+                'lastName' =>  ['nullable', 'regex:/^[a-zA-Z ]+$/]'],
+                'birthday' => 'required',
+                'email' => 'required|email:rfc,dns|max:65',
+                'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
+                'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
+                'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
+                'role' => 'nullable',
+                'checkedIn' => 'nullable',
+            ]);
+        }
 
-        $participant = new Participant;
-        $participant->id = Str::uuid()->toString();
-        $participant->firstName = $request->input('firstName');
-        $participant->insertion = $request->input('insertion');
-        $participant->lastName = $request->input('lastName');
+        if($request->input('uid') != null) {
+            $participant = Participant::find($request->input('uid'));
+        } else {
+            $participant = new Participant;
+            $participant->id = Str::uuid()->toString();
+        }
+
+        if($request->input('confirmation') == null) {
+            $participant->firstName = $request->input('firstName');
+            $participant->insertion = $request->input('insertion');
+            $participant->lastName = $request->input('lastName');
+        }
+
         $participant->birthday = $request->input('birthday');
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
-        $participant->studentYear = $request->input('studentYear');
+
+        if($request->input('studentYear') != null) {
+            $participant->studentYear = $request->input('studentYear');
+        } else {
+            $participant->studentYear = 0;
+        }
+
         $participant->firstNameParent = $request->input('firstNameParent');
         $participant->lastNameParent = $request->input('lastNameParent');
         $participant->addressParent = $request->input('addressParent');
         $participant->phoneNumberParent = $request->input('phoneNumberParent');
         $participant->medicalIssues = $request->input('medicalIssues');
         $participant->specials = $request->input('specials');
-        $participant->role = $request->input('role');
-        $participant->checkedIn = Roles::coerce((int)$request->input('checkedIn'));
+
+        if($request->input('role') != null) {
+            $participant->role = $request->input('role');
+        } else {
+            $participant->role = 0;
+        }
+
+        if($request->input('checkedIn') != null) {
+            $participant->checkedIn = Roles::coerce((int)$request->input('checkedIn'));
+        } else {
+            $participant->checkedIn = Roles::coerce(0);
+        }
+
         $participant->save();
 
-        return back()->with('message', 'Deelnemer is toegevoegd!');
+        return back()->with('message', 'Informatie is opgeslagen!');
     }
 
     function excel() {
@@ -145,5 +197,9 @@ class ParticipantController extends Controller
         Mail::to($participant->email)
             ->send(new VerificationMail($participant, $token));
         return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');
+    }
+
+    public function confirmSignUp(Request $request) {
+        $token = $request->token;
     }
 }

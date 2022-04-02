@@ -31,7 +31,6 @@ class AzureAuth
             'a4aeb401-882d-4e1e-90ee-106b7fdb23cc', // ictCommissie
             '516f03f9-be0a-4514-9da8-396415f59d0b', // introCommisie
             '314044d2-bafe-43c7-99f3-c8824dbcbef0', // bhv
-            '0ac8627d-07f8-43fd-a629-808572e95098' // feestCommissie
         ];
 
         if (!array_intersect($allouwedGroups, $groups)) {

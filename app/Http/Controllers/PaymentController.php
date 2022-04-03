@@ -11,11 +11,9 @@ class PaymentController extends Controller
     public function payForIntro($token) {
         $participantController = new ParticipantController();
         $tokenFound = ConfirmationToken::find($token);
-        // dd($tokenFound->participant);
-        // $participant = $participantController->getParticipant($tokenFound->participant);
 
         $item = new ChargeItemBuilder($tokenFound->participant);
-        $item->unitPrice(money(90,'EUR')); //1 EUR
+        $item->unitPrice(money(9000,'EUR')); //90 EUR
         $item->description('Introductie inschrijving');
         $chargeItem = $item->make();
 

@@ -29,12 +29,16 @@ setActive("registrations");
                             <td data-value="{{ $participant->email }}">{{ $participant->email }}</td>
                             <td data-value="{{ $participant->verified }}">{{ $participant->verified ? 'ja' : 'nee' }}</td>
                             <td data-value="{{ $participant->created_at }}">{{ date('d-m-Y', strtotime($participant->created_at)) }}</td>
-                            <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference}}</td>
+                            <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+        <form method="POST" action="">
+            @csrf
+            <button type="submit" class="btn btn-primary">Stuur confirmatie email</button>
+        </form>
     </div>
 </div>
 @endsection

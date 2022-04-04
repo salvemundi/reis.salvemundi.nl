@@ -22,9 +22,13 @@ class RegistrationController extends Controller
                ->get(['participants.*', 'verify_email.verified', 'verify_email.updated_at']);
 
         $dateToday = Carbon::now()->toDate();
+
         foreach($participants as $participant) {
             $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
         }
+
+        $controller = new VerificationController();
+        $controller->getVerifiedParticipants();
 
         return view('admin/registrations', ['participants' => $participants]);
     }

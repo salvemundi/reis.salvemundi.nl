@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class emailConfirmationSignup extends Mailable
+class emailPaymentSucceeded extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,10 +16,9 @@ class emailConfirmationSignup extends Mailable
      *
      * @return void
      */
-    public function __construct($participant, $confirmationToken)
+    public function __construct($user)
     {
-        $this->participant = $participant;
-        $this->confirmationToken = $confirmationToken;
+        $this->participant = $user;
     }
 
     /**
@@ -30,7 +29,7 @@ class emailConfirmationSignup extends Mailable
     public function build()
     {
         return $this
-            ->subject("Bevestig je inschrijving voor de introductie!")
-            ->markdown('mails/emailConfirmationResponse',['participant' => $this->participant, 'confirmationToken' => $this->confirmationToken]);
+            ->subject("Betaling introductie")
+            ->markdown('mails/emailPaymentSucceeded',['participant' => $this->participant]);
     }
 }

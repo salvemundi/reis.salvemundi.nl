@@ -16,6 +16,8 @@ class Participant extends Model implements ProvidesInvoiceInformation
     use UsesUuid;
     use Billable;
 
+    protected $keyType = 'string';
+
     protected $table = 'participants';
 
     protected $fillable = ['insertion', 'firstNameParent', 'lastNameParent', 'addressParent', 'medicalIssues', 'specials', 'phoneNumberParent'];

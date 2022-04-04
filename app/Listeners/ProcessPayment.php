@@ -1,10 +1,14 @@
 <?php
+
 namespace App\Listeners;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Laravel\Cashier\Events\OrderPaymentPaid;
 use Illuminate\Support\Facades\Log;
 
-class ProcessPayment {
+class ProcessPayment
+{
     /**
      * Create the event listener.
      *
@@ -18,11 +22,11 @@ class ProcessPayment {
     /**
      * Handle the event.
      *
-     * @param   OrderPaymentPaid  $event
+     * @param  OrderPaymentPaid  $event
      * @return void
      */
-    public function handle(OrderPaymentPaid $event) {
-        $participant = $event->payments->owner;
-        Log::info($participant);
+    public function handle($event)
+    {
+        Log::info($event);
     }
 }

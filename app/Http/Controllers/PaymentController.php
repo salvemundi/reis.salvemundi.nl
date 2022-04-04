@@ -9,7 +9,6 @@ use \Laravel\Cashier\Http\RedirectToCheckoutResponse;
 class PaymentController extends Controller
 {
     public function payForIntro($token) {
-        $participantController = new ParticipantController();
         $tokenFound = ConfirmationToken::find($token);
 
         $item = new ChargeItemBuilder($tokenFound->participant);

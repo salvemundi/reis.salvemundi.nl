@@ -45,7 +45,7 @@ class ConfirmationController extends Controller
             $confirmationToken->save();
             $this->participantController->store($request);
 
-            return $this->paymentController->payForIntro($token);
+            return $this->paymentController->payForIntro($confirmationToken->id);
         }
 
         return back()->with('error','input is not valid');

@@ -37,7 +37,7 @@ setActive("registrations");
         </div>
         <form method="POST" action="">
             @csrf
-            <button type="submit" class="btn btn-primary">stuur geldd</button>
+            <button type="submit" class="btn btn-primary">Stuur confirmatie email</button>
         </form>
     </div>
 </div>

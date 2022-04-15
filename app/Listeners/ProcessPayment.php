@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Laravel\Cashier\Events\OrderPaymentPaid;
+use Laravel\Cashier\Events\OrderInvoiceAvailable;
 use Illuminate\Support\Facades\Log;
 
 class ProcessPayment
@@ -22,10 +22,10 @@ class ProcessPayment
     /**
      * Handle the event.
      *
-     * @param  OrderPaymentPaid  $event
+     * @param  OrderInvoiceAvailable  $event
      * @return void
      */
-    public function handle($event)
+    public function handle(OrderInvoiceAvailable $event)
     {
         Log::info($event);
     }

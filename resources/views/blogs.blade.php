@@ -38,6 +38,8 @@
 @endforeach
 
 <script>
+    let occupied = 96;
+    let open = 250
     const data = {
         labels: [
             'Bezet',
@@ -45,7 +47,7 @@
         ],
         datasets: [{
             label: 'Aantal plekken vrij!',
-            data: [300, 159],
+            data: [occupied, open],
             backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',

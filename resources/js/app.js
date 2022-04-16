@@ -6,5 +6,4 @@ window.Popper = require('popper.js');
 require('./navbar');
 require('slick-carousel');
 require('./slider')
-require('./chart')
-require('chart.js')
+

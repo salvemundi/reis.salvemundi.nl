@@ -24,3 +24,20 @@ margin:0.1em 0;
 }
 
 svg { width: 100%; }
+
+.sidemenu{
+    border: 1px solid black;
+}
+
+.wrap {
+    white-space:pre-wrap;
+}
+
+.ownShow {
+    width: unset;
+}
+
+.big{
+    font-size: 150px;
+    color: $salveMundi-primary;
+}

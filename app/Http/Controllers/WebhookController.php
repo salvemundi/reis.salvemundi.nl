@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 class WebhookController extends Controller
 {
-
     private $mollie;
 
     public function __construct() {

@@ -33,7 +33,7 @@ class PaymentController extends Controller
         }
     }
 
-    private function createMollieInstance() {
+    public function createMollieInstance() {
         $mollie = new MollieApiClient();
         $mollie->setApiKey(env('MOLLIE_KEY'));
         return $mollie;

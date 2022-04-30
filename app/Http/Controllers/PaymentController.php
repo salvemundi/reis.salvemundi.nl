@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfirmationToken;
-use \Laravel\Cashier\Charge\ChargeItemBuilder;
-use \Laravel\Cashier\Http\RedirectToCheckoutResponse;
+use \Laravel\Cashier\Charge\ChargeItemBuilder; # TO BE REDONE
+use \Laravel\Cashier\Http\RedirectToCheckoutResponse; # TO BE REDONE
 
 class PaymentController extends Controller
 {

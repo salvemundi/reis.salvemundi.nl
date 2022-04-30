@@ -28,7 +28,7 @@ Route::get('/inschrijven/verify/{token}',[\App\Http\Controllers\VerificationCont
 
 // Payment
 
-Route::get('/inschrijven/betalen/success', [\App\Http\Controller\PaymentController::class, 'returnSuccessPage'])->name('payment.success');
+Route::get('/inschrijven/betalen/success', [\App\Http\Controllers\PaymentController::class, 'returnSuccessPage'])->name('payment.success');
 Route::get('/inschrijven/betalen/{token}',[\App\Http\Controllers\ConfirmationController::class, 'confirmSignUpView']);
 Route::post('/inschrijven/betalen/{token}',[\App\Http\Controllers\ConfirmationController::class, 'confirm']);
 

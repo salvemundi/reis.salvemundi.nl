@@ -28,6 +28,7 @@ class WebhookController extends Controller
                  * At this point you'd probably want to start the process of delivering the product to the customer.
                  */
                 Log::info("doihgosi");
+                return response(null, 200);
             } elseif ($payment->isOpen()) {
                 /*
                  * The payment is open.

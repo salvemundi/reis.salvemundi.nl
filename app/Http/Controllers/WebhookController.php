@@ -9,13 +9,6 @@ use Mollie\Laravel\Facades\Mollie;
 
 class WebhookController extends Controller
 {
-    private $mollie;
-
-    public function __construct() {
-        $controller = new PaymentController();
-        $this->mollie = $controller->createMollieInstance();
-    }
-
     public function handle(Request $request) {
         if(!$request->has('id')) {
             return;

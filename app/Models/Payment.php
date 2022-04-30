@@ -13,7 +13,8 @@ class Payment extends Model
 
     protected $table = 'payments';
 
-    public function participant() {
-        return $this->belongsTo(Participant::class, 'id','participant','participants');
+    public function participant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Participant::class);
     }
 }

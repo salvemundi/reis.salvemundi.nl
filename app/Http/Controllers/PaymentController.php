@@ -43,8 +43,8 @@ class PaymentController extends Controller
 
     private function createPaymentEntry(Participant $participant) {
         $payment = new Payment;
-        $payment->participant()->associate($participant);
         $payment->save();
+        $payment->participant()->associate($participant)->save();
         return $payment;
     }
 }

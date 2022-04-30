@@ -15,9 +15,9 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('participant');
+            $table->uuid('participant_id')->nullable();
             $table->string('paymentStatus')->default('unPaid');
-            $table->foreign('participant')->references('id')->on('participants')->onDelete('cascade');
+            $table->foreign('participant_id')->references('id')->on('participants')->onDelete('cascade');
             $table->timestamps();
         });
     }

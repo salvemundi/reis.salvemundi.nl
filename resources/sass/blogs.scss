@@ -37,7 +37,49 @@ svg { width: 100%; }
     width: unset;
 }
 
-.big{
-    font-size: 150px;
+.big {
     color: $salveMundi-primary;
+    font-size: 100px;
+}
+
+@media (min-width: 576px) {
+    .big {
+        font-size: 50px;
+    }
+}
+
+@media (min-width: 768px) {
+    .big {
+        font-size: 60px;
+    }
+}
+
+@media (min-width: 992px) {
+    .big {
+        font-size: 80px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .big {
+        font-size: 120px;
+    }
+}
+
+.accordion-button {
+    background-color: $salveMundi-opacity !important;
+    color: black !important;
+
+    &:focus {
+        box-shadow: 0 0 0 0.25rem $salveMundi-opacity2 !important;
+    }
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+}
+
+.stick {
+    position: sticky !important;
+    top: 10em !important;
 }

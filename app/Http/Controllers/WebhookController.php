@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Laravel\Facades\Mollie;
+
 class WebhookController extends Controller
 {
     private $mollie;
@@ -20,8 +21,7 @@ class WebhookController extends Controller
             return;
         }
         try {
-            $paymentId = $request->input('id');
-            $payment = Mollie::api()->payments->get($paymentId);
+            $payment = Mollie::api()->payments()->get($request->input('id'));
 
             if ($payment->isPaid() && ! $payment->hasRefunds() && ! $payment->hasChargebacks()) {
                 /*

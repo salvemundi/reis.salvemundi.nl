@@ -28,7 +28,7 @@ class PaymentController extends Controller
                     "order_id" => $paymentObject->id,
                 ],
             ]);
-            header("Location: " . $payment->getCheckoutUrl(), true, 303);
+            return redirect()->away($payment->getCheckoutUrl(), 303);
         } catch (ApiException $e) {
             Log::error($e);
             return response()->view('errors.500',['e' => $e],500);

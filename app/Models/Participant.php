@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Http\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Cashier\Billable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Cashier\Order\Contracts\ProvidesInvoiceInformation;
 
-class Participant extends Model implements ProvidesInvoiceInformation
+class Participant extends Model
 {
     use HasFactory;
     use Notifiable;
     use UsesUuid;
-    use Billable;
 
     protected $keyType = 'string';
 
@@ -39,20 +36,7 @@ class Participant extends Model implements ProvidesInvoiceInformation
         return $name;
     }
 
-    public function mollieCustomerFields() {
-        $name = $this->getFullName();
-        return [
-            'email' => $this->email,
-            'name' => $name,
-        ];
-    }
-
-    public function getInvoiceInformation() {
-        $name = $this->getFullName();
-        return [$name, $this->email];
-    }
-
-    public function getExtraBillingInformation() {
-        return null;
+    public function payments(){
+        return $this->hasMany(Payment::class);
     }
 }

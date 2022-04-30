@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfirmationToken;
+use App\Models\Participant;
 use \Mollie\Api\MollieApiClient;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
@@ -10,10 +11,11 @@ use \Mollie\Api\Exceptions\ApiException;
 
 class PaymentController extends Controller
 {
-    public function payForIntro() {
+    public function payForIntro($token) {
+        $confirmationToken = ConfirmationToken::findOrFail($token);
         try{
             $mollie = $this->createMollieInstance();
-            $paymentObject = $this->createPaymentEntry();
+            $paymentObject = $this->createPaymentEntry($confirmationToken->participant);
             $payment = $mollie->payments->create([
                 "amount" => [
                     "currency" => "EUR",
@@ -26,7 +28,7 @@ class PaymentController extends Controller
                     "order_id" => $paymentObject->id,
                 ],
             ]);
-            return header("Location: " . $payment->getCheckoutUrl(), true, 303);
+            header("Location: " . $payment->getCheckoutUrl(), true, 303);
         } catch (ApiException $e) {
             Log::error($e);
             return response()->view('errors.500',['e' => $e],500);
@@ -38,8 +40,10 @@ class PaymentController extends Controller
         $mollie->setApiKey(env('MOLLIE_KEY'));
         return $mollie;
     }
-    private function createPaymentEntry() {
-        $payment = Payment::new();
+
+    private function createPaymentEntry(Participant $participant) {
+        $payment = new Payment;
+        $payment->participant()->associate($participant);
         $payment->save();
         return $payment;
     }

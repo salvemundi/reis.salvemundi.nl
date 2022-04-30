@@ -27,7 +27,7 @@ class WebhookController extends Controller
                  * The payment is paid and isn't refunded or charged back.
                  * At this point you'd probably want to start the process of delivering the product to the customer.
                  */
-                Log::debug(print_r($payment, true));
+                Log::info("doihgosi");
             } elseif ($payment->isOpen()) {
                 /*
                  * The payment is open.

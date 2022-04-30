@@ -32,7 +32,7 @@ Route::get('/inschrijven/betalen/success', [\App\Http\Controller\PaymentControll
 Route::get('/inschrijven/betalen/{token}',[\App\Http\Controllers\ConfirmationController::class, 'confirmSignUpView']);
 Route::post('/inschrijven/betalen/{token}',[\App\Http\Controllers\ConfirmationController::class, 'confirm']);
 
-Route::post('webhooks.mollie',[\App\Http\Controllers\WebhookController::class, 'handle'])->name('webhooks.mollie');
+Route::post('webhooks/mollie',[\App\Http\Controllers\WebhookController::class, 'handle'])->name('webhooks.mollie');
 // Blogs / news
 Route::get('/blogs',[\App\Http\Controllers\BlogController::class, 'showPosts']);
 Route::get('/blogs/{postId}',[\App\Http\Controllers\BlogController::class, 'showPost']);

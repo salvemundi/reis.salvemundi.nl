@@ -3,27 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfirmationToken;
-use \Laravel\Cashier\Charge\ChargeItemBuilder; # TO BE REDONE
-use \Laravel\Cashier\Http\RedirectToCheckoutResponse; # TO BE REDONE
+use \Mollie\Api\MollieApiClient;
+use Illuminate\Support\Facades\Log;
+use App\Models\Payment;
+use \Mollie\Api\Exceptions\ApiException;
 
 class PaymentController extends Controller
 {
-    public function payForIntro($token) {
-        $tokenFound = ConfirmationToken::find($token);
-
-        $item = new ChargeItemBuilder($tokenFound->participant);
-        $item->unitPrice(money(9000,'EUR')); //90 EUR
-        $item->description('Introductie inschrijving');
-        $chargeItem = $item->make();
-
-        $result = $tokenFound->participant->newCharge()
-            ->addItem($chargeItem)
-            ->create();
-
-        if(is_a($result, RedirectToCheckoutResponse::class)) {
-            return $result;
+    public function payForIntro() {
+        try{
+            $mollie = $this->createMollieInstance();
+            $paymentObject = $this->createPaymentEntry();
+            $payment = $mollie->payments->create([
+                "amount" => [
+                    "currency" => "EUR",
+                    "value" => "90.00"
+                ],
+                "description" => "Introduction ". Date("Y"),
+                "redirectUrl" => route('payment.success'),
+                "webhookUrl"  => route('webhooks.mollie'),
+                "metadata" => [
+                    "order_id" => $paymentObject->id,
+                ],
+            ]);
+            return header("Location: " . $payment->getCheckoutUrl(), true, 303);
+        } catch (ApiException $e) {
+            Log::error($e);
+            return response()->view('errors.500',['e' => $e],500);
         }
+    }
 
-        return redirect('/')->with('status', 'Bedankt voor het inschrijven voor de introductie!');
+    private function createMollieInstance() {
+        $mollie = new MollieApiClient();
+        $mollie->setApiKey(env('MOLLIE_KEY'));
+        return $mollie;
+    }
+    private function createPaymentEntry() {
+        $payment = Payment::new();
+        $payment->save();
+        return $payment;
     }
 }

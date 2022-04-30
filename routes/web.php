@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 // Login Azure
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'signIn']);
 Route::get('/callback', [App\Http\Controllers\AuthController::class, 'callback']);
@@ -28,9 +28,13 @@ Route::get('/inschrijven/verify/{token}',[App\Http\Controllers\VerificationContr
 
 // Payment
 
+Route::get('/paytest', [\App\Http\Controllers\PaymentController::class, 'payForIntro']);
+
+Route::get('/inschrijven/betalen/success', [App\Http\Controller\PaymentController::class, 'returnSuccessPage'])->name('payment.success');
 Route::get('/inschrijven/betalen/{token}',[App\Http\Controllers\ConfirmationController::class, 'confirmSignUpView']);
 Route::post('/inschrijven/betalen/{token}',[App\Http\Controllers\ConfirmationController::class, 'confirm']);
 
+Route::post('webhooks.mollie',[\App\Http\Controllers\WebhookController::class, 'handle'])->name('webhooks.mollie');
 // Blogs / news
 Route::get('/blogs',[App\Http\Controllers\BlogController::class, 'showPosts']);
 Route::get('/blogs/{postId}',[App\Http\Controllers\BlogController::class, 'showPost']);

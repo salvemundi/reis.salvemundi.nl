@@ -27,7 +27,7 @@
 
             <div class="form-group">
                 <label for="content">Content</label>
-                <textarea class="form-control{{ $errors->has('content') ? ' is-invalid' : '' }}" id="content" name="content" placeholder="Content...">{{ $post->content ?? old('content') }}</textarea>
+                <textarea class="form-control wrap{{ $errors->has('content') ? ' is-invalid' : '' }}" id="content" name="content" placeholder="Content...">{{ $post->content ?? old('content') }}</textarea>
             </div><br>
 
             <div class="form-group mb-5">

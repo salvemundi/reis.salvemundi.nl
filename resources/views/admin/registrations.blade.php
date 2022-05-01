@@ -4,7 +4,7 @@
 setActive("registrations");
 </script>
 <div class="row">
-    <div class="col-12 col-lg-6 container">
+    <div class="col-12 col-lg-11 container">
         <div class="table-responsive">
             <h1 class="display-5">Aanmeldingen</h1>
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"

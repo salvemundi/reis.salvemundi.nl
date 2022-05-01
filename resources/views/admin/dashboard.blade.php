@@ -9,7 +9,7 @@ setActive("dashboard");
 </div>
 <div class="row">
     <div class="col">
-        <a href="participantscheckedin" style="text-decoration: none; color: black;">
+        <a href="registrations" style="text-decoration: none; color: black;">
             <div class="card">
                 <div class="card-body">
                     <div class="row align-items-center gx-0">

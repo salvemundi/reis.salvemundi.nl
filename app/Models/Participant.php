@@ -37,6 +37,6 @@ class Participant extends Model
     }
 
     public function payments(){
-        return $this->hasMany(Payment::class,'participant','id');
+        return $this->hasMany(Payment::class,'participant_id','id');
     }
 }

@@ -4,18 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use Carbon\Carbon;
 
 // This controller  is commonly referred to as blog / news controller. Previous PR #12 caused a naming nightmare. (May or may not have been me.)
 class BlogController extends Controller
 {
     public function showPosts() {
         $posts = Blog::all();
-        return view('blogs',['posts' => $posts]);
+
+        $dateForIntro = Carbon::parse('2022-08-22');
+        $dateNow = Carbon::now();
+
+        $diffDate = $dateForIntro->diffInDays($dateNow) + 1;
+
+        return view('blogs', ['posts' => $posts, 'date' => $diffDate]);
     }
 
     public function showPostsAdmin() {
         $posts = Blog::all();
-        return view('admin/blogs',['posts' => $posts]);
+        return view('admin/blogs', ['posts' => $posts]);
     }
 
     public function showPost(Request $request) {

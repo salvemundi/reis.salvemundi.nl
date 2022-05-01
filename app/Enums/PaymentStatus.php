@@ -20,6 +20,6 @@ final class PaymentStatus extends Enum
     const authorized = 2;
     const canceled = 3;
     const expired = 4;
-    const paid = 4;
-    const failed = 5;
+    const paid = 5;
+    const failed = 6;
 }

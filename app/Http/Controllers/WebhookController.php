@@ -20,6 +20,7 @@ class WebhookController extends Controller
             $paymentStorage = Payment::find($payment->metadata->payment_id);
 
             $paymentStorage->paymentStatus = PaymentStatus::coerce($payment->status)->value;
+            $paymentStorage->save();
 
             if ($payment->isPaid() && ! $payment->hasRefunds() && ! $payment->hasChargebacks()) {
                 /*

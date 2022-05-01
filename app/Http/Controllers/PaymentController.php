@@ -28,6 +28,8 @@ class PaymentController extends Controller
                     "payment_id" => $paymentObject->id,
                 ],
             ]);
+            $paymentObject->molle_transaction_id = $payment->id;
+            $paymentObject->save();
             return redirect()->away($payment->getCheckoutUrl(), 303);
         } catch (ApiException $e) {
             Log::error($e);

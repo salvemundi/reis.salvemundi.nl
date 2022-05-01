@@ -17,8 +17,9 @@ class WebhookController extends Controller
         }
         try {
             $payment = Mollie::api()->payments()->get($request->input('id'));
-            $paymentStorage = Payment::find($payment->metadata->payment_id);
 
+            // Update the status of the payment in the database
+            $paymentStorage = Payment::find($payment->metadata->payment_id);
             $paymentStorage->paymentStatus = PaymentStatus::coerce($payment->status)->value;
             $paymentStorage->save();
 

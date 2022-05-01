@@ -19,6 +19,7 @@ class CreatePaymentsTable extends Migration
             $table->uuid('participant_id')->nullable();
             $table->tinyInteger('paymentStatus')->unsigned()->default(PaymentStatus::open);
             $table->foreign('participant_id')->references('id')->on('participants')->onDelete('cascade');
+            $table->string('mollie_transaction_id');
             $table->timestamps();
         });
     }

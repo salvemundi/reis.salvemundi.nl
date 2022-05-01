@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Payment;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Laravel\Facades\Mollie;
+use App\Enums\PaymentStatus;
 
 class WebhookController extends Controller
 {
@@ -15,13 +17,15 @@ class WebhookController extends Controller
         }
         try {
             $payment = Mollie::api()->payments()->get($request->input('id'));
+            $paymentStorage = Payment::find($payment->metadata->payment_id);
+
+            $paymentStorage->paymentStatus = PaymentStatus::coerce($payment->status)->value;
 
             if ($payment->isPaid() && ! $payment->hasRefunds() && ! $payment->hasChargebacks()) {
                 /*
                  * The payment is paid and isn't refunded or charged back.
                  * At this point you'd probably want to start the process of delivering the product to the customer.
                  */
-                Log::info("doihgosi");
                 return response(null, 200);
             } elseif ($payment->isOpen()) {
                 /*

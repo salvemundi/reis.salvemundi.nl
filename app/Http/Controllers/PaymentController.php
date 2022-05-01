@@ -25,7 +25,7 @@ class PaymentController extends Controller
                 "redirectUrl" => route('payment.success'),
                 "webhookUrl"  => route('webhooks.mollie'),
                 "metadata" => [
-                    "order_id" => $paymentObject->id,
+                    "payment_id" => $paymentObject->id,
                 ],
             ]);
             return redirect()->away($payment->getCheckoutUrl(), 303);

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\PaymentStatus;
 
 class CreatePaymentsTable extends Migration
 {
@@ -16,7 +17,7 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('participant_id')->nullable();
-            $table->string('paymentStatus')->default('unPaid');
+            $table->tinyInteger('paymentStatus')->unsigned()->default(PaymentStatus::open);
             $table->foreign('participant_id')->references('id')->on('participants')->onDelete('cascade');
             $table->timestamps();
         });

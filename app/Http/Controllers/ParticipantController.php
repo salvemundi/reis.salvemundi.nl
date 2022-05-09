@@ -24,7 +24,7 @@ class ParticipantController extends Controller
                 return redirect("/participants");
             }
 
-            $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
+            $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
 
             return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }
@@ -41,7 +41,7 @@ class ParticipantController extends Controller
                 return redirect("/participants");
             }
 
-            $age = Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years');
+            $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
 
             return view('admin/participantCheckedIn', ['participants' => $availableParticipants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }

@@ -15,8 +15,8 @@ use BenSampo\Enum\Enum;
  */
 final class PaymentStatus extends Enum
 {
-    const open =   0;
-    const pending =   1;
+    const open = 0;
+    const pending = 1;
     const authorized = 2;
     const canceled = 3;
     const expired = 4;

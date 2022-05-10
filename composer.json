@@ -10,14 +10,13 @@
         "doctrine/dbal": "^3.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "league/oauth2-client": "^2.6",
         "maatwebsite/excel": "^3.1",
         "microsoft/microsoft-graph": "^1.34",
-        "mollie/laravel-cashier-mollie": "^2.0"
+        "mollie/laravel-mollie": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

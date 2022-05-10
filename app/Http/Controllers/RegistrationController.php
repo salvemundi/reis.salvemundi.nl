@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Models\Participant;
 use App\Enums\CovidProof;
-use App\Enums\Roles;
+use App\Enums\PaymentStatus;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -22,14 +23,16 @@ class RegistrationController extends Controller
                ->get(['participants.*', 'verify_email.verified', 'verify_email.updated_at']);
 
         $dateToday = Carbon::now()->toDate();
-
+        $paid = false;
         foreach($participants as $participant) {
+            if($participant->payments != null) {
+                $participant->latestPayment = $participant->payments()->latest()->first();
+            }
             $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
         }
 
         $controller = new VerificationController();
         $controller->getVerifiedParticipants();
-
         return view('admin/registrations', ['participants' => $participants]);
     }
 }

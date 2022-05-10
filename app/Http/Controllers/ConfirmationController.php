@@ -6,6 +6,7 @@ use App\Models\ConfirmationToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\emailConfirmationSignup;
+
 class ConfirmationController extends Controller
 {
     private $participantController;
@@ -45,7 +46,7 @@ class ConfirmationController extends Controller
             $confirmationToken->save();
             $this->participantController->store($request);
 
-            return $this->paymentController->payForIntro($token);
+            return $this->paymentController->payForIntro($confirmationToken->id);
         }
 
         return back()->with('error','input is not valid');

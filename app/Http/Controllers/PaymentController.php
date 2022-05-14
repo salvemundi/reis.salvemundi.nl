@@ -24,7 +24,7 @@ class PaymentController extends Controller
                     "value" => "90.00"
                 ],
                 "description" => "Introductie ". Date("Y"),
-                "redirectUrl" => route('payment.success', ['confirmationID' => $confirmationToken->participant->id]),
+                "redirectUrl" => route('payment.success', ['userId' => $confirmationToken->participant->id]),
                 "webhookUrl"  => route('webhooks.mollie'),
                 "metadata" => [
                     "payment_id" => $paymentObject->id,

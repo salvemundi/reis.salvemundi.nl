@@ -54,6 +54,7 @@ class PaymentController extends Controller
 
     public function returnSuccessPage(Request $request) {
         $participant = Participant::find($request->userId);
+        dd($participant);
         $participant->latestPayment = $participant->payments()->latest()->first();
 
         if ($participant != null) {

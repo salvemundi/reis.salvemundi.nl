@@ -64,7 +64,7 @@ class PaymentController extends Controller
             return view('paymentFailed');
             }
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             Log::error($e);
             return view('paymentFailed');
         }

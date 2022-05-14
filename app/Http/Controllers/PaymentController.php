@@ -51,6 +51,6 @@ class PaymentController extends Controller
     }
 
     public function returnSuccessPage() {
-        return redirect('/successPage');
+        return view('successPage');
     }
 }

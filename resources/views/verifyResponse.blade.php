@@ -10,7 +10,7 @@
                     </svg>
                     <h1 class="text-center">Je ben geverifieerd!</h1>
                     <p>
-                        Bedankt voor het aanmelden! <br>Je zal van ons horen na je examens<br>Voor meer informatie ga naar <a href="intro.salvemundi.nl">intro.salemundi.nl</a>
+                        Bedankt voor het aanmelden! <br>Je zal van ons horen na je examens<br>Voor meer informatie ga naar <a href="intro.salvemundi.nl">intro.salvemundi.nl</a>
                     </p>
                     <div class="center mb-3">
                         <a class="btn btn-primary center" href="https://salvemundi.nl/">Salve Mundi website</a>

@@ -31,7 +31,7 @@ class ConfirmationController extends Controller
 
     public function confirm(Request $request) {
         $token = $request->token;
-        $confirmationToken = ConfirmationToken::find($token)->latest()->first();
+        $confirmationToken = ConfirmationToken::find($token);
         $user = $confirmationToken->participant;
 
         if ($token && $confirmationToken !== null) {

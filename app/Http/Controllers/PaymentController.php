@@ -7,6 +7,7 @@ use App\Models\Participant;
 use \Mollie\Api\MollieApiClient;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
+use App\Enums\PaymentStatus;
 use \Mollie\Api\Exceptions\ApiException;
 
 class PaymentController extends Controller
@@ -50,7 +51,15 @@ class PaymentController extends Controller
         return $payment;
     }
 
-    public function returnSuccessPage() {
-        return view('successPage');
+    public function returnSuccessPage(Request $request) {
+        $participant = Participant::find($request->userId);
+        $participant->latestPayment = $participant->payments()->latest()->first();
+
+        if ($participant != null) {
+            if ($participant->latestPayment != null || $participant->latestPayment->paymentStatus == PaymentStatus::paid) {
+                return view('successPage');
+           }
+           return view('paymentFailed');
+        }
     }
 }

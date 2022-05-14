@@ -21,7 +21,7 @@ class PaymentController extends Controller
                     "currency" => "EUR",
                     "value" => "90.00"
                 ],
-                "description" => "Introduction ". Date("Y"),
+                "description" => "Introductie ". Date("Y"),
                 "redirectUrl" => route('payment.success'),
                 "webhookUrl"  => route('webhooks.mollie'),
                 "metadata" => [

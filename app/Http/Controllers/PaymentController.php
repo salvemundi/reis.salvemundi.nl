@@ -53,14 +53,20 @@ class PaymentController extends Controller
     }
 
     public function returnSuccessPage(Request $request) {
-        $participant = Participant::find($request->userId);
-        $participant->latestPayment = $participant->payments()->latest()->first();
+        try {
+            $participant = Participant::find($request->userId);
+            $participant->latestPayment = $participant->payments()->latest()->first();
 
-        if ($participant != null) {
-            if ($participant->latestPayment != null || $participant->latestPayment->paymentStatus == PaymentStatus::paid) {
-                return view('successPage');
-           }
-           return view('paymentFailed');
+            if ($participant != null) {
+                if ($participant->latestPayment != null || $participant->latestPayment->paymentStatus == PaymentStatus::paid) {
+                    return view('successPage');
+               }
+            return view('paymentFailed');
+            }
+        }
+        catch (Exception $e) {
+            Log::error($e);
+            return view('paymentFailed');
         }
     }
 }

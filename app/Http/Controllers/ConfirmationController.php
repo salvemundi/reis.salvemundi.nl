@@ -59,13 +59,15 @@ class ConfirmationController extends Controller
         foreach($verifiedParticipants as $participant) {
             $participant->latestPayment = $participant->payments()->latest()->first();
 
-            if ($participant->latestPayment->paymentStatus != PaymentStatus::paid) {
-                $newConfirmationToken = new ConfirmationToken();
-                $newConfirmationToken->participant()->associate($participant);
-                $newConfirmationToken->save();
+            if ($participant->latestPayment != null) {
+                if ($participant->latestPayment->paymentStatus != PaymentStatus::paid) {
+                    $newConfirmationToken = new ConfirmationToken();
+                    $newConfirmationToken->participant()->associate($participant);
+                    $newConfirmationToken->save();
 
-                Mail::to($participant->email)
-                    ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+                    Mail::to($participant->email)
+                        ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+                }
             }
         }
         return back()->with('status','Mails zijn verstuurd!');

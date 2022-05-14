@@ -4,6 +4,11 @@
 setActive("registrations");
 </script>
 <div class="row">
+    @if(session()->has('status'))
+        <div class="alert alert-primary">
+            {{ session()->get('status') }}
+        </div>
+    @endif
     <div class="col-12 col-lg-11 container">
         <div class="table-responsive">
             <h1 class="display-5">Aanmeldingen</h1>

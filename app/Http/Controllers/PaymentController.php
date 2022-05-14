@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
 use App\Enums\PaymentStatus;
 use \Mollie\Api\Exceptions\ApiException;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {

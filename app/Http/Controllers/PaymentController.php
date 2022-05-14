@@ -49,4 +49,8 @@ class PaymentController extends Controller
         $payment->participant()->associate($participant)->save();
         return $payment;
     }
+
+    public function returnSuccessPage() {
+        return redirect('/successPage');
+    }
 }

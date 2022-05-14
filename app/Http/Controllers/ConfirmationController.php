@@ -59,7 +59,7 @@ class ConfirmationController extends Controller
         foreach($verifiedParticipants as $participant) {
             $participant->latestPayment = $participant->payments()->latest()->first();
 
-            if ($participant->latestPayment != PaymentStatus::paid) {
+            if ($participant->latestPayment->paymentStatus != PaymentStatus::paid) {
                 $newConfirmationToken = new ConfirmationToken();
                 $newConfirmationToken->participant()->associate($participant);
                 $newConfirmationToken->save();

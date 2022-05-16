@@ -7,7 +7,9 @@ use App\Models\Participant;
 use \Mollie\Api\MollieApiClient;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
+use App\Enums\PaymentStatus;
 use \Mollie\Api\Exceptions\ApiException;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
@@ -21,8 +23,8 @@ class PaymentController extends Controller
                     "currency" => "EUR",
                     "value" => "90.00"
                 ],
-                "description" => "Introduction ". Date("Y"),
-                "redirectUrl" => route('payment.success'),
+                "description" => "Introductie ". Date("Y"),
+                "redirectUrl" => route('payment.success', ['userId' => $confirmationToken->participant->id]),
                 "webhookUrl"  => route('webhooks.mollie'),
                 "metadata" => [
                     "payment_id" => $paymentObject->id,
@@ -48,5 +50,23 @@ class PaymentController extends Controller
         $payment->save();
         $payment->participant()->associate($participant)->save();
         return $payment;
+    }
+
+    public function returnSuccessPage(Request $request) {
+        try {
+            $participant = Participant::findOrFail($request->userId);
+            $participant->latestPayment = $participant->payments()->latest()->first();
+
+            if ($participant != null) {
+                if ($participant->latestPayment != null || $participant->latestPayment->paymentStatus == PaymentStatus::paid) {
+                    return view('successPage');
+               }
+            return view('paymentFailed');
+            }
+        }
+        catch (\Exception $e) {
+            Log::error($e);
+            return view('paymentFailed');
+        }
     }
 }

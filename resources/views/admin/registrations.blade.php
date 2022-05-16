@@ -5,6 +5,11 @@ setActive("registrations");
 </script>
 <div class="row">
     <div class="col-12 col-lg-11 container">
+        @if(session()->has('status'))
+            <div class="alert alert-primary">
+                {{ session()->get('status') }}
+            </div>
+        @endif
         <div class="table-responsive">
             <h1 class="display-5">Aanmeldingen</h1>
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"
@@ -28,7 +33,7 @@ setActive("registrations");
                                 <td>{{ $participant->firstName . " " .$participant->insertion . " " . $participant->lastName }}</td>
                             @endif
                             <td data-value="{{ $participant->email }}">{{ $participant->email }}</td>
-                            <td data-value="{{ $participant->verified }}">{{ $participant->verified ? 'ja' : 'nee' }}</td>
+                            <td data-value="{{ $participant->verified }}">{{ $participant->verified ? 'Ja' : 'Nee' }}</td>
                             <td data-value="{{ $participant->created_at }}">{{ date('d-m-Y', strtotime($participant->created_at)) }}</td>
                             <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference }}</td>
                             <td data-value="{{ $participant->paid }}">

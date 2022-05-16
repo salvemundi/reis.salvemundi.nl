@@ -6,6 +6,7 @@ use App\Models\ConfirmationToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\emailConfirmationSignup;
+use App\Enums\PaymentStatus;
 
 class ConfirmationController extends Controller
 {
@@ -31,7 +32,7 @@ class ConfirmationController extends Controller
 
     public function confirm(Request $request) {
         $token = $request->token;
-        $confirmationToken = ConfirmationToken::find($token)->latest()->first();
+        $confirmationToken = ConfirmationToken::find($token);
         $user = $confirmationToken->participant;
 
         if ($token && $confirmationToken !== null) {
@@ -56,15 +57,17 @@ class ConfirmationController extends Controller
         $verifiedParticipants = $this->verifiedController->getVerifiedParticipants();
 
         foreach($verifiedParticipants as $participant) {
-            $newConfirmationToken = new ConfirmationToken();
-            $newConfirmationToken->participant()->associate($participant);
-            $newConfirmationToken->save();
+            $participant->latestPayment = $participant->payments()->latest()->first();
 
-            Mail::to($participant->email)
-                ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+            if ($participant->latestPayment == null || $participant->latestPayment->paymentStatus != PaymentStatus::paid) {
+                $newConfirmationToken = new ConfirmationToken();
+                $newConfirmationToken->participant()->associate($participant);
+                $newConfirmationToken->save();
+
+                Mail::to($participant->email)
+                    ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+            }
         }
-
         return back()->with('status','Mails zijn verstuurd!');
     }
-
 }

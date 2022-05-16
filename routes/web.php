@@ -27,10 +27,10 @@ Route::get('/', [\App\Http\Controllers\ParticipantController::class, 'signupInde
 Route::get('/inschrijven/verify/{token}',[\App\Http\Controllers\VerificationController::class,'verify']);
 
 // Payment
-
-Route::get('/inschrijven/betalen/success', [\App\Http\Controllers\PaymentController::class, 'returnSuccessPage'])->name('payment.success');
+Route::get('/inschrijven/betalen/success/{userId}', [\App\Http\Controllers\PaymentController::class, 'returnSuccessPage'])->name('payment.success');
 Route::get('/inschrijven/betalen/{token}',[\App\Http\Controllers\ConfirmationController::class, 'confirmSignUpView']);
 Route::post('/inschrijven/betalen/{token}',[\App\Http\Controllers\ConfirmationController::class, 'confirm']);
+Route::get('/inschrijven/betalen/paymentFailed', [\App\Http\Controllers\PaymentController::class, 'returnSuccessPage']);
 
 Route::post('webhooks/mollie',[\App\Http\Controllers\WebhookController::class, 'handle'])->name('webhooks.mollie');
 // Blogs / news

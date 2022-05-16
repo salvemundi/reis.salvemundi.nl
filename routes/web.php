@@ -1,5 +1,16 @@
 <?php
 
+use App\Http\Controllers\APIController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BusController;
+use App\Http\Controllers\ConfirmationController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ParticipantController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
@@ -14,69 +25,72 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Login Azure
-Route::get('/login', [\App\Http\Controllers\AuthController::class, 'signIn']);
-Route::get('/callback', [\App\Http\Controllers\AuthController::class, 'callback']);
-Route::get('/signout', [\App\Http\Controllers\AuthController::class, 'signOut']);
+Route::get('/login', [AuthController::class, 'signIn']);
+Route::get('/callback', [AuthController::class, 'callback']);
+Route::get('/signout', [AuthController::class, 'signOut']);
 
 // Signup
-Route::post('/inschrijven', [\App\Http\Controllers\ParticipantController::class, 'signup']);
+Route::post('/inschrijven', [ParticipantController::class, 'signup']);
 Route::get('/inschrijven', function() {
     return redirect('/'); // Fix 405 error
 });
-Route::get('/', [\App\Http\Controllers\ParticipantController::class, 'signupIndex']);
-Route::get('/inschrijven/verify/{token}',[\App\Http\Controllers\VerificationController::class,'verify']);
+Route::get('/', [ParticipantController::class, 'signupIndex']);
+Route::get('/inschrijven/verify/{token}',[VerificationController::class,'verify']);
+
+Route::get('/qrcode/{id}', [ParticipantController::class, 'generateQR']);
 
 // Payment
-Route::get('/inschrijven/betalen/success/{userId}', [\App\Http\Controllers\PaymentController::class, 'returnSuccessPage'])->name('payment.success');
-Route::get('/inschrijven/betalen/{token}',[\App\Http\Controllers\ConfirmationController::class, 'confirmSignUpView']);
-Route::post('/inschrijven/betalen/{token}',[\App\Http\Controllers\ConfirmationController::class, 'confirm']);
-Route::get('/inschrijven/betalen/paymentFailed', [\App\Http\Controllers\PaymentController::class, 'returnSuccessPage']);
+Route::get('/inschrijven/betalen/success/{userId}', [PaymentController::class, 'returnSuccessPage'])->name('payment.success');
+Route::get('/inschrijven/betalen/{token}',[ConfirmationController::class, 'confirmSignUpView']);
+Route::post('/inschrijven/betalen/{token}',[ConfirmationController::class, 'confirm']);
+Route::get('/inschrijven/betalen/paymentFailed', [PaymentController::class, 'returnSuccessPage']);
 
-Route::post('webhooks/mollie',[\App\Http\Controllers\WebhookController::class, 'handle'])->name('webhooks.mollie');
+Route::post('webhooks/mollie',[WebhookController::class, 'handle'])->name('webhooks.mollie');
 // Blogs / news
-Route::get('/blogs',[\App\Http\Controllers\BlogController::class, 'showPosts']);
-Route::get('/blogs/{postId}',[\App\Http\Controllers\BlogController::class, 'showPost']);
+Route::get('/blogs',[BlogController::class, 'showPosts']);
+Route::get('/blogs/{postId}',[BlogController::class, 'showPost']);
 
 // AzureAuth group
 Route::middleware(['AzureAuth'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index']);
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 
     //Registrations
-    Route::get('/registrations', [\App\Http\Controllers\RegistrationController::class, 'getRegistrationsWithInformation']);
-    Route::post('/registrations', [\App\Http\Controllers\ConfirmationController::class, 'sendConfirmEmailToAllUsers']);
+    Route::get('/registrations', [RegistrationController::class, 'getRegistrationsWithInformation']);
+    Route::post('/registrations', [ConfirmationController::class, 'sendConfirmEmailToAllUsers']);
 
     // Participants
-    Route::get('/participants', [\App\Http\Controllers\ParticipantController::class, 'getParticipantsWithInformation']);
-    Route::get('/participants/{userId}', [\App\Http\Controllers\ParticipantController::class, 'getParticipantsWithInformation']);
-    Route::post('/participants/{userId}/checkIn', [\App\Http\Controllers\ParticipantController::class, 'checkIn']);
-    Route::post('/participants/{userId}/checkOut', [\App\Http\Controllers\ParticipantController::class, 'checkOut']);
-    Route::post('/participants/{userId}/delete', [\App\Http\Controllers\ParticipantController::class, 'delete']);
-    Route::get('/add', [\App\Http\Controllers\ParticipantController::class, 'viewAdd']);
-    Route::post('/add/store', [\App\Http\Controllers\ParticipantController::class, 'store']);
-    Route::get('/participantscheckedin', [\App\Http\Controllers\ParticipantController::class, 'checkedInView']);
-    Route::get('/participantscheckedin/{userId}', [\App\Http\Controllers\ParticipantController::class, 'checkedInView']);
+    Route::get('/participants', [ParticipantController::class, 'getParticipantsWithInformation']);
+    Route::get('/participants/{userId}/get', [ParticipantController::class, 'getParticipant']);
+    Route::get('/participants/{userId}', [ParticipantController::class, 'getParticipantsWithInformation']);
+    Route::post('/participants/{userId}/checkIn', [ParticipantController::class, 'checkIn']);
+    Route::post('/participants/{userId}/checkOut', [ParticipantController::class, 'checkOut']);
+    Route::post('/participants/{userId}/delete', [ParticipantController::class, 'delete']);
+    Route::get('/add', [ParticipantController::class, 'viewAdd']);
+    Route::post('/add/store', [ParticipantController::class, 'store']);
+    Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
+    Route::get('/participantscheckedin/{userId}', [ParticipantController::class, 'checkedInView']);
 
     // Posts / blogs
-    Route::get('/blogsadmin',[\App\Http\Controllers\BlogController::class, 'showPostsAdmin']);
-    Route::get('/blogsadmin/save',[\App\Http\Controllers\BlogController::class, 'showPostInputs']);
-    Route::post('/blogsadmin/save',[\App\Http\Controllers\BlogController::class, 'savePost']);
+    Route::get('/blogsadmin',[BlogController::class, 'showPostsAdmin']);
+    Route::get('/blogsadmin/save',[BlogController::class, 'showPostInputs']);
+    Route::post('/blogsadmin/save',[BlogController::class, 'savePost']);
         //  Update blogs / posts
-    Route::get('/blogsadmin/save/{blogId}',[\App\Http\Controllers\BlogController::class, 'showPostInputs']);
-    Route::post('/blogsadmin/save/{blogId}',[\App\Http\Controllers\BlogController::class, 'savePost']);
+    Route::get('/blogsadmin/save/{blogId}',[BlogController::class, 'showPostInputs']);
+    Route::post('/blogsadmin/save/{blogId}',[BlogController::class, 'savePost']);
         // Delete blogs
-    Route::get('/blogsadmin/delete/{blogId}',[\App\Http\Controllers\BlogController::class, 'deletePost']);
+    Route::get('/blogsadmin/delete/{blogId}',[BlogController::class, 'deletePost']);
 
     // Bus
-    Route::get('/bus', [\App\Http\Controllers\BusController::class, 'index']);
-    Route::post('/bus/add', [\App\Http\Controllers\BusController::class, 'addBusses']);
-    Route::post('/bus/reset', [\App\Http\Controllers\BusController::class, 'resetBusses']);
-    Route::post('/bus/addBusNumber', [\App\Http\Controllers\BusController::class, 'addBusNumber']);
-    Route::post('/bus/addPersons', [\App\Http\Controllers\BusController::class, 'addPersonsToBus']);
+    Route::get('/bus', [BusController::class, 'index']);
+    Route::post('/bus/add', [BusController::class, 'addBusses']);
+    Route::post('/bus/reset', [BusController::class, 'resetBusses']);
+    Route::post('/bus/addBusNumber', [BusController::class, 'addBusNumber']);
+    Route::post('/bus/addPersons', [BusController::class, 'addPersonsToBus']);
 
     // Excel
-    Route::get('/export_excel/excel', [\App\Http\Controllers\ParticipantController::class, 'excel'])->name('export_excel.excel');
+    Route::get('/export_excel/excel', [ParticipantController::class, 'excel'])->name('export_excel.excel');
 
     // Api
-    Route::get('/import', [\App\Http\Controllers\APIController::class, 'GetParticipants']);
+    Route::get('/import', [APIController::class, 'GetParticipants']);
 });

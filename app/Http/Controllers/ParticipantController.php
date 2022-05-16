@@ -50,7 +50,7 @@ class ParticipantController extends Controller
     }
 
     public function getParticipant($token) {
-        return Participant::find($token);
+        return Participant::find($token)->toJson();
     }
 
     public function checkIn(Request $request) {
@@ -201,5 +201,9 @@ class ParticipantController extends Controller
 
     public function confirmSignUp(Request $request) {
         $token = $request->token;
+    }
+
+    public function generateQR(Request $request) {
+        return view('qr');
     }
 }

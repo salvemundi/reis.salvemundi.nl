@@ -17,7 +17,7 @@ class Participant extends Model
 
     protected $table = 'participants';
 
-    protected $fillable = ['insertion', 'firstNameParent', 'lastNameParent', 'addressParent', 'medicalIssues', 'specials', 'phoneNumberParent'];
+    protected $fillable = ['insertion', 'firstNameParent', 'lastNameParent', 'addressParent', 'medicalIssues', 'specials', 'phoneNumberParent', 'studentNumber'];
 
     public function verificationToken() {
         return $this->belongsTo(VerificationToken::class,'id','participantId','verify_email');

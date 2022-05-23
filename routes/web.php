@@ -19,8 +19,8 @@ Route::get('/callback', [\App\Http\Controllers\AuthController::class, 'callback'
 Route::get('/signout', [\App\Http\Controllers\AuthController::class, 'signOut']);
 
 //singup Purple festival
-Route::get('/purpleInschrijven',[\App\Http\Controllers\PurpleSignUpController::class, 'showPurplePage']);
-Route::post('/purpleInschrijven', [\App\Http\Controllers\PurpleSignUpController::class, 'purpleSignup']);
+Route::get('/purpleInschrijven',[\App\Http\Controllers\ParticipantController::class, 'showPurplePage']);
+Route::post('/purpleInschrijven', [\App\Http\Controllers\ParticipantController::class, 'purpleSignup']);
 
 // Signup
 Route::post('/inschrijven', [\App\Http\Controllers\ParticipantController::class, 'signup']);

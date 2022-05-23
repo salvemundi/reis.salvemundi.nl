@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePurpleParticipantsTable extends Migration
+class UpdateParticipantsTableStudentnumbers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePurpleParticipantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('purple_participants', function (Blueprint $table) {
-            $table->id();
+        Schema::table('participants', function ($table) {
             $table->integer('studentNumber');
-            $table->timestamps();
+            $table->string('lastName')->nullable()->change();
+            $table->string('firstName')->nullable()->change();
         });
     }
 
@@ -27,6 +27,6 @@ class CreatePurpleParticipantsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purple_participants');
+        //
     }
 }

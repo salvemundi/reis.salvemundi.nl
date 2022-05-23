@@ -9,7 +9,10 @@
             </a>
             <div class="nav_list">
                 <a id="dashboard" href="/dashboard" class="nav_link">
-                    <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Dashboard</span>
+                    <i class="fas fa-tachometer-alt dashboard"></i> <span class="nav_name">Dashboard</span>
+                </a>
+                <a id="qrcode" href="/qrcode" class="nav_link">
+                    <i class="fas fa-qrcode nav_icon"></i> <span class="nav_name">QR code</span>
                 </a>
                 <a id="registrations" href="/registrations" class="nav_link">
                     <i class="bx bi-clipboard-check fixIconClipboard"></i> <span class="nav_name">Aanmeldingen</span>

@@ -50,7 +50,14 @@ class ParticipantController extends Controller
     }
 
     public function getParticipant($token) {
-        return Participant::find($token)->toJson();
+        $participant = Participant::find($token);
+        $age = Carbon::parse($participant->birthday)->diff(Carbon::now())->format('%y years');
+        if($age >= 18) {
+            $participant->above18 = true;
+        } else {
+            $participant->above18 = false;
+        }
+        return $participant->toJson();
     }
 
     public function checkIn(Request $request) {
@@ -157,7 +164,6 @@ class ParticipantController extends Controller
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
-
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');
@@ -204,6 +210,6 @@ class ParticipantController extends Controller
     }
 
     public function generateQR(Request $request) {
-        return view('qr');
+        return view('admin/qr');
     }
 }

@@ -37,8 +37,6 @@ Route::get('/inschrijven', function() {
 Route::get('/', [ParticipantController::class, 'signupIndex']);
 Route::get('/inschrijven/verify/{token}',[VerificationController::class,'verify']);
 
-Route::get('/qrcode/{id}', [ParticipantController::class, 'generateQR']);
-
 // Payment
 Route::get('/inschrijven/betalen/success/{userId}', [PaymentController::class, 'returnSuccessPage'])->name('payment.success');
 Route::get('/inschrijven/betalen/{token}',[ConfirmationController::class, 'confirmSignUpView']);
@@ -61,7 +59,6 @@ Route::middleware(['AzureAuth'])->group(function () {
 
     // Participants
     Route::get('/participants', [ParticipantController::class, 'getParticipantsWithInformation']);
-    Route::get('/participants/{userId}/get', [ParticipantController::class, 'getParticipant']);
     Route::get('/participants/{userId}', [ParticipantController::class, 'getParticipantsWithInformation']);
     Route::post('/participants/{userId}/checkIn', [ParticipantController::class, 'checkIn']);
     Route::post('/participants/{userId}/checkOut', [ParticipantController::class, 'checkOut']);
@@ -70,6 +67,8 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::post('/add/store', [ParticipantController::class, 'store']);
     Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
     Route::get('/participantscheckedin/{userId}', [ParticipantController::class, 'checkedInView']);
+    // Participants JSON
+    Route::get('/participants/{userId}/get', [ParticipantController::class, 'getParticipant']);
 
     // Posts / blogs
     Route::get('/blogsadmin',[BlogController::class, 'showPostsAdmin']);
@@ -93,4 +92,8 @@ Route::middleware(['AzureAuth'])->group(function () {
 
     // Api
     Route::get('/import', [APIController::class, 'GetParticipants']);
+
+    // QRCode
+    Route::get('/qrcode', [ParticipantController::class, 'generateQR']);
+
 });

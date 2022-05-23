@@ -98,6 +98,6 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::get('/import', [APIController::class, 'GetParticipants']);
 
     // QRCode
-    Route::get('/qrcode', [ParticipantController::class, 'generateQR']);
+    Route::get('/qrcode', [ParticipantController::class, 'scanQR']);
 
 });

@@ -209,7 +209,7 @@ class ParticipantController extends Controller
         $token = $request->token;
     }
 
-    public function generateQR(Request $request) {
+    public function scanQR(Request $request) {
         return view('admin/qr');
     }
     //Load purple page

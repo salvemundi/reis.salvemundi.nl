@@ -13,8 +13,7 @@ use App\Exports\ParticipantsExport;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 
-class ParticipantController extends Controller
-{
+class ParticipantController extends Controller {
     public function getParticipantsWithInformation(Request $request) {
         $participants = Participant::all();
 
@@ -23,12 +22,9 @@ class ParticipantController extends Controller
             if(!isset($selectedParticipant)) {
                 return redirect("/participants");
             }
-
             $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
-
             return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }
-
         return view('admin/participants', ['participants' => $participants]);
     }
 

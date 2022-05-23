@@ -11,7 +11,6 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WebhookController;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,8 +29,8 @@ Route::get('/callback', [AuthController::class, 'callback']);
 Route::get('/signout', [AuthController::class, 'signOut']);
 
 //singup Purple festival
-Route::get('/purpleInschrijven',[\App\Http\Controllers\ParticipantController::class, 'showPurplePage']);
-Route::post('/purpleInschrijven', [\App\Http\Controllers\ParticipantController::class, 'purpleSignup']);
+Route::get('/purpleInschrijven',[ParticipantController::class, 'showPurplePage']);
+Route::post('/purpleInschrijven', [ParticipantController::class, 'purpleSignup']);
 
 // Signup
 Route::post('/inschrijven', [ParticipantController::class, 'signup']);
@@ -99,5 +98,4 @@ Route::middleware(['AzureAuth'])->group(function () {
 
     // QRCode
     Route::get('/qrcode', [ParticipantController::class, 'scanQR']);
-
 });

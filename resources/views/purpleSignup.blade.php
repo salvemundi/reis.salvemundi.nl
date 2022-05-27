@@ -6,7 +6,7 @@
         <div class="col-auto col-md-6 col-12 pl-5">
             <h1 class="display-5">Het <b class="purple">Purple Festival</b></h1>
             <p style="text-align: left; white-space: pre-line"> Beste nieuwe student!
-                De kans is groot dat je op de verkeerde pagina zit om in te schrijven voor de introductie week! Als jij je namelijk <b><a href="/">hier</a></b> inschrijft dan draai je de volledige week activiteiten, kennismakingen, feesten en gezelligheid mee samen met studie vereniging <b class="purple">Salve Mundi</b>!
+                De kans is groot dat je op de verkeerde pagina zit om je in te schrijven voor de introductie week! Als jij je namelijk <b><a href="/">hier</a></b> inschrijft dan draai je de volledige week activiteiten, kennismakingen, feesten en gezelligheid mee samen met studie vereniging <b class="purple">Salve Mundi</b>!
 
                 Mocht je toch alleen op de donderdag aanwezig willen zijn bij het Purple festival, dan kun je hier je studenten nummer achterlaten die je als het goed is per mail van Fontys hebt ontvangen! Je zult dan later van ons een mail ontvangen met je (gratis) purple ticket!
             </p>

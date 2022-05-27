@@ -17,6 +17,7 @@ class UpdateParticipantsTableStudentnumbers extends Migration
             $table->integer('studentNumber')->nullable();
             $table->string('lastName')->nullable()->change();
             $table->string('firstName')->nullable()->change();
+            $table->string('email')->nullable()->change();
         });
     }
 

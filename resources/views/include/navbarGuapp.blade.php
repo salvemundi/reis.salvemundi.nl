@@ -12,28 +12,16 @@
                 <a class="nav-link" href="https://salvemundi.nl/commissies">Commissies</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/inschrijven">Inschrijven</a>
+                <a class="nav-link" href="">Inschrijven</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/purple">Purple</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/blogs">Intro  blogs / updates</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/activiteiten">Activiteiten</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/nieuws">Nieuws</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/nieuwsbrief">Nieuwsbrief</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="https://salvemundi.nl/merch">Merch</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/bijbaanbank">Bijbanen bank</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/clubs">Clubs</a>
             </li>
         </ul>
         <ul class="navbar-nav w-50 d-flex justify-content-end">

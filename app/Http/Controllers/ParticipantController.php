@@ -217,14 +217,13 @@ class ParticipantController extends Controller {
     //Create participant(purple only)
     public function purpleSignup(Request $request) {
         $request->validate([
-            'studentNumber' => ['required', 'max:65']
+            'studentNumber' => ['required', 'max:7','min:7']
         ]);
         if (Participant::where('studentNumber', $request->input('studentNumber'))->count() > 0) {
-            return back()->with('warning', 'Dit studentnummer bestaat al!');
+            return back()->with('warning', 'Jij hebt je waarschijnlijk al ingeschreven voor purple!');
         }
         $participant = new Participant();
         $participant->studentNumber= $request->input('studentNumber');
-        $participant->email = $request->input('studentNumber');
         $participant->save();
         return back()->with('message', 'Je hebt je succesvol opgegeven voor Purple!');
     }

@@ -14,7 +14,7 @@ class UpdateParticipantsTableStudentnumbers extends Migration
     public function up()
     {
         Schema::table('participants', function ($table) {
-            $table->integer('studentNumber');
+            $table->integer('studentNumber')->nullable();
             $table->string('lastName')->nullable()->change();
             $table->string('firstName')->nullable()->change();
         });

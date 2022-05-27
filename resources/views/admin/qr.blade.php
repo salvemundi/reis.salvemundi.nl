@@ -18,7 +18,7 @@
                         <input type="radio" class="btn-check" name="options" id="checkOut" autocomplete="off" />
                         <label class="btn btn-primary" for="checkOut">Uitchecken</label>
                     </div>
-                    <div>
+                    <div class="mb-2">
                         <a class="btn btn-primary" id="startButton">Start</a>
                         <a class="btn btn-primary" id="resetButton">Reset</a>
                     </div>

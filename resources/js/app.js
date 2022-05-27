@@ -7,4 +7,3 @@ require('./navbar');
 require('slick-carousel');
 require('./slider');
 window.ZXing = require('@zxing/library');
-

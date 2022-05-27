@@ -61,3 +61,8 @@ body {
 .responses {
     width: 325px !important;
 }
+
+.form-control:focus {
+    border-color: $salveMundi-light;
+    box-shadow: 0 0 0 0.2rem rgba(57, 32, 59, 0.25);
+}

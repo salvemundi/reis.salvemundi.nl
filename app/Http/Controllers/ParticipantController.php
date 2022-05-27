@@ -47,12 +47,13 @@ class ParticipantController extends Controller {
 
     public function getParticipant($token) {
         $participant = Participant::find($token);
-        $age = Carbon::parse($participant->birthday)->diff(Carbon::now())->format('%y years');
+        $age = Carbon::parse($participant->birthday)->diff(Carbon::now())->format('%y');
         if($age >= 18) {
             $participant->above18 = true;
         } else {
             $participant->above18 = false;
         }
+        $participant->age = $age;
         return $participant->toJson();
     }
 

@@ -10,8 +10,14 @@
 
             <section class="center" style="display: flex; margin-top: 2em; text-align: center" id="demo-content">
                 <div>
-                    <h1 class="title">Scan QR Code om in the checken!</h1>
+                    <h1 class="title">Scan QR Code om in / uit the checken!</h1>
+                    <div class="btn-group mb-2">
+                        <input type="radio" class="btn-check" name="options" id="checkIn" autocomplete="off" checked />
+                        <label class="btn btn-primary" for="checkIn">Inchecken</label>
 
+                        <input type="radio" class="btn-check" name="options" id="checkOut" autocomplete="off" />
+                        <label class="btn btn-primary" for="checkOut">Uitchecken</label>
+                    </div>
                     <div>
                         <a class="btn btn-primary" id="startButton">Start</a>
                         <a class="btn btn-primary" id="resetButton">Reset</a>
@@ -41,9 +47,11 @@
             </section>
         </main>
     </div>
-    <div >
+    <div>
         <div class="card-body underEightTeen" id="particpant-card">
-            <p>hjlsdhgasdjklpuh</p>
+            <p id="name">Naam: </p>
+            <p id="age">Leeftijd: </p>
+
         </div>
     </div>
 </div>
@@ -57,47 +65,89 @@
             document.getElementById('result').textContent = err
         })
     }
-
+    function setInformation(user) {
+        let nameElement = document.getElementById('name');
+        let ageElement = document.getElementById('age');
+        if(user.insertion) {
+            nameElement.textContent = "Naam " + user.firstName + " " +user.insertion + " " + user.lastName
+        } else  {
+            nameElement.textContent = "Naam: " + user.firstName + " " + user.lastName
+        }
+        ageElement.textContent = "Leeftijd: " + user.age;
+    }
     function decodeContinuously(codeReader, selectedDeviceId) {
         codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'video', (result, err) => {
             if (result) {
                 // properly decoded qr code
+                let check = document.getElementById('checkIn')
                 console.log('Found QR code!', result)
-                //document.getElementById('result').textContent = result.text
-                $.ajax({
-                    url: '/participants/' + result.text + "/checkIn",
-                    type: 'POST',
-                    success: function(response) {
-                        $.ajax({
-                            url: '/participants/' + result.text + "/get",
-                            type: 'GET',
-                            success: function(response) {
-                                obj = JSON.parse(response)
-                                if(obj.above18){
-                                    document.getElementById('particpant-card').classList.remove('underEightTeen');
-                                    document.getElementById('particpant-card').classList.add('aboveEightTeen');
-                                } else {
-                                    document.getElementById('particpant-card').classList.remove('aboveEightTeen');
-                                    document.getElementById('particpant-card').classList.add('underEightTeen');
-                                }
+                if(check.checked) {
+                    $.ajax({
+                        url: '/participants/' + result.text + "/checkIn",
+                        type: 'POST',
+                        success: function(response) {
+                            $.ajax({
+                                url: '/participants/' + result.text + "/get",
+                                type: 'GET',
+                                success: function(response) {
+                                    obj = JSON.parse(response);
+                                    setInformation(obj);
+                                    if(obj.above18){
+                                        document.getElementById('particpant-card').classList.remove('underEightTeen');
+                                        document.getElementById('particpant-card').classList.add('aboveEightTeen');
+                                    } else {
+                                        document.getElementById('particpant-card').classList.remove('aboveEightTeen');
+                                        document.getElementById('particpant-card').classList.add('underEightTeen');
+                                    }
 
-                                if(obj.insertion) {
-                                    document.getElementById('result').textContent = "Welkom op de introductie " + obj.firstName + " " +obj.insertion + " " + obj.lastName + "!!!"
-                                } else  {
-                                    document.getElementById('result').textContent = "Welkom op de introductie " + obj.firstName + " " + obj.lastName + "!!!"
+                                    if(obj.insertion) {
+                                        document.getElementById('result').textContent = "Welkom op de introductie " + obj.firstName + " " +obj.insertion + " " + obj.lastName + "!!!"
+                                    } else  {
+                                        document.getElementById('result').textContent = "Welkom op de introductie " + obj.firstName + " " + obj.lastName + "!!!"
+                                    }
+                                },
+                                beforeSend: function (request) {
+                                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                                 }
-                            },
-                            beforeSend: function (request) {
-                                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                            }
-                        });
-                        document.getElementById("redcheck").style.display = "none";
-                        document.getElementById("greencheck").style.display = "block";
-                    },
-                    beforeSend: function (request) {
-                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                    }
-                });
+                            });
+                            document.getElementById("redcheck").style.display = "none";
+                            document.getElementById("greencheck").style.display = "block";
+                        },
+                        beforeSend: function (request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: '/participants/' + result.text + "/checkOut",
+                        type: 'POST',
+                        success: function(response) {
+                            $.ajax({
+                                url: '/participants/' + result.text + "/get",
+                                type: 'GET',
+                                success: function(response) {
+                                    obj = JSON.parse(response)
+                                    if(obj.insertion) {
+                                        document.getElementById('result').textContent = "Fijn dat je er was " + obj.firstName + " " +obj.insertion + " " + obj.lastName + "!!!"
+                                    } else  {
+                                        document.getElementById('result').textContent = "Fijn dat je er was " + obj.firstName + " " + obj.lastName + "!!!"
+                                    }
+                                },
+                                beforeSend: function (request) {
+                                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                                }
+                            });
+                            document.getElementById("redcheck").style.display = "none";
+                            document.getElementById("greencheck").style.display = "block";
+                        },
+                        beforeSend: function (request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        }
+                    });
+                }
+
+
+
             }
 
             if (err) {

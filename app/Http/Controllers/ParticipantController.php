@@ -13,8 +13,7 @@ use App\Exports\ParticipantsExport;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 
-class ParticipantController extends Controller
-{
+class ParticipantController extends Controller {
     public function getParticipantsWithInformation(Request $request) {
         $participants = Participant::all();
 
@@ -23,12 +22,9 @@ class ParticipantController extends Controller
             if(!isset($selectedParticipant)) {
                 return redirect("/participants");
             }
-
             $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
-
             return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }
-
         return view('admin/participants', ['participants' => $participants]);
     }
 
@@ -50,7 +46,15 @@ class ParticipantController extends Controller
     }
 
     public function getParticipant($token) {
-        return Participant::find($token);
+        $participant = Participant::find($token);
+        $age = Carbon::parse($participant->birthday)->diff(Carbon::now())->format('%y');
+        if($age >= 18) {
+            $participant->above18 = true;
+        } else {
+            $participant->above18 = false;
+        }
+        $participant->age = $age;
+        return $participant->toJson();
     }
 
     public function checkIn(Request $request) {
@@ -157,7 +161,6 @@ class ParticipantController extends Controller
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
-
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');
@@ -201,6 +204,10 @@ class ParticipantController extends Controller
 
     public function confirmSignUp(Request $request) {
         $token = $request->token;
+    }
+
+    public function scanQR(Request $request) {
+        return view('admin/qr');
     }
     //Load purple page
     public function showPurplePage() {

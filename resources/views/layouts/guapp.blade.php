@@ -24,6 +24,7 @@
     <link rel="icon" href="{{ asset('images/favicons/favicon.ico') }}">
     <link rel="icon" sizes="32x32" href="{{ asset('images/favicons/favicon-32x32.png') }}">
     <link rel="icon" sizes="16x16" href="{{ asset('images/favicons/favicon-16x16.png') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body id="body" style="padding-left: 0px; padding-right: 0px;">
     <div id="app">

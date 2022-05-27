@@ -23,7 +23,6 @@ class RegistrationController extends Controller
                ->get(['participants.*', 'verify_email.verified', 'verify_email.updated_at']);
 
         $dateToday = Carbon::now()->toDate();
-        $paid = false;
         foreach($participants as $participant) {
             if($participant->payments != null) {
                 $participant->latestPayment = $participant->payments()->latest()->first();

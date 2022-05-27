@@ -6,4 +6,5 @@ window.Popper = require('popper.js');
 require('./navbar');
 require('slick-carousel');
 require('./slider');
+require('@fortawesome/fontawesome-free');
 window.ZXing = require('@zxing/library');

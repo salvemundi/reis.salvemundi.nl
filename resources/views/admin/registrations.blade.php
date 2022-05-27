@@ -49,7 +49,7 @@ setActive("registrations");
                                     @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::failed)
                                         <span class="badge rounded-pill bg-danger">Gefaald</span>
                                     @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::open)
-                                        <span class="badge rounded-pill bg-secondary">Open</span>
+                                        <span class="badge rounded-pill bg-secondary">Open</sp
                                     @endif
                                 @else
                                     <span class="badge rounded-pill bg-secondary">Geen transacties</span>

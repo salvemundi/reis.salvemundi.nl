@@ -95,6 +95,7 @@ class ParticipantController extends Controller {
                 'email' => 'required|email:rfc,dns|max:65',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'studentNumber' => ['nullable', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
@@ -109,6 +110,7 @@ class ParticipantController extends Controller {
                 'lastName' =>  ['nullable', 'regex:/^[a-zA-Z ]+$/]'],
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
+                'studentNumber' => ['required', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
@@ -180,6 +182,7 @@ class ParticipantController extends Controller {
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
             'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
+            'studentNumber' => ['nullable', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
         ]);
 
         if (Participant::where('email', $request->input('email'))->count() > 0) {
@@ -189,6 +192,7 @@ class ParticipantController extends Controller {
         $participant = new Participant;
         $participant->firstName = $request->input('firstName');
         $participant->insertion = $request->input('insertion');
+        $participant->studentNumber = $request->input('studentNumber');
         $participant->lastName = $request->input('lastName');
         $participant->email = $request->input('email');
         $participant->save();
@@ -217,7 +221,7 @@ class ParticipantController extends Controller {
     //Create participant(purple only)
     public function purpleSignup(Request $request) {
         $request->validate([
-            'studentNumber' => ['required', 'max:7','min:7']
+            'studentNumber' => ['required', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
         ]);
         if (Participant::where('studentNumber', $request->input('studentNumber'))->count() > 0) {
             return back()->with('warning', 'Jij hebt je waarschijnlijk al ingeschreven voor purple!');

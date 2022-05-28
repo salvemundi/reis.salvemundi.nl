@@ -44,7 +44,6 @@
 
                         <label for="firstName" class="form-label">Voornaam</label>
                         <input type="text" class="form-control{{ $errors->has('firstName') ? ' is-invalid' : '' }}" value="{{ old('firstName') }}" name="firstName" id="firstName" placeholder="Voornaam">
-
                         <label for="insertion" class="form-label">Tussenvoegsel</label>
                         <input type="text" class="form-control{{ $errors->has('insertion') ? ' is-invalid' : '' }}" value="{{ old('insertion') }}" name="insertion" id="insertion" placeholder="Tussenvoegsel">
 
@@ -53,6 +52,10 @@
 
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" name="email" id="email" placeholder="name@example.com">
+
+                        <label for="studentNumber" class="form-label">Studentennummer</label>
+                        <input type="text" min="0" maxlength="7" class="form-control{{ $errors->has('studentNumber') ? ' is-invalid' : '' }}" value="{{ old('studentNumber') }}" name="studentNumber" id="studentNumber" placeholder="Studentennummer">
+
                         <button class="btn btn-primary my-3 w-100" type="submit">Inschrijven</button>
                     </form>
                 </div>

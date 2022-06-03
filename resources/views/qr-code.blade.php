@@ -62,41 +62,43 @@
 
 
 <div>
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="maandag-tab" data-bs-toggle="tab" data-bs-target="#maandag" type="button" role="tab" aria-controls="maandag" aria-selected="true">Maandag</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="dinsdag-tab" data-bs-toggle="tab" data-bs-target="#dinsdag" type="button" role="tab" aria-controls="dinsdag" aria-selected="false">Dinsdag</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="woensdag-tab" data-bs-toggle="tab" data-bs-target="#woensdag" type="button" role="tab" aria-controls="woensdag" aria-selected="false">Woensdag</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="donderdag-tab" data-bs-toggle="tab" data-bs-target="#donderdag" type="button" role="tab" aria-controls="donderdag" aria-selected="false">Donderdag</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="vrijdag-tab" data-bs-toggle="tab" data-bs-target="#vrijdag" type="button" role="tab" aria-controls="vrijdag" aria-selected="false">Vrijdag</button>
-        </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="maandag" role="tabpanel" aria-labelledby="home-tab">
+    <div class="center">
+        <ul class="nav nav-tabs"  style="flex-direction: row; float: left;" id="myTab" role="tab">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="maandag-tab" data-bs-toggle="tab" data-bs-target="#maandag" type="button" role="tab" aria-controls="maandag" aria-selected="true">Maandag</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="dinsdag-tab" data-bs-toggle="tab" data-bs-target="#dinsdag" type="button" role="tab" aria-controls="dinsdag" aria-selected="false">Dinsdag</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="woensdag-tab" data-bs-toggle="tab" data-bs-target="#woensdag" type="button" role="tab" aria-controls="woensdag" aria-selected="false">Woensdag</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="donderdag-tab" data-bs-toggle="tab" data-bs-target="#donderdag" type="button" role="tab" aria-controls="donderdag" aria-selected="false">Donderdag</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="vrijdag-tab" data-bs-toggle="tab" data-bs-target="#vrijdag" type="button" role="tab" aria-controls="vrijdag" aria-selected="false">Vrijdag</button>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content center" id="myTabContent">
+        <div class="tab-pane fade show active text-black" id="maandag" role="tabpanel" aria-labelledby="home-tab">
             maandag Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis eum enim dolores eveniet, sint officiis accusamus iste ipsam accusantium magnam delectus. Repudiandae neque aperiam, ea obcaecati minus incidunt sunt tempora.
         </div>
-        <div class="tab-pane fade" id="dinsdag" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade text-black" id="dinsdag" role="tabpanel" aria-labelledby="profile-tab">
             dinsdag Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis eum enim dolores eveniet, sint officiis accusamus iste ipsam accusantium magnam delectus. Repudiandae neque aperiam, ea obcaecati minus incidunt sunt tempora.
         </div>
-        <div class="tab-pane fade" id="woensdag" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="tab-pane fade text-black" id="woensdag" role="tabpanel" aria-labelledby="contact-tab">
             woensdag Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis eum enim dolores eveniet, sint officiis accusamus iste ipsam accusantium magnam delectus. Repudiandae neque aperiam, ea obcaecati minus incidunt sunt tempora.
         </div>
-        <div class="tab-pane fade" id="donderdag" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="tab-pane fade text-black" id="donderdag" role="tabpanel" aria-labelledby="contact-tab">
             donderdag Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis eum enim dolores eveniet, sint officiis accusamus iste ipsam accusantium magnam delectus. Repudiandae neque aperiam, ea obcaecati minus incidunt sunt tempora.
         </div>
-        <div class="tab-pane fade" id="vrijdag" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="tab-pane fade text-black" id="vrijdag" role="tabpanel" aria-labelledby="contact-tab">
             vrijdag Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis eum enim dolores eveniet, sint officiis accusamus iste ipsam accusantium magnam delectus. Repudiandae neque aperiam, ea obcaecati minus incidunt sunt tempora.
         </div>
     </div>
-    
+
 </div>
 
 <div>

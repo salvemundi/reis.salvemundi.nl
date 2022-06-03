@@ -51,6 +51,9 @@ Route::post('webhooks/mollie',[WebhookController::class, 'handle'])->name('webho
 Route::get('/blogs',[BlogController::class, 'showPosts']);
 Route::get('/blogs/{postId}',[BlogController::class, 'showPost']);
 
+// Scedule qr pagina
+Route::get('/qr-code', [\App\Http\Controllers\SceduleController::class, 'index']);
+
 // AzureAuth group
 Route::middleware(['AzureAuth'])->group(function () {
     // Dashboard

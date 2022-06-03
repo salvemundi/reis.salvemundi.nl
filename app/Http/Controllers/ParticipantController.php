@@ -13,8 +13,7 @@ use App\Exports\ParticipantsExport;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 
-class ParticipantController extends Controller
-{
+class ParticipantController extends Controller {
     public function getParticipantsWithInformation(Request $request) {
         $participants = Participant::all();
 
@@ -23,12 +22,9 @@ class ParticipantController extends Controller
             if(!isset($selectedParticipant)) {
                 return redirect("/participants");
             }
-
             $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
-
             return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         }
-
         return view('admin/participants', ['participants' => $participants]);
     }
 
@@ -50,7 +46,15 @@ class ParticipantController extends Controller
     }
 
     public function getParticipant($token) {
-        return Participant::find($token);
+        $participant = Participant::find($token);
+        $age = Carbon::parse($participant->birthday)->diff(Carbon::now())->format('%y');
+        if($age >= 18) {
+            $participant->above18 = true;
+        } else {
+            $participant->above18 = false;
+        }
+        $participant->age = $age;
+        return $participant->toJson();
     }
 
     public function checkIn(Request $request) {
@@ -91,6 +95,7 @@ class ParticipantController extends Controller
                 'email' => 'required|email:rfc,dns|max:65',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'studentNumber' => ['nullable', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
@@ -105,6 +110,7 @@ class ParticipantController extends Controller
                 'lastName' =>  ['nullable', 'regex:/^[a-zA-Z ]+$/]'],
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
+                'studentNumber' => ['required', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
@@ -157,7 +163,6 @@ class ParticipantController extends Controller
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
-
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');
@@ -177,6 +182,7 @@ class ParticipantController extends Controller
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
             'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
+            'studentNumber' => ['nullable', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
         ]);
 
         if (Participant::where('email', $request->input('email'))->count() > 0) {
@@ -186,6 +192,7 @@ class ParticipantController extends Controller
         $participant = new Participant;
         $participant->firstName = $request->input('firstName');
         $participant->insertion = $request->input('insertion');
+        $participant->studentNumber = $request->input('studentNumber');
         $participant->lastName = $request->input('lastName');
         $participant->email = $request->input('email');
         $participant->save();
@@ -201,5 +208,27 @@ class ParticipantController extends Controller
 
     public function confirmSignUp(Request $request) {
         $token = $request->token;
+    }
+
+    public function scanQR(Request $request) {
+        return view('admin/qr');
+    }
+    //Load purple page
+    public function showPurplePage() {
+
+        return view('purpleSignup');
+    }
+    //Create participant(purple only)
+    public function purpleSignup(Request $request) {
+        $request->validate([
+            'studentNumber' => ['required', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
+        ]);
+        if (Participant::where('studentNumber', $request->input('studentNumber'))->count() > 0) {
+            return back()->with('warning', 'Jij hebt je waarschijnlijk al ingeschreven voor purple!');
+        }
+        $participant = new Participant();
+        $participant->studentNumber= $request->input('studentNumber');
+        $participant->save();
+        return back()->with('message', 'Je hebt je succesvol opgegeven voor Purple!');
     }
 }

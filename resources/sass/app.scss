@@ -16,6 +16,10 @@
 @import 'verify';
 @import 'blogs';
 // Bootstrap
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-icons/font/bootstrap-icons';
 
@@ -46,6 +50,13 @@ body {
     border-color: $salveMundi-light;
     box-shadow: none !important;
 }
+
+.btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
+    color: white !important;
+    background-color: $salveMundi-link !important;
+    border-color: $salveMundi-link !important;
+}
+
 .btn-danger:hover, .btn-danger:focus {
     color: white !important;
     box-shadow: none !important;
@@ -53,4 +64,9 @@ body {
 
 .responses {
     width: 325px !important;
+}
+
+.form-control:focus {
+    border-color: $salveMundi-light;
+    box-shadow: 0 0 0 0.2rem rgba(57, 32, 59, 0.25);
 }

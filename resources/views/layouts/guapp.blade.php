@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
     <!-- JavaScript Bundle with Popper -->
     <script src="{{ mix('js/app.js') }}"></script>
-    <script src="https://kit.fontawesome.com/a6479d1508.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Add the slick-theme.css if you want default styling -->
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
@@ -24,6 +23,7 @@
     <link rel="icon" href="{{ asset('images/favicons/favicon.ico') }}">
     <link rel="icon" sizes="32x32" href="{{ asset('images/favicons/favicon-32x32.png') }}">
     <link rel="icon" sizes="16x16" href="{{ asset('images/favicons/favicon-16x16.png') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body id="body" style="padding-left: 0px; padding-right: 0px;">
     <div id="app">

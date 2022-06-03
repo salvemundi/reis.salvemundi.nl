@@ -5,5 +5,10 @@ require('jquery-ui');
 window.Popper = require('popper.js');
 require('./navbar');
 require('slick-carousel');
-require('./slider')
+require('./slider');
+require('@fortawesome/fontawesome-free');
+window.ZXing = require('@zxing/library');
 
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})

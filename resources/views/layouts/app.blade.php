@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
     <script src="{{ mix('js/app.js') }}"></script>
-    <script src="https://kit.fontawesome.com/a6479d1508.js" crossorigin="anonymous"></script>
     <title>{{ config('app.name', 'Laravel') }}</title>
     {{-- Favicons --}}
     <link rel="shortcut icon" href="{{ asset('images/favicons/favicon.ico') }}">
@@ -17,6 +16,7 @@
     <link rel="icon" href="{{ asset('images/favicons/favicon.ico') }}">
     <link rel="icon" sizes="32x32" href="{{ asset('images/favicons/favicon-32x32.png') }}">
     <link rel="icon" sizes="16x16" href="{{ asset('images/favicons/favicon-16x16.png') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body id="body-pd">
     <div id="app">

@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 // Login Azure
 Route::get('/login', [AuthController::class, 'signIn']);
 Route::get('/callback', [AuthController::class, 'callback']);
@@ -52,7 +54,7 @@ Route::get('/blogs',[BlogController::class, 'showPosts']);
 Route::get('/blogs/{postId}',[BlogController::class, 'showPost']);
 
 // Scedule qr pagina
-Route::get('/qr-code', [\App\Http\Controllers\SceduleController::class, 'index']);
+Route::get('/qr-code', [\App\Http\Controllers\ScheduleController::class, 'index']);
 
 // AzureAuth group
 Route::middleware(['AzureAuth'])->group(function () {
@@ -80,10 +82,10 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::get('/blogsadmin',[BlogController::class, 'showPostsAdmin']);
     Route::get('/blogsadmin/save',[BlogController::class, 'showPostInputs']);
     Route::post('/blogsadmin/save',[BlogController::class, 'savePost']);
-        //  Update blogs / posts
+    //  Update blogs / posts
     Route::get('/blogsadmin/save/{blogId}',[BlogController::class, 'showPostInputs']);
     Route::post('/blogsadmin/save/{blogId}',[BlogController::class, 'savePost']);
-        // Delete blogs
+    // Delete blogs
     Route::get('/blogsadmin/delete/{blogId}',[BlogController::class, 'deletePost']);
 
     // Bus
@@ -101,4 +103,14 @@ Route::middleware(['AzureAuth'])->group(function () {
 
     // QRCode
     Route::get('/qrcode', [ParticipantController::class, 'scanQR']);
+
+    // Events
+    Route::get('/events', [ScheduleController::class, 'getAllEvents']);
+    Route::get('/events/save',[ScheduleController::class, 'showEventInputs']);
+    Route::post('/events/save',[ScheduleController::class, 'saveEvent']);
+    //  Update events
+    Route::get('/events/save/{eventId}',[ScheduleController::class, 'showEventInputs']);
+    Route::post('/events/save/{eventId}',[ScheduleController::class, 'store']);
+    // Delete events
+    Route::get('/events/delete/{eventId}',[ScheduleController::class, 'deleteEvent']);
 });

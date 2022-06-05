@@ -31,3 +31,36 @@ html {
     color: black !important;
     text-decoration: underline !important;
 }
+
+.muted{
+    opacity: 0.4;
+}
+
+.nav-link{
+    color: white !important;
+}
+.active {
+    color: black !important;
+}
+.nav-tabs{
+    background-color: $salveMundi-primary;
+    border-radius: 5px;
+}
+
+.mytable{
+    padding: 0px !important;
+}
+
+.currentEvent{
+    background-color: $salveMundi-primary;
+    color: white !important;
+}
+
+.table-events{
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.heelVeelMargin{
+    margin-top: 1000px;
+}

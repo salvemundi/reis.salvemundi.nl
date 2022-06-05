@@ -63,7 +63,7 @@ class ScheduleController extends Controller
         $event->endTime =  $request->input('endTime');
 
         $event->save();
-        return redirect('/events')->with('success', 'Blog is opgeslagen!');
+        return redirect('/events')->with('success', 'Event is opgeslagen!');
     }
 
 
@@ -80,9 +80,9 @@ class ScheduleController extends Controller
             $event = Schedule::find($request->eventId);
             if($event != null) {
                 $event->delete();
-                return redirect('/events')->with('success', 'Blog is verwijderd!');
+                return redirect('/events')->with('success', 'Event is verwijderd!');
             }
-            return redirect('/events')->with('error', 'Blog kon niet gevonden worden!');
+            return redirect('/events')->with('error', 'Event kon niet gevonden worden!');
 
         }
         return redirect('/events')->with('error', 'Er ging iets niet helemaal goed, probeer het later nog een keer.');

@@ -1,0 +1,66 @@
+.next-event{
+    background-color: $salveMundi-link;
+}
+
+.more{
+    display: none;
+}
+
+a:link, a{
+    text-decoration: none;
+}
+
+.more-btn{
+    border: 1px solid $salveMundi-primary;
+    border-radius: 15px;
+    font-size: 30px;
+    background-color: $salveMundi-link;
+    color: $salveMundi-primary;
+    color: black !important;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.max-width{
+    max-width: 550px;
+}
+
+.link-qr{
+    color: black !important;
+    text-decoration: underline !important;
+}
+
+.muted{
+    opacity: 0.4;
+}
+
+.nav-link{
+    color: white !important;
+}
+.active {
+    color: black !important;
+}
+.nav-tabs{
+    background-color: $salveMundi-primary;
+    border-radius: 5px;
+}
+
+.mytable{
+    padding: 0px !important;
+}
+
+.currentEvent{
+    background-color: $salveMundi-primary;
+    color: white !important;
+}
+
+.table-events{
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.veryMuchMargin{
+    margin-top: 1000px;
+}

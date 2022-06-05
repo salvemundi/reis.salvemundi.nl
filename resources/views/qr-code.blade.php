@@ -103,7 +103,7 @@
             <table class="table table-events table-striped">
                 <tbody>
                     @foreach ($events as $event)
-                        @if (date("l", strtotime($event->beginTime)) == "Sunday")
+                        @if (date("l", strtotime($event->beginTime)) == "Monday")
                             @if ($event == $currentEvent)
                                 <tr class="currentEvent">
                                     <th class="mytable m-3" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>

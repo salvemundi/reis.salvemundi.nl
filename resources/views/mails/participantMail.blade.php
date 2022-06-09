@@ -2,7 +2,7 @@
 
 Beste {{ $participant->firstName }},
 
-{{ $konttent }}
+{!! nl2br($konttent) !!}
 
 Met vriendelijke groet,
 

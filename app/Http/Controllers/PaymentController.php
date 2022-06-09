@@ -77,7 +77,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function getAllPayedUsers() {
+    public function getAllPaidUsers() {
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
         foreach($verifiedParticipants as $participant) {
@@ -91,7 +91,7 @@ class PaymentController extends Controller
         }
         return $userArr;
     }
-    public function getAllNonPayedUsers() {
+    public function getAllNonPaidUsers() {
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
         foreach($verifiedParticipants as $participant) {

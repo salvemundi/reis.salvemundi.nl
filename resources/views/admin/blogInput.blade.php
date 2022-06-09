@@ -40,32 +40,36 @@
             De introcommissie van Salve Mundi <br> <br>
 
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="addBlog">
-                <label class="form-check-label " for="addBlog">Blog toevoegen</label>
+                <input class="form-check-input" type="checkbox" name="addBlog" role="switch" id="addBlog">
+                <label class="form-check-label" for="addBlog">Blog toevoegen</label>
             </div>
 
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="sendEmail">
-                <label class="form-check-label " for="sendEmail">Emails verzenden</label>
+                <input class="form-check-input" type="checkbox" name="sendEmail" role="switch" id="sendEmail">
+                <label class="form-check-label" for="sendEmail">Emails verzenden</label>
             </div> <br>
 
-            <label for="content">Naar wie gaat deze mail, mensen die:</label>
+            <label for="content">Indien er mails worden verzonden, dan worden deze verzonden naar:</label>
 
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="notVerified">
-                <label class="form-check-label " for="notVerified">Email niet geverifierd</label>
+                <input class="form-check-input" type="checkbox" name="NotVerified" role="switch" id="NotVerified">
+                <label class="form-check-label" for="NotVerified">Deelnemers die hun email <b>niet</b> geverifieerd hebben</label>
             </div>
 
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="NotApplied">
-                <label class="form-check-label " for="NotApplied">Nog niet betaald</label>
+                <input class="form-check-input" type="checkbox" name="Verified" role="switch" id="Verified">
+                <label class="form-check-label" for="Verified">Deelnemers die hun email geverifieerd hebben</label>
             </div>
 
             <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="Applied">
-                <label class="form-check-label " for="Applied">Wel betaald</label>
+                <input class="form-check-input" type="checkbox" name="UnPaid" role="switch" id="UnPaid">
+                <label class="form-check-label" for="UnPaid">Deelenemers die <b>niet</b> betaald hebben</label>
             </div>
 
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" name="Paid" role="switch" id="Paid">
+                <label class="form-check-label" for="Paid">Deelenemers die betaald hebben</label>
+            </div>
 
             <div class="form-group mb-5">
                 <br>

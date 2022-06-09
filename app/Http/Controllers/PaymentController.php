@@ -13,6 +13,13 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+
+    private $verificationController;
+
+    public function __construct() {
+        $this->verificationController = new VerificationController();
+    }
+
     public function payForIntro($token) {
         $confirmationToken = ConfirmationToken::findOrFail($token);
         try{
@@ -68,5 +75,32 @@ class PaymentController extends Controller
             Log::error($e);
             return view('paymentFailed');
         }
+    }
+
+    public function getAllPayedUsers() {
+        $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
+        $userArr = [];
+        foreach($verifiedParticipants as $participant) {
+            $participant->latestPayment = $participant->payments()->latest()->first();
+
+            if ($participant->latestPayment != null) {
+                if($participant->latestPayment->paymentStatus == PaymentStatus::paid) {
+                    array_push($userArr, $participant);
+                }
+            }
+        }
+        return $userArr;
+    }
+    public function getAllNonPayedUsers() {
+        $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
+        $userArr = [];
+        foreach($verifiedParticipants as $participant) {
+            $participant->latestPayment = $participant->payments()->latest()->first();
+
+            if ($participant->latestPayment == null || $participant->latestPayment->paymentStatus != PaymentStatus::paid) {
+                array_push($userArr, $participant);
+            }
+        }
+        return $userArr;
     }
 }

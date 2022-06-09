@@ -12,7 +12,7 @@
                 <a class="nav-link" href="https://salvemundi.nl/commissies">Commissies</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="">Inschrijven</a>
+                <a class="nav-link" href="/">Inschrijven</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/purpleInschrijven">Purple</a>

@@ -222,12 +222,15 @@ class ParticipantController extends Controller {
     public function purpleSignup(Request $request) {
         $request->validate([
             'studentNumber' => ['required', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
+            'email' => 'required|email:rfc,dns|max:65',
+
         ]);
         if (Participant::where('studentNumber', $request->input('studentNumber'))->count() > 0) {
             return back()->with('warning', 'Jij hebt je waarschijnlijk al ingeschreven voor purple!');
         }
         $participant = new Participant();
         $participant->studentNumber= $request->input('studentNumber');
+        $participant->email = $request->input('email');
         $participant->save();
         return back()->with('message', 'Je hebt je succesvol opgegeven voor Purple!');
     }

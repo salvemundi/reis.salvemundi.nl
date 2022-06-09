@@ -2,9 +2,7 @@
 
 Beste {{ $participant->firstName }},
 
-Bedankt voor het verifiëren van je email!
-
-Binnenkort zul je meer van ons horen.
+{{ $konttent }}
 
 Met vriendelijke groet,
 

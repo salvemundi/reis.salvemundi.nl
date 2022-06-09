@@ -17,7 +17,7 @@
         </div>
         @endif
         <div class="table-responsive">
-            <h1 class="display-5">Blogs</h1>
+            <h1 class="display-5">Blogs / Emails</h1>
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"
             data-show-columns="true">
                 <thead>

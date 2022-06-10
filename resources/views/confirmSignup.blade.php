@@ -50,7 +50,7 @@
         </div>
 
         <div class="form-group">
-            <label for="voornaam">Studenten nummer*</label>
+            <label for="studentNumber">Studenten nummer (7 cijferig getal)*</label>
             <input class="form-control{{ $errors->has('studentNumber') ? ' is-invalid' : '' }}" value="{{ old('studentNumber') }}" id="studentNumber" name="studentNumber" placeholder="Studenten nummer...">
         </div>
 

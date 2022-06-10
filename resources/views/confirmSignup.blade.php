@@ -6,6 +6,11 @@
             {{ session()->get('message') }}
         </div>
     @endif
+    @if(session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session()->get('error') }}
+        </div>
+    @endif
 
     <form action="/inschrijven/betalen/{{ $confirmationToken->id }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -93,33 +98,27 @@
 <script>
     function getAge() {
         var dateString = document.getElementById("birthday").value;
-        if(dateString !="")
-        {
+
+        if(dateString !="") {
             var today = new Date();
             var birthDate = new Date(dateString);
             var age = today.getFullYear() - birthDate.getFullYear();
             var month = today.getMonth() - birthDate.getMonth();
             var date = today.getDate() - birthDate.getDate();
 
-            if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate()))
-            {
+            if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
-            if(month< 0)
-            {
+            if(month< 0) {
                 month += 12;
             }
-            if(date< 0)
-            {
+            if(date< 0) {
                 date += 30;
             }
-            if(age < 18 || age > 100)
-            {
+            if(age < 18 || age > 100) {
                 document.getElementById("ShowIfBelow18").style.display = "inline";
                 document.getElementById("ShowIfAbove18").style.display = "none";
-            }
-            else
-            {
+            } else {
                 document.getElementById("ShowIfBelow18").style.display = "none";
                 document.getElementById("ShowIfAbove18").style.display = "inline";
             }

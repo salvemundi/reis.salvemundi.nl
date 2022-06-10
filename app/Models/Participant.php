@@ -17,8 +17,6 @@ class Participant extends Model
 
     protected $table = 'participants';
 
-    // protected $fillable = ['insertion', 'firstNameParent', 'lastNameParent', 'addressParent', 'medicalIssues', 'specials', 'phoneNumberParent', 'studentNumber'];
-
     protected $fillable = ['firstName', 'insertion', 'lastName', 'birthday', 'email', 'studentNumber', 'phoneNumber', 'firstNameParent', 'lastNameParent', 'addressParent', 'phoneNumberParent', 'medicalIssues', 'role', 'checkedIn'];
 
     public function verificationToken() {

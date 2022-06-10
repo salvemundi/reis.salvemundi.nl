@@ -48,6 +48,12 @@
             <label for="voornaam">Telefoonnummer*</label>
             <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummer...">
         </div>
+
+        <div class="form-group">
+            <label for="voornaam">Studenten nummer*</label>
+            <input class="form-control{{ $errors->has('studentNumber') ? ' is-invalid' : '' }}" value="{{ old('studentNumber') }}" id="studentNumber" name="studentNumber" placeholder="Studenten nummer...">
+        </div>
+
         <br>
         <div id="ShowIfBelow18" style="display: none;">
             <label for="VoornaamVoogd">Voornaam ouder/verzorger*</label>

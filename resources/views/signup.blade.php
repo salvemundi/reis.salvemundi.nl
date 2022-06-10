@@ -2,6 +2,17 @@
 @section('content')
 {{-- <img src="{{ asset("images/logo.svg") }}" class="samuLogo"/> --}}
 <div class="container">
+    @if(session()->has('message'))
+        <div class="alert alert-primary">
+            {{ session()->get('message') }}
+        </div>
+    @endif
+    @if(session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session()->get('error') }}
+        </div>
+    @endif
+
     <div class="row justify-content-center">
         <div class="col-auto col-md-6 col-12 pl-5">
             <h1 class="display-5">Een <b class="purple">intro</b> die je niet kan missen en nooit zal vergeten.</h1>

@@ -50,7 +50,7 @@ class ConfirmationController extends Controller
             return $this->paymentController->payForIntro($confirmationToken->id);
         }
 
-        // return back()->with('error','input is not valid');
+        return back()->with('error','input is not valid');
     }
 
     public function sendConfirmEmailToAllUsers() {

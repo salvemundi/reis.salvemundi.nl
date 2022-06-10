@@ -39,9 +39,12 @@ html {
 .nav-link{
     color: white !important;
 }
-.active {
-    color: black !important;
-}
+
+// WTF Sanne
+//.active {
+//    color: black !important;
+//}
+
 .nav-tabs{
     background-color: $salveMundi-primary;
     border-radius: 5px;
@@ -63,4 +66,14 @@ html {
 
 .veryMuchMargin{
     margin-top: 1000px;
+}
+
+.form-check-input:checked {
+    background-color: $salveMundi-primary !important;
+    border-color: $salveMundi-light !important;
+}
+
+.form-check-input:focus {
+     box-shadow: 0 0 0 0.25rem $salveMundi-boxShadow !important;
+     border-color: $salveMundi-boxShadow !important;
 }

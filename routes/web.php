@@ -53,7 +53,7 @@ Route::post('webhooks/mollie',[WebhookController::class, 'handle'])->name('webho
 Route::get('/blogs',[BlogController::class, 'showPosts']);
 Route::get('/blogs/{postId}',[BlogController::class, 'showPost']);
 
-// Scedule qr pagina
+// Schedule qr pagina
 Route::get('/qr-code', [\App\Http\Controllers\ScheduleController::class, 'index']);
 
 // AzureAuth group

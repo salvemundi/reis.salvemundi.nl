@@ -8,6 +8,8 @@ use App\Models\Payment;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Laravel\Facades\Mollie;
 use App\Enums\PaymentStatus;
+use App\Mail\emailPaymentSucceeded;
+use Illuminate\Support\Facades\Mail;
 
 class WebhookController extends Controller
 {
@@ -28,6 +30,10 @@ class WebhookController extends Controller
                  * The payment is paid and isn't refunded or charged back.
                  * At this point you'd probably want to start the process of delivering the product to the customer.
                  */
+                $participant = $paymentStorage->participant;
+                Mail::to($participant)
+                    ->send(new emailPaymentSucceeded($participant));
+
                 return response(null, 200);
             } elseif ($payment->isOpen()) {
                 /*

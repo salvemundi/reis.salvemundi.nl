@@ -34,8 +34,8 @@
 </div>
 
 <script>
-    let occupied = 96;
-    let open = 250
+    let occupied = {{ $occupied[0]->occupied }};
+    let open = 100 - occupied
     const data = {
         labels: [
             'Bezet',

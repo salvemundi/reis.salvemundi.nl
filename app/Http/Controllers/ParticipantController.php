@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ParticipantsExport;
+use App\Exports\StudentNumbersExport;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 
@@ -170,6 +171,10 @@ class ParticipantController extends Controller {
 
     function excel() {
         return Excel::download(new ParticipantsExport, 'deelnemersInformatie.xlsx');
+    }
+
+    function StudentNumbers() {
+        return Excel::download(new StudentNumbersExport, 'studentenNummers.xlsx');
     }
 
     public function signupIndex() {

@@ -88,7 +88,8 @@ Route::middleware(['AzureAuth'])->group(function () {
     // Delete blogs
     Route::get('/blogsadmin/delete/{blogId}',[BlogController::class, 'deletePost']);
 
-    Route::post('occupied/save',[BlogController::class, 'updateOccupiedPercentage']);
+    // Occupation percentage
+    Route::post('/occupied/save',[BlogController::class, 'updateOccupiedPercentage']);
 
     // Bus
     Route::get('/bus', [BusController::class, 'index']);

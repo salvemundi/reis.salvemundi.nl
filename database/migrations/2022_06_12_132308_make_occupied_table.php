@@ -14,7 +14,7 @@ class MakeOccupiedTable extends Migration
     public function up()
     {
         Schema::create('occupied', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->integer('occupied');
             $table->timestamps();
         });

@@ -88,6 +88,8 @@ Route::middleware(['AzureAuth'])->group(function () {
     // Delete blogs
     Route::get('/blogsadmin/delete/{blogId}',[BlogController::class, 'deletePost']);
 
+    Route::post('occupied/save',[BlogController::class, 'updateOccupiedPercentage']);
+
     // Bus
     Route::get('/bus', [BusController::class, 'index']);
     Route::post('/bus/add', [BusController::class, 'addBusses']);
@@ -97,7 +99,7 @@ Route::middleware(['AzureAuth'])->group(function () {
 
     // Excel
     Route::get('/export_excel/excel', [ParticipantController::class, 'excel'])->name('export_excel.excel');
-
+    Route::get('/studenten-nummers', [ParticipantController::class, 'studentNumbers'])->name('studentNumbers.excel');
     // Api
     Route::get('/import', [APIController::class, 'GetParticipants']);
 

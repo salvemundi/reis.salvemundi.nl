@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use App\Models\Occupied;
 use Carbon\Carbon;
 use App\Mail\participantMail;
 use Illuminate\Support\Facades\Mail;
@@ -27,12 +28,28 @@ class BlogController extends Controller
 
         $diffDate = $dateForIntro->diffInDays($dateNow) + 1;
 
-        return view('blogs', ['posts' => $posts, 'date' => $diffDate]);
+        $occupied = Occupied::all();
+
+        return view('blogs', ['posts' => $posts, 'date' => $diffDate, 'occupied' => $occupied]);
     }
 
     public function showPostsAdmin() {
         $posts = Blog::all();
-        return view('admin/blogs', ['posts' => $posts]);
+        $occupied = Occupied::all();
+        return view('admin/blogs', ['posts' => $posts, 'occupied' => $occupied]);
+    }
+
+    public function updateOccupiedPercentage(Request $request){
+        $occupied = null;
+        if(Occupied::all()->first() != null) {
+            $occupied = Occupied::all()->first();
+        } else {
+            $occupied = new Occupied();
+        }
+
+        $occupied->occupied = $request->input('occupied');
+        $occupied->save();
+        return redirect('/blogsadmin')->with('success', 'percentage is geupdated!');
     }
 
     public function showPost(Request $request) {

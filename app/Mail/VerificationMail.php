@@ -16,8 +16,7 @@ class VerificationMail extends Mailable
      *
      * @return void
      */
-    public function __construct($participant, $verificationToken)
-    {
+    public function __construct($participant, $verificationToken) {
         $this->participant = $participant;
         $this->verificationToken = $verificationToken;
     }
@@ -31,6 +30,6 @@ class VerificationMail extends Mailable
     {
         return $this
                 ->subject("Aanmelding Salve Mundi FHICT introductie")
-                ->markdown('mails/signup',['participant'=> $this->participant, 'verificationToken' => $this->verificationToken]);
+                ->markdown('mails/signup', ['participant'=> $this->participant, 'verificationToken' => $this->verificationToken]);
     }
 }

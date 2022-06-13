@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Participant;
+use Milon\Barcode\Facades\DNS2DFacade as DNS2D;
 
 class emailPaymentSucceeded extends Mailable
 {
@@ -31,6 +32,10 @@ class emailPaymentSucceeded extends Mailable
     {
         return $this
             ->subject("Betaling introductie")
+            ->attachData(base64_decode(DNS2D::getBarcodePNG($this->participant->id, 'QRCODE', 10,10)),'qrcode.png', [
+                'as' => 'qrcode.png',
+                'mime' => 'application/png',
+            ])
             ->markdown('mails/emailPaymentSucceeded', ['participant' => $this->participant]);
     }
 }

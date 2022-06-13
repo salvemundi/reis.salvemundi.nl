@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Participant;
+use App\Models\VerificationToken;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,13 +13,14 @@ class VerificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    private $participant;
+    private $verificationToken;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($participant, $verificationToken)
-    {
+    public function __construct(Participant $participant, VerificationToken $verificationToken) {
         $this->participant = $participant;
         $this->verificationToken = $verificationToken;
     }
@@ -31,6 +34,6 @@ class VerificationMail extends Mailable
     {
         return $this
                 ->subject("Aanmelding Salve Mundi FHICT introductie")
-                ->markdown('mails/signup',['participant'=> $this->participant, 'verificationToken' => $this->verificationToken]);
+                ->markdown('mails/signup', ['participant'=> $this->participant, 'verificationToken' => $this->verificationToken]);
     }
 }

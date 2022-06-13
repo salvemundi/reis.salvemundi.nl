@@ -28,19 +28,18 @@ class BlogController extends Controller
 
         $diffDate = $dateForIntro->diffInDays($dateNow) + 1;
 
-        $occupied = Occupied::all();
+        $occupied = Occupied::all()->first();
 
         return view('blogs', ['posts' => $posts, 'date' => $diffDate, 'occupied' => $occupied]);
     }
 
     public function showPostsAdmin() {
         $posts = Blog::all();
-        $occupied = Occupied::all();
+        $occupied = Occupied::all()->first();
         return view('admin/blogs', ['posts' => $posts, 'occupied' => $occupied]);
     }
 
     public function updateOccupiedPercentage(Request $request){
-        $occupied = null;
         if(Occupied::all()->first() != null) {
             $occupied = Occupied::all()->first();
         } else {
@@ -57,7 +56,6 @@ class BlogController extends Controller
     }
 
     public function savePost(Request $request) {
-        $post = null;
 
         if($request->input('blogId')) {
             $post = Blog::find($request->input('blogId'));

@@ -36,7 +36,7 @@
 </div>
 
 <script>
-    let occupied = {{ $occupied[0]->occupied }};
+    let occupied = {{ $occupied->occupied }};
     let open = 100 - occupied
     const data = {
         labels: [

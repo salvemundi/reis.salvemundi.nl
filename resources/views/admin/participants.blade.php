@@ -7,6 +7,18 @@ setActive("participants");
     <div class="col-12 col-md-6 container">
         <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a>
         <a href="{{ route('studentNumbers.excel')}}" class="btn btn-primary btn-sm">Export student numbers</a>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <li><button class="dropdown-item" id="filterByCheckedInOnly" value="NO" type="button">Ingechecked</button></li>
+                <li><button class="dropdown-item" type="button">Definitief weg</button></li>
+                <li><button class="dropdown-item" type="button">Deelnemers met opmerking</button></li>
+            </ul>
+        </div>
+
         <div class="table-responsive">
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"
             data-show-columns="true">
@@ -27,9 +39,9 @@ setActive("participants");
                             <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
                             @if($participant->checkedIn == 1)
-                            <td data-value="{{ $participant->checkedIn }}">True</td>
+                                <td data-value="{{ $participant->checkedIn }}">True</td>
                             @else
-                            <td data-value="{{ $participant->checkedIn }}">False</td>
+                                <td data-value="{{ $participant->checkedIn }}">False</td>
                             @endif
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
                             <td data-value="{{ $participant->firstName }}">{{ $participant->updated_at }}</td>
@@ -113,4 +125,25 @@ setActive("participants");
         @endisset
     </div>
 </div>
+    <script>
+        var $table = $('#table')
+
+        $(function() {
+            $('#filterByCheckedInOnly').click(function () {
+                if(this.value === "YES"){
+                    this.value="NO";
+                    $table.bootstrapTable('filterBy', {
+                        checkedIn: "True"
+                    })
+                }
+                else if(this.value === "NO"){
+                    this.value="YES";
+                    $table.bootstrapTable('filterBy', {
+                        // Reset filter
+                    })
+                }
+
+            })
+        })
+    </script>
 @endsection

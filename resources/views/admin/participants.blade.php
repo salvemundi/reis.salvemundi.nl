@@ -5,18 +5,20 @@ setActive("participants");
 </script>
 <div class="row">
     <div class="col-12 col-md-6 container">
-        <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a>
-        <a href="{{ route('studentNumbers.excel')}}" class="btn btn-primary btn-sm">Export student numbers</a>
+        <div class="d-flex">
+            <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a>
+            <a href="{{ route('studentNumbers.excel')}}" class="btn btn-primary btn-sm" style="margin-left: 4px;">Export student numbers</a>
 
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                Filter
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <li><button class="dropdown-item" id="filterByCheckedInOnly" value="NO" type="button">Ingechecked</button></li>
-                <li><button class="dropdown-item" type="button">Definitief weg</button></li>
-                <li><button class="dropdown-item" type="button">Deelnemers met opmerking</button></li>
-            </ul>
+            <div class="dropdown" style="margin-left: 4px;">
+                <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filter
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><button class="dropdown-item" id="filterByCheckedInOnly" value="NO" type="button">Ingechecked</button></li>
+                    <li><button class="dropdown-item" type="button">Definitief weg</button></li>
+                    <li><button class="dropdown-item" type="button">Deelnemers met opmerking</button></li>
+                </ul>
+            </div>
         </div>
 
         <div class="table-responsive">
@@ -132,14 +134,15 @@ setActive("participants");
             $('#filterByCheckedInOnly').click(function () {
                 if(this.value === "YES"){
                     this.value="NO";
+
                     $table.bootstrapTable('filterBy', {
-                        checkedIn: "True"
+                        // Reset filter
                     })
                 }
                 else if(this.value === "NO"){
                     this.value="YES";
                     $table.bootstrapTable('filterBy', {
-                        // Reset filter
+                        checkedIn: "True"
                     })
                 }
 

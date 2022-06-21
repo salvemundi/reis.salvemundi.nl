@@ -62,46 +62,58 @@ setActive("participants");
         @isset($selectedParticipant)
             <div class="card">
             @if ($age <= 18)
-                <div class="card-body underEightTeen">
+                <div class="card-body underEightTeen d-flex">
             @else
-                <div class="card-body aboveEightTeen">
+                <div class="card-body aboveEightTeen d-flex">
             @endif
-                    <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
-                    <span>
-                        @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
-                            <b> Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
-                        @else
-                            <b class="aboveEightTeen">Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
-                        @endif
-                        <b>Email:</b> {{ $selectedParticipant->email}}<br>
-                        <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
-                        @if($selectedParticipant->role == \App\Enums\Roles::child)
-                            <b>Leerjaar:</b> {{ App\Enums\StudentYear::fromvalue($selectedParticipant->studentYear)->key}}<br>
-                            <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
-                            <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
-                            <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
-                        @endif
-                        <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
-                        <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
-
-                        <div style="display: flex; flex-direction: row;">
-                            @if (!$selectedParticipant->checkedIn)
-                            <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
-                                @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
-                                <br>
-                                    <button type="submit" class="btn btn-primary buttonPart">Checkin</button>
-                                </form>
+                    <div class="flex-column w-50">
+                        <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
+                        <span>
+                            @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
+                                <b> Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
                             @else
-                                <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger buttonPart">Checkout</button>
-                                </form>
+                                <b class="aboveEightTeen">Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
                             @endif
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Verwijder
-                              </button>
-                        </div>
-                    </span>
+                            <b>Email:</b> {{ $selectedParticipant->email}}<br>
+                            <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
+                            @if($selectedParticipant->role == \App\Enums\Roles::child)
+                                <b>Leerjaar:</b> {{ App\Enums\StudentYear::fromvalue($selectedParticipant->studentYear)->key}}<br>
+                                <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
+                                <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
+                                <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
+                            @endif
+                            <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
+                            <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
+
+                            <div style="display: flex; flex-direction: row;">
+                                @if (!$selectedParticipant->checkedIn)
+                                <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
+                                    @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
+                                    <br>
+                                        <button type="submit" class="btn btn-primary buttonPart">Checkin</button>
+                                    </form>
+                                @else
+                                    <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger buttonPart">Checkout</button>
+                                    </form>
+                                @endif
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Verwijder
+                                  </button>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="flex-column w-50">
+                        <form method="POST" action="/participants/{{ $selectedParticipant->id }}/storeNote">
+                            @csrf
+                            <div class="form-floating">
+                                <textarea class="form-control" name="participantNote" placeholder="Leave a comment here" id="participantNote" style="height: 100px">{{ $selectedParticipant->note }}</textarea>
+                                <label for="participantNote">Opmerkingen over deelnemer</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Opslaan</button>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

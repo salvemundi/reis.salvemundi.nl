@@ -181,6 +181,13 @@ class ParticipantController extends Controller {
         return view('signup');
     }
 
+    public function storeNote(Request $request){
+        $participant = Participant::find($request->userId);
+        $participant->note = $request->input('participantNote');
+        $participant->save();
+        return back();
+    }
+
     public function signup(Request $request) {
         $request->validate([
             'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],

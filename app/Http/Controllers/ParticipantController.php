@@ -59,8 +59,10 @@ class ParticipantController extends Controller {
     }
 
     public function checkIn(Request $request) {
-
         $participant = Participant::find($request->userId);
+        if($participant->removedFromintro){
+            return back();
+        }
         $participant->checkedIn = true;
         $participant->save();
 
@@ -181,9 +183,20 @@ class ParticipantController extends Controller {
         return view('signup');
     }
 
-    public function storeNote(Request $request){
+    public function storeNote(Request $request): \Illuminate\Http\RedirectResponse
+    {
         $participant = Participant::find($request->userId);
         $participant->note = $request->input('participantNote');
+        $participant->save();
+        return back();
+    }
+
+    public function storeRemove(Request $request) {
+        $participant = Participant::find($request->userId);
+        $participant->removedFromIntro = !$participant->removedFromIntro;
+        if($participant->removedFromIntro) {
+            $participant->checkedIn = false;
+        }
         $participant->save();
         return back();
     }

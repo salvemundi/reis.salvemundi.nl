@@ -83,15 +83,22 @@
                 console.log('Found QR code!', result)
                 if(check.checked) {
                     $.ajax({
-                        url: '/participants/' + result.text + "/checkIn",
-                        type: 'POST',
+                        url: '/participants/' + result.text + "/get",
+                        type: 'GET',
                         success: function(response) {
+                            obj = JSON.parse(response);
+                            setInformation(obj);
+                            if(obj.removedFromIntro){
+                                document.getElementById("redcheck").style.display = "block";
+                                document.getElementById("greencheck").style.display = "none";
+                                document.getElementById('result').textContent = obj.firstName + " is niet meer toegestaan op de intro!"
+                                return;
+                            }
                             $.ajax({
-                                url: '/participants/' + result.text + "/get",
-                                type: 'GET',
+                                url: '/participants/' + result.text + "/checkIn",
+                                type: 'POST',
                                 success: function(response) {
-                                    obj = JSON.parse(response);
-                                    setInformation(obj);
+
                                     if(obj.above18){
                                         document.getElementById('particpant-card').classList.remove('underEightTeen');
                                         document.getElementById('particpant-card').classList.add('aboveEightTeen');
@@ -99,7 +106,8 @@
                                         document.getElementById('particpant-card').classList.remove('aboveEightTeen');
                                         document.getElementById('particpant-card').classList.add('underEightTeen');
                                     }
-
+                                    document.getElementById("redcheck").style.display = "none";
+                                    document.getElementById("greencheck").style.display = "block";
                                     if(obj.insertion) {
                                         document.getElementById('result').textContent = "Welkom op de introductie " + obj.firstName + " " +obj.insertion + " " + obj.lastName + "!!!"
                                     } else  {
@@ -110,8 +118,6 @@
                                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                                 }
                             });
-                            document.getElementById("redcheck").style.display = "none";
-                            document.getElementById("greencheck").style.display = "block";
                         },
                         beforeSend: function (request) {
                             return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));

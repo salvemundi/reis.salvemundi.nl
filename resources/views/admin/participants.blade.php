@@ -15,8 +15,8 @@ setActive("participants");
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     <li><button class="dropdown-item" id="filterByCheckedInOnly" value="NO" type="button">Ingechecked</button></li>
-                    <li><button class="dropdown-item" type="button">Definitief weg</button></li>
-                    <li><button class="dropdown-item" type="button">Deelnemers met opmerking</button></li>
+                    <li><button class="dropdown-item" id="filterByRemovedFromTerrain" value="NO" type="button">Definitief weg</button></li>
+                    <li><button class="dropdown-item" id="filterByNote" value="NO" type="button">Deelnemers met opmerking</button></li>
                 </ul>
             </div>
         </div>
@@ -32,6 +32,8 @@ setActive("participants");
                         <th data-field="checkedIn" data-sortable="true">checked in</th>
                         <th data-field="data" data-sortable="true">Gegevens</th>
                         <th data-field="createdat" data-sortable="true">Laatste aanpassing</th>
+                        <th data-field="note" data-sortable="false">Notitie</th>
+                        <th data-field="removed" data-sortable="false">Verwijderd</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,6 +49,12 @@ setActive("participants");
                             @endif
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
                             <td data-value="{{ $participant->firstName }}">{{ $participant->updated_at }}</td>
+                            <td data-value="{{ $participant->note }}">{{ $participant->note }}</td>
+                            @if($participant->removedFromIntro == 1)
+                                <td data-value="{{ $participant->removedFromIntro }}">True</td>
+                            @else
+                                <td data-value="{{ $participant->removedFromIntro }}">False</td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>
@@ -87,32 +95,42 @@ setActive("participants");
 
                             <div style="display: flex; flex-direction: row;">
                                 @if (!$selectedParticipant->checkedIn)
-                                <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
-                                    @csrf<input type="hidden" name="userId" value="{{ $selectedParticipant->id }}">
-                                    <br>
-                                        <button type="submit" class="btn btn-primary buttonPart">Checkin</button>
+                                    <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
+                                        @csrf
+                                            <button type="submit" class="btn btn-primary buttonPart me-2">Checkin</button>
                                     </form>
                                 @else
                                     <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
                                         @csrf
-                                        <button type="submit" class="btn btn-danger buttonPart">Checkout</button>
+                                        <button type="submit" class="btn btn-danger buttonPart me-2">Checkout</button>
                                     </form>
                                 @endif
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Verwijder
-                                  </button>
+                                    Verwijder van database
+                                </button>
                             </div>
                         </span>
                     </div>
                     <div class="flex-column w-50">
-                        <form method="POST" action="/participants/{{ $selectedParticipant->id }}/storeNote">
-                            @csrf
-                            <div class="form-floating">
-                                <textarea class="form-control" name="participantNote" placeholder="Leave a comment here" id="participantNote" style="height: 100px">{{ $selectedParticipant->note }}</textarea>
-                                <label for="participantNote">Opmerkingen over deelnemer</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-2">Opslaan</button>
-                        </form>
+                        <div>
+                            <form class="mb-2" method="POST" action="/participants/{{ $selectedParticipant->id }}/storeNote">
+                                @csrf
+                                <div class="form-floating">
+                                    <textarea class="form-control" name="participantNote" placeholder="Leave a comment here" id="participantNote" style="height: 100px">{{ $selectedParticipant->note }}</textarea>
+                                    <label for="participantNote">Opmerkingen over deelnemer</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-2">Opslaan</button>
+                            </form>
+                            <form method="POST" action="/participants/{{ $selectedParticipant->id }}/storeRemove">
+                                @csrf
+                                @if(!$selectedParticipant->removedFromIntro)
+                                    <button type="submit" class="btn btn-danger">Verwijder deelnemer van terrein / intro</button>
+                                @else
+                                    <button type="submit" class="btn btn-success">Laat deelnemer weer toe op terrein / intro</button>
+                                @endif
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -143,6 +161,7 @@ setActive("participants");
         var $table = $('#table')
 
         $(function() {
+            $table.bootstrapTable('hideColumn',['note','removed'])
             $('#filterByCheckedInOnly').click(function () {
                 if(this.value === "YES"){
                     this.value="NO";
@@ -158,6 +177,41 @@ setActive("participants");
                     })
                 }
 
+            })
+            $('#filterByRemovedFromTerrain').click(function () {
+                if(this.value === "YES"){
+                    this.value="NO";
+
+                    $table.bootstrapTable('filterBy', {
+                        // Reset filter
+                    })
+                }
+                else if(this.value === "NO"){
+                    this.value="YES";
+                    $table.bootstrapTable('filterBy', {
+                        removed: "True"
+                    })
+                }
+
+            })
+            $('#filterByNote').click(function () {
+                if(this.value === "YES"){
+                    this.value="NO";
+
+                    $table.bootstrapTable('filterBy', {}, {
+                        'filterAlgorithm': (row, filters) => {
+                            return true;
+                        }
+                    })
+                }
+                else if(this.value === "NO"){
+                    this.value="YES";
+                    $table.bootstrapTable('filterBy', {}, {
+                        'filterAlgorithm': (row, filters) => {
+                            return row.note.length > 0
+                        }
+                    })
+                }
             })
         })
     </script>

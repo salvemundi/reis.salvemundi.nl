@@ -77,6 +77,11 @@ class ParticipantController extends Controller {
         return back();
     }
 
+    public function checkOutEveryone(Request $request) {
+        Participant::query()->update(['checkedIn' => false]);
+        return back();
+    }
+
     public function delete(Request $request) {
         $participant = Participant::find($request->userId);
         $participant->delete();

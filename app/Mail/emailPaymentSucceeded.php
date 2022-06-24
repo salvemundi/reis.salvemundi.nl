@@ -13,6 +13,7 @@ class emailPaymentSucceeded extends Mailable
 {
     use Queueable, SerializesModels;
 
+    private $participant;
     /**
      * Create a new message instance.
      *

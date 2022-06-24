@@ -91,6 +91,7 @@ class PaymentController extends Controller
         }
         return $userArr;
     }
+
     public function getAllNonPaidUsers() {
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
@@ -103,4 +104,16 @@ class PaymentController extends Controller
         }
         return $userArr;
     }
+
+    public function checkIfParticipantPaid(Participant $participant):bool {
+        $participant->latestPayment = $participant->payments()->latest()->first();
+
+        if ($participant->latestPayment != null) {
+            if($participant->latestPayment->paymentStatus == PaymentStatus::paid) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -31,7 +31,9 @@ Route::get('/callback', [AuthController::class, 'callback']);
 Route::get('/signout', [AuthController::class, 'signOut']);
 
 //singup Purple festival
-Route::get('/purpleInschrijven',[ParticipantController::class, 'showPurplePage']);
+Route::get('/purpleInschrijven', function () {
+    return view('purpleSignup');
+});
 Route::post('/purpleInschrijven', [ParticipantController::class, 'purpleSignup']);
 
 // Signup
@@ -39,7 +41,9 @@ Route::post('/inschrijven', [ParticipantController::class, 'signup']);
 Route::get('/inschrijven', function() {
     return redirect('/'); // Fix 405 error
 });
-Route::get('/', [ParticipantController::class, 'signupIndex']);
+Route::get('/', function () {
+    return view('signup');
+});
 Route::get('/inschrijven/verify/{token}',[VerificationController::class,'verify']);
 
 // Payment
@@ -108,7 +112,9 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::get('/import', [APIController::class, 'GetParticipants']);
 
     // QRCode
-    Route::get('/qrcode', [ParticipantController::class, 'scanQR']);
+    Route::get('/qrcode', function () {
+        return view('admin/qr');
+    });
 
     // Events
     Route::get('/events', [ScheduleController::class, 'getAllEvents']);

@@ -46,8 +46,10 @@ class ConfirmationController extends Controller
             $confirmationToken->confirmed = true;
             $confirmationToken->save();
             $this->participantController->store($request);
-
-            return $this->paymentController->payForIntro($confirmationToken->id);
+            if(!$this->paymentController->checkIfParticipantPaid($user)) {
+                return $this->paymentController->payForIntro($confirmationToken->id);
+            }
+            return back()->with('success','Je gegevens zijn opgeslagen!');
         }
 
         return back()->with('error','input is not valid');

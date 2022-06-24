@@ -17,11 +17,11 @@
                 <a id="registrations" href="/registrations" class="nav_link">
                     <i class="bx bi-clipboard-check fixIconClipboard"></i> <span class="nav_name">Aanmeldingen</span>
                 </a>
-                <a id="blogs" href="/blogsadmin" class="nav_link">
-                    <i class="fas fa-newspaper fixIconClipboard"></i> <span class="nav_name">Blogs / Nieuws</span>
-                </a>
                 <a id="participants" href="/participants" class="nav_link">
                     <i class='bx bx-user nav_icon'></i> <span class="nav_name">Deelnemers</span>
+                </a>
+                <a id="blogs" href="/blogsadmin" class="nav_link">
+                    <i class="fas fa-newspaper fixIconClipboard"></i> <span class="nav_name">Blogs / Nieuws</span>
                 </a>
                 <a id="add" href="/add" class="nav_link">
                     <i class='bx bi bi-plus-circle circlePlus'></i> <span class="nav_name">Voeg toe</span>

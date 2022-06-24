@@ -50,8 +50,8 @@
         </div>
 
         <div class="form-group">
-            <label for="studentNumber">Studenten nummer (7 cijferig getal)*</label>
-            <input class="form-control{{ $errors->has('studentNumber') ? ' is-invalid' : '' }}" value="{{ old('studentNumber') }}" id="studentNumber" name="studentNumber" placeholder="Studenten nummer...">
+            <label for="studentNumber">Je fontys email adres*</label>
+            <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
         </div>
 
         <br>

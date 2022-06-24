@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ParticipantsExport;
-use App\Exports\StudentNumbersExport;
+use App\Exports\StudentFontysEmailExport;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 
@@ -77,7 +77,7 @@ class ParticipantController extends Controller {
         return back();
     }
 
-    public function checkOutEveryone(Request $request) {
+    public function checkOutEveryone() {
         Participant::query()->update(['checkedIn' => false]);
         return back();
     }
@@ -118,7 +118,7 @@ class ParticipantController extends Controller {
                 'lastName' =>  ['nullable', 'regex:/^[a-zA-Z ]+$/]'],
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
-                'studentNumber' => ['required', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
+                'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
@@ -141,6 +141,8 @@ class ParticipantController extends Controller {
             $participant->firstName = $request->input('firstName');
             $participant->insertion = $request->input('insertion');
             $participant->lastName = $request->input('lastName');
+        } else {
+            $participant->fontysEmail = $request->input('fontysEmail');
         }
 
         $participant->birthday = $request->input('birthday');
@@ -166,6 +168,7 @@ class ParticipantController extends Controller {
             $participant->role = 0;
         }
 
+        // what is this shit
         if($request->input('checkedIn') != null) {
             $participant->checkedIn = Roles::coerce((int)$request->input('checkedIn'));
         } else {
@@ -181,11 +184,7 @@ class ParticipantController extends Controller {
     }
 
     function StudentNumbers() {
-        return Excel::download(new StudentNumbersExport, 'studentenNummers.xlsx');
-    }
-
-    public function signupIndex() {
-        return view('signup');
+        return Excel::download(new StudentFontysEmailExport, 'studentenNummers.xlsx');
     }
 
     public function storeNote(Request $request): \Illuminate\Http\RedirectResponse
@@ -236,18 +235,6 @@ class ParticipantController extends Controller {
         return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');
     }
 
-    public function confirmSignUp(Request $request) {
-        $token = $request->token;
-    }
-
-    public function scanQR(Request $request) {
-        return view('admin/qr');
-    }
-    //Load purple page
-    public function showPurplePage() {
-
-        return view('purpleSignup');
-    }
     //Create participant(purple only)
     public function purpleSignup(Request $request) {
         $request->validate([

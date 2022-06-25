@@ -20,7 +20,7 @@ final class StudyType extends Enum
         if ($value === self::demandBased) {
             return 'Demand Based Learning';
         }
-        if ($value === self::courseBase) {
+        if ($value === self::courseBased) {
             return 'Coursed Based Learning';
         }
         if ($value === self::unknown) {

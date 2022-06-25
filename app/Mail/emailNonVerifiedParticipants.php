@@ -34,6 +34,6 @@ class emailNonVerifiedParticipants extends Mailable
     {
         return $this
             ->subject("Je hebt je email nog niet geverifieerd")
-            ->markdown('mails/emailResendVerification.blade', ['participant'=> $this->participant, 'verificationToken' => $this->verificationToken]);
+            ->markdown('mails/emailResendVerification', ['participant'=> $this->participant, 'verificationToken' => $this->verificationToken]);
     }
 }

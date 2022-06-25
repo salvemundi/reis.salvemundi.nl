@@ -267,7 +267,6 @@ class ParticipantController extends Controller {
     public function sendEmailsToNonVerified() {
         $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
 
-
         foreach($nonVerifiedParticipants as $participant) {
             $token = new VerificationToken;
             $token->participant()->associate($participant);

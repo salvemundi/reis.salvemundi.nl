@@ -24,7 +24,7 @@ final class StudyType extends Enum
             return 'Coursed Based Learning';
         }
         if ($value === self::unknown) {
-            return 'Weet ik nog';
+            return 'Weet ik nog niet';
         }
 
         return parent::getDescription($value);

@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ParticipantsExport;
 use App\Exports\StudentFontysEmailExport;
 use App\Mail\emailNonVerifiedParticipants;
+use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 use App\Enums\StudyType;
 

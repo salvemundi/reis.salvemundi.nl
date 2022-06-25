@@ -52,7 +52,7 @@
         <label for="StudyType">Leervorm*</label>
         <div class="form-group">
             <select class="form-control" name="studyType">
-                @foreach (StudyType::getInstances() as $item)
+                @foreach (App\Enums\StudyType::getInstances() as $item)
                     <option value="{{ $item->value }}">{{$item->description}}</option>
                 @endforeach
             </select>

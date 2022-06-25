@@ -268,7 +268,7 @@ class ParticipantController extends Controller {
         $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
 
         foreach($nonVerifiedParticipants as $participant) {
-            $token = Token::find($participant->id);
+            $token = VerificationToken::find($participant->id);
 
             Mail::to($participant->email)
                 ->send(new emailNonVerifiedParticipants($participant, $token));

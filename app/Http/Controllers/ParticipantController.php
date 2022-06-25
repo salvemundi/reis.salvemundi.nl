@@ -11,10 +11,17 @@ use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ParticipantsExport;
 use App\Exports\StudentFontysEmailExport;
-use App\Mail\VerificationMail;
+use App\Mail\emailNonVerifiedParticipants;
 use App\Models\VerificationToken;
+use App\Enums\StudyType;
 
 class ParticipantController extends Controller {
+    private $verificationController;
+
+    public function __construct() {
+        $this->verificationController = new VerificationController();
+    }
+
     public function getParticipantsWithInformation(Request $request) {
         $participants = Participant::all();
 
@@ -103,7 +110,6 @@ class ParticipantController extends Controller {
                 'email' => 'required|email:rfc,dns|max:65',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-                'studentNumber' => ['nullable', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
@@ -127,6 +133,7 @@ class ParticipantController extends Controller {
                 'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
                 'role' => 'nullable',
                 'checkedIn' => 'nullable',
+                'studyType' => 'required'
             ]);
         }
 
@@ -148,6 +155,7 @@ class ParticipantController extends Controller {
         $participant->birthday = $request->input('birthday');
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
+        $participant->studyType = StudyType::coerce((int)$request->input('studyType'));
 
         if($request->input('studentYear') != null) {
             $participant->studentYear = $request->input('studentYear');
@@ -183,12 +191,11 @@ class ParticipantController extends Controller {
         return Excel::download(new ParticipantsExport, 'deelnemersInformatie.xlsx');
     }
 
-    function StudentNumbers() {
-        return Excel::download(new StudentFontysEmailExport, 'studentenNummers.xlsx');
+    function studentFontysEmails() {
+        return Excel::download(new StudentFontysEmailExport, 'fontysEmails.xlsx');
     }
 
-    public function storeNote(Request $request): \Illuminate\Http\RedirectResponse
-    {
+    public function storeNote(Request $request): \Illuminate\Http\RedirectResponse {
         $participant = Participant::find($request->userId);
         $participant->note = $request->input('participantNote');
         $participant->save();
@@ -198,9 +205,11 @@ class ParticipantController extends Controller {
     public function storeRemove(Request $request) {
         $participant = Participant::find($request->userId);
         $participant->removedFromIntro = !$participant->removedFromIntro;
+
         if($participant->removedFromIntro) {
             $participant->checkedIn = false;
         }
+
         $participant->save();
         return back();
     }
@@ -211,7 +220,6 @@ class ParticipantController extends Controller {
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
             'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
-            'studentNumber' => ['nullable', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
         ]);
 
         if (Participant::where('email', $request->input('email'))->count() > 0) {
@@ -221,7 +229,6 @@ class ParticipantController extends Controller {
         $participant = new Participant;
         $participant->firstName = $request->input('firstName');
         $participant->insertion = $request->input('insertion');
-        $participant->studentNumber = $request->input('studentNumber');
         $participant->lastName = $request->input('lastName');
         $participant->email = $request->input('email');
         $participant->save();
@@ -232,23 +239,40 @@ class ParticipantController extends Controller {
 
         Mail::to($participant->email)
             ->send(new VerificationMail($participant, $token));
+
         return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');
     }
 
     //Create participant(purple only)
     public function purpleSignup(Request $request) {
         $request->validate([
-            'studentNumber' => ['required', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
+            'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'email' => 'required|email:rfc,dns|max:65',
 
         ]);
-        if (Participant::where('studentNumber', $request->input('studentNumber'))->count() > 0) {
+
+        if (Participant::where('fontysEmail', $request->input('fontysEmail'))->count() > 0) {
             return back()->with('warning', 'Jij hebt je waarschijnlijk al ingeschreven voor purple!');
         }
+
         $participant = new Participant();
-        $participant->studentNumber= $request->input('studentNumber');
+        $participant->fontysEmail= $request->input('fontysEmail');
         $participant->email = $request->input('email');
         $participant->save();
+
         return back()->with('message', 'Je hebt je succesvol opgegeven voor Purple!');
+    }
+
+    public function sendEmailsToNonVerified() {
+        $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
+
+        $token = new VerificationToken;
+        $token->participant()->associate($participant);
+        $token->save();
+
+        Mail::to($nonVerifiedParticipants->email)
+            ->send(new emailNonVerifiedParticipants($nonVerifiedParticipants, $token));
+
+        return back()->with('message', 'De mails zijn verstuurd!');
     }
 }

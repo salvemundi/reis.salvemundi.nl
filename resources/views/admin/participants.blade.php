@@ -7,7 +7,7 @@ setActive("participants");
     <div class="col-12 col-md-6 container">
         <div class="d-flex">
             <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a>
-            <a href="{{ route('studentNumbers.excel')}}" class="btn btn-primary btn-sm" style="margin-left: 4px;">Export student numbers</a>
+            <a href="{{ route('fontysEmail.excel')}}" class="btn btn-primary btn-sm" style="margin-left: 4px;">Export student fontys mails</a>
 
             <div class="dropdown" style="margin-left: 4px;">
                 <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">

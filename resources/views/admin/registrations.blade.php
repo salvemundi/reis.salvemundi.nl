@@ -64,6 +64,11 @@ setActive("registrations");
             @csrf
             <button type="submit" class="btn btn-primary">Stuur betaling email</button>
         </form>
+
+        <form method="POST" action="/participants/resendVerificationEmails">
+            @csrf
+            <button type="submit" class="btn btn-primary">Stuur email naar niet geverifieerde deelnemers</button>
+        </form>
     </div>
 </div>
 @endsection

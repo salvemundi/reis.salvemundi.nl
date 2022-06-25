@@ -17,7 +17,6 @@ final class Roles extends Enum
     const crew = 3;
     const other = 4;
 
-
     public static function getDescription($value): string
     {
         if ($value === self::child) {

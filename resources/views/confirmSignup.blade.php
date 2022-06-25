@@ -49,8 +49,17 @@
             <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummer...">
         </div>
 
+        <label for="StudyType">Leervorm*</label>
         <div class="form-group">
-            <label for="studentNumber">Je fontys email adres*</label>
+            <select class="form-control" name="studyType">
+                @foreach (StudyType::getInstances() as $item)
+                    <option value="{{ $item->value }}">{{$item->description}}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="fontysEmail">Je fontys email adres*</label>
             <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
         </div>
 

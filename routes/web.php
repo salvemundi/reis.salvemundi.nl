@@ -78,6 +78,7 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::post('/participants/{userId}/storeNote', [ParticipantController::class, 'storeNote']);
     Route::post('/participants/{userId}/storeRemove', [ParticipantController::class, 'storeRemove']);
     Route::post('/participants/checkOutEveryone', [ParticipantController::class,'checkOutEveryone']);
+    Route::post('/participants/resendVerificationEmails', [ParticipantController::class, 'sendEmailsToNonVerified']);
     Route::get('/add', [ParticipantController::class, 'viewAdd']);
     Route::post('/add/store', [ParticipantController::class, 'store']);
     Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
@@ -107,7 +108,7 @@ Route::middleware(['AzureAuth'])->group(function () {
 
     // Excel
     Route::get('/export_excel/excel', [ParticipantController::class, 'excel'])->name('export_excel.excel');
-    Route::get('/studenten-nummers', [ParticipantController::class, 'studentNumbers'])->name('studentNumbers.excel');
+    Route::get('/fontys_mail', [ParticipantController::class, 'studentFontysEmails'])->name('fontysEmail.excel');
     // Api
     Route::get('/import', [APIController::class, 'GetParticipants']);
 

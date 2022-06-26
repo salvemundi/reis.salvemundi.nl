@@ -74,7 +74,7 @@
 
             <br>
             <label for="AdresVoogd">Adres ouder/verzorger*</label>
-            <input class="form-control{{ $errors->has('adressParent') ? ' is-invalid' : '' }}" value="{{ old('adressParent') }}" type="text" id="addressParent" name="addressParent" placeholder="Adres ouder/verzorger...">
+            <input class="form-control{{ $errors->has('addressParent') ? ' is-invalid' : '' }}" value="{{ old('addressParent') }}" type="text" id="addressParent" name="addressParent" placeholder="Adres ouder/verzorger...">
 
             <br>
             <label for="TelefoonnummerVoogd">Telefoonnummer ouder/verzorger*</label>
@@ -83,15 +83,15 @@
 
         <div id="ShowIfAbove18" style="display: none;">
             <label for="VoornaamVoogd">Voornaam contactpersoon*</label>
-            <input class="form-control{{ $errors->has('firstNameParent') ? ' is-invalid' : '' }}" value="{{ old('firstNameParent') }}" type="text" id="firstNameContact" name="firstNameContact" placeholder="Voornaam contactpersoon...">
+            <input class="form-control{{ $errors->has('firstNameParent') ? ' is-invalid' : '' }}" value="{{ old('firstNameParent') }}" type="text" id="firstNameParent" name="firstNameParent" placeholder="Voornaam contactpersoon...">
 
             <br>
             <label for="AchternaamVoogd">Achternaam contactpersoon*</label>
-            <input class="form-control{{ $errors->has('lastNameParent') ? ' is-invalid' : '' }}" value="{{ old('lastNameParent') }}" type="text" id="lastNameContact" name="lastNameContact" placeholder="Achternaam contactpersoon...">
+            <input class="form-control{{ $errors->has('lastNameParent') ? ' is-invalid' : '' }}" value="{{ old('lastNameParent') }}" type="text" id="lastNameParent" name="lastNameParent" placeholder="Achternaam contactpersoon...">
 
             <br>
             <label for="TelefoonnummerVoogd">Telefoonnummer contactpersoon*</label>
-            <input class="form-control{{ $errors->has('phoneNumberParent') ? ' is-invalid' : '' }}" value="{{ old('phoneNumberParent') }}" type="text" id="phoneNumberContact" name="phoneNumberContact" placeholder="Telefoonnummer contactpersoon...">
+            <input class="form-control{{ $errors->has('phoneNumberParent') ? ' is-invalid' : '' }}" value="{{ old('phoneNumberParent') }}" type="text" id="phoneNumberParent" name="phoneNumberParent" placeholder="Telefoonnummer contactpersoon...">
         </div>
 
         <div class="form-group">

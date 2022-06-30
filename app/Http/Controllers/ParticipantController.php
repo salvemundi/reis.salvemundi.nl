@@ -277,4 +277,8 @@ class ParticipantController extends Controller {
 
         return back()->with('message', 'De mails zijn verstuurd!');
     }
+
+    public function storeEdit(Request $request) {
+
+    }
 }

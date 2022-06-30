@@ -77,6 +77,7 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::post('/participants/{userId}/delete', [ParticipantController::class, 'delete']);
     Route::post('/participants/{userId}/storeNote', [ParticipantController::class, 'storeNote']);
     Route::post('/participants/{userId}/storeRemove', [ParticipantController::class, 'storeRemove']);
+    Route::post('/participants/{userId}/storeEdit', [ParticipantController::class,'storeEdit']);
     Route::post('/participants/checkOutEveryone', [ParticipantController::class,'checkOutEveryone']);
     Route::post('/participants/resendVerificationEmails', [ParticipantController::class, 'sendEmailsToNonVerified']);
     Route::get('/add', [ParticipantController::class, 'viewAdd']);

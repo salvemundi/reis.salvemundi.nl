@@ -20,7 +20,8 @@ class ConfirmationController extends Controller
         $this->verifiedController = new VerificationController();
     }
 
-    public function confirmSignUpView(Request $request) {
+    public function confirmSignUpView(Request $request): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    {
         $token = ConfirmationToken::find($request->token);
 
         if(!$token) {
@@ -30,7 +31,8 @@ class ConfirmationController extends Controller
         return view('confirmSignup')->with(['confirmationToken' => $token]);
     }
 
-    public function confirm(Request $request) {
+    public function confirm(Request $request): \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+    {
         $token = $request->token;
         $confirmationToken = ConfirmationToken::find($token);
         $user = $confirmationToken->participant;
@@ -51,11 +53,11 @@ class ConfirmationController extends Controller
             }
             return back()->with('success','Je gegevens zijn opgeslagen!');
         }
-
         return back()->with('error','input is not valid');
     }
 
-    public function sendConfirmEmailToAllUsers() {
+    public function sendConfirmEmailToAllUsers(): \Illuminate\Http\RedirectResponse
+    {
         $verifiedParticipants = $this->verifiedController->getVerifiedParticipants();
 
         foreach($verifiedParticipants as $participant) {

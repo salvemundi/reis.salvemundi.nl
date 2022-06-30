@@ -5,9 +5,8 @@ namespace App\Enums;
 use BenSampo\Enum\Enum;
 
 /**
- * @method static static OptionOne()
- * @method static static OptionTwo()
- * @method static static OptionThree()
+ * @method static static firstYear()
+ * @method static static secondYear()
  */
 final class StudentYear extends Enum
 {
@@ -22,7 +21,6 @@ final class StudentYear extends Enum
         if ($value === self::secondYear) {
             return 'Leerjaar 2';
         }
-    
         return parent::getDescription($value);
     }
 }

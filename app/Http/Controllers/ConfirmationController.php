@@ -10,9 +10,9 @@ use App\Enums\PaymentStatus;
 
 class ConfirmationController extends Controller
 {
-    private $participantController;
-    private $paymentController;
-    private $verifiedController;
+    private ParticipantController $participantController;
+    private PaymentController $paymentController;
+    private VerificationController $verifiedController;
 
     public function __construct() {
         $this->participantController = new ParticipantController();

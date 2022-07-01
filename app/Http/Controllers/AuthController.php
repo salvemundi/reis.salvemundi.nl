@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\AzureAuth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Microsoft\Graph\Exception\GraphException;
 use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model;
 use App\TokenStore\TokenCache;
@@ -41,7 +42,7 @@ class AuthController extends Controller
 
       // Save client state so we can validate in callback
       session(['oauthState' => $oauthClient->getState()]);
-      // Redirect to AAD signin page
+      // Redirect to AAD sign-in page
       return redirect()->away($authUrl);
     }
 
@@ -138,7 +139,6 @@ class AuthController extends Controller
 
     public function getGroupsByUserID($userID) {
       $graph = $this->connectToAzure();
-
       try {
           $graphRequest = $graph->createRequest("GET", '/users/'.$userID.'/memberOf')
               ->setReturnType(Model\Group::class)

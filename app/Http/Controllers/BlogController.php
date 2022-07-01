@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Mail;
 // This controller  is commonly referred to as blog / news controller. Previous PR #12 caused a naming nightmare. (May or may not have been me.)
 class BlogController extends Controller
 {
-    private $verificationController;
-    private $paymentController;
+    private VerificationController $verificationController;
+    private PaymentController $paymentController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();

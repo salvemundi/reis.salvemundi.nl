@@ -286,8 +286,40 @@ class ParticipantController extends Controller {
         return back()->with('message', 'De mails zijn verstuurd!');
     }
 
-    public function storeEdit(Request $request) {
-        $participant = Participant::findOrFail($request->userId);
+    public function storeEdit(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $request->validate([
+            'participantFirstName' => 'required', 'regex:/^[a-zA-Z ]+$/',
+            'participantInsertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'participantLastName' => 'required', 'regex:/^[a-zA-Z ]+$/',
+            'participantBirthday' => 'required',
+            'participantEmail' => 'required|email:rfc,dns|max:65',
+            'participantPhoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
+            'participantFirstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'participantLastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'participantParentPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
+            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
+            'participantRole' => 'nullable'
+        ]);
 
+        $participant = Participant::find($request->userId);
+        if($participant == null) {
+            return back()->with('error','Deelnemer niet gevonden!');
+        }
+        $participant->firstName = $request->input('participantFirstName');
+        $participant->insertion = $request->input('participantInsertion');
+        $participant->lastName = $request->input('participantLastName');
+        $participant->email = $request->input('participantEmail');
+        $participant->birthday = $request->input('participantBirthday');
+        $participant->phoneNumber = $request->input('participantPhoneNumber');
+        $participant->firstNameParent = $request->input('participantFirstNameParent');
+        $participant->lastNameParent = $request->input('participantLastNameParent');
+        $participant->addressParent = $request->input('participantAddress');
+        $participant->phoneNumberParent = $request->input('participantParentPhoneNumber');
+        $participant->medicalIssues = $request->input('participantMedicalIssues');
+        $participant->role = $request->input('participantRole');
+        $participant->save();
+        return back()->with('success','Deelnemer gegevens opgeslagen!');
     }
 }

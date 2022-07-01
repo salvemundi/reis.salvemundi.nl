@@ -9,7 +9,7 @@ setActive("participants");
     @else
         <div class="col-12 container">
     @endif
-                <div class="d-flex">
+        <div class="d-flex">
             <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a>
             <a href="{{ route('fontysEmail.excel')}}" class="btn btn-primary btn-sm" style="margin-left: 4px;">Export student fontys mails</a>
 
@@ -23,11 +23,18 @@ setActive("participants");
                     <li><button class="dropdown-item" id="filterByNote" value="NO" type="button">Deelnemers met opmerking</button></li>
                 </ul>
             </div>
-
-            <!-- Button trigger modal -->
             <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
                 Check iedereen uit
             </button>
+            <form method="POST" action="/registrations">
+                @csrf
+                <button type="submit" class="btn btn-primary ms-1">Stuur betaling email</button>
+            </form>
+
+            <form method="POST" action="/participants/resendVerificationEmails">
+                @csrf
+                <button type="submit" class="btn btn-primary ms-1">Stuur email niet geverifieerd</button>
+            </form>
 
             <!-- Modal -->
             <div class="modal fade" id="checkoutEveryoneModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -62,8 +69,8 @@ setActive("participants");
                         <th data-field="role" data-sortable="true">Rol</th>
                         <th data-field="checkedIn" data-sortable="true">checked in</th>
                         <th data-field="data" data-sortable="true">Gegevens</th>
-                        <th data-field="createdat" data-sortable="true">Laatste aanpassing</th>
                         @if(Request::is('participants'))
+                            <th data-field="createdat" data-sortable="true">Laatste aanpassing</th>
                             <th data-field="daysDif" data-sortable="true">Dagen geleden ingeschreven</th>
                         @endif
                         <th data-field="paid" data-sortable="true">Betaald</th>
@@ -83,8 +90,8 @@ setActive("participants");
                                 <td data-value="{{ $participant->checkedIn }}">False</td>
                             @endif
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
-                            <td data-value="{{ $participant->firstName }}">{{ $participant->updated_at }}</td>
                             @if(Request::is('participants'))
+                                <td data-value="{{ $participant->firstName }}">{{ $participant->updated_at }}</td>
                                 <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference }}</td>
                             @endif
                             <td data-value="{{ $participant->paid }}">
@@ -154,7 +161,7 @@ setActive("participants");
                             <div style="display: flex; flex-direction: row;">
                                 @include('include.participantEditModal', ['participant' => $selectedParticipant])
                                 <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $selectedParticipant->id }}">
-                                    Bewerk gegevens
+                                    Bewerk
                                 </button>
                                 @if (!$selectedParticipant->checkedIn)
                                     <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
@@ -168,7 +175,7 @@ setActive("participants");
                                     </form>
                                 @endif
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Verwijder van database
+                                    Verwijderen
                                 </button>
                             </div>
                         </span>

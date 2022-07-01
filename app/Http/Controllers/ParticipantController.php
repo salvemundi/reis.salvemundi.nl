@@ -178,6 +178,7 @@ class ParticipantController extends Controller {
         $participant->phoneNumberParent = $request->input('phoneNumberParent');
         $participant->medicalIssues = $request->input('medicalIssues');
         $participant->specials = $request->input('specials');
+        $participant->studyType = $request->input('participantStudyType') ?? 0;
 
         if($request->input('role') != null) {
             $participant->role = $request->input('role');
@@ -320,6 +321,8 @@ class ParticipantController extends Controller {
         $participant->phoneNumberParent = $request->input('participantParentPhoneNumber');
         $participant->medicalIssues = $request->input('participantMedicalIssues');
         $participant->role = $request->input('participantRole') ?? 0;
+        $participant->studyType = $request->input('participantStudyType') ?? 0;
+
         $participant->save();
         return back()->with('success','Deelnemer gegevens opgeslagen!');
     }

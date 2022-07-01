@@ -57,7 +57,9 @@
                             <label for="participantSpecial" class="form-label">Andere bijzonderheden: </label>
                             <textarea class="form-control" name="participantSpecial" id="participantSpecial" rows="3">{{ $participant->specials }}</textarea>
                         </div>
-                        <select id="participantRole" name="participantRole" class="form-select" aria-label="Default select example">
+
+                    <label for="participantRole" class="form-label">Rol: </label>
+                    <select id="participantRole" name="participantRole" class="form-select mb-3" aria-label="Default select example">
                             @foreach(App\Enums\Roles::asArray() as $key => $val)
                                 @if($val === $participant->role)
                                     <option selected value="{!!$val !!}">{{ App\Enums\Roles::coerce($key)->description }}</option>
@@ -65,7 +67,18 @@
                                     <option value="{!! $val !!}">{{ App\Enums\Roles::coerce($key)->description }}</option>
                                 @endif
                             @endforeach
-                        </select>
+                    </select>
+
+                    <label for="participantStudyType" class="form-label">Studie type: </label>
+                    <select id="participantStudyType" name="participantStudyType" class="form-select mb-3" aria-label="Default select example">
+                            @foreach(App\Enums\StudyType::asArray() as $key => $val)
+                                @if($val === $participant->studyType)
+                                    <option selected value="{!! $val !!}">{{ App\Enums\StudyType::coerce($key)->description }}</option>
+                                @else
+                                    <option value="{!! $val !!}">{{ App\Enums\StudyType::coerce($key)->description }}</option>
+                                @endif
+                            @endforeach
+                    </select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluit</button>

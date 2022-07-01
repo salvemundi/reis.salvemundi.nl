@@ -21,10 +21,10 @@ final class StudyType extends Enum
             return 'Demand Based Learning';
         }
         if ($value === self::courseBased) {
-            return 'Coursed Based Learning';
+            return 'Course Based Learning';
         }
         if ($value === self::unknown) {
-            return 'Weet ik nog niet';
+            return "Weet ik nog niet / I still don't know";
         }
 
         return parent::getDescription($value);

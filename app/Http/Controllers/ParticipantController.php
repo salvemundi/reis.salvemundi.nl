@@ -308,7 +308,6 @@ class ParticipantController extends Controller {
         if($participant == null) {
             return back()->with('error','Deelnemer niet gevonden!');
         }
-//        dd($request);
         $participant->firstName = $request->input('participantFirstName');
         $participant->insertion = $request->input('participantInsertion');
         $participant->lastName = $request->input('participantLastName');

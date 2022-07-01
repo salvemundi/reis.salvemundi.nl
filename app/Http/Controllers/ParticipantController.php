@@ -297,7 +297,7 @@ class ParticipantController extends Controller {
             'participantPhoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
             'participantFirstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'participantLastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-            'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
             'participantParentPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
             'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
             'participantRole' => 'nullable'
@@ -318,7 +318,7 @@ class ParticipantController extends Controller {
         $participant->addressParent = $request->input('participantAddress');
         $participant->phoneNumberParent = $request->input('participantParentPhoneNumber');
         $participant->medicalIssues = $request->input('participantMedicalIssues');
-        $participant->role = $request->input('participantRole');
+        $participant->role = $request->input('participantRole') || 0;
         $participant->save();
         return back()->with('success','Deelnemer gegevens opgeslagen!');
     }

@@ -272,7 +272,8 @@ class ParticipantController extends Controller {
         return back()->with('message', 'Je hebt je succesvol opgegeven voor Purple!');
     }
 
-    public function sendEmailsToNonVerified() {
+    public function sendEmailsToNonVerified(): \Illuminate\Http\RedirectResponse
+    {
         $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
 
         foreach($nonVerifiedParticipants as $participant) {

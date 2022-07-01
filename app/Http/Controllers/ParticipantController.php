@@ -17,7 +17,7 @@ use App\Models\VerificationToken;
 use App\Enums\StudyType;
 
 class ParticipantController extends Controller {
-    private $verificationController;
+    private VerificationController $verificationController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();
@@ -275,9 +275,10 @@ class ParticipantController extends Controller {
     public function sendEmailsToNonVerified() {
         $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
 
-        //fix voor volgende keer
         foreach($nonVerifiedParticipants as $participant) {
-            $token = $participant->verificationToken();
+            $token = new VerificationToken;
+            $token->participant()->associate($participant);
+            $token->save();
 
             Mail::to($participant->email)
                 ->send(new emailNonVerifiedParticipants($participant, $token));

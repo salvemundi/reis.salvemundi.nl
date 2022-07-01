@@ -13,8 +13,8 @@ class emailNonVerifiedParticipants extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $participant;
-    private $verificationToken;
+    private Participant $participant;
+    private VerificationToken $verificationToken;
     /**
      * Create a new message instance.
      *

@@ -2,7 +2,7 @@
 
 Beste {{ $participant->firstName }},
 
-Je hebt je email nog niet geverifieerd!
+Wij zien dat jij je email nog niet hebt geverifieerd!
 
 Wel vragen we je om je mail te verifiëren via de volgende link:
 

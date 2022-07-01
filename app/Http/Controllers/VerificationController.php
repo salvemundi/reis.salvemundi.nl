@@ -42,7 +42,8 @@ class VerificationController extends Controller
         return $userArr;
     }
 
-    public function getNonVerifiedParticipants() {
+    public function getNonVerifiedParticipants(): array
+    {
         $userArr = [];
         $allVerifiedTokens = VerificationToken::where('verified', false)->get();
 

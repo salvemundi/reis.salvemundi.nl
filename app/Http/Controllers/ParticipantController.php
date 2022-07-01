@@ -33,6 +33,14 @@ class ParticipantController extends Controller {
             }
             $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
             return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
+        } else {
+            $dateToday = Carbon::now()->toDate();
+            foreach($participants as $participant) {
+                if($participant->payments != null) {
+                    $participant->latestPayment = $participant->payments()->latest()->first();
+                }
+                $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
+            }
         }
         return view('admin/participants', ['participants' => $participants]);
     }
@@ -116,7 +124,7 @@ class ParticipantController extends Controller {
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
                 'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
                 'role' => 'nullable',
-                'checkedIn' => 'nullable',
+                'checkedIn' => 'nullable'
             ]);
         } else {
             $request->validate([
@@ -279,6 +287,7 @@ class ParticipantController extends Controller {
     }
 
     public function storeEdit(Request $request) {
+        $participant = Participant::findOrFail($request->userId);
 
     }
 }

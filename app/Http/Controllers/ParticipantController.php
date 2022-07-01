@@ -301,14 +301,14 @@ class ParticipantController extends Controller {
             'participantLastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
             'participantParentPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
-            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
-            'participantRole' => 'nullable'
+            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/'
         ]);
 
         $participant = Participant::find($request->userId);
         if($participant == null) {
             return back()->with('error','Deelnemer niet gevonden!');
         }
+//        dd($request);
         $participant->firstName = $request->input('participantFirstName');
         $participant->insertion = $request->input('participantInsertion');
         $participant->lastName = $request->input('participantLastName');
@@ -320,7 +320,7 @@ class ParticipantController extends Controller {
         $participant->addressParent = $request->input('participantAddress');
         $participant->phoneNumberParent = $request->input('participantParentPhoneNumber');
         $participant->medicalIssues = $request->input('participantMedicalIssues');
-        $participant->role = $request->input('participantRole') || 0;
+        $participant->role = $request->input('participantRole') ?? 0;
         $participant->save();
         return back()->with('success','Deelnemer gegevens opgeslagen!');
     }

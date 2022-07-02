@@ -36,7 +36,7 @@ class SettingsSeeder extends Seeder
             $setting->save();
         }
 
-        // Payment opening date
+        // Send automatic mails after opening date
         if(Setting::find('AutoSendPaymentEmailDate') == null) {
             $setting = new Setting();
             $setting->name = "AutoSendPaymentEmailDate";

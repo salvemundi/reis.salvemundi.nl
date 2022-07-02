@@ -10,6 +10,7 @@ use App\Mail\emailVerificationResponse;
 use Carbon\Carbon;
 use App\Models\ConfirmationToken;
 use App\Models\Setting;
+use App\Mail\emailConfirmationSignup;
 
 class VerificationController extends Controller
 {

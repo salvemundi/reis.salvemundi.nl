@@ -10,6 +10,7 @@ use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
@@ -127,4 +128,8 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::post('/events/save/{eventId}',[ScheduleController::class, 'store']);
     // Delete events
     Route::get('/events/delete/{eventId}',[ScheduleController::class, 'deleteEvent']);
+
+    // Settings
+    Route::get('/settings/',[SettingController::class, 'showSettings']);
+    Route::post('/settings/{settingId}/store',[SettingController::class, 'storeSetting']);
 });

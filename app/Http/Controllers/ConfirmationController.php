@@ -3,7 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfirmationToken;
+use App\Models\Setting;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\emailConfirmationSignup;
 use App\Enums\PaymentStatus;
@@ -20,7 +27,7 @@ class ConfirmationController extends Controller
         $this->verifiedController = new VerificationController();
     }
 
-    public function confirmSignUpView(Request $request): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function confirmSignUpView(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
         $token = ConfirmationToken::find($request->token);
 
@@ -31,12 +38,14 @@ class ConfirmationController extends Controller
         return view('confirmSignup')->with(['confirmationToken' => $token]);
     }
 
-    public function confirm(Request $request): \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+    public function confirm(Request $request): Response|RedirectResponse
     {
         $token = $request->token;
         $confirmationToken = ConfirmationToken::find($token);
         $user = $confirmationToken->participant;
-
+        if(!Setting::where('name','ConfirmationEnabled')->first()->value) {
+            return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+        }
         if ($token && $confirmationToken !== null) {
             if($confirmationToken->confirmed) {
                 $newConfirmationToken = new ConfirmationToken();
@@ -56,7 +65,7 @@ class ConfirmationController extends Controller
         return back()->with('error','input is not valid');
     }
 
-    public function sendConfirmEmailToAllUsers(): \Illuminate\Http\RedirectResponse
+    public function sendConfirmEmailToAllUsers(): RedirectResponse
     {
         $verifiedParticipants = $this->verifiedController->getVerifiedParticipants();
 

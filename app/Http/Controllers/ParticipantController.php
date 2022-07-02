@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Participant;
 use App\Enums\Roles;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -23,7 +29,8 @@ class ParticipantController extends Controller {
         $this->verificationController = new VerificationController();
     }
 
-    public function getParticipantsWithInformation(Request $request) {
+    public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
+    {
         $participants = Participant::all();
 
         if ($request->userId) {
@@ -154,10 +161,16 @@ class ParticipantController extends Controller {
         }
 
         if($request->input('confirmation') == null) {
+            if(!Setting::where('name','SignupPageEnabled')->first()->value) {
+                return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+            }
             $participant->firstName = $request->input('firstName');
             $participant->insertion = $request->input('insertion');
             $participant->lastName = $request->input('lastName');
         } else {
+            if(!Setting::where('name','ConfirmationEnabled')->first()->value) {
+                return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+            }
             $participant->fontysEmail = $request->input('fontysEmail');
         }
 
@@ -205,7 +218,7 @@ class ParticipantController extends Controller {
         return Excel::download(new StudentFontysEmailExport, 'fontysEmails.xlsx');
     }
 
-    public function storeNote(Request $request): \Illuminate\Http\RedirectResponse {
+    public function storeNote(Request $request): RedirectResponse {
         $participant = Participant::find($request->userId);
         $participant->note = $request->input('participantNote');
         $participant->save();
@@ -231,7 +244,9 @@ class ParticipantController extends Controller {
             'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
         ]);
-
+        if(!Setting::where('name','SignupPageEnabled')->first()->value) {
+            return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+        }
         if (Participant::where('email', $request->input('email'))->count() > 0) {
             return back()->with('warning', 'Dit email adres bestaat al!');
         }
@@ -257,10 +272,11 @@ class ParticipantController extends Controller {
     public function purpleSignup(Request $request) {
         $request->validate([
             'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
-            'email' => 'required|email:rfc,dns|max:65',
-
+            'email' => 'required|email:rfc,dns|max:65'
         ]);
-
+        if(!Setting::where('name','SignupPageEnabled')->first()->value) {
+            return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+        }
         if (Participant::where('fontysEmail', $request->input('fontysEmail'))->count() > 0) {
             return back()->with('warning', 'Jij hebt je waarschijnlijk al ingeschreven voor purple!');
         }
@@ -273,7 +289,7 @@ class ParticipantController extends Controller {
         return back()->with('message', 'Je hebt je succesvol opgegeven voor Purple!');
     }
 
-    public function sendEmailsToNonVerified(): \Illuminate\Http\RedirectResponse
+    public function sendEmailsToNonVerified(): RedirectResponse
     {
         $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
 
@@ -289,7 +305,7 @@ class ParticipantController extends Controller {
         return back()->with('message', 'De mails zijn verstuurd!');
     }
 
-    public function storeEdit(Request $request): \Illuminate\Http\RedirectResponse
+    public function storeEdit(Request $request): RedirectResponse
     {
         $request->validate([
             'participantFirstName' => 'required', 'regex:/^[a-zA-Z ]+$/',

@@ -245,6 +245,7 @@ class ParticipantController extends Controller {
             'email' => 'required|email:rfc,dns|max:65',
         ]);
         if(!Setting::where('name','SignupPageEnabled')->first()->value) {
+            dd(!Setting::where('name','SignupPageEnabled')->first()->value)
             return back()->with('error','Inschrijvingen zijn helaas gesloten!');
         }
         if (Participant::where('email', $request->input('email'))->count() > 0) {

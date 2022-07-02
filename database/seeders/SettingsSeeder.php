@@ -20,7 +20,7 @@ class SettingsSeeder extends Seeder
         if(Setting::find('SignupPageEnabled') == null) {
             $setting = new Setting();
             $setting->name = "SignupPageEnabled";
-            $setting->value = (bool)"true";
+            $setting->value = "true";
             $setting->description = "Zet de vrijblijvende inschrijf pagina aan of uit.";
             $setting->valueType = SettingTypes::boolean();
             $setting->save();

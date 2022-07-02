@@ -161,14 +161,14 @@ class ParticipantController extends Controller {
         }
 
         if($request->input('confirmation') == null) {
-            if(!Setting::where('name','SignupPageEnabled')->first()->value) {
+            if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
                 return back()->with('error','Inschrijvingen zijn helaas gesloten!');
             }
             $participant->firstName = $request->input('firstName');
             $participant->insertion = $request->input('insertion');
             $participant->lastName = $request->input('lastName');
         } else {
-            if(!Setting::where('name','ConfirmationEnabled')->first()->value) {
+            if(Setting::where('name','ConfirmationEnabled')->first()->value == 'false') {
                 return back()->with('error','Inschrijvingen zijn helaas gesloten!');
             }
             $participant->fontysEmail = $request->input('fontysEmail');
@@ -244,10 +244,11 @@ class ParticipantController extends Controller {
             'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
         ]);
-        if(!Setting::where('name','SignupPageEnabled')->first()->value) {
-            dd(!Setting::where('name','SignupPageEnabled')->first()->value);
+
+        if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
             return back()->with('error','Inschrijvingen zijn helaas gesloten!');
         }
+
         if (Participant::where('email', $request->input('email'))->count() > 0) {
             return back()->with('warning', 'Dit email adres bestaat al!');
         }
@@ -275,7 +276,7 @@ class ParticipantController extends Controller {
             'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'email' => 'required|email:rfc,dns|max:65'
         ]);
-        if(!Setting::where('name','SignupPageEnabled')->first()->value) {
+        if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
             return back()->with('error','Inschrijvingen zijn helaas gesloten!');
         }
         if (Participant::where('fontysEmail', $request->input('fontysEmail'))->count() > 0) {

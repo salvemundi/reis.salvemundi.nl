@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\emailVerificationResponse;
 use Carbon\Carbon;
 use App\Models\ConfirmationToken;
+use App\Models\Setting;
 
 class VerificationController extends Controller
 {

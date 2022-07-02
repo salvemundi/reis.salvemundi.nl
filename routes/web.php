@@ -54,6 +54,7 @@ Route::post('/inschrijven/betalen/{token}',[ConfirmationController::class, 'conf
 Route::get('/inschrijven/betalen/paymentFailed', [PaymentController::class, 'returnSuccessPage']);
 
 Route::post('webhooks/mollie',[WebhookController::class, 'handle'])->name('webhooks.mollie');
+
 // Blogs / news
 Route::get('/blogs',[BlogController::class, 'showPosts']);
 Route::get('/blogs/{postId}',[BlogController::class, 'showPost']);
@@ -130,6 +131,11 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::get('/events/delete/{eventId}',[ScheduleController::class, 'deleteEvent']);
 
     // Settings
-    Route::get('/settings/',[SettingController::class, 'showSettings']);
+    Route::get('/settings',[SettingController::class, 'showSettings']);
     Route::post('/settings/{settingId}/store',[SettingController::class, 'storeSetting']);
+});
+
+Route::middleware('daddyware')->group(function () {
+    Route::get('/inschrijven/ouder', [ParticipantController::class, 'daddyIndex']);
+    Route::post('/inschrijven/ouder/store', [ParticipantController::class, 'daddyStore']);
 });

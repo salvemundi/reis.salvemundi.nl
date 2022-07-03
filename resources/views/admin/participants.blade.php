@@ -10,8 +10,16 @@ setActive("participants");
         <div class="col-12 container">
     @endif
         <div class="d-flex">
-            <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a>
-            <a href="{{ route('fontysEmail.excel')}}" class="btn btn-primary btn-sm" style="margin-left: 4px;">Export student fontys mails</a>
+
+            <div class="dropdown" style="margin-left: 4px;">
+                <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Export
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><a class="dropdown-item" href="{{ route('export_excel.excel')}}" >Export to Excel</a></li>
+                    <li><a class="dropdown-item" href="{{ route('fontysEmail.excel')}}" >Export student fontys mails</a></li>
+                </ul>
+            </div>
 
             <div class="dropdown" style="margin-left: 4px;">
                 <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -24,17 +32,28 @@ setActive("participants");
                 </ul>
             </div>
             <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
-                Check iedereen uit
+                Check allen uit
             </button>
-            <form method="POST" action="/registrations">
-                @csrf
-                <button type="submit" class="btn btn-primary ms-1">Stuur betaling email</button>
-            </form>
 
-            <form method="POST" action="/participants/resendVerificationEmails">
-                @csrf
-                <button type="submit" class="btn btn-primary ms-1">Stuur email niet geverifieerd</button>
-            </form>
+            <div class="dropdown" style="margin-left: 4px;">
+                <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Mailing
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li>
+                        <form method="POST" action="/registrations">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Stuur betaling email</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="POST" action="/participants/resendVerificationEmails">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Stuur email niet geverifieerd</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
 
             <!-- Modal -->
             <div class="modal fade" id="checkoutEveryoneModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

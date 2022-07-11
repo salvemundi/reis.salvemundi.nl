@@ -40,8 +40,8 @@
     let open = 100 - occupied
     const data = {
         labels: [
-            'Bezet %',
-            'Nog vrij %',
+            'Bezet',
+            'Nog vrij',
         ],
         datasets: [{
             label: 'Aantal plekken vrij!',
@@ -50,13 +50,32 @@
                 '#BA5EB8',
                 '#663366',
             ],
-            hoverOffset: 4
-        }]
+            hoverOffset: 4,
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.label;
+                        let value = context.formattedValue;
 
+                        if (!label)
+                            label = 'Unknown'
+
+                        let sum = 0;
+                        let dataArr = context.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += Number(data);
+                        });
+
+                        let percentage = (value * 100 / sum).toFixed(2) + '%';
+                        return label + ": " + percentage;
+                    }
+                }
+            }
+        }]
     };
     const config = {
         type: 'doughnut',
-        data: data,
+        data: data
     };
 
     const myChart = new Chart(

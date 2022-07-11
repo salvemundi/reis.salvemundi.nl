@@ -96,7 +96,6 @@ class BlogController extends Controller
                 return redirect('/blogsadmin')->with('success', 'Blog is verwijderd!');
             }
             return redirect('/blogsadmin')->with('error', 'Blog kon niet gevonden worden!');
-
         }
         return redirect('/blogsadmin')->with('error', 'Er ging iets niet helemaal goed, probeer het later nog een keer.');
     }

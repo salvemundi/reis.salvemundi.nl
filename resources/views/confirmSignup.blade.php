@@ -66,32 +66,32 @@
         <br>
         <div id="ShowIfBelow18" style="display: none;">
             <label for="VoornaamVoogd">Voornaam ouder/verzorger*</label>
-            <input class="form-control{{ $errors->has('firstNameParent') ? ' is-invalid' : '' }}" value="{{ old('firstNameParent') }}" type="text" id="firstNameParent" name="firstNameParent" placeholder="Voornaam ouder/verzorger...">
+            <input class="form-control{{ $errors->has('firstNameParent') ? ' is-invalid' : '' }}" value="{{ old('firstNameParent') }}" type="text" id="firstNameParentBelow18" name="firstNameParent" placeholder="Voornaam ouder/verzorger...">
 
             <br>
             <label for="AchternaamVoogd">Achternaam ouder/verzorger*</label>
-            <input class="form-control{{ $errors->has('lastNameParent') ? ' is-invalid' : '' }}" value="{{ old('lastNameParent') }}" type="text" id="lastNameParent" name="lastNameParent" placeholder="Achternaam ouder/verzorger...">
+            <input class="form-control{{ $errors->has('lastNameParent') ? ' is-invalid' : '' }}" value="{{ old('lastNameParent') }}" type="text" id="lastNameParentBelow18" name="lastNameParent" placeholder="Achternaam ouder/verzorger...">
 
             <br>
             <label for="AdresVoogd">Adres ouder/verzorger*</label>
-            <input class="form-control{{ $errors->has('addressParent') ? ' is-invalid' : '' }}" value="{{ old('addressParent') }}" type="text" id="addressParent" name="addressParent" placeholder="Adres ouder/verzorger...">
+            <input class="form-control{{ $errors->has('addressParent') ? ' is-invalid' : '' }}" value="{{ old('addressParent') }}" type="text" id="addressParentBelow18" name="addressParent" placeholder="Adres ouder/verzorger...">
 
             <br>
             <label for="TelefoonnummerVoogd">Telefoonnummer ouder/verzorger*</label>
-            <input class="form-control{{ $errors->has('phoneNumberParent') ? ' is-invalid' : '' }}" value="{{ old('phoneNumberParent') }}" type="text" id="phoneNumberParent" name="phoneNumberParent" placeholder="Telefoonnummer ouder/verzorger...">
+            <input class="form-control{{ $errors->has('phoneNumberParent') ? ' is-invalid' : '' }}" value="{{ old('phoneNumberParent') }}" type="text" id="phoneNumberParentBelow18" name="phoneNumberParent" placeholder="Telefoonnummer ouder/verzorger...">
         </div>
 
         <div id="ShowIfAbove18" style="display: none;">
             <label for="VoornaamVoogd">Voornaam contactpersoon*</label>
-            <input class="form-control{{ $errors->has('firstNameParent') ? ' is-invalid' : '' }}" value="{{ old('firstNameParent') }}" type="text" id="firstNameParent" name="firstNameParent" placeholder="Voornaam contactpersoon...">
+            <input class="form-control{{ $errors->has('firstNameParent') ? ' is-invalid' : '' }}" value="{{ old('firstNameParent') }}" type="text" id="firstNameParentAbove18" name="firstNameParent" placeholder="Voornaam contactpersoon...">
 
             <br>
             <label for="AchternaamVoogd">Achternaam contactpersoon*</label>
-            <input class="form-control{{ $errors->has('lastNameParent') ? ' is-invalid' : '' }}" value="{{ old('lastNameParent') }}" type="text" id="lastNameParent" name="lastNameParent" placeholder="Achternaam contactpersoon...">
+            <input class="form-control{{ $errors->has('lastNameParent') ? ' is-invalid' : '' }}" value="{{ old('lastNameParent') }}" type="text" id="lastNameParentAbove18" name="lastNameParent" placeholder="Achternaam contactpersoon...">
 
             <br>
             <label for="TelefoonnummerVoogd">Telefoonnummer contactpersoon*</label>
-            <input class="form-control{{ $errors->has('phoneNumberParent') ? ' is-invalid' : '' }}" value="{{ old('phoneNumberParent') }}" type="text" id="phoneNumberParent" name="phoneNumberParent" placeholder="Telefoonnummer contactpersoon...">
+            <input class="form-control{{ $errors->has('phoneNumberParent') ? ' is-invalid' : '' }}" value="{{ old('phoneNumberParent') }}" type="text" id="phoneNumberParentAbove18" name="phoneNumberParent" placeholder="Telefoonnummer contactpersoon...">
         </div>
 
         <div class="form-group">
@@ -144,9 +144,27 @@
             if(age < 18 || age > 100) {
                 document.getElementById("ShowIfBelow18").style.display = "inline";
                 document.getElementById("ShowIfAbove18").style.display = "none";
+
+                document.getElementById("firstNameParentBelow18").disabled = false;
+                document.getElementById("lastNameParentBelow18").disabled = false;
+                document.getElementById("addressParentBelow18").disabled = false;
+                document.getElementById("phoneNumberParentBelow18").disabled = false;
+
+                document.getElementById("firstNameParentAbove18").disabled = true;
+                document.getElementById("lastNameParentAbove18").disabled = true;
+                document.getElementById("phoneNumberParentAbove18").disabled = true;
             } else {
                 document.getElementById("ShowIfBelow18").style.display = "none";
                 document.getElementById("ShowIfAbove18").style.display = "inline";
+
+                document.getElementById("firstNameParentBelow18").disabled = true;
+                document.getElementById("lastNameParentBelow18").disabled = true;
+                document.getElementById("addressParentBelow18").disabled = true;
+                document.getElementById("phoneNumberParentBelow18").disabled = true;
+
+                document.getElementById("firstNameParentAbove18").disabled = false;
+                document.getElementById("lastNameParentAbove18").disabled = false;
+                document.getElementById("phoneNumberParentAbove18").disabled = false;
             }
         }
     }

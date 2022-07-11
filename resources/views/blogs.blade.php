@@ -40,8 +40,8 @@
     let open = 100 - occupied
     const data = {
         labels: [
-            'Bezet',
-            'Nog vrij',
+            'Bezet %',
+            'Nog vrij %',
         ],
         datasets: [{
             label: 'Aantal plekken vrij!',

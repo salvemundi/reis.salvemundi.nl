@@ -133,7 +133,6 @@ class BlogController extends Controller
             }
         }
 
-        dd(array_unique($userArr));
         foreach(array_unique($userArr) as $participant) {
             if(isset($participant)) {
                 Mail::bcc($participant)

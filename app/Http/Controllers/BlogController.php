@@ -44,6 +44,7 @@ class BlogController extends Controller
             $occupied = Occupied::all()->first();
         } else {
             $occupied = new Occupied();
+            $occupied->id = Str::uuid()->toString();
         }
 
         $occupied->occupied = $request->input('occupied');

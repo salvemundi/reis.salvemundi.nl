@@ -134,6 +134,7 @@ class BlogController extends Controller
         }
 
         foreach(array_unique($userArr) as $participant) {
+            dd($participant);
             if(isset($participant)) {
                 Mail::bcc($participant)
                     ->send(new participantMail($participant, $blog));

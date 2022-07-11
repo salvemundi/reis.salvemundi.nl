@@ -36,15 +36,16 @@ class ParticipantController extends Controller {
         if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
             if(!isset($selectedParticipant)) {
-                foreach($participants as $participant) {
-                    if($participant->payments != null) {
-                        $participant->latestPayment = $participant->payments()->latest()->first();
-                    }
-                    $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
-                }
-
                 return redirect("/participants");
             }
+
+            foreach($participants as $participant) {
+                if($participant->payments != null) {
+                    $participant->latestPayment = $participant->payments()->latest()->first();
+                }
+                $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
+            }
+
             $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
             return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         } else {

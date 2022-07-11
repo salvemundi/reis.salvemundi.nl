@@ -350,12 +350,12 @@ class ParticipantController extends Controller {
 
     public function daddyStore(Request $request){
         $request->validate([
-            'firstName' => ['required', 'regex:/^[a-zA-Z ]+$/]'],
+            'firstName' => ['required', 'regex:/^[a-zA-Z ]+$/'],
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-            'lastName' =>  ['required', 'regex:/^[a-zA-Z ]+$/]'],
+            'lastName' =>  ['required', 'regex:/^[a-zA-Z ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
             'birthday' => 'required',
-            'fontysEmail' => ['nullable', '|email:rfc,dns|max:65|ends_with:student.fontys.nl'],
+            'fontysEmail' => 'nullable|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
             'firstNameParent' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'lastNameParent' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
@@ -373,8 +373,9 @@ class ParticipantController extends Controller {
         $parent->phoneNumber = $request->input('phoneNumber');
         $parent->firstNameParent = $request->input('firstNameParent');
         $parent->lastNameParent = $request->input('lastNameParent');
-        $parent->phoneNumberParent = $request->input('parentPhoneNumber');
+        $parent->phoneNumberParent = $request->input('phoneNumberParent');
         $parent->medicalIssues = $request->input('medicalIssues');
+        $parent->specials = $request->input('specials');
         $parent->role = Roles::dad_mom();
         $parent->alreadyPaidForMembership = isset($request->participantAlreadyPaid);
         $parent->save();

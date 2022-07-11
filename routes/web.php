@@ -137,5 +137,5 @@ Route::middleware(['AzureAuth'])->group(function () {
 
 Route::middleware('daddyware')->group(function () {
     Route::get('/inschrijven/ouder', [ParticipantController::class, 'daddyIndex']);
-    Route::post('/inschrijven/ouder/store', [ParticipantController::class, 'daddyStore']);
+    Route::post('/inschrijven/ouders/store', [ParticipantController::class, 'daddyStore']);
 });

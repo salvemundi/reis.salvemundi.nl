@@ -18,7 +18,6 @@ class AzureAuth
     {
         $userId = session('id');
 
-
         $groupsObj = session('groups');
 
         if (!$userId || !$groupsObj) {

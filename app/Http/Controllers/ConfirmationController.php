@@ -43,7 +43,7 @@ class ConfirmationController extends Controller
         $token = $request->token;
         $confirmationToken = ConfirmationToken::find($token);
         $user = $confirmationToken->participant;
-        if(!Setting::where('name','ConfirmationEnabled')->first()->value) {
+        if(Setting::where('name','ConfirmationEnabled')->first()->value == 'false') {
             return back()->with('error','Inschrijvingen zijn helaas gesloten!');
         }
         if ($token && $confirmationToken !== null) {

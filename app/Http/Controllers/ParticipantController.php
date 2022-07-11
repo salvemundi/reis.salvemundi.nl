@@ -35,9 +35,19 @@ class ParticipantController extends Controller {
 
         if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
+            $dateToday = Carbon::now()->toDate();
+
             if(!isset($selectedParticipant)) {
                 return redirect("/participants");
             }
+
+            foreach($participants as $participant) {
+                if($participant->payments != null) {
+                    $participant->latestPayment = $participant->payments()->latest()->first();
+                }
+                $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
+            }
+
             $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
             return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         } else {
@@ -127,7 +137,7 @@ class ParticipantController extends Controller {
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-                'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
                 'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
                 'role' => 'nullable',
@@ -144,7 +154,7 @@ class ParticipantController extends Controller {
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-                'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
                 'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
                 'role' => 'nullable',
@@ -161,14 +171,14 @@ class ParticipantController extends Controller {
         }
 
         if($request->input('confirmation') == null) {
-            if(!Setting::where('name','SignupPageEnabled')->first()->value) {
+            if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
                 return back()->with('error','Inschrijvingen zijn helaas gesloten!');
             }
             $participant->firstName = $request->input('firstName');
             $participant->insertion = $request->input('insertion');
             $participant->lastName = $request->input('lastName');
         } else {
-            if(!Setting::where('name','ConfirmationEnabled')->first()->value) {
+            if(Setting::where('name','ConfirmationEnabled')->first()->value == 'false') {
                 return back()->with('error','Inschrijvingen zijn helaas gesloten!');
             }
             $participant->fontysEmail = $request->input('fontysEmail');
@@ -205,6 +215,8 @@ class ParticipantController extends Controller {
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
+
+        // dd($participant);
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');
@@ -244,9 +256,11 @@ class ParticipantController extends Controller {
             'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
         ]);
-        if(!Setting::where('name','SignupPageEnabled')->first()->value) {
+
+        if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
             return back()->with('error','Inschrijvingen zijn helaas gesloten!');
         }
+
         if (Participant::where('email', $request->input('email'))->count() > 0) {
             return back()->with('warning', 'Dit email adres bestaat al!');
         }
@@ -274,7 +288,7 @@ class ParticipantController extends Controller {
             'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'email' => 'required|email:rfc,dns|max:65'
         ]);
-        if(!Setting::where('name','SignupPageEnabled')->first()->value) {
+        if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
             return back()->with('error','Inschrijvingen zijn helaas gesloten!');
         }
         if (Participant::where('fontysEmail', $request->input('fontysEmail'))->count() > 0) {

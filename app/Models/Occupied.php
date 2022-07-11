@@ -9,7 +9,6 @@ use App\Http\Traits\UsesUuid;
 class Occupied extends Model
 {
     use HasFactory;
-    use UsesUuid;
 
     protected $table = 'occupied';
 }

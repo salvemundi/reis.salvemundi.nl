@@ -150,5 +150,7 @@
             }
         }
     }
+
+    getAge();
 </script>
 @endsection

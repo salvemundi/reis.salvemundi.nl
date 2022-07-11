@@ -132,8 +132,7 @@ class BlogController extends Controller
                 array_push($userArr, $participant);
             }
         }
-
-        $filtered = collect($userArr)->groupBy('email');
+        $filtered = collect($userArr)->unique('email');
         foreach($filtered as $participant) {
             if(isset($participant)) {
                 Mail::bcc($participant)

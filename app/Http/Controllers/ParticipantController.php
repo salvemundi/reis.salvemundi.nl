@@ -35,6 +35,8 @@ class ParticipantController extends Controller {
 
         if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
+            $dateToday = Carbon::now()->toDate();
+
             if(!isset($selectedParticipant)) {
                 return redirect("/participants");
             }

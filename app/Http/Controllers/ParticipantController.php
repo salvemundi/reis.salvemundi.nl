@@ -205,6 +205,8 @@ class ParticipantController extends Controller {
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
+
+        dd($participant);
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ConfirmationToken;
 use App\Models\Participant;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use \Mollie\Api\MollieApiClient;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
@@ -14,13 +16,14 @@ use Illuminate\Http\Request;
 class PaymentController extends Controller
 {
 
-    private $verificationController;
+    private VerificationController $verificationController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();
     }
 
-    public function payForIntro($token) {
+    public function payForIntro($token): Response|RedirectResponse
+    {
         $confirmationToken = ConfirmationToken::findOrFail($token);
         try{
             $mollie = $this->createMollieInstance();
@@ -28,7 +31,7 @@ class PaymentController extends Controller
             $payment = $mollie->payments->create([
                 "amount" => [
                     "currency" => "EUR",
-                    "value" => "90.00"
+                    "value" => ($confirmationToken->participant->alreadyPaidForMembership) ? "70.00" : "90.00"
                 ],
                 "description" => "Introductie ". Date("Y"),
                 "redirectUrl" => route('payment.success', ['userId' => $confirmationToken->participant->id]),
@@ -91,6 +94,7 @@ class PaymentController extends Controller
         }
         return $userArr;
     }
+
     public function getAllNonPaidUsers() {
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
@@ -103,4 +107,16 @@ class PaymentController extends Controller
         }
         return $userArr;
     }
+
+    public function checkIfParticipantPaid(Participant $participant):bool {
+        $participant->latestPayment = $participant->payments()->latest()->first();
+
+        if ($participant->latestPayment != null) {
+            if($participant->latestPayment->paymentStatus == PaymentStatus::paid) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

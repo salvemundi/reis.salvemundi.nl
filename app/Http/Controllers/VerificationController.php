@@ -7,6 +7,10 @@ use App\Models\Participant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\emailVerificationResponse;
+use Carbon\Carbon;
+use App\Models\ConfirmationToken;
+use App\Models\Setting;
+use App\Mail\emailConfirmationSignup;
 
 class VerificationController extends Controller
 {
@@ -22,8 +26,21 @@ class VerificationController extends Controller
             $verificationToken->verified = true;
             $verificationToken->save();
 
-            Mail::to($verificationToken->participant()->first()->email)
-                ->send(new emailVerificationResponse($verificationToken->participant()->first()));
+            $participant = $verificationToken->participant()->first();
+
+            Mail::to($participant->email)
+                ->send(new emailVerificationResponse($participant));
+
+            $today = Carbon::now()->format('Y-m-d'); //yyyy-mm-dd
+
+            if(Setting::where('name','AutoSendPaymentEmailDate')->first()->value <= $today) {
+                $newConfirmationToken = new ConfirmationToken();
+                $newConfirmationToken->participant()->associate($participant);
+                $newConfirmationToken->save();
+
+                Mail::to($participant->email)
+                ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+            }
 
             return view('verifyResponse', ['Response' => true]);
         }
@@ -42,7 +59,8 @@ class VerificationController extends Controller
         return $userArr;
     }
 
-    public function getNonVerifiedParticipants() {
+    public function getNonVerifiedParticipants(): array
+    {
         $userArr = [];
         $allVerifiedTokens = VerificationToken::where('verified', false)->get();
 

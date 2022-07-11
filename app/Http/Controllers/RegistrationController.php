@@ -18,6 +18,12 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 
 class RegistrationController extends Controller
 {
+    private $verificationController;
+
+    public function __construct() {
+        $this->verificationController = new VerificationController();
+    }
+
     public function getRegistrationsWithInformation(Request $request) {
         $participants = Participant::join('verify_email', 'verify_email.participantId', '=',  'participants.id')
                ->get(['participants.*', 'verify_email.verified', 'verify_email.updated_at']);
@@ -30,8 +36,7 @@ class RegistrationController extends Controller
             $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
         }
 
-        $controller = new VerificationController();
-        $controller->getVerifiedParticipants();
+        $this->verificationController->getVerifiedParticipants();
         return view('admin/registrations', ['participants' => $participants]);
     }
 }

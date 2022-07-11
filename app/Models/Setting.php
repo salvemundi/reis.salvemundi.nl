@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Traits\UsesUuid;
 
-class Occupied extends Model
+class Setting extends Model
 {
     use HasFactory;
+    use usesUuid;
 
-    protected $table = 'occupied';
+    protected $table = 'settings';
 }

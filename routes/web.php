@@ -10,6 +10,7 @@ use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
@@ -31,7 +32,9 @@ Route::get('/callback', [AuthController::class, 'callback']);
 Route::get('/signout', [AuthController::class, 'signOut']);
 
 //singup Purple festival
-Route::get('/purpleInschrijven',[ParticipantController::class, 'showPurplePage']);
+Route::get('/purpleInschrijven', function () {
+    return view('purpleSignup');
+});
 Route::post('/purpleInschrijven', [ParticipantController::class, 'purpleSignup']);
 
 // Signup
@@ -39,7 +42,9 @@ Route::post('/inschrijven', [ParticipantController::class, 'signup']);
 Route::get('/inschrijven', function() {
     return redirect('/'); // Fix 405 error
 });
-Route::get('/', [ParticipantController::class, 'signupIndex']);
+Route::get('/', function () {
+    return view('signup');
+});
 Route::get('/inschrijven/verify/{token}',[VerificationController::class,'verify']);
 
 // Payment
@@ -73,7 +78,9 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::post('/participants/{userId}/delete', [ParticipantController::class, 'delete']);
     Route::post('/participants/{userId}/storeNote', [ParticipantController::class, 'storeNote']);
     Route::post('/participants/{userId}/storeRemove', [ParticipantController::class, 'storeRemove']);
-
+    Route::post('/participants/{userId}/storeEdit', [ParticipantController::class,'storeEdit']);
+    Route::post('/participants/checkOutEveryone', [ParticipantController::class,'checkOutEveryone']);
+    Route::post('/participants/resendVerificationEmails', [ParticipantController::class, 'sendEmailsToNonVerified']);
     Route::get('/add', [ParticipantController::class, 'viewAdd']);
     Route::post('/add/store', [ParticipantController::class, 'store']);
     Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
@@ -103,12 +110,14 @@ Route::middleware(['AzureAuth'])->group(function () {
 
     // Excel
     Route::get('/export_excel/excel', [ParticipantController::class, 'excel'])->name('export_excel.excel');
-    Route::get('/studenten-nummers', [ParticipantController::class, 'studentNumbers'])->name('studentNumbers.excel');
+    Route::get('/fontys_mail', [ParticipantController::class, 'studentFontysEmails'])->name('fontysEmail.excel');
     // Api
     Route::get('/import', [APIController::class, 'GetParticipants']);
 
     // QRCode
-    Route::get('/qrcode', [ParticipantController::class, 'scanQR']);
+    Route::get('/qrcode', function () {
+        return view('admin/qr');
+    });
 
     // Events
     Route::get('/events', [ScheduleController::class, 'getAllEvents']);
@@ -119,4 +128,8 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::post('/events/save/{eventId}',[ScheduleController::class, 'store']);
     // Delete events
     Route::get('/events/delete/{eventId}',[ScheduleController::class, 'deleteEvent']);
+
+    // Settings
+    Route::get('/settings/',[SettingController::class, 'showSettings']);
+    Route::post('/settings/{settingId}/store',[SettingController::class, 'storeSetting']);
 });

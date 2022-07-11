@@ -4,10 +4,22 @@
 setActive("participants");
 </script>
 <div class="row">
-    <div class="col-12 col-md-6 container">
+    @if(!Request::is('participants'))
+        <div class="col-12 col-md-6 container">
+    @else
+        <div class="col-12 container">
+    @endif
         <div class="d-flex">
-            <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a>
-            <a href="{{ route('studentNumbers.excel')}}" class="btn btn-primary btn-sm" style="margin-left: 4px;">Export student numbers</a>
+
+            <div class="dropdown" style="margin-left: 4px;">
+                <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Export
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><a class="dropdown-item" href="{{ route('export_excel.excel')}}" >Export to Excel</a></li>
+                    <li><a class="dropdown-item" href="{{ route('fontysEmail.excel')}}" >Export student fontys mails</a></li>
+                </ul>
+            </div>
 
             <div class="dropdown" style="margin-left: 4px;">
                 <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -15,9 +27,54 @@ setActive("participants");
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     <li><button class="dropdown-item" id="filterByCheckedInOnly" value="NO" type="button">Ingechecked</button></li>
-                    <li><button class="dropdown-item" id="filterByRemovedFromTerrain" value="NO" type="button">Definitief weg</button></li>
+                    <li><button class="dropdown-item" id="filterByRemovedFromTerrain" value="NO" type="button">Verbannen deelnemers</button></li>
                     <li><button class="dropdown-item" id="filterByNote" value="NO" type="button">Deelnemers met opmerking</button></li>
                 </ul>
+            </div>
+            <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
+                Check allen uit
+            </button>
+
+            <div class="dropdown" style="margin-left: 4px;">
+                <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Mailing
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li>
+                        <form method="POST" action="/registrations">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Stuur betaling email</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="POST" action="/participants/resendVerificationEmails">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Stuur email niet geverifieerd</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="checkoutEveryoneModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Iedereen uitchecken?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Weet je zeker dat je iedereen wil uitchecken?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nah doe toch maar nie</button>
+                            <form method="POST" action="/participants/checkOutEveryone">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Bevestigen</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -31,7 +88,11 @@ setActive("participants");
                         <th data-field="role" data-sortable="true">Rol</th>
                         <th data-field="checkedIn" data-sortable="true">checked in</th>
                         <th data-field="data" data-sortable="true">Gegevens</th>
-                        <th data-field="createdat" data-sortable="true">Laatste aanpassing</th>
+                        @if(Request::is('participants'))
+                            <th data-field="createdat" data-sortable="true">Laatste aanpassing</th>
+                            <th data-field="daysDif" data-sortable="true">Dagen geleden ingeschreven</th>
+                        @endif
+                        <th data-field="paid" data-sortable="true">Betaald</th>
                         <th data-field="note" data-sortable="false">Notitie</th>
                         <th data-field="removed" data-sortable="false">Verwijderd</th>
                     </tr>
@@ -39,7 +100,7 @@ setActive("participants");
                 <tbody>
                     @foreach ($participants as $participant)
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
-                            <td data-value="{{ $participant->firstName }}">{{ $participant->id }}</td>
+                            <td data-value="{{ $participant->id }}">{{ $participant->id }}</td>
                             <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
                             @if($participant->checkedIn == 1)
@@ -48,7 +109,29 @@ setActive("participants");
                                 <td data-value="{{ $participant->checkedIn }}">False</td>
                             @endif
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
-                            <td data-value="{{ $participant->firstName }}">{{ $participant->updated_at }}</td>
+                            @if(Request::is('participants'))
+                                <td data-value="{{ $participant->firstName }}">{{ $participant->updated_at }}</td>
+                                <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference }}</td>
+                            @endif
+                            <td data-value="{{ $participant->paid }}">
+                                @if($participant->latestPayment)
+                                    @if($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::paid)
+                                        <span class="badge rounded-pill bg-success text-black">Betaald</span>
+                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::pending)
+                                        <span class="badge rounded-pill bg-warning text-black">In behandeling</span>
+                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::canceled)
+                                        <span class="badge rounded-pill bg-secondary">Geannuleerd</span>
+                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::expired)
+                                        <span class="badge rounded-pill bg-secondary">Verlopen</span>
+                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::failed)
+                                        <span class="badge rounded-pill bg-danger">Gefaald</span>
+                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::open)
+                                        <span class="badge rounded-pill bg-secondary">Open</span>
+                                    @endif
+                                @else
+                                    <span class="badge rounded-pill bg-secondary">Geen transacties</span>
+                                @endif
+                            </td>
                             <td data-value="{{ $participant->note }}">{{ $participant->note }}</td>
                             @if($participant->removedFromIntro == 1)
                                 <td data-value="{{ $participant->removedFromIntro }}">True</td>
@@ -61,6 +144,7 @@ setActive("participants");
             </table>
         </div>
     </div>
+    @if(!Request::is('participants'))
     <div class="col-12 col-md-6 container mb-5">
         @if (\Session::has('message'))
             <div class="alert alert-danger m-1" role="alert">
@@ -89,11 +173,16 @@ setActive("participants");
                                 <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
                                 <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
                                 <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
+                                <b>Studie type: </b> {{ App\Enums\StudyType::coerce($participant->studyType)->description}}<br>
                             @endif
                             <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
                             <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
 
                             <div style="display: flex; flex-direction: row;">
+                                @include('include.participantEditModal', ['participant' => $selectedParticipant])
+                                <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $selectedParticipant->id }}">
+                                    Bewerk
+                                </button>
                                 @if (!$selectedParticipant->checkedIn)
                                     <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
                                         @csrf
@@ -106,7 +195,7 @@ setActive("participants");
                                     </form>
                                 @endif
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Verwijder van database
+                                    Verwijderen
                                 </button>
                             </div>
                         </span>
@@ -124,7 +213,7 @@ setActive("participants");
                             <form method="POST" action="/participants/{{ $selectedParticipant->id }}/storeRemove">
                                 @csrf
                                 @if(!$selectedParticipant->removedFromIntro)
-                                    <button type="submit" class="btn btn-danger">Verwijder deelnemer van terrein / intro</button>
+                                    <button type="submit" class="btn btn-danger">Verban deelnemer van terrein / intro</button>
                                 @else
                                     <button type="submit" class="btn btn-success">Laat deelnemer weer toe op terrein / intro</button>
                                 @endif
@@ -157,6 +246,7 @@ setActive("participants");
         @endisset
     </div>
 </div>
+    @endif
     <script>
         var $table = $('#table')
 

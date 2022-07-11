@@ -42,10 +42,11 @@
                                 </ul>
                             </div>
                         @endif
-                        <label for="studentNumber" class="form-label">Studentnummer (7 cijferig getal):</label>
-                        <input type="number" class="form-control w-100" name="studentNumber" id="studentNumber" placeholder="Studentnummer" required>
 
-                        <label for="email" class="form-label">Email</label>
+                        <label for="fontysEmail">Je fontys email adres*</label>
+                        <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
+
+                        <label for="email" class="form-label">Email*</label>
                         <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" name="email" id="email" placeholder="name@example.com">
 
                         <button class="btn btn-primary my-3 w-100" type="submit">Inschrijven</button>

@@ -35,9 +35,7 @@ class BusController extends Controller
         if (Bus::where('busNumber', '=', $request->input('busNumber'))->first() != null) {
             return back()->with('error', 'Busnummer is al in gebruik!');
         }
-
         $bus->save();
-
         return back()->with('message', 'Busnummer is toegevoegd!');
     }
 

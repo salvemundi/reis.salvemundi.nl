@@ -5,9 +5,11 @@ namespace App\Enums;
 use BenSampo\Enum\Enum;
 
 /**
- * @method static static OptionOne()
- * @method static static OptionTwo()
- * @method static static OptionThree()
+ * @method static static child()
+ * @method static static dad_mom()
+ * @method static static teacher()
+ * @method static static crew()
+ * @method static static other()
  */
 final class Roles extends Enum
 {
@@ -16,7 +18,6 @@ final class Roles extends Enum
     const teacher = 2;
     const crew = 3;
     const other = 4;
-
 
     public static function getDescription($value): string
     {

@@ -2,29 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Participant;
 use App\Enums\Roles;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ParticipantsExport;
-use App\Exports\StudentNumbersExport;
+use App\Exports\StudentFontysEmailExport;
+use App\Mail\emailNonVerifiedParticipants;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
+use App\Enums\StudyType;
 
 class ParticipantController extends Controller {
-    public function getParticipantsWithInformation(Request $request) {
+    private VerificationController $verificationController;
+
+    public function __construct() {
+        $this->verificationController = new VerificationController();
+    }
+
+    public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
+    {
         $participants = Participant::all();
 
         if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
+            $dateToday = Carbon::now()->toDate();
+
             if(!isset($selectedParticipant)) {
                 return redirect("/participants");
             }
+
+            foreach($participants as $participant) {
+                if($participant->payments != null) {
+                    $participant->latestPayment = $participant->payments()->latest()->first();
+                }
+                $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
+            }
+
             $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
             return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
+        } else {
+            $dateToday = Carbon::now()->toDate();
+            foreach($participants as $participant) {
+                if($participant->payments != null) {
+                    $participant->latestPayment = $participant->payments()->latest()->first();
+                }
+                $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
+            }
         }
         return view('admin/participants', ['participants' => $participants]);
     }
@@ -77,6 +110,11 @@ class ParticipantController extends Controller {
         return back();
     }
 
+    public function checkOutEveryone() {
+        Participant::query()->update(['checkedIn' => false]);
+        return back();
+    }
+
     public function delete(Request $request) {
         $participant = Participant::find($request->userId);
         $participant->delete();
@@ -98,13 +136,12 @@ class ParticipantController extends Controller {
                 'email' => 'required|email:rfc,dns|max:65',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-                'studentNumber' => ['nullable', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-                'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
                 'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
                 'role' => 'nullable',
-                'checkedIn' => 'nullable',
+                'checkedIn' => 'nullable'
             ]);
         } else {
             $request->validate([
@@ -113,15 +150,16 @@ class ParticipantController extends Controller {
                 'lastName' =>  ['nullable', 'regex:/^[a-zA-Z ]+$/]'],
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
-                'studentNumber' => ['required', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
+                'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
                 'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-                'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
                 'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
                 'role' => 'nullable',
                 'checkedIn' => 'nullable',
+                'studyType' => 'required'
             ]);
         }
 
@@ -133,14 +171,23 @@ class ParticipantController extends Controller {
         }
 
         if($request->input('confirmation') == null) {
+            if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
+                return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+            }
             $participant->firstName = $request->input('firstName');
             $participant->insertion = $request->input('insertion');
             $participant->lastName = $request->input('lastName');
+        } else {
+            if(Setting::where('name','ConfirmationEnabled')->first()->value == 'false') {
+                return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+            }
+            $participant->fontysEmail = $request->input('fontysEmail');
         }
 
         $participant->birthday = $request->input('birthday');
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
+        $participant->studyType = StudyType::coerce((int)$request->input('studyType'));
 
         if($request->input('studentYear') != null) {
             $participant->studentYear = $request->input('studentYear');
@@ -154,6 +201,7 @@ class ParticipantController extends Controller {
         $participant->phoneNumberParent = $request->input('phoneNumberParent');
         $participant->medicalIssues = $request->input('medicalIssues');
         $participant->specials = $request->input('specials');
+        $participant->studyType = $request->input('participantStudyType') ?? 0;
 
         if($request->input('role') != null) {
             $participant->role = $request->input('role');
@@ -161,11 +209,14 @@ class ParticipantController extends Controller {
             $participant->role = 0;
         }
 
+        // what is this shit
         if($request->input('checkedIn') != null) {
             $participant->checkedIn = Roles::coerce((int)$request->input('checkedIn'));
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
+
+        // dd($participant);
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');
@@ -175,16 +226,11 @@ class ParticipantController extends Controller {
         return Excel::download(new ParticipantsExport, 'deelnemersInformatie.xlsx');
     }
 
-    function StudentNumbers() {
-        return Excel::download(new StudentNumbersExport, 'studentenNummers.xlsx');
+    function studentFontysEmails() {
+        return Excel::download(new StudentFontysEmailExport, 'fontysEmails.xlsx');
     }
 
-    public function signupIndex() {
-        return view('signup');
-    }
-
-    public function storeNote(Request $request): \Illuminate\Http\RedirectResponse
-    {
+    public function storeNote(Request $request): RedirectResponse {
         $participant = Participant::find($request->userId);
         $participant->note = $request->input('participantNote');
         $participant->save();
@@ -194,9 +240,11 @@ class ParticipantController extends Controller {
     public function storeRemove(Request $request) {
         $participant = Participant::find($request->userId);
         $participant->removedFromIntro = !$participant->removedFromIntro;
+
         if($participant->removedFromIntro) {
             $participant->checkedIn = false;
         }
+
         $participant->save();
         return back();
     }
@@ -207,8 +255,11 @@ class ParticipantController extends Controller {
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
             'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
-            'studentNumber' => ['nullable', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
         ]);
+
+        if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
+            return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+        }
 
         if (Participant::where('email', $request->input('email'))->count() > 0) {
             return back()->with('warning', 'Dit email adres bestaat al!');
@@ -217,7 +268,6 @@ class ParticipantController extends Controller {
         $participant = new Participant;
         $participant->firstName = $request->input('firstName');
         $participant->insertion = $request->input('insertion');
-        $participant->studentNumber = $request->input('studentNumber');
         $participant->lastName = $request->input('lastName');
         $participant->email = $request->input('email');
         $participant->save();
@@ -228,35 +278,82 @@ class ParticipantController extends Controller {
 
         Mail::to($participant->email)
             ->send(new VerificationMail($participant, $token));
+
         return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');
     }
 
-    public function confirmSignUp(Request $request) {
-        $token = $request->token;
-    }
-
-    public function scanQR(Request $request) {
-        return view('admin/qr');
-    }
-    //Load purple page
-    public function showPurplePage() {
-
-        return view('purpleSignup');
-    }
     //Create participant(purple only)
     public function purpleSignup(Request $request) {
         $request->validate([
-            'studentNumber' => ['required', 'max:7','min:7', 'regex:/(^[0-9]+$)+/'],
-            'email' => 'required|email:rfc,dns|max:65',
-
+            'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
+            'email' => 'required|email:rfc,dns|max:65'
         ]);
-        if (Participant::where('studentNumber', $request->input('studentNumber'))->count() > 0) {
+        if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
+            return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+        }
+        if (Participant::where('fontysEmail', $request->input('fontysEmail'))->count() > 0) {
             return back()->with('warning', 'Jij hebt je waarschijnlijk al ingeschreven voor purple!');
         }
+
         $participant = new Participant();
-        $participant->studentNumber= $request->input('studentNumber');
+        $participant->fontysEmail= $request->input('fontysEmail');
         $participant->email = $request->input('email');
         $participant->save();
+
         return back()->with('message', 'Je hebt je succesvol opgegeven voor Purple!');
+    }
+
+    public function sendEmailsToNonVerified(): RedirectResponse
+    {
+        $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
+
+        foreach($nonVerifiedParticipants as $participant) {
+            $token = new VerificationToken;
+            $token->participant()->associate($participant);
+            $token->save();
+
+            Mail::to($participant->email)
+                ->send(new emailNonVerifiedParticipants($participant, $token));
+        }
+
+        return back()->with('message', 'De mails zijn verstuurd!');
+    }
+
+    public function storeEdit(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'participantFirstName' => 'required', 'regex:/^[a-zA-Z ]+$/',
+            'participantInsertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'participantLastName' => 'required', 'regex:/^[a-zA-Z ]+$/',
+            'participantBirthday' => 'required',
+            'participantEmail' => 'required|email:rfc,dns|max:65',
+            'participantPhoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
+            'participantFirstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'participantLastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
+            'participantParentPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
+            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/'
+        ]);
+
+        $participant = Participant::find($request->userId);
+        if($participant == null) {
+            return back()->with('error','Deelnemer niet gevonden!');
+        }
+        $participant->firstName = $request->input('participantFirstName');
+        $participant->insertion = $request->input('participantInsertion');
+        $participant->lastName = $request->input('participantLastName');
+        $participant->email = $request->input('participantEmail');
+        $participant->birthday = $request->input('participantBirthday');
+        $participant->phoneNumber = $request->input('participantPhoneNumber');
+        $participant->firstNameParent = $request->input('participantFirstNameParent');
+        $participant->lastNameParent = $request->input('participantLastNameParent');
+        $participant->addressParent = $request->input('participantAddress');
+        $participant->phoneNumberParent = $request->input('participantParentPhoneNumber');
+        $participant->medicalIssues = $request->input('participantMedicalIssues');
+        $participant->role = $request->input('participantRole') ?? 0;
+        $participant->studyType = $request->input('participantStudyType') ?? 0;
+        $participant->alreadyPaidForMembership = isset($request->participantAlreadyPaid);
+        $participant->save();
+        return back()->with('success','Deelnemer gegevens opgeslagen!');
     }
 }

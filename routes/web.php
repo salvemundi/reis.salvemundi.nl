@@ -82,6 +82,7 @@ Route::middleware(['AzureAuth'])->group(function () {
     Route::post('/participants/{userId}/storeEdit', [ParticipantController::class,'storeEdit']);
     Route::post('/participants/checkOutEveryone', [ParticipantController::class,'checkOutEveryone']);
     Route::post('/participants/resendVerificationEmails', [ParticipantController::class, 'sendEmailsToNonVerified']);
+    Route::post('/participants/resendQRcode', [ParticipantController::class, 'resendQRCodeEmails']);
     Route::get('/add', [ParticipantController::class, 'viewAdd']);
     Route::post('/add/store', [ParticipantController::class, 'store']);
     Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);

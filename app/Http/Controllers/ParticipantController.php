@@ -22,7 +22,7 @@ use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 use App\Enums\StudyType;
 use App\Mail\parentMailSignup;
-use App\Mail\emailPaymentSucceeded;
+use App\Mail\resendQRCode;
 
 class ParticipantController extends Controller {
     private VerificationController $verificationController;
@@ -326,7 +326,7 @@ class ParticipantController extends Controller {
 
         foreach($paidParticipants as $participant) {
             Mail::to($participant->email)
-                ->send(new emailPaymentSucceeded($participant));
+                ->send(new resendQRCode($participant));
         }
 
         return back()->with('message', 'De mails zijn verstuurd!');

@@ -86,7 +86,8 @@ setActive("participants");
                         <th data-field="Id" data-sortable="true">Id</th>
                         <th data-field="firstName" data-sortable="true">Naam</th>
                         <th data-field="role" data-sortable="true">Rol</th>
-                        <th data-field="checkedIn" data-sortable="true">checked in</th>
+                        <th data-field="verified" data-sortable="true">Geverifieerd</th>
+                        <th data-field="checkedIn" data-sortable="true">Checked in</th>
                         <th data-field="data" data-sortable="true">Gegevens</th>
                         @if(Request::is('participants'))
                             <th data-field="createdat" data-sortable="true">Laatste aanpassing</th>
@@ -103,6 +104,8 @@ setActive("participants");
                             <td data-value="{{ $participant->id }}">{{ $participant->id }}</td>
                             <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
+                            <td data-value="{{ $participant->verificationToken->verified }}">{{ $participant->verificationToken->verified ? 'Ja' : 'Nee' }}</td>
+
                             @if($participant->checkedIn == 1)
                                 <td data-value="{{ $participant->checkedIn }}">True</td>
                             @else

@@ -30,17 +30,21 @@
             @endif
             @if($userIsAdmin)
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">admin</a>
+                    <a class="nav-link" href="/dashboard">Admin</a>
                 </li>
             @endif
         </ul>
-        <ul class="navbar-nav w-50 d-flex justify-content-end">
-        <!-- Right Side Of Navbar -->
-            <!-- Authentication Links -->
-            <li class="nav-item">
-                <a class="nav-link" href="/login">Inloggen</a>
-            </li>
-        </ul>
+            <ul class="navbar-nav w-50 d-flex justify-content-end">
+            <!-- Right Side Of Navbar -->
+                <!-- Authentication Links -->
+                <li class="nav-item">
+                    @if($userIsAdmin && session('id'))
+                        <a class="nav-link" href="/signout">Uitloggen</a>
+                    @else
+                        <a class="nav-link" href="/login">Inloggen</a>
+                    @endif
+                </li>
+            </ul>
       </div>
     </div>
 </nav>

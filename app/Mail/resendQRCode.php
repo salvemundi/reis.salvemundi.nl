@@ -19,7 +19,7 @@ class resendQRCode extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Participant $participant)
     {
         $this->participant = $participant;
     }

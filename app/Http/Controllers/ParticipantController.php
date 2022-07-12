@@ -21,6 +21,7 @@ use App\Mail\emailNonVerifiedParticipants;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 use App\Enums\StudyType;
+use App\Mail\parentMailSignup;
 
 class ParticipantController extends Controller {
     private VerificationController $verificationController;
@@ -216,7 +217,6 @@ class ParticipantController extends Controller {
             $participant->checkedIn = Roles::coerce(0);
         }
 
-        // dd($participant);
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');
@@ -332,7 +332,8 @@ class ParticipantController extends Controller {
             'participantLastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
             'participantParentPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
-            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/'
+            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
+            'participantSpecial' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/'
         ]);
 
         $participant = Participant::find($request->userId);
@@ -354,6 +355,47 @@ class ParticipantController extends Controller {
         $participant->studyType = $request->input('participantStudyType') ?? 0;
         $participant->alreadyPaidForMembership = isset($request->participantAlreadyPaid);
         $participant->save();
+        return back()->with('success','Deelnemer gegevens opgeslagen!');
+    }
+
+    public function daddyIndex(){
+        return view('daddy');
+    }
+
+    public function daddyStore(Request $request){
+        $request->validate([
+            'firstName' => ['required', 'regex:/^[a-zA-Z ]+$/'],
+            'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'lastName' =>  ['required', 'regex:/^[a-zA-Z ]+$/'],
+            'email' => 'required|email:rfc,dns|max:65',
+            'birthday' => 'required',
+            'fontysEmail' => 'nullable|email:rfc,dns|max:65|ends_with:student.fontys.nl',
+            'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
+            'firstNameParent' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'lastNameParent' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'phoneNumberParent' => 'required|max:15|regex:/(^[0-9]+$)+/',
+            'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
+            'specials' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
+        ]);
+
+        $parent = new Participant;
+        $parent->firstName = $request->input('firstName');
+        $parent->insertion = $request->input('insertion');
+        $parent->lastName = $request->input('lastName');
+        $parent->email = $request->input('email');
+        $parent->birthday = $request->input('birthday');
+        $parent->phoneNumber = $request->input('phoneNumber');
+        $parent->firstNameParent = $request->input('firstNameParent');
+        $parent->lastNameParent = $request->input('lastNameParent');
+        $parent->phoneNumberParent = $request->input('phoneNumberParent');
+        $parent->medicalIssues = $request->input('medicalIssues');
+        $parent->specials = $request->input('specials');
+        $parent->role = Roles::dad_mom();
+        $parent->save();
+
+        Mail::to($parent->email)
+            ->send(new parentMailSignup($parent));
+
         return back()->with('success','Deelnemer gegevens opgeslagen!');
     }
 }

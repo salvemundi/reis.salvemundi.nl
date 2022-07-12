@@ -23,6 +23,16 @@
             <li class="nav-item">
                 <a class="nav-link" href="https://salvemundi.nl/merch">Merch</a>
             </li>
+            @if($userIsParent)
+                <li class="nav-item">
+                    <a class="nav-link" href="/inschrijven/ouders">Ouder inschrijven</a>
+                </li>
+            @endif
+            @if($userIsAdmin)
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">admin</a>
+                </li>
+            @endif
         </ul>
         <ul class="navbar-nav w-50 d-flex justify-content-end">
         <!-- Right Side Of Navbar -->

@@ -21,6 +21,7 @@ use App\Mail\emailNonVerifiedParticipants;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 use App\Enums\StudyType;
+use App\Mail\parentMailSignup;
 
 class ParticipantController extends Controller {
     private VerificationController $verificationController;
@@ -216,7 +217,6 @@ class ParticipantController extends Controller {
             $participant->checkedIn = Roles::coerce(0);
         }
 
-        // dd($participant);
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');
@@ -391,8 +391,11 @@ class ParticipantController extends Controller {
         $parent->medicalIssues = $request->input('medicalIssues');
         $parent->specials = $request->input('specials');
         $parent->role = Roles::dad_mom();
-        $parent->alreadyPaidForMembership = isset($request->participantAlreadyPaid);
         $parent->save();
+
+        Mail::to($parent->email)
+            ->send(new parentMailSignup($parent));
+
         return back()->with('success','Deelnemer gegevens opgeslagen!');
     }
 }

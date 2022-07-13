@@ -53,8 +53,28 @@
 <div class="mx-3 my-2 justify-content-center text-center">
     <div class="max-width mx-auto">
         <h2 class="purple">Problemen of vragen?</h2>
-        Er is altijd een BHV'er of crewlid ter beschikking om jouw vraag te beantwoorden! Bel via het telefoonnummer hieronder:
+        Er is altijd een BHV'er of crewlid ter beschikking om jouw vraag te beantwoorden! Bel bij nood het onderstaande telefoonnummer, in andere gevallen kan je een appje sturen.
         <br><a class="btn btn-primary" href="tel:+31 6 24827777"><i class="fa fa-phone"></i> +31 6 24827777</a>
+    </div>
+    <div class="max-width mx-auto">
+        <h2 class="purple">Vertrouwenspersonen</h2>
+        Wij doen ons uiterste best om de intro zo leuk en veilig mogelijk te maken voor iedere deelnemer. Hier hoort bij dat wij alle deelnemers een mogelijkheid willen geven om in alle vertrouwen contact te kunnen zoeken over iets wat ze dwars zit. Dit kan alles zijn; je klikt niet met de groep, je voelt je onder druk gezet of je bent slachtoffer geworden van ongewenst gedrag. Voor alles wat je dwarszit kan je een van onze contactpersonen benaderen.
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-6">
+                <p class="vertrouwensPersoon">Femke</p>
+                <img class="imgQR" src="images/vertrouwensPersonen/femke.jpeg">
+            </div>
+
+            <div class="col-md-4 col-6">
+                <p class="vertrouwensPersoon">Alessandra</p>
+                <img class="imgQR" src="images/vertrouwensPersonen/alessandra.jpg">
+            </div>
+
+            <div class="col-md-4 col-6">
+                <p class="vertrouwensPersoon">Jimmy (remote)</p>
+                <img class="imgQR" src="images/vertrouwensPersonen/jimmy.jpg">
+            </div>
+        </div>
     </div>
 </div>
 
@@ -69,7 +89,7 @@
             </div>
             <div class="col-6">
                 <div class="card p-2 m-0">
-                    kletsgroep
+                    Kletsgroep
                 </div>
             </div>
         </div>

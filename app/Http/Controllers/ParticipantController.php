@@ -22,12 +22,15 @@ use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 use App\Enums\StudyType;
 use App\Mail\parentMailSignup;
+use App\Mail\resendQRCode;
 
 class ParticipantController extends Controller {
     private VerificationController $verificationController;
+    private PaymentController $paymentController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();
+        $this->paymentController = new PaymentController();
     }
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -303,8 +306,7 @@ class ParticipantController extends Controller {
         return back()->with('message', 'Je hebt je succesvol opgegeven voor Purple!');
     }
 
-    public function sendEmailsToNonVerified(): RedirectResponse
-    {
+    public function sendEmailsToNonVerified(): RedirectResponse {
         $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
 
         foreach($nonVerifiedParticipants as $participant) {
@@ -314,6 +316,17 @@ class ParticipantController extends Controller {
 
             Mail::to($participant->email)
                 ->send(new emailNonVerifiedParticipants($participant, $token));
+        }
+
+        return back()->with('message', 'De mails zijn verstuurd!');
+    }
+
+    public function resendQRCodeEmails(): RedirectResponse {
+        $paidParticipants = $this->paymentController->getAllPaidUsers();
+
+        foreach($paidParticipants as $participant) {
+            Mail::to($participant->email)
+                ->send(new resendQRCode($participant));
         }
 
         return back()->with('message', 'De mails zijn verstuurd!');

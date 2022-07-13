@@ -52,6 +52,12 @@ setActive("participants");
                             <button type="submit" class="dropdown-item">Stuur email niet geverifieerd</button>
                         </form>
                     </li>
+                    <li>
+                        <form method="POST" action="/participants/resendQRcode">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Stuur QR-code opnieuw</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
 

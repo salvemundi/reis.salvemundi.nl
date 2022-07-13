@@ -32,7 +32,7 @@ class emailPaymentSucceeded extends Mailable
     public function build()
     {
         return $this
-            ->subject("Betaling introductie")
+            ->subject("Bevestiging betaling introductie")
             ->attachData(base64_decode(DNS2D::getBarcodePNG($this->participant->id, 'QRCODE', 10,10)),'qrcode.png', [
                 'as' => 'qrcode.png',
                 'mime' => 'application/png',

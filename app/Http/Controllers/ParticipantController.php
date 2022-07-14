@@ -387,8 +387,8 @@ class ParticipantController extends Controller {
             'firstNameParent' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'lastNameParent' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'phoneNumberParent' => 'required|max:15|regex:/(^[0-9]+$)+/',
-            'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
-            'specials' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
+            'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
+            'specials' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
         ]);
 
         $parent = new Participant;

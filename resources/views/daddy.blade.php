@@ -20,46 +20,46 @@
 
         <div class="form-group">
             <label for="voornaam">Voornaam*</label>
-            <input class="form-control{{ $errors->has('firstName') ? ' is-invalid' : '' }}" name="firstName">
+            <input class="form-control{{ $errors->has('firstName') ? ' is-invalid' : '' }}" value="{{ old('firstName') }}" name="firstName">
         </div><br>
             <div class="form-group">
                 <label for="voornaam">Tussenvoegsel</label>
-                <input class="form-control{{ $errors->has('insertion') ? ' is-invalid' : '' }}" name="insertion">
+                <input class="form-control{{ $errors->has('insertion') ? ' is-invalid' : '' }}" value="{{ old('insertion') }}" name="insertion">
             </div><br>
 
         <div class="form-group">
             <label for="voornaam">Achternaam*</label>
-            <input class="form-control{{ $errors->has('lastName') ? ' is-invalid' : '' }}" name="lastName">
+            <input class="form-control{{ $errors->has('lastName') ? ' is-invalid' : '' }}" value="{{ old('lastName') }}" name="lastName">
         </div><br>
 
         <div class="form-group">
             <label for="voornaam">Email*</label>
-            <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="email" name="email" placeholder="Email...">
+            <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" id="email" name="email" placeholder="Email...">
         </div><br>
 
         <div class="form-group">
             <label for="voornaam">Geboortedatum*</label>
-            <input class="form-control{{ $errors->has('birthday') ? ' is-invalid' : '' }}" type="date" id="birthday" name="birthday" placeholder="MM-DD-JJJJ..." onblur="getAge()">
+            <input class="form-control{{ $errors->has('birthday') ? ' is-invalid' : '' }}" value="{{ old('birthday') }}" type="date" id="birthday" name="birthday" placeholder="MM-DD-JJJJ..." onblur="getAge()">
         </div><br>
 
         <div class="form-group">
             <label for="voornaam">Telefoonnummer*</label>
-            <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummer...">
+            <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummer...">
         </div><br>
 
         <div class="form-group">
             <label for="fontysEmail">Je fontys email adres (als je die niet hebt laat dit veld dan leeg)</label>
-            <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
+            <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}"id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
         </div><br>
 
         <div class="form-group">
             <label for="voornaam">Allergieën</label>
-            <input class="form-control{{ $errors->has('medicalIssues') ? ' is-invalid' : '' }}" value="{{ old('medicalIssues') }}" id="medicalIssues" name="medicalIssues" placeholder="Allergieën...">
+            <textarea class="form-control{{ $errors->has('medicalIssues') ? ' is-invalid' : '' }}" value="{{{ old('medicalIssues') }}}" type="textarea" id="medicalIssues" name="medicalIssues" placeholder="Allergieën..."></textarea>
         </div><br>
 
         <div class="form-group">
             <label for="voornaam">Bijzonderheden</label>
-            <input class="form-control{{ $errors->has('specials') ? ' is-invalid' : '' }}" value="{{ old('specials') }}" id="specials" name="specials" placeholder="Bijzonderheden...">
+            <textarea class="form-control{{ $errors->has('specials') ? ' is-invalid' : '' }}" value="{{{ old('specials') }}}" type="textarea" id="specials" name="specials" placeholder="Bijzonderheden..."></textarea>
         </div><br>
 
         <h2>We hebben informatie nodig van een contactpersoon voor als er iets met jou gebeurt</h2>

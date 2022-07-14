@@ -143,7 +143,8 @@ class ParticipantController extends Controller {
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
-                'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
+                'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
+                'specials' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
                 'role' => 'nullable',
                 'checkedIn' => 'nullable'
             ]);
@@ -160,7 +161,8 @@ class ParticipantController extends Controller {
                 'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
                 'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
-                'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
+                'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
+                'specials' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
                 'role' => 'nullable',
                 'checkedIn' => 'nullable',
                 'studyType' => 'required'

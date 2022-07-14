@@ -81,8 +81,13 @@ class PaymentController extends Controller
     }
 
     public function getAllPaidUsers() {
-        $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
+        $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
+
+        if($verifiedParticipants == null) {
+            return $userArr;
+        }
+
         foreach($verifiedParticipants as $participant) {
             $participant->latestPayment = $participant->payments()->latest()->first();
 

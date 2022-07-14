@@ -83,7 +83,7 @@ class PaymentController extends Controller
     public function getAllPaidUsers() {
         $userArr = [];
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
-        // dd($verifiedParticipants);
+
         if($verifiedParticipants == null) {
             return $userArr;
         }

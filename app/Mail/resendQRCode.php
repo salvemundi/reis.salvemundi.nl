@@ -33,9 +33,9 @@ class resendQRCode extends Mailable
     {
         return $this
             ->subject("QR-code")
-            ->attachData(base64_decode(DNS2D::getBarcodePNG($this->participant->id, 'QRCODE', 10,10)),'qrcode.jpg', [
-                'as' => 'qrcode.jpg',
-                'mime' => 'application/jpg',
+            ->attachData(base64_decode(DNS2D::getBarcodePNG($this->participant->id, 'QRCODE', 10,10)),'qrcode.png', [
+                'as' => 'qrcode.png',
+                'mime' => 'application/png',
             ])
             ->markdown('mails/resendQRcode', ['participant' => $this->participant]);
     }

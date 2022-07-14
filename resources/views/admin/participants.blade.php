@@ -110,7 +110,7 @@ setActive("participants");
                             <td data-value="{{ $participant->id }}">{{ $participant->id }}</td>
                             <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
-                            <td data-value="{{ $participant->verificationToken->verified }}">{{ $participant->verificationToken->verified ? 'Ja' : 'Nee' }}</td>
+                            <td data-value="{{ $participant->verificationToken?->verified }}">{{ $participant->verificationToken?->verified ? 'Ja' : 'Nee' }}</td>
 
                             @if($participant->checkedIn == 1)
                                 <td data-value="{{ $participant->checkedIn }}">True</td>

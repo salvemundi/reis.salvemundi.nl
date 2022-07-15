@@ -38,7 +38,7 @@
             <!-- Right Side Of Navbar -->
                 <!-- Authentication Links -->
                 <li class="nav-item">
-                    @if(session('id'))
+                    @if($userIsAdmin && session('id'))
                         <a class="nav-link" href="/signout">Uitloggen</a>
                     @else
                         <a class="nav-link" href="/login">Inloggen</a>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\VerificationToken;
 use App\Models\Participant;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\emailVerificationResponse;
 use Carbon\Carbon;
@@ -49,18 +48,17 @@ class VerificationController extends Controller
         return view('verifyResponse', ['Response' => false]);
     }
 
-    public function getVerifiedParticipants(): Collection
-    {
+    public function getVerifiedParticipants() {
         $userArr = [];
         $allVerifiedTokens = VerificationToken::where('verified', true)->get();
 
         foreach($allVerifiedTokens as $token) {
             array_push($userArr, $token->participant);
         }
-        return collect($userArr);
+        return $userArr;
     }
 
-    public function getNonVerifiedParticipants(): Collection
+    public function getNonVerifiedParticipants(): array
     {
         $userArr = [];
         $allVerifiedTokens = VerificationToken::where('verified', false)->get();
@@ -69,7 +67,7 @@ class VerificationController extends Controller
             array_push($userArr, $token->participant);
         }
 
-        return collect($userArr);
+        return $userArr;
     }
 
 }

@@ -6,7 +6,6 @@ use App\Models\ConfirmationToken;
 use App\Models\Participant;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
 use \Mollie\Api\MollieApiClient;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
@@ -81,12 +80,12 @@ class PaymentController extends Controller
         }
     }
 
-    public function getAllPaidUsers(): Collection {
+    public function getAllPaidUsers() {
         $userArr = [];
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
 
         if($verifiedParticipants == null) {
-            return collect($userArr);
+            return $userArr;
         }
 
         foreach($verifiedParticipants as $participant) {
@@ -98,11 +97,10 @@ class PaymentController extends Controller
                 }
             }
         }
-        return collect($userArr);
+        return $userArr;
     }
 
-    public function getAllNonPaidUsers(): Collection
-    {
+    public function getAllNonPaidUsers() {
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
         foreach($verifiedParticipants as $participant) {
@@ -112,7 +110,7 @@ class PaymentController extends Controller
                 array_push($userArr, $participant);
             }
         }
-        return collect($userArr);
+        return $userArr;
     }
 
     public function checkIfParticipantPaid(Participant $participant):bool {

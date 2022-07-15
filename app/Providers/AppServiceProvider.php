@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,7 +31,6 @@ class AppServiceProvider extends ServiceProvider
     }
 
     private function userIsParent() {
-        //dd(session('groups'));
         if(null !== session('id')) {
             return true;
         } else {
@@ -42,10 +40,11 @@ class AppServiceProvider extends ServiceProvider
     private function userIsAdmin() {
         $userId = session('id');
 
+
         $groupsObj = session('groups');
 
         if (!$userId || !$groupsObj) {
-            return false;
+            return redirect("/");
         }
 
         $groups = array_map(fn($val) => $val->getId(), $groupsObj);

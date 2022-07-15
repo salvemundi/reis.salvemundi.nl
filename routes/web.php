@@ -83,6 +83,8 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::post('/participants/checkOutEveryone', [ParticipantController::class,'checkOutEveryone']);
         Route::post('/participants/resendVerificationEmails', [ParticipantController::class, 'sendEmailsToNonVerified']);
         Route::post('/participants/resendQRcode', [ParticipantController::class, 'resendQRCodeEmails']);
+        Route::post('/participants/resendQRcodeNonParticipants', [ParticipantController::class, 'sendQRCodesToNonParticipants']);
+
         Route::get('/add', [ParticipantController::class, 'viewAdd']);
         Route::post('/add/store', [ParticipantController::class, 'store']);
         Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);

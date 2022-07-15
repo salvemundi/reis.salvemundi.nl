@@ -334,6 +334,17 @@ class ParticipantController extends Controller {
         return back()->with('message', 'De mails zijn verstuurd!');
     }
 
+    public function sendQRCodesToNonParticipants(): RedirectResponse {
+        $paidParticipants = Participant::where('role','!=',Roles::child())->get();
+
+        foreach($paidParticipants as $participant) {
+            Mail::to($participant->email)
+                ->send(new resendQRCode($participant));
+        }
+
+        return back()->with('message', 'De mails zijn verstuurd!');
+    }
+
     public function storeEdit(Request $request): RedirectResponse
     {
         $request->validate([

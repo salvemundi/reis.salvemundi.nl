@@ -28,7 +28,6 @@ class GlobalMiddleware
 
     private function userIsParent(): bool
     {
-        //dd(session('groups'));
         if(null !== session('id')) {
             return true;
         } else {

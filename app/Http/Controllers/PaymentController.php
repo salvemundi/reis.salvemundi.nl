@@ -69,7 +69,7 @@ class PaymentController extends Controller
 
             if ($participant != null) {
                 if ($participant->latestPayment != null || $participant->latestPayment->paymentStatus == PaymentStatus::paid) {
-                    return view('successPage');
+                    return view('SuccessPage');
                }
             return view('paymentFailed');
             }

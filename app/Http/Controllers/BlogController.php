@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Roles;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Occupied;
@@ -101,10 +102,10 @@ class BlogController extends Controller
     }
 
     private function sendEmails(Blog $blog, Request $request) {
-        $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
-        $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
-        $paidParticipants = $this->paymentController->getAllPaidUsers();
-        $unPaidParticipants = $this->paymentController->getAllNonPaidUsers();
+        $verifiedParticipants = $this->verificationController->getVerifiedParticipants()->where('role', Roles::child);
+        $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants()->where('role', Roles::child);
+        $paidParticipants = $this->paymentController->getAllPaidUsers()->where('role', Roles::child);
+        $unPaidParticipants = $this->paymentController->getAllNonPaidUsers()->where('role', Roles::child);
 
         $userArr = [];
 

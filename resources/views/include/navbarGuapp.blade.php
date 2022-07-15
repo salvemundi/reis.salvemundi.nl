@@ -25,7 +25,7 @@
             </li>
             @if($userIsParent)
                 <li class="nav-item">
-                    <a class="nav-link" href="/inschrijven/ouders">Ouder inschrijven</a>
+                    <a class="nav-link" href="/inschrijven/ouder">Ouder inschrijven</a>
                 </li>
             @endif
             @if($userIsAdmin)

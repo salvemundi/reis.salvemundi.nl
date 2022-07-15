@@ -358,8 +358,8 @@ class ParticipantController extends Controller {
             'participantLastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
             'participantParentPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
-            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/',
-            'participantSpecial' => 'nullable|max:250|regex:/^[a-zA-Z ]+$/'
+            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
+            'participantSpecial' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/'
         ]);
 
         $participant = Participant::find($request->userId);

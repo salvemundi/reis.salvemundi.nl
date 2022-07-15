@@ -19,7 +19,7 @@
 
                         <div class="mb-3">
                             <label for="participantFontysEmail" class="form-label">Fontys email adres</label>
-                            <input type="email" class="form-control" id="participantFontysEmail" name="participantFontysEmail" placeholder="123456@student.fontys.nl">
+                            <input type="email" class="form-control" value="{{$participant->fontysEmail ?? "" }}" id="participantFontysEmail" name="participantFontysEmail" placeholder="123456@student.fontys.nl">
                         </div>
 
                         <div class="input-group mb-3">

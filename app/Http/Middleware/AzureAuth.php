@@ -17,7 +17,6 @@ class AzureAuth
     public function handle(Request $request, Closure $next)
     {
         $userId = session('id');
-
         $groupsObj = session('groups');
 
         if (!$userId || !$groupsObj) {

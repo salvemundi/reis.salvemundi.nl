@@ -1,37 +1,33 @@
 <?php
 
-namespace App\Providers;
+namespace App\Http\Middleware;
 
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\ServiceProvider;
+use Closure;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
-class AppServiceProvider extends ServiceProvider
+class GlobalMiddleware
 {
     /**
-     * Register any application services.
+     * Handle an incoming request.
      *
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return Response|RedirectResponse
      */
-    public function register()
-    {
-        //
-    }
-
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
         try {
             view()->share(['userIsParent' => $this->userIsParent(),'userIsAdmin' => $this->userIsAdmin()]);
         } catch(\Exception $e) {
 
         }
+        return $next($request);
     }
 
-    private function userIsParent() {
+    private function userIsParent(): bool
+    {
         //dd(session('groups'));
         if(null !== session('id')) {
             return true;
@@ -39,7 +35,8 @@ class AppServiceProvider extends ServiceProvider
             return false;
         }
     }
-    private function userIsAdmin() {
+    private function userIsAdmin(): bool
+    {
         $userId = session('id');
 
         $groupsObj = session('groups');

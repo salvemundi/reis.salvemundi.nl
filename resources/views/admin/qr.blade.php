@@ -32,7 +32,6 @@
                         <video id="video" width="300" height="200" style="border: 1px solid gray"></video>
                     </div>
 
-                    <pre><p id="result"></p></pre>
                 </div>
 {{--                <svg id="greencheck" class="responses" style="display: none" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">--}}
 {{--                    <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>--}}
@@ -49,6 +48,7 @@
     </div>
     <div>
         <div class="card-body underEightTeen" id="particpant-card">
+            <p id="allowed">Toegestaan: </p>
             <p id="name">Naam: </p>
             <p id="age">Leeftijd: </p>
 
@@ -65,14 +65,16 @@
             document.getElementById('result').textContent = err
         })
     }
-    function setInformation(user) {
+    function setInformation(user, allowed) {
         let nameElement = document.getElementById('name');
         let ageElement = document.getElementById('age');
+        let allowElement = document.getElementById('allowed')
         if(user.insertion) {
             nameElement.textContent = "Naam " + user.firstName + " " +user.insertion + " " + user.lastName
         } else  {
             nameElement.textContent = "Naam: " + user.firstName + " " + user.lastName
         }
+        allowElement.textContent = "Toegestaan: " + allowed;
         ageElement.textContent = "Leeftijd: " + user.age;
     }
     function delay(time) {
@@ -103,7 +105,22 @@
                         type: 'GET',
                         success: function(response) {
                             obj = JSON.parse(response);
-                            setInformation(obj);
+
+                            if(obj.removedFromIntro){
+                                flashBackgroundRed();
+                                setInformation(obj, "nee, permanent verwijderd");
+                                document.getElementById('particpant-card').classList.remove('aboveEightTeen');
+                                document.getElementById('particpant-card').classList.add('underEightTeen');
+                                return;
+                            }
+                            if(!obj.haspaid) {
+                                flashBackgroundRed();
+                                setInformation(obj, "nee, niet betaald");
+                                document.getElementById('particpant-card').classList.remove('aboveEightTeen');
+                                document.getElementById('particpant-card').classList.add('underEightTeen');
+                                return;
+                            }
+                            setInformation(obj, "ja");
                             if(obj.above18){
                                 document.getElementById('particpant-card').classList.remove('underEightTeen');
                                 document.getElementById('particpant-card').classList.add('aboveEightTeen');
@@ -111,26 +128,11 @@
                                 document.getElementById('particpant-card').classList.remove('aboveEightTeen');
                                 document.getElementById('particpant-card').classList.add('underEightTeen');
                             }
-                            if(obj.removedFromIntro){
-                                flashBackgroundRed();
-                                document.getElementById('result').textContent = obj.firstName + " is niet meer toegestaan op de intro!"
-                                return;
-                            }
-                            if(!obj.haspaid) {
-                                flashBackgroundRed();
-                                document.getElementById('result').textContent = obj.firstName + " heeft niet betaald voor de intro!"
-                                return;
-                            }
                             $.ajax({
                                 url: '/participants/' + result.text + "/checkIn",
                                 type: 'POST',
                                 success: function(response) {
                                     flashBackgroundGreen();
-                                    if(obj.insertion) {
-                                        document.getElementById('result').textContent = "Welkom op de introductie " + obj.firstName + " " +obj.insertion + " " + obj.lastName + "!!!"
-                                    } else  {
-                                        document.getElementById('result').textContent = "Welkom op de introductie " + obj.firstName + " " + obj.lastName + "!!!"
-                                    }
                                 },
                                 beforeSend: function (request) {
                                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
@@ -151,11 +153,7 @@
                                 type: 'GET',
                                 success: function(response) {
                                     obj = JSON.parse(response)
-                                    if(obj.insertion) {
-                                        document.getElementById('result').textContent = "Fijn dat je er was " + obj.firstName + " " +obj.insertion + " " + obj.lastName + "!!!"
-                                    } else  {
-                                        document.getElementById('result').textContent = "Fijn dat je er was " + obj.firstName + " " + obj.lastName + "!!!"
-                                    }
+                                    setInformation(obj);
                                 },
                                 beforeSend: function (request) {
                                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));

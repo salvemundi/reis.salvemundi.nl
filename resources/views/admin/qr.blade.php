@@ -153,7 +153,7 @@
                                 type: 'GET',
                                 success: function(response) {
                                     obj = JSON.parse(response)
-                                    setInformation(obj);
+                                    setInformation(obj,"N/A");
                                 },
                                 beforeSend: function (request) {
                                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));

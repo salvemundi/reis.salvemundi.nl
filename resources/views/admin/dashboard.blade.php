@@ -35,7 +35,7 @@ setActive("dashboard");
                 <div class="row align-items-center gx-0">
                     <div class="col">
                         <h6 class="text-uppercase text-muted mb-2">Aantal betaalde kiddos:</h6>
-                        <span class="h2 mb-0">{{ $amountChildren }}</span>
+                        <span class="h2 mb-0">{{ $amountChildrenPaid }} / {{ $amountChildren }}</span>
                     </div>
                 </div>
             </div>

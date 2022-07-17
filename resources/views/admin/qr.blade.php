@@ -154,6 +154,7 @@
                                 success: function(response) {
                                     obj = JSON.parse(response)
                                     setInformation(obj,"N/A");
+                                    flashBackgroundGreen();
                                 },
                                 beforeSend: function (request) {
                                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));

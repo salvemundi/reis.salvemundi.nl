@@ -7,7 +7,6 @@
 <div class="row">
     <div>
         <main class="wrapper">
-
             <section class="center" style="display: flex; margin-top: 2em; text-align: center" id="demo-content">
                 <div>
                     <h1 class="title">Scan QR Code om in / uit the checken!</h1>
@@ -23,32 +22,21 @@
                         <a class="btn btn-primary" id="resetButton">Reset</a>
                     </div>
 
-                    <div id="sourceSelectPanel" style="display:none">
-                        <label for="sourceSelect">Change video source:</label>
-                        <select id="sourceSelect" style="max-width:400px">
+                    <div id="sourceSelectPanel" style="display:none" class="center">
+                        <select id="sourceSelect" class="form-select form-select-sm" style="max-width:400px">
+
                         </select>
                     </div>
                     <div>
                         <video id="video" width="300" height="200" style="border: 1px solid gray"></video>
                     </div>
-
-                    <pre><p id="result"></p></pre>
                 </div>
-                <svg id="greencheck" class="responses" style="display: none" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-                    <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
-                    <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
-                </svg>
-
-                <svg id="redcheck" style="display:none;" class="responses" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-                    <circle class="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
-                    <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
-                    <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
-                </svg>
             </section>
         </main>
     </div>
     <div>
         <div class="card-body underEightTeen" id="particpant-card">
+            <p id="allowed">Toegestaan: </p>
             <p id="name">Naam: </p>
             <p id="age">Leeftijd: </p>
 
@@ -65,16 +53,34 @@
             document.getElementById('result').textContent = err
         })
     }
-    function setInformation(user) {
+    function setInformation(user, allowed) {
         let nameElement = document.getElementById('name');
         let ageElement = document.getElementById('age');
+        let allowElement = document.getElementById('allowed')
         if(user.insertion) {
             nameElement.textContent = "Naam " + user.firstName + " " +user.insertion + " " + user.lastName
         } else  {
             nameElement.textContent = "Naam: " + user.firstName + " " + user.lastName
         }
+        allowElement.textContent = "Toegestaan: " + allowed;
         ageElement.textContent = "Leeftijd: " + user.age;
     }
+    function delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+    }
+
+    async function flashBackgroundRed() {
+        document.body.style.backgroundColor = "red";
+        await delay(500);
+        document.body.style.backgroundColor = "white";
+    }
+
+    async function flashBackgroundGreen() {
+        document.body.style.backgroundColor = "green";
+        await delay(250);
+        document.body.style.backgroundColor = "white";
+    }
+
     function decodeContinuously(codeReader, selectedDeviceId) {
         codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'video', (result, err) => {
             if (result) {
@@ -87,32 +93,34 @@
                         type: 'GET',
                         success: function(response) {
                             obj = JSON.parse(response);
-                            setInformation(obj);
+
                             if(obj.removedFromIntro){
-                                document.getElementById("redcheck").style.display = "block";
-                                document.getElementById("greencheck").style.display = "none";
-                                document.getElementById('result').textContent = obj.firstName + " is niet meer toegestaan op de intro!"
+                                flashBackgroundRed();
+                                setInformation(obj, "nee, permanent verwijderd");
+                                document.getElementById('particpant-card').classList.remove('aboveEightTeen');
+                                document.getElementById('particpant-card').classList.add('underEightTeen');
                                 return;
+                            }
+                            if(!obj.haspaid) {
+                                flashBackgroundRed();
+                                setInformation(obj, "nee, niet betaald");
+                                document.getElementById('particpant-card').classList.remove('aboveEightTeen');
+                                document.getElementById('particpant-card').classList.add('underEightTeen');
+                                return;
+                            }
+                            setInformation(obj, "ja");
+                            if(obj.above18){
+                                document.getElementById('particpant-card').classList.remove('underEightTeen');
+                                document.getElementById('particpant-card').classList.add('aboveEightTeen');
+                            } else {
+                                document.getElementById('particpant-card').classList.remove('aboveEightTeen');
+                                document.getElementById('particpant-card').classList.add('underEightTeen');
                             }
                             $.ajax({
                                 url: '/participants/' + result.text + "/checkIn",
                                 type: 'POST',
                                 success: function(response) {
-
-                                    if(obj.above18){
-                                        document.getElementById('particpant-card').classList.remove('underEightTeen');
-                                        document.getElementById('particpant-card').classList.add('aboveEightTeen');
-                                    } else {
-                                        document.getElementById('particpant-card').classList.remove('aboveEightTeen');
-                                        document.getElementById('particpant-card').classList.add('underEightTeen');
-                                    }
-                                    document.getElementById("redcheck").style.display = "none";
-                                    document.getElementById("greencheck").style.display = "block";
-                                    if(obj.insertion) {
-                                        document.getElementById('result').textContent = "Welkom op de introductie " + obj.firstName + " " +obj.insertion + " " + obj.lastName + "!!!"
-                                    } else  {
-                                        document.getElementById('result').textContent = "Welkom op de introductie " + obj.firstName + " " + obj.lastName + "!!!"
-                                    }
+                                    flashBackgroundGreen();
                                 },
                                 beforeSend: function (request) {
                                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
@@ -133,18 +141,13 @@
                                 type: 'GET',
                                 success: function(response) {
                                     obj = JSON.parse(response)
-                                    if(obj.insertion) {
-                                        document.getElementById('result').textContent = "Fijn dat je er was " + obj.firstName + " " +obj.insertion + " " + obj.lastName + "!!!"
-                                    } else  {
-                                        document.getElementById('result').textContent = "Fijn dat je er was " + obj.firstName + " " + obj.lastName + "!!!"
-                                    }
+                                    setInformation(obj,"N/A");
+                                    flashBackgroundGreen();
                                 },
                                 beforeSend: function (request) {
                                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                                 }
                             });
-                            document.getElementById("redcheck").style.display = "none";
-                            document.getElementById("greencheck").style.display = "block";
                         },
                         beforeSend: function (request) {
                             return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
@@ -173,15 +176,11 @@
 
                 if (err instanceof ZXing.ChecksumException) {
                     console.log('A code was found, but it\'s read value was not valid.')
-                    document.getElementById("greencheck").style.display = "none";
-                    document.getElementById("redcheck").style.display = "block";
 
                 }
 
                 if (err instanceof ZXing.FormatException) {
                     console.log('A code was found, but it was in a invalid format.')
-                    document.getElementById("greencheck").style.display = "none";
-                    document.getElementById("redcheck").style.display = "block";
 
                 }
             }

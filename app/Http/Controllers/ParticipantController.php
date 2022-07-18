@@ -29,12 +29,12 @@ use App\Mail\emailConfirmationSignup;
 class ParticipantController extends Controller {
     private VerificationController $verificationController;
     private PaymentController $paymentController;
-    private ConfirmationController $confirmationController;
+    // private ConfirmationController $confirmationController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();
         $this->paymentController = new PaymentController();
-        $this->confirmationController = new ConfirmationController();
+        // $this->confirmationController = new ConfirmationController();
     }
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application

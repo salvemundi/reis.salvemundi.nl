@@ -86,7 +86,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::post('/participants/resendQRcodeNonParticipants', [ParticipantController::class, 'sendQRCodesToNonParticipants']);
 
         Route::get('/add', [ParticipantController::class, 'viewAdd']);
-        Route::post('/add/store', [ParticipantController::class, 'store']);
+        Route::post('/add/store', [ParticipantController::class, 'storeSelfAddedParticipant']);
         Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
         Route::get('/participantscheckedin/{userId}', [ParticipantController::class, 'checkedInView']);
         // Participants JSON

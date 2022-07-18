@@ -22,7 +22,7 @@ setActive("add");
 
             <div class="form-group">
                 <label for="role">Soort persoon*</label>
-                <select id="role" class="form-control" name="role" onblur="getRole()">
+                <select id="role" class="form-control" name="role" onchange="getRole()">
                     @foreach (\App\Enums\Roles::getInstances() as $item)
                         <option value="{{ $item->value }}">{{$item->description}}</option>
                     @endforeach
@@ -55,6 +55,11 @@ setActive("add");
             </div><br>
 
             <div class="form-group">
+                <label for="fontysEmail">Je fontys email adres*</label>
+                <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
+            </div>
+
+            <div class="form-group">
                     <label for="voornaam">Telefoonnummer</label>
                     <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" id="phoneNumber" name="phoneNumber" placeholder="Telefoonnummer...">
             </div><br>
@@ -67,6 +72,15 @@ setActive("add");
                             <option value="{{ $item->value }}">{{$item->description}}</option>
                         @endforeach
                     </select><br>
+                </div>
+
+                <label for="StudyType">Leervorm*</label>
+                <div class="form-group">
+                    <select class="form-control" name="studyType">
+                        @foreach (App\Enums\StudyType::getInstances() as $item)
+                            <option value="{{ $item->value }}">{{$item->description}}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -90,8 +104,8 @@ setActive("add");
                 </div><br>
             </div>
             <div id="dad_mom" style="display: none;">
-
             </div>
+
             <div class="form-group">
                 <label for="voornaam">Allergieën</label>
                 <textarea class="form-control{{ $errors->has('medicalIssues') ? ' is-invalid' : '' }}" value="{{{ old('medicalIssues') }}}" type="textarea" id="medicalIssues" name="medicalIssues" placeholder="Allergieën..."></textarea>
@@ -145,5 +159,7 @@ setActive("add");
             document.getElementById("dad_mom").style.display = "none";
         }
     }
+
+    getRole();
 </script>
 @endsection

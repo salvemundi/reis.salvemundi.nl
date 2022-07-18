@@ -72,4 +72,12 @@ class VerificationController extends Controller
         return collect($userArr);
     }
 
+    public function createNewVerificationToken(Participant $participant): VerificationToken {
+        $newVerificationToken = new VerificationToken();
+        $newVerificationToken->participant()->associate($participant);
+        $newVerificationToken->save();
+
+        return $newVerificationToken;
+    }
+
 }

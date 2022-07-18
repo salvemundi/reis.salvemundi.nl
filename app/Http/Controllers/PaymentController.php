@@ -56,7 +56,7 @@ class PaymentController extends Controller
         return $mollie;
     }
 
-    public function createPaymentEntry(Participant $participant) {
+    private function createPaymentEntry(Participant $participant) {
         $payment = new Payment;
         $payment->save();
         $payment->participant()->associate($participant)->save();

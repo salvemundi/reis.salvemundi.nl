@@ -14,6 +14,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\emailConfirmationSignup;
 use App\Enums\PaymentStatus;
+use App\Models\Participant;
 
 class ConfirmationController extends Controller
 {
@@ -82,5 +83,13 @@ class ConfirmationController extends Controller
             }
         }
         return back()->with('status','Mails zijn verstuurd!');
+    }
+
+    public function createNewConfirmationToken(Participant $participant): ConfirmationToken {
+        $newConfirmationToken = new ConfirmationToken();
+        $newConfirmationToken->participant()->associate($participant);
+        $newConfirmationToken->save();
+
+        return $newConfirmationToken;
     }
 }

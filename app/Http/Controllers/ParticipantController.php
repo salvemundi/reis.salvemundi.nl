@@ -29,10 +29,12 @@ use App\Mail\emailConfirmationSignup;
 class ParticipantController extends Controller {
     private VerificationController $verificationController;
     private PaymentController $paymentController;
+    private ConfirmationController $confirmationController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();
         $this->paymentController = new PaymentController();
+        $this->confirmationController = new ConfirmationController();
     }
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -494,12 +496,10 @@ class ParticipantController extends Controller {
             Mail::to($participant->email)
                 ->send(new manuallyAddedMail($participant));
         } else {
-            $verifiedToken = new VerificationToken();
-            $verifiedToken->verified = true;
-            $verifiedToken->participant()->associate($participant);
-            $verifiedToken->save();
-
-            $confirmationToken = $this->paymentController->createPaymentEntry($participant);
+            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
+            $verificationToken->verified = true;
+            $verificationToken->save();
+            $confirmationToken = $this->confirmationController->createNewConfirmationToken($participant);
 
             Mail::to($participant->email)
                 ->send(new emailConfirmationSignup($participant, $confirmationToken));

@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Roles;
+use App\Jobs\SendBlogMail;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Occupied;
 use Carbon\Carbon;
 use App\Mail\participantMail;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -22,8 +28,10 @@ class BlogController extends Controller
         $this->paymentController = new PaymentController();
     }
 
-    public function showPosts() {
-        $posts = Blog::all();
+    public function showPosts(): Factory|View|Application
+    {
+        $posts = Blog::orderBy('created_at', 'desc')->where('show','1')->get();
+        $lastBlog = Blog::where('show', '1')->latest()->first();
 
         $dateForIntro = Carbon::parse('2022-08-22');
         $dateNow = Carbon::now();
@@ -32,16 +40,18 @@ class BlogController extends Controller
 
         $occupied = Occupied::all()->first();
 
-        return view('blogs', ['posts' => $posts, 'date' => $diffDate, 'occupied' => $occupied]);
+        return view('blogs', ['posts' => $posts, 'date' => $diffDate, 'occupied' => $occupied, 'lastBlog' => $lastBlog]);
     }
 
-    public function showPostsAdmin() {
+    public function showPostsAdmin(): Factory|View|Application
+    {
         $posts = Blog::all();
         $occupied = Occupied::all()->first();
         return view('admin/blogs', ['posts' => $posts, 'occupied' => $occupied]);
     }
 
-    public function updateOccupiedPercentage(Request $request){
+    public function updateOccupiedPercentage(Request $request): Redirector|Application|RedirectResponse
+    {
         if(Occupied::all()->first() != null) {
             $occupied = Occupied::all()->first();
         } else {
@@ -57,7 +67,8 @@ class BlogController extends Controller
         $postId = $request->postId;
     }
 
-    public function savePost(Request $request) {
+    public function savePost(Request $request): Redirector|Application|RedirectResponse
+    {
 
         if($request->input('blogId')) {
             $post = Blog::find($request->input('blogId'));
@@ -81,7 +92,8 @@ class BlogController extends Controller
         return redirect('/blogsadmin')->with('success', 'Blog is opgeslagen!');
     }
 
-    public function showPostInputs(Request $request) {
+    public function showPostInputs(Request $request): Factory|View|Application
+    {
         $post = null;
         if($request->blogId){
             $post = Blog::find($request->blogId);
@@ -89,7 +101,8 @@ class BlogController extends Controller
         return view('admin/blogInput',['post' => $post]);
     }
 
-    public function deletePost(Request $request) {
+    public function deletePost(Request $request): Redirector|Application|RedirectResponse
+    {
         if($request->blogId) {
             $blog = Blog::find($request->blogId);
             if($blog != null) {

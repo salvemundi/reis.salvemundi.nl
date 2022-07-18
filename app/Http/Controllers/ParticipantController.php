@@ -20,6 +20,7 @@ use App\Exports\StudentFontysEmailExport;
 use App\Mail\emailNonVerifiedParticipants;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
+use App\Models\ConfirmationToken;
 use App\Enums\StudyType;
 use App\Mail\parentMailSignup;
 use App\Mail\manuallyAddedMail;

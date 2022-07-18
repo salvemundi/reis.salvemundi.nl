@@ -496,7 +496,6 @@ class ParticipantController extends Controller {
         } else {
             $verifiedToken = new VerificationToken();
             $verifiedToken->verified = true;
-            
             $verifiedToken->participant()->associate($participant);
             $verifiedToken->save();
 

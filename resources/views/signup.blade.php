@@ -98,12 +98,12 @@
         </div>
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>Wat hebben wij nu voor jullie georganiseerd?</h3>
-            De introductie van Salve Mundi zal bestaan uit 5 dagen vol informatie, spelletjes en te gekke feesten op onze vette intro locatie.<br> De maandag zal in het teken staan van inchecken, algemene informatie en een dik feest om de introductie week in te luiden. Dit feest zal georganiseerd worden in samenwerking met UNIQCARTE.<br>
-            Op de dinsdag hebben we een dag vol spelletjes georganiseerd, om je nieuwe studiegenoten beter te leren kennen. Ook deze dag zal afgesloten worden met een te gekke afterparty.<br>
-            Woensdagochtend zullen we naar Fontys vertrekken en in de middag worden er verschillende activiteiten georganiseerd, waaronder een Crazy88.<br>
-            Op donderdag gaan we richting Tilburg voor het Purple Festival, hier zullen we de hele dag lekker gaan feesten, relaxen en genieten voordat we 's avonds de dag afsluiten met een dikke afterparty bij ons op de intro locatie.<br>
-            Vrijdag staat helaas in het teken van uitchecken en vertrekken, maar wij hopen dat jullie dan vol goede moed aan de opleiding gaan beginnen.
-            Tijdens de introductie zal er door ons op 3 van de 5 dagen lunch en avondeten worden geregeld. Tijdens Purple Festival zal er eigen eten geregeld moeten worden en vrijdag zal je voor het middageten alweer thuis zijn.<br>
+            De introductie van Salve Mundi bestaat uit 5 dagen vol informatie, spellen en te gekke feesten op onze vette intro locatie.<br>
+            De maandag zal in het teken staan van inchecken, algemene informatie en een dik feest in onze evenementenzaal om de introductie week in te luiden.<br>
+            Op de dinsdag hebben we een dag vol spelletjes georganiseerd om je nieuwe studiegenoten te leren kennen. Deze dag zal worden afgesloten met een te gekke afterparty.<br>
+            Woensdagochtend zullen we met zijn allen vertrekken naar Fontys waar in de middag een Crazy88 wordt gehouden.<br>
+            Op donderdag gaan we richting Tilburg voor het Purple Festival. Hier zullen we de hele dag lekker gaan feesten, relaxen en genieten voordat we 's avonds de dag zullen afsluiten met een dikke afterparty op onze intro locatie.<br>
+            Vrijdag staat helaas in het teken van uitchecken en vertrekken, maar wij hopen dat jullie dan vol goede moed aan de opleiding gaan beginnen. Tijdens de introductie zal er doorgaans voor lunch en avondeten worden gezorgd. Op woensdag en donderdag zal het avondeten zelf moeten worden verzorgd en op vrijdag zal je voor het middageten alweer thuis zijn.<br>
         </div>
     </div>
 </div>

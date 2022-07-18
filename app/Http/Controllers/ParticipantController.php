@@ -450,7 +450,7 @@ class ParticipantController extends Controller {
         ]);
 
         $participant = new Participant;
-        // $participant->id = Str::uuid()->toString();
+        $participant->id = Str::uuid()->toString();
 
         $participant->firstName = $request->input('firstName');
         $participant->insertion = $request->input('insertion');

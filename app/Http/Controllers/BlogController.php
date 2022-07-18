@@ -29,8 +29,8 @@ class BlogController extends Controller
     }
 
     public function showPosts(): Factory|View|Application
-    {
-        $posts = Blog::all();
+        $posts = Blog::orderBy('created_at', 'desc')->where('show','1')->get();
+        $lastBlog = Blog::where('show', '1')->latest()->first();
 
         $dateForIntro = Carbon::parse('2022-08-22');
         $dateNow = Carbon::now();

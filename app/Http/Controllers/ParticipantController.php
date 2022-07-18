@@ -492,18 +492,18 @@ class ParticipantController extends Controller {
 
         $participant->save();
 
-        if ($participant->role != Roles::child) {
-            Mail::to($participant->email)
-                ->send(new manuallyAddedMail($participant));
-        } else {
-            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
-            $verificationToken->verified = true;
-            $verificationToken->save();
-            $confirmationToken = $this->confirmationController->createNewConfirmationToken($participant);
+        // if ($participant->role != Roles::child) {
+        //     Mail::to($participant->email)
+        //         ->send(new manuallyAddedMail($participant));
+        // } else {
+        //     $verificationToken = $this->verificationController->createNewVerificationToken($participant);
+        //     $verificationToken->verified = true;
+        //     $verificationToken->save();
+        //     $confirmationToken = $this->confirmationController->createNewConfirmationToken($participant);
 
-            Mail::to($participant->email)
-                ->send(new emailConfirmationSignup($participant, $confirmationToken));
-        }
+        //     Mail::to($participant->email)
+        //         ->send(new emailConfirmationSignup($participant, $confirmationToken));
+        // }
 
         return back()->with('message', 'Deelnemer is opgeslagen!');
     }

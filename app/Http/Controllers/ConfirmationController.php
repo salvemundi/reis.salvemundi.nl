@@ -84,12 +84,4 @@ class ConfirmationController extends Controller
         }
         return back()->with('status','Mails zijn verstuurd!');
     }
-
-    public function createNewConfirmationToken(Participant $participant): ConfirmationToken {
-        $newConfirmationToken = new ConfirmationToken();
-        $newConfirmationToken->participant()->associate($participant);
-        $newConfirmationToken->save();
-
-        return $newConfirmationToken;
-    }
 }

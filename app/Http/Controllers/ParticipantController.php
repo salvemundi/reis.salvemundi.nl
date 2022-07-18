@@ -29,12 +29,10 @@ use App\Mail\emailConfirmationSignup;
 class ParticipantController extends Controller {
     private VerificationController $verificationController;
     private PaymentController $paymentController;
-    // private ConfirmationController $confirmationController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();
         $this->paymentController = new PaymentController();
-        // $this->confirmationController = new ConfirmationController();
     }
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -492,18 +490,21 @@ class ParticipantController extends Controller {
 
         $participant->save();
 
-        // if ($participant->role != Roles::child) {
-        //     Mail::to($participant->email)
-        //         ->send(new manuallyAddedMail($participant));
-        // } else {
-        //     $verificationToken = $this->verificationController->createNewVerificationToken($participant);
-        //     $verificationToken->verified = true;
-        //     $verificationToken->save();
-        //     $confirmationToken = $this->confirmationController->createNewConfirmationToken($participant);
+        if ($participant->role != Roles::child) {
+            Mail::to($participant->email)
+                ->send(new manuallyAddedMail($participant));
+        } else {
+            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
+            $verificationToken->verified = true;
+            $verificationToken->save();
 
-        //     Mail::to($participant->email)
-        //         ->send(new emailConfirmationSignup($participant, $confirmationToken));
-        // }
+            $newConfirmationToken = new ConfirmationToken();
+            $newConfirmationToken->participant()->associate($participant);
+            $newConfirmationToken->save();
+
+            Mail::to($participant->email)
+                ->send(new emailConfirmationSignup($participant, $confirmationToken));
+        }
 
         return back()->with('message', 'Deelnemer is opgeslagen!');
     }

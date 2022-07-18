@@ -504,7 +504,7 @@ class ParticipantController extends Controller {
             $newConfirmationToken->save();
 
             Mail::to($participant->email)
-                ->send(new emailConfirmationSignup($participant, $confirmationToken));
+                ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
         }
 
         return back()->with('message', 'Deelnemer is opgeslagen!');

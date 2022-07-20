@@ -4,6 +4,11 @@
 setActive("participants");
 </script>
 <div class="row">
+    @if(!Request::is('participants'))
+        <div class="col-12 col-md-6 container">
+    @else
+        <div class="col-12 container">
+    @endif
     @if(session()->has('success'))
         <div class="alert alert-success">
             {{ session()->get('success') }}
@@ -18,11 +23,6 @@ setActive("participants");
         <div class="alert alert-primary">
             {{ session()->get('message') }}
         </div>
-    @endif
-    @if(!Request::is('participants'))
-        <div class="col-12 col-md-6 container">
-    @else
-        <div class="col-12 container">
     @endif
         <div class="d-flex">
 

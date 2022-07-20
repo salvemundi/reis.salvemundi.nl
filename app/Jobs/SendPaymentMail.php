@@ -40,5 +40,6 @@ class SendPaymentMail implements ShouldQueue
     {
         Mail::bcc($this->participant)
             ->send(new emailConfirmationSignup($this->participant, $this->confirmationToken));
+        $this->release();
     }
 }

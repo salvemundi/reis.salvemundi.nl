@@ -36,6 +36,7 @@ class SendMailResendQRCode implements ShouldQueue
     public function handle()
     {
         Mail::bcc($this->participant)
-        ->send(new resendQRCode($this->participant));
+            ->send(new resendQRCode($this->participant));
+        $this->release();
     }
 }

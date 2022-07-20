@@ -38,6 +38,7 @@ class SendMailNonVerifiedParticipants implements ShouldQueue
     public function handle()
     {
         Mail::bcc($this->participant)
-        ->send(new emailNonVerifiedParticipants($this->participant, $this->verificationToken));
+            ->send(new emailNonVerifiedParticipants($this->participant, $this->verificationToken));
+        $this->release();
     }
 }

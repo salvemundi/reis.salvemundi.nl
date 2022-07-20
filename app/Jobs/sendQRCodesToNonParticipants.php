@@ -36,5 +36,6 @@ class sendQRCodesToNonParticipants implements ShouldQueue
     {
         Mail::to($this->participant->email)
             ->send(new resendQRCode($this->participant));
+        $this->release();
     }
 }

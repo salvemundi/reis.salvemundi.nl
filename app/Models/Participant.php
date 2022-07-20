@@ -78,4 +78,13 @@ class Participant extends Model
         }
         return false;
     }
+
+    public function isVerified():bool {
+        foreach($this->verificationToken()->get() as $token) {
+            if($token->verified) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

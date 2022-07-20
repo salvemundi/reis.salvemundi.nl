@@ -9,6 +9,21 @@ setActive("participants");
     @else
         <div class="col-12 container">
     @endif
+    @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session()->get('error') }}
+        </div>
+    @endif
+    @if(session()->has('message'))
+        <div class="alert alert-primary">
+            {{ session()->get('message') }}
+        </div>
+    @endif
         <div class="d-flex">
 
             <div class="dropdown" style="margin-left: 4px;">
@@ -120,7 +135,7 @@ setActive("participants");
                             <td data-value="{{ $participant->id }}">{{ $participant->id }}</td>
                             <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
-                            <td data-value="{{ $participant->verificationToken?->verified }}">{{ $participant->verificationToken?->verified ? 'Ja' : 'Nee' }}</td>
+                            <td data-value="{{ $participant->isVerified() }}">{{ $participant->isVerified() ? 'Ja' : 'Nee' }}</td>
 
                             @if($participant->checkedIn == 1)
                                 <td data-value="{{ $participant->checkedIn }}">True</td>

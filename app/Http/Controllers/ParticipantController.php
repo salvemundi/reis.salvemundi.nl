@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\resendQRCodeEmails;
+use App\Jobs\resendVerificationEmail;
+use App\Jobs\sendQRCodesToNonParticipants;
 use App\Models\Setting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -315,12 +318,10 @@ class ParticipantController extends Controller {
         $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
 
         foreach($nonVerifiedParticipants as $participant) {
-            $token = new VerificationToken;
-            $token->participant()->associate($participant);
-            $token->save();
+            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
+            $verificationToken->save();
 
-            Mail::to($participant->email)
-                ->send(new emailNonVerifiedParticipants($participant, $token));
+            resendVerificationEmail::dispatch($participant, $verificationToken);
         }
 
         return back()->with('message', 'De mails zijn verstuurd!');
@@ -330,8 +331,7 @@ class ParticipantController extends Controller {
         $paidParticipants = $this->paymentController->getAllPaidUsers();
 
         foreach($paidParticipants as $participant) {
-            Mail::to($participant->email)
-                ->send(new resendQRCode($participant));
+            resendQRCodeEmails::dispatch($participant);
         }
 
         return back()->with('message', 'De mails zijn verstuurd!');
@@ -341,8 +341,7 @@ class ParticipantController extends Controller {
         $paidParticipants = Participant::where('role','!=',Roles::child())->get();
 
         foreach($paidParticipants as $participant) {
-            Mail::to($participant->email)
-                ->send(new resendQRCode($participant));
+            sendQRCodesToNonParticipants::dispatch($participant);
         }
 
         return back()->with('message', 'De mails zijn verstuurd!');

@@ -23,9 +23,12 @@ use App\Exports\StudentFontysEmailExport;
 use App\Mail\emailNonVerifiedParticipants;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
+use App\Models\ConfirmationToken;
 use App\Enums\StudyType;
 use App\Mail\parentMailSignup;
+use App\Mail\manuallyAddedMail;
 use App\Mail\resendQRCode;
+use App\Mail\emailConfirmationSignup;
 
 class ParticipantController extends Controller {
     private VerificationController $verificationController;
@@ -423,5 +426,87 @@ class ParticipantController extends Controller {
             ->send(new parentMailSignup($parent));
 
         return back()->with('success','Deelnemer gegevens opgeslagen!');
+    }
+
+    public function storeSelfAddedParticipant(Request $request) {
+        $request->validate([
+            'firstName' => ['required', 'regex:/^[a-zA-Z ]+$/'],
+            'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'lastName' =>  ['required', 'regex:/^[a-zA-Z ]+$/'],
+            'role' => 'required',
+            'birthday' => 'required',
+            'email' => 'required|email:rfc,dns|max:65',
+            'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
+            'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
+            'studyType' => 'nullable',
+            'studentYear' => 'nullable',
+            'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
+            'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
+            'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
+            'specials' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
+            'role' => 'nullable',
+            'checkedIn' => 'required',
+        ]);
+
+        $participant = new Participant;
+        $participant->id = Str::uuid()->toString();
+
+        $participant->firstName = $request->input('firstName');
+        $participant->insertion = $request->input('insertion');
+        $participant->lastName = $request->input('lastName');
+        $participant->fontysEmail = $request->input('fontysEmail');
+
+        $participant->birthday = $request->input('birthday');
+        $participant->email = $request->input('email');
+        $participant->phoneNumber = $request->input('phoneNumber');
+        $participant->studyType = StudyType::coerce((int)$request->input('studyType'));
+
+        if($request->input('studentYear') != null) {
+            $participant->studentYear = $request->input('studentYear');
+        } else {
+            $participant->studentYear = 0;
+        }
+
+        $participant->firstNameParent = $request->input('firstNameParent');
+        $participant->lastNameParent = $request->input('lastNameParent');
+        $participant->addressParent = $request->input('addressParent');
+        $participant->phoneNumberParent = $request->input('phoneNumberParent');
+        $participant->medicalIssues = $request->input('medicalIssues');
+        $participant->specials = $request->input('specials');
+        $participant->studyType = $request->input('participantStudyType') ?? 0;
+
+        if($request->input('role') != null) {
+            $participant->role = $request->input('role');
+        } else {
+            $participant->role = 0;
+        }
+
+        if($request->input('checkedIn') != null) {
+            $participant->checkedIn = Roles::coerce((int)$request->input('checkedIn'));
+        } else {
+            $participant->checkedIn = Roles::coerce(0);
+        }
+
+        $participant->save();
+
+        if ($participant->role != Roles::child) {
+            Mail::to($participant->email)
+                ->send(new manuallyAddedMail($participant));
+        } else {
+            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
+            $verificationToken->verified = true;
+            $verificationToken->save();
+
+            $newConfirmationToken = new ConfirmationToken();
+            $newConfirmationToken->participant()->associate($participant);
+            $newConfirmationToken->save();
+
+            Mail::to($participant->email)
+                ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+        }
+
+        return back()->with('message', 'Deelnemer is opgeslagen!');
     }
 }

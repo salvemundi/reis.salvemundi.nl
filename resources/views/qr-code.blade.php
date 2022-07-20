@@ -61,17 +61,17 @@
         Wij doen ons uiterste best om de intro zo leuk en veilig mogelijk te maken voor iedere deelnemer. Hier hoort bij dat wij alle deelnemers een mogelijkheid willen geven om in alle vertrouwen contact te kunnen zoeken over iets wat ze dwars zit. Dit kan alles zijn; je klikt niet met de groep, je voelt je onder druk gezet of je bent slachtoffer geworden van ongewenst gedrag. Voor alles wat je dwarszit kan je een van onze contactpersonen benaderen.
         <div class="row justify-content-center">
             <div class="col-md-4 col-6">
-                <p class="vertrouwensPersoon">Femke</p>
+                <p class="vertrouwensPersoonText">Femke</p>
                 <img class="imgQR" src="images/vertrouwensPersonen/femke.jpeg">
             </div>
 
             <div class="col-md-4 col-6">
-                <p class="vertrouwensPersoon">Alessandra</p>
+                <p class="vertrouwensPersoonText">Alessandra</p>
                 <img class="imgQR" src="images/vertrouwensPersonen/alessandra.jpg">
             </div>
 
             <div class="col-md-4 col-6">
-                <p class="vertrouwensPersoon">Jimmy (remote)</p>
+                <p class="vertrouwensPersoonText">Jimmy (remote)</p>
                 <img class="imgQR" src="images/vertrouwensPersonen/jimmy.jpg">
             </div>
         </div>
@@ -84,7 +84,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="card p-2 m-0">
-                    Announcements
+                    <a class="link-qr" href="https://chat.whatsapp.com/LqjT2fcEdy0ECGPQo6owRB" target="_blank">Announcements</a>
                 </div>
             </div>
             <div class="col-6">

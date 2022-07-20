@@ -27,6 +27,7 @@ class AzureAuth
 
         $allowedGroups = [
             'a4aeb401-882d-4e1e-90ee-106b7fdb23cc', // ictCommissie
+            'b16d93c7-42ef-412e-afb3-f6cbe487d0e0', // bestuur
             '516f03f9-be0a-4514-9da8-396415f59d0b', // introCommisie
             '314044d2-bafe-43c7-99f3-c8824dbcbef0', // bhv
         ];

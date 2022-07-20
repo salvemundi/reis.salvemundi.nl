@@ -15,6 +15,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\emailConfirmationSignup;
 use App\Enums\PaymentStatus;
+use App\Models\Participant;
 
 class ConfirmationController extends Controller
 {

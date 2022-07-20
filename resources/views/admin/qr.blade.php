@@ -97,24 +97,24 @@
                             if(obj.removedFromIntro){
                                 flashBackgroundRed();
                                 setInformation(obj, "nee, permanent verwijderd");
-                                document.getElementById('particpant-card').classList.remove('aboveEightTeen');
-                                document.getElementById('particpant-card').classList.add('underEightTeen');
+                                document.getElementById('particpant-card').classList.remove('aboveEightTeenQR');
+                                document.getElementById('particpant-card').classList.add('underEightTeenQR');
                                 return;
                             }
                             if(!obj.haspaid) {
                                 flashBackgroundRed();
                                 setInformation(obj, "nee, niet betaald");
-                                document.getElementById('particpant-card').classList.remove('aboveEightTeen');
-                                document.getElementById('particpant-card').classList.add('underEightTeen');
+                                document.getElementById('particpant-card').classList.remove('aboveEightTeenQR');
+                                document.getElementById('particpant-card').classList.add('underEightTeenQR');
                                 return;
                             }
                             setInformation(obj, "ja");
                             if(obj.above18){
-                                document.getElementById('particpant-card').classList.remove('underEightTeen');
-                                document.getElementById('particpant-card').classList.add('aboveEightTeen');
+                                document.getElementById('particpant-card').classList.remove('underEightTeenQR');
+                                document.getElementById('particpant-card').classList.add('aboveEightTeenQR');
                             } else {
-                                document.getElementById('particpant-card').classList.remove('aboveEightTeen');
-                                document.getElementById('particpant-card').classList.add('underEightTeen');
+                                document.getElementById('particpant-card').classList.remove('aboveEightTeenQR');
+                                document.getElementById('particpant-card').classList.add('underEightTeenQR');
                             }
                             $.ajax({
                                 url: '/participants/' + result.text + "/checkIn",

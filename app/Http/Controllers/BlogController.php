@@ -30,7 +30,8 @@ class BlogController extends Controller
 
     public function showPosts(): Factory|View|Application
     {
-        $posts = Blog::all();
+        $posts = Blog::orderBy('created_at', 'desc')->where('show','1')->get();
+        $lastBlog = Blog::where('show', '1')->latest()->first();
 
         $dateForIntro = Carbon::parse('2022-08-22');
         $dateNow = Carbon::now();
@@ -39,7 +40,7 @@ class BlogController extends Controller
 
         $occupied = Occupied::all()->first();
 
-        return view('blogs', ['posts' => $posts, 'date' => $diffDate, 'occupied' => $occupied]);
+        return view('blogs', ['posts' => $posts, 'date' => $diffDate, 'occupied' => $occupied, 'lastBlog' => $lastBlog]);
     }
 
     public function showPostsAdmin(): Factory|View|Application
@@ -147,7 +148,8 @@ class BlogController extends Controller
         $filtered = collect($userArr)->unique('email');
         foreach($filtered as $participant) {
             if(isset($participant)) {
-                SendBlogMail::dispatch($participant, $blog);
+                Mail::bcc($participant)
+                    ->send(new participantMail($participant, $blog));
             }
         }
     }

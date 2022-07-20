@@ -75,7 +75,7 @@ class VerificationController extends Controller
             array_push($userArr, $token->participant);
         }
 
-        return collect($userArr);
+        return collect($userArr)->unique();
     }
 
     public function createNewVerificationToken(Participant $participant): VerificationToken {

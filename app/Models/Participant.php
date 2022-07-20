@@ -81,7 +81,7 @@ class Participant extends Model
 
     public function isVerified():bool {
         foreach($this->verificationToken()->get() as $token) {
-            if($token) {
+            if($token->verified) {
                 return true;
             }
         }

@@ -148,8 +148,7 @@ class BlogController extends Controller
         $filtered = collect($userArr)->unique('email');
         foreach($filtered as $participant) {
             if(isset($participant)) {
-                Mail::bcc($participant)
-                    ->send(new participantMail($participant, $blog));
+                SendBlogMail::dispatch($participant, $blog);
             }
         }
     }

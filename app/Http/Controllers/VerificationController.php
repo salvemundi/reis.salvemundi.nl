@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\VerificationToken;
 use App\Models\Participant;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
@@ -15,7 +18,8 @@ use App\Mail\emailConfirmationSignup;
 
 class VerificationController extends Controller
 {
-    public function verify(Request $request) {
+    public function verify(Request $request): Factory|View|Application
+    {
         $token = $request->token;
         $verificationToken = VerificationToken::find($token);
 
@@ -35,12 +39,14 @@ class VerificationController extends Controller
             $today = Carbon::now()->format('Y-m-d'); //yyyy-mm-dd
 
             if(Setting::where('name','AutoSendPaymentEmailDate')->first()->value <= $today) {
-                $newConfirmationToken = new ConfirmationToken();
-                $newConfirmationToken->participant()->associate($participant);
-                $newConfirmationToken->save();
+                if(!$verificationToken->participant->hasPaid()) {
+                    $newConfirmationToken = new ConfirmationToken();
+                    $newConfirmationToken->participant()->associate($participant);
+                    $newConfirmationToken->save();
 
-                Mail::to($participant->email)
-                ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+                    Mail::to($participant->email)
+                        ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+                }
             }
 
             return view('verifyResponse', ['Response' => true]);

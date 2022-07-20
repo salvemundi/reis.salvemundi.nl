@@ -428,12 +428,12 @@ class ParticipantController extends Controller {
         return back()->with('success','Deelnemer gegevens opgeslagen!');
     }
 
-    public function storeSelfAddedParticipant(Request $request) {
+    public function storeSelfAddedParticipant(Request $request): RedirectResponse
+    {
         $request->validate([
             'firstName' => ['required', 'regex:/^[a-zA-Z ]+$/'],
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
             'lastName' =>  ['required', 'regex:/^[a-zA-Z ]+$/'],
-            'role' => 'required',
             'birthday' => 'required',
             'email' => 'required|email:rfc,dns|max:65',
             'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',

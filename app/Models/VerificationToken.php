@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Traits\UsesUuid;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class VerificationToken extends Model
 {
@@ -13,7 +14,7 @@ class VerificationToken extends Model
 
     protected $guarded = [];
 
-    public function participant()
+    public function participant(): BelongsTo
     {
         return $this->belongsTo(Participant::class,'participantId','id');
     }

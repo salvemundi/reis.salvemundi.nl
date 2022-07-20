@@ -18,7 +18,7 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 
 class RegistrationController extends Controller
 {
-    private $verificationController;
+    private VerificationController $verificationController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\resendConfirmationEmailToAllUsers;
 use App\Models\ConfirmationToken;
 use App\Models\Setting;
 use Illuminate\Contracts\Foundation\Application;
@@ -77,8 +78,7 @@ class ConfirmationController extends Controller
                 $newConfirmationToken->participant()->associate($participant);
                 $newConfirmationToken->save();
 
-                Mail::to($participant->email)
-                    ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+                resendConfirmationEmailToAllUsers::dispatch($participant,$newConfirmationToken);
             }
         }
         return back()->with('status','Mails zijn verstuurd!');

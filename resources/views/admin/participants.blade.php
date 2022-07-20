@@ -4,6 +4,21 @@
 setActive("participants");
 </script>
 <div class="row">
+    @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session()->get('error') }}
+        </div>
+    @endif
+    @if(session()->has('message'))
+        <div class="alert alert-primary">
+            {{ session()->get('message') }}
+        </div>
+    @endif
     @if(!Request::is('participants'))
         <div class="col-12 col-md-6 container">
     @else

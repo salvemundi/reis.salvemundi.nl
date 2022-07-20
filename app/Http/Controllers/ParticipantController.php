@@ -318,11 +318,10 @@ class ParticipantController extends Controller {
         $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
 
         foreach($nonVerifiedParticipants as $participant) {
-            $token = new VerificationToken;
-            $token->participant()->associate($participant);
-            $token->save();
+            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
+            $verificationToken->save();
 
-            resendVerificationEmail::dispatch($participant, $token);
+            resendVerificationEmail::dispatch($participant, $verificationToken);
         }
 
         return back()->with('message', 'De mails zijn verstuurd!');

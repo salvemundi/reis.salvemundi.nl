@@ -65,14 +65,12 @@ class Participant extends Model
     }
 
     public function hasPaid(): bool {
-        $this->latestPayment = $this->payments()->latest()->first();
-
         if($this->role != Roles::child) {
             return true;
         }
 
-        if ($this->latestPayment != null) {
-            if($this->latestPayment->paymentStatus == PaymentStatus::paid) {
+        foreach($this->payments()->get() as $payment) {
+            if($payment->paymentStatus == PaymentStatus::paid) {
                 return true;
             }
         }

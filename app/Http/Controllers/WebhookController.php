@@ -9,6 +9,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Laravel\Facades\Mollie;
 use App\Enums\PaymentStatus;
 use App\Mail\emailPaymentSucceeded;
+use App\Mail\paymentFailed;
 use Illuminate\Support\Facades\Mail;
 
 class WebhookController extends Controller
@@ -44,9 +45,10 @@ class WebhookController extends Controller
                  * The payment is pending.
                  */
             } elseif ($payment->isFailed()) {
-                /*
-                 * The payment has failed.
-                 */
+                $participant = $paymentStorage->participant;
+                Mail::to($participant)
+                    ->send(new paymentFailed($participant, $paymentStorage));
+                return response(null, 200);
             } elseif ($payment->isExpired()) {
                 /*
                  * The payment is expired.

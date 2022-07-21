@@ -36,7 +36,7 @@ class PaymentController extends Controller
                 ],
                 "description" => "Introductie ". Date("Y"),
                 "redirectUrl" => route('payment.success', ['userId' => $confirmationToken->participant->id]),
-                "webhookUrl"  => route('webhooks.mollie'),
+                "webhookUrl"  => env('NGROK_LINK').'/webhooks/mollie' ?? route('webhooks.mollie'),
                 "metadata" => [
                     "payment_id" => $paymentObject->id,
                 ],
@@ -71,7 +71,7 @@ class PaymentController extends Controller
             if ($participant != null) {
                 if ($participant->latestPayment != null || $participant->latestPayment->paymentStatus == PaymentStatus::paid) {
                     return view('SuccessPage');
-               }
+                }
             return view('paymentFailed');
             }
         }

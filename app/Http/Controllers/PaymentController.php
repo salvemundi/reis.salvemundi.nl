@@ -36,7 +36,7 @@ class PaymentController extends Controller
                 ],
                 "description" => "Introductie ". Date("Y"),
                 "redirectUrl" => route('payment.success', ['userId' => $confirmationToken->participant->id]),
-                "webhookUrl"  => env('NGROK_LINK').'/webhooks/mollie' ?? route('webhooks.mollie'),
+                "webhookUrl"  => env('NGROK_LINK') ?? route('webhooks.mollie'),
                 "metadata" => [
                     "payment_id" => $paymentObject->id,
                 ],

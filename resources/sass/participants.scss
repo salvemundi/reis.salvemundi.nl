@@ -14,11 +14,15 @@
 }
 
 .aboveEightTeenQR {
-    background-color: $salveMundi-light;
-    border-radius: 4px;
+    background-color: $salveMundi-light !important;
+    color: white !important;
 }
 
-.belowEightTeenQR {
-    background-color: $salvemundi-background;
-    border-radius: 4px;
+.underEightTeenQR {
+    background-color: $salvemundi-background !important;
+}
+
+.participantCard {
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+    border-radius: 10px;
 }

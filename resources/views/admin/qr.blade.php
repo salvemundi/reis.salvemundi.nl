@@ -35,7 +35,7 @@
         </main>
     </div>
     <div>
-        <div class="card-body underEightTeen" id="particpant-card">
+        <div class="card-body participantCard" id="particpant-card">
             <p id="allowed">Toegestaan: </p>
             <p id="name">Naam: </p>
             <p id="age">Leeftijd: </p>
@@ -95,17 +95,17 @@
                             obj = JSON.parse(response);
 
                             if(obj.removedFromIntro){
-                                flashBackgroundRed();
                                 setInformation(obj, "nee, permanent verwijderd");
                                 document.getElementById('particpant-card').classList.remove('aboveEightTeenQR');
                                 document.getElementById('particpant-card').classList.add('underEightTeenQR');
+                                flashBackgroundRed();
                                 return;
                             }
                             if(!obj.haspaid) {
-                                flashBackgroundRed();
                                 setInformation(obj, "nee, niet betaald");
                                 document.getElementById('particpant-card').classList.remove('aboveEightTeenQR');
                                 document.getElementById('particpant-card').classList.add('underEightTeenQR');
+                                flashBackgroundRed();
                                 return;
                             }
                             setInformation(obj, "ja");

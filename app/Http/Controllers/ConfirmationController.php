@@ -72,9 +72,7 @@ class ConfirmationController extends Controller
         $verifiedParticipants = $this->verifiedController->getVerifiedParticipants();
 
         foreach($verifiedParticipants as $participant) {
-            $participant->latestPayment = $participant->payments()->latest()->first();
-
-            if ($participant->latestPayment == null || $participant->latestPayment->paymentStatus != PaymentStatus::paid) {
+            if (!$participant->hasPaid()) {
                 $newConfirmationToken = new ConfirmationToken();
                 $newConfirmationToken->participant()->associate($participant);
                 $newConfirmationToken->save();

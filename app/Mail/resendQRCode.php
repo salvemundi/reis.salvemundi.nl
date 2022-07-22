@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Participant;
+use Intervention\Image\Facades\Image;
 use Milon\Barcode\Facades\DNS2DFacade as DNS2D;
 
 class resendQRCode extends Mailable
@@ -33,9 +34,9 @@ class resendQRCode extends Mailable
     {
         return $this
             ->subject("QR-code")
-            ->attachData(base64_decode(DNS2D::getBarcodePNG($this->participant->id, 'QRCODE', 10,10)),'qrcode.png', [
-                'as' => 'qrcode.png',
-                'mime' => 'application/png',
+            ->attachData(Image::canvas(290,290,"#fff")->insert(base64_decode(DNS2D::getBarcodePNG($this->participant->id, 'QRCODE', 10,10)))->encode('jpg'),'qrcode.jpg', [
+                'as' => 'qrcode.jpg',
+                'mime' => 'application/jpg',
             ])
             ->markdown('mails/resendQRcode', ['participant' => $this->participant]);
     }

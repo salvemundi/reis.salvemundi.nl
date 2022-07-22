@@ -218,6 +218,7 @@ setActive("participants");
 
                             <div style="display: flex; flex-direction: row;">
                                 @include('include.participantEditModal', ['participant' => $selectedParticipant])
+                                @include('include.participantConfirmationMailModal', ['participant' => $selectedParticipant])
                                 <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $selectedParticipant->id }}">
                                     Bewerk
                                 </button>
@@ -232,8 +233,11 @@ setActive("participants");
                                         <button type="submit" class="btn btn-danger buttonPart me-2">Checkout</button>
                                     </form>
                                 @endif
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Verwijderen
+                                </button>
+                                <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationMailModal{{$selectedParticipant->id}}">
+                                    Confirmatie mail
                                 </button>
                             </div>
                         </span>

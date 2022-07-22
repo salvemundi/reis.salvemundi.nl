@@ -508,4 +508,24 @@ class ParticipantController extends Controller {
 
         return back()->with('message', 'Deelnemer is opgeslagen!');
     }
+
+    public function sendParticipantConfirmationEmail(Request $request): RedirectResponse
+    {
+        $participant = Participant::find($request->userId);
+        if(!$participant->hasPaid()) {
+            Mail::to($participant->email)
+                ->send(new emailConfirmationSignup($participant, $this->createConfirmationToken($participant)));
+            return back()->with('success','Confirmatie email verstuurd!');
+        }
+        return back()->with('error','Deelnemer heeft al betaald!');
+    }
+
+    private function createConfirmationToken(Participant $participant): ConfirmationToken
+    {
+        $confirmationToken =  new ConfirmationToken();
+        $confirmationToken->participant()->associate($participant);
+        $confirmationToken->save();
+
+        return $confirmationToken;
+    }
 }

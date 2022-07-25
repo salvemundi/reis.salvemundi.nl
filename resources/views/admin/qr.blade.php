@@ -4,10 +4,10 @@
 <script>
     setActive("qrcode");
 </script>
-<div class="row">
+<div class="row mt-4 mt-sm-1">
     <div>
         <main class="wrapper">
-            <section class="center" style="display: flex; margin-top: 2em; text-align: center" id="demo-content">
+            <section class="center d-flex mt-2 text-center" id="demo-content">
                 <div>
                     <h1 class="title">Scan QR Code om in / uit the checken!</h1>
                     <div class="btn-group mb-2">
@@ -21,9 +21,9 @@
                         <a class="btn btn-primary" id="startButton">Start</a>
                         <a class="btn btn-primary" id="resetButton">Reset</a>
                     </div>
-                    <div class="form-check form-switch" style="margin-top: 1.5em; margin-bottom: 1.5em; transform: scale(1.5)">
-                        <input class="form-check-input"  style="margin-left: 25%; display: block;" type="checkbox" role="switch" id="torchCheckbox">
-                        <label class="form-check-label"  style="margin-right: 25%; display: block;" for="flexSwitchCheckDefault">Zaklamp</label>
+                    <div class=" form-switch my-1 justify-content-center" style="transform: scale(1.5)">
+                        <input class="form-check-input"  type="checkbox" role="switch" id="torchCheckbox">
+                        <label class="form-check-label"  for="flexSwitchCheckDefault">Zaklamp</label>
                     </div>
                     <div id="sourceSelectPanel" style="display:none" class="center">
                         <select id="sourceSelect" class="form-select form-select-sm" style="max-width:400px">
@@ -38,7 +38,7 @@
         </main>
     </div>
     <div>
-        <div class="card-body participantCard" id="particpant-card">
+        <div class="card-body mx-auto participantCard text-left" style="max-width: 400px" id="particpant-card">
             <p id="allowed">Toegestaan: </p>
             <p id="name">Naam: </p>
             <p id="age">Leeftijd: </p>

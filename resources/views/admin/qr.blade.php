@@ -47,9 +47,9 @@
     </div>
 </div>
 <script type="text/javascript">
-    function enableTorch() {
+    function enableTorch(codeReader, value) {
         codeReader.stream.getVideoTracks()[0].applyConstraints({
-            advanced: [{torch: true}] // or false to turn off the torch
+            advanced: [{torch: value}] // or false to turn off the torch
         });
     }
 
@@ -236,13 +236,9 @@
 
                 document.getElementById('torchCheckbox').addEventListener('change',() => {
                     if($('#torchCheckbox').is(":checked")) {
-                        codeReader.stream.getVideoTracks()[0].applyConstraints({
-                            advanced: [{torch: true}] // or false to turn off the torch
-                        });
+                        enableTorch(codeReader, true)
                     } else {
-                        codeReader.stream.getVideoTracks()[0].applyConstraints({
-                            advanced: [{torch: false}] // or false to turn off the torch
-                        });
+                        enableTorch(codeReader, false)
                     }
                 })
 

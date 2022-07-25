@@ -4,10 +4,10 @@
 <script>
     setActive("qrcode");
 </script>
-<div class="row">
+<div class="row mt-4 mt-sm-1">
     <div>
         <main class="wrapper">
-            <section class="center" style="display: flex; margin-top: 2em; text-align: center" id="demo-content">
+            <section class="center d-flex mt-2 text-center" id="demo-content">
                 <div>
                     <h1 class="title">Scan QR Code om in / uit the checken!</h1>
                     <div class="btn-group mb-2">
@@ -21,7 +21,10 @@
                         <a class="btn btn-primary" id="startButton">Start</a>
                         <a class="btn btn-primary" id="resetButton">Reset</a>
                     </div>
-
+                    <div class=" form-switch my-1 justify-content-center" style="transform: scale(1.5)">
+                        <input class="form-check-input"  type="checkbox" role="switch" id="torchCheckbox">
+                        <label class="form-check-label"  for="flexSwitchCheckDefault">Zaklamp</label>
+                    </div>
                     <div id="sourceSelectPanel" style="display:none" class="center">
                         <select id="sourceSelect" class="form-select form-select-sm" style="max-width:400px">
 
@@ -35,7 +38,7 @@
         </main>
     </div>
     <div>
-        <div class="card-body participantCard" id="particpant-card">
+        <div class="card-body mx-auto participantCard text-left" style="max-width: 400px" id="particpant-card">
             <p id="allowed">Toegestaan: </p>
             <p id="name">Naam: </p>
             <p id="age">Leeftijd: </p>
@@ -44,6 +47,12 @@
     </div>
 </div>
 <script type="text/javascript">
+    function enableTorch(codeReader, value) {
+        codeReader.stream.getVideoTracks()[0].applyConstraints({
+            advanced: [{torch: value}] // or false to turn off the torch
+        });
+    }
+
     function decodeOnce(codeReader, selectedDeviceId) {
         codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
             console.log(result)
@@ -223,6 +232,14 @@
                     codeReader.reset()
                     document.getElementById('result').textContent = '';
                     console.log('Reset.')
+                })
+
+                document.getElementById('torchCheckbox').addEventListener('change',() => {
+                    if($('#torchCheckbox').is(":checked")) {
+                        enableTorch(codeReader, true)
+                    } else {
+                        enableTorch(codeReader, false)
+                    }
                 })
 
             })

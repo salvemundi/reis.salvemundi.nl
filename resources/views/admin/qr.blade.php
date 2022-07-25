@@ -21,7 +21,10 @@
                         <a class="btn btn-primary" id="startButton">Start</a>
                         <a class="btn btn-primary" id="resetButton">Reset</a>
                     </div>
-
+                    <div class="form-check form-switch" style="margin-top: 1.5em; margin-bottom: 1.5em; transform: scale(1.5)">
+                        <input class="form-check-input"  style="margin-left: 25%; display: block;" type="checkbox" role="switch" id="torchCheckbox">
+                        <label class="form-check-label"  style="margin-right: 25%; display: block;" for="flexSwitchCheckDefault">Zaklamp</label>
+                    </div>
                     <div id="sourceSelectPanel" style="display:none" class="center">
                         <select id="sourceSelect" class="form-select form-select-sm" style="max-width:400px">
 
@@ -44,6 +47,12 @@
     </div>
 </div>
 <script type="text/javascript">
+    function enableTorch() {
+        codeReader.stream.getVideoTracks()[0].applyConstraints({
+            advanced: [{torch: true}] // or false to turn off the torch
+        });
+    }
+
     function decodeOnce(codeReader, selectedDeviceId) {
         codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
             console.log(result)
@@ -223,6 +232,18 @@
                     codeReader.reset()
                     document.getElementById('result').textContent = '';
                     console.log('Reset.')
+                })
+
+                document.getElementById('torchCheckbox').addEventListener('change',() => {
+                    if($('#torchCheckbox').is(":checked")) {
+                        codeReader.stream.getVideoTracks()[0].applyConstraints({
+                            advanced: [{torch: true}] // or false to turn off the torch
+                        });
+                    } else {
+                        codeReader.stream.getVideoTracks()[0].applyConstraints({
+                            advanced: [{torch: false}] // or false to turn off the torch
+                        });
+                    }
                 })
 
             })

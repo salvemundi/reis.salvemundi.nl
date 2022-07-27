@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\AzureAuth;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Provider\GenericProvider;
 use Microsoft\Graph\Exception\GraphException;
 use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model;
@@ -16,7 +21,7 @@ use GuzzleHttp\Client;
 
 class AuthController extends Controller
 {
-    public function signOut()
+    public function signOut(): Redirector|Application|RedirectResponse
     {
         $tokenCache = new TokenCache();
         $tokenCache->clearTokens();
@@ -25,10 +30,10 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function signIn()
+    public function signIn(): RedirectResponse
     {
       // Initialize the OAuth client
-      $oauthClient = new \League\OAuth2\Client\Provider\GenericProvider([
+      $oauthClient = new GenericProvider([
         'clientId'                => env('OAUTH_APP_ID'),
         'clientSecret'            => env('OAUTH_APP_PASSWORD'),
         'redirectUri'             => env('OAUTH_REDIRECT_URI'),
@@ -46,7 +51,7 @@ class AuthController extends Controller
       return redirect()->away($authUrl);
     }
 
-    public function callback(Request $request)
+    public function callback(Request $request): Redirector|RedirectResponse|Application
     {
       // Validate state
       $expectedState = session('oauthState');
@@ -69,7 +74,7 @@ class AuthController extends Controller
       $authCode = $request->query('code');
       if (isset($authCode)) {
         // Initialize the OAuth client
-        $oauthClient = new \League\OAuth2\Client\Provider\GenericProvider([
+        $oauthClient = new GenericProvider([
           'clientId'                => env('OAUTH_APP_ID'),
           'clientSecret'            => env('OAUTH_APP_PASSWORD'),
           'redirectUri'             => env('OAUTH_REDIRECT_URI'),
@@ -99,12 +104,10 @@ class AuthController extends Controller
 
           $tokenCache = new TokenCache();
           $tokenCache->storeTokens($accessToken, $user);
-        //   $AzureUser = User::where('AzureID',$user->getId())->first();
-        //   $AzureUser->api_token = hash('sha256', $accessToken);
-        //   $AzureUser->save();
+
           return redirect('/');
         }
-        catch (League\OAuth2\Client\Provider\Exception\IdentityProviderException $e)
+        catch (IdentityProviderException $e)
         {
           return redirect('/')
             ->with('error', 'Error requesting access token')

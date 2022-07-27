@@ -27,6 +27,6 @@ class MakeOccupiedTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('occupied');
     }
 }

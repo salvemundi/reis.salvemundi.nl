@@ -63,7 +63,7 @@ class VerificationController extends Controller
         foreach($allVerifiedTokens as $token) {
             array_push($userArr, $token->participant);
         }
-        return collect($userArr);
+        return collect($userArr)->unique();
     }
 
     public function getNonVerifiedParticipants(): Collection

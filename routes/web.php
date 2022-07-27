@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BusController;
@@ -137,6 +138,9 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         // Settings
         Route::get('/settings',[SettingController::class, 'showSettings']);
         Route::post('/settings/{settingId}/store',[SettingController::class, 'storeSetting']);
+
+        // Logs
+        Route::get('/logs',[AuditLogController::class,'index']);
     });
 
     Route::middleware('daddyware')->group(function () {

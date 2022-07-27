@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         try {
             view()->share(['userIsParent' => $this->userIsParent(),'userIsAdmin' => $this->userIsAdmin()]);
@@ -31,15 +31,16 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
-    private function userIsParent() {
-        //dd(session('groups'));
+    private function userIsParent(): bool
+    {
         if(null !== session('id')) {
             return true;
         } else {
             return false;
         }
     }
-    private function userIsAdmin() {
+    private function userIsAdmin(): bool
+    {
         $userId = session('id');
 
         $groupsObj = session('groups');

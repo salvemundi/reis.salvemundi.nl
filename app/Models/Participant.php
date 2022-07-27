@@ -49,6 +49,11 @@ class Participant extends Model
         return $this->belongsTo(ConfirmationToken::class,'id','participantId','confirm_signup_request');
     }
 
+    public function auditLogs(): HasMany
+    {
+        return $this->hasMany(AuditLog::class,'participantId','id');
+    }
+
     public function getFullName(): string
     {
         if($this->insertion != "" || $this->insertion != null){

@@ -19,6 +19,7 @@ class UpdateUserTable extends Migration
             $table->dropColumn('password');
             $table->dropColumn('remember_token');
             $table->dropColumn('name');
+            $table->string('displayName')->nullable();
             $table->uuid('id')->change();
         });
     }

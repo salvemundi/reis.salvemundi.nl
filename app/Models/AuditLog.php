@@ -11,14 +11,21 @@ class AuditLog extends Model
 {
     use HasFactory, UsesUuid;
 
+    protected $fillable = ['category','description'];
+
     public function participant(): BelongsTo
     {
-        return $this->belongsTo(Participant::class,'id','participantId');
+        return $this->belongsTo(Participant::class,'participantId','id');
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class,'id','userId');
+        return $this->belongsTo(User::class,'userId','id');
+    }
+
+    public function blog(): BelongsTo
+    {
+        return $this->belongsTo(Blog::class,'blogId','id');
     }
 
     protected $table = 'audit_log';

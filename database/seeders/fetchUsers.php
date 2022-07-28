@@ -34,6 +34,7 @@ class fetchUsers extends Seeder
             if(User::find($user->getId()) === null) {
                 $newUser = new User();
                 $newUser->id = $user->getId();
+                $newUser->displayName = $user->getDisplayName();
                 $newUser->save();
             }
         }

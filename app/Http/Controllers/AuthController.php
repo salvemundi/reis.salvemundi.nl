@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AuditCategory;
 use App\Http\Middleware\AzureAuth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
@@ -102,6 +103,7 @@ class AuthController extends Controller
 
           session(['id' => $user->getId(), 'groups' => $groups]);
 
+          AuditLogController::Log(AuditCategory::Other(), "Ingelogd");
           $tokenCache = new TokenCache();
           $tokenCache->storeTokens($accessToken, $user);
 

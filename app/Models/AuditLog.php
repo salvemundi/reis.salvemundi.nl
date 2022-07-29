@@ -28,5 +28,10 @@ class AuditLog extends Model
         return $this->belongsTo(Blog::class,'blogId','id');
     }
 
+    public function setting(): BelongsTo
+    {
+        return $this->belongsTo(Setting::class,'settingId','id');
+    }
+
     protected $table = 'audit_log';
 }

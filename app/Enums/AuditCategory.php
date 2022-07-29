@@ -9,6 +9,7 @@ use BenSampo\Enum\Enum;
  * @method static static ParticipantManagement()
  * @method static static BlogManagement()
  * @method static static Emailmanagement()
+ * @method static static SettingManagement()
  */
 final class AuditCategory extends Enum
 {
@@ -16,4 +17,5 @@ final class AuditCategory extends Enum
     const ParticipantManagement = 1;
     const BlogManagement = 2;
     const Emailmanagement = 3;
+    const SettingManagement = 4;
 }

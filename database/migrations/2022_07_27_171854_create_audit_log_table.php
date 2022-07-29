@@ -24,6 +24,8 @@ class CreateAuditLogTable extends Migration
             $table->foreign('participantId')->references('id')->on('participants')->onDelete('cascade');
             $table->uuid('blogId')->nullable();
             $table->foreign('blogId')->references('id')->on('content')->onDelete('cascade');
+            $table->uuid('settingId')->nullable();
+            $table->foreign('settingId')->references('id')->on('settings')->onDelete('cascade');
             $table->timestamps();
         });
     }

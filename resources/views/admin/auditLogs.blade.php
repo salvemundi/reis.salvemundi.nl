@@ -26,6 +26,7 @@
                         <th data-field="name" data-sortable="true">Wie</th>
                         <th data-field="description" data-sortable="true">Wat</th>
                         <th data-field="when" data-sortable="true">Wanneer</th>
+                        <th data-field="category" data-sortable="true">Categorie</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,7 @@
                                 <td data-value="{{ $log->user->displayName }}">{{ $log->user->displayName }}</td>
                                 <td data-value="{{ $log->description }}">{{ $log->description }}</td>
                                 <td data-value="{{ $log->created_at }}">{{ $log->created_at }}</td>
+                                <td data-value="{{ App\Enums\AuditCategory::coerce($log->auditCategory) }}">{{ App\Enums\AuditCategory::coerce($log->auditCategory)->key }}</td>
                             </tr>
                         @endforeach
                     </tbody>

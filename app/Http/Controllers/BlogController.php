@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AuditCategory;
 use App\Enums\Roles;
 use App\Jobs\SendBlogMail;
 use Illuminate\Contracts\Foundation\Application;
@@ -17,7 +18,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
-// This controller  is commonly referred to as blog / news controller. Previous PR #12 caused a naming nightmare. (May or may not have been me.)
+// This controller is commonly referred to as blog / news controller. Previous PR #12 caused a naming nightmare. (May or may not have been me.)
 class BlogController extends Controller
 {
     private VerificationController $verificationController;
@@ -60,6 +61,7 @@ class BlogController extends Controller
 
         $occupied->occupied = $request->input('occupied');
         $occupied->save();
+        AuditLogController::Log(AuditCategory::Other(),"Heeft percentage beschikbare plekken aangepast naar: " . $occupied->occupied);
         return redirect('/blogsadmin')->with('success', 'percentage is geupdated!');
     }
 
@@ -80,12 +82,14 @@ class BlogController extends Controller
         $post->content =  $request->input('content');
 
         if(isset($request->addBlog)) {
+            AuditLogController::Log(AuditCategory::BlogManagement(),"Heeft blog toegevoegd of bewerkt: " . $post->name,null, $post);
             $post->show = true;
         }
 
         $post->save();
 
         if(isset($request->sendEmail)) {
+            AuditLogController::Log(AuditCategory::BlogManagement(),"Verstuurde emails van blog " . $post->name,null, $post);
             $this->sendEmails($post, $request);
         }
 
@@ -106,6 +110,7 @@ class BlogController extends Controller
         if($request->blogId) {
             $blog = Blog::find($request->blogId);
             if($blog != null) {
+                AuditLogController::Log(AuditCategory::BlogManagement(),"Heeeft blog " . $blog->name . " verwijderd.", null, $blog);
                 $blog->delete();
                 return redirect('/blogsadmin')->with('success', 'Blog is verwijderd!');
             }

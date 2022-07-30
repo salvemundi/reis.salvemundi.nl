@@ -21,14 +21,12 @@ use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ParticipantsExport;
 use App\Exports\StudentFontysEmailExport;
-use App\Mail\emailNonVerifiedParticipants;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 use App\Models\ConfirmationToken;
 use App\Enums\StudyType;
 use App\Mail\parentMailSignup;
 use App\Mail\manuallyAddedMail;
-use App\Mail\resendQRCode;
 use App\Mail\emailConfirmationSignup;
 
 class ParticipantController extends Controller {
@@ -43,7 +41,7 @@ class ParticipantController extends Controller {
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
         $participants = Participant::all();
-
+        AuditLogController::Log(AuditCategory::ParticipantManagement(),'Bezocht pagina met alle deelnemers');
         if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
             $dateToday = Carbon::now()->toDate();
@@ -73,7 +71,8 @@ class ParticipantController extends Controller {
         return view('admin/participants', ['participants' => $participants]);
     }
 
-    public function checkedInView(Request $request){
+    public function checkedInView(Request $request): View|Factory|Redirector|RedirectResponse|Application
+    {
         $availableParticipants = Participant::where('checkedIn', 1)->get();
 
         if ($request->userId) {

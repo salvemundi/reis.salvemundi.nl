@@ -101,7 +101,7 @@ class AuthController extends Controller
 
           $groups = $this->getGroupsByUserID($user->getId());
 
-          session(['id' => $user->getId(), 'groups' => $groups]);
+          session(['id' => $user->getId(), 'groups' => $groups,'userName' => $user->getDisplayName()]);
 
           AuditLogController::Log(AuditCategory::Other(), "Ingelogd");
           $tokenCache = new TokenCache();

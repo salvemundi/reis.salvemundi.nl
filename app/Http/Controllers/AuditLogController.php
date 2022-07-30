@@ -31,11 +31,10 @@ class AuditLogController extends Controller
         $auditLog->user()->associate($user)->save();
         switch($category) {
             case AuditCategory::ParticipantManagement():
-                if($participant === null) {
-                    throw new InvalidArgumentException('Missing participant in parameter!');
+                if($participant !== null) {
+                    $auditLog->participant()->associate($participant);
+                    $auditLog->save();
                 }
-                $auditLog->participant()->associate($participant);
-                $auditLog->save();
                 break;
             case AuditCategory::BlogManagement():
                 if($blog === null){

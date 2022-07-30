@@ -13,10 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Occupied;
 use Carbon\Carbon;
-use App\Mail\participantMail;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 // This controller is commonly referred to as blog / news controller. Previous PR #12 caused a naming nightmare. (May or may not have been me.)
 class BlogController extends Controller

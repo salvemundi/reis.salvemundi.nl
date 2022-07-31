@@ -44,6 +44,7 @@ setActive("participants");
                     <li><button class="dropdown-item" id="filterByCheckedInOnly" value="NO" type="button">Ingechecked</button></li>
                     <li><button class="dropdown-item" id="filterByRemovedFromTerrain" value="NO" type="button">Verbannen deelnemers</button></li>
                     <li><button class="dropdown-item" id="filterByNote" value="NO" type="button">Deelnemers met opmerking</button></li>
+                    <li><button class="dropdown-item" id="filterByPurpleOnly" value="NO" type="button">Alleen purple deelnemers</button></li>
                 </ul>
             </div>
             <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
@@ -126,6 +127,7 @@ setActive("participants");
                         @endif
                         <th data-field="paid" data-sortable="true">Betaald</th>
                         <th data-field="note" data-sortable="false">Notitie</th>
+                        <th data-field="purpleOnly" data-sortable="false">Alleen Purple?</th>
                         <th data-field="removed" data-sortable="false">Verwijderd</th>
                     </tr>
                 </thead>
@@ -133,7 +135,11 @@ setActive("participants");
                     @foreach ($participants as $participant)
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
                             <td data-value="{{ $participant->id }}">{{ $participant->id }}</td>
-                            <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
+                            @if($participant->purpleOnly == 1)
+                                <td data-value="purpleOnly">Alleen purple</td>
+                            @else
+                                <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
+                            @endif
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
                             <td data-value="{{ $participant->isVerified() }}">{{ $participant->isVerified() ? 'Ja' : 'Nee' }}</td>
 
@@ -167,6 +173,11 @@ setActive("participants");
                                 @endif
                             </td>
                             <td data-value="{{ $participant->note }}">{{ $participant->note }}</td>
+                            @if($participant->purpleOnly == 1)
+                                <td data-value="{{ $participant->purpleOnly }}">Ja</td>
+                            @else
+                                <td data-value="{{ $participant->purpleOnly }}">Nee</td>
+                            @endif
                             @if($participant->removedFromIntro == 1)
                                 <td data-value="{{ $participant->removedFromIntro }}">True</td>
                             @else
@@ -261,7 +272,6 @@ setActive("participants");
                                 @endif
                             </form>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -293,7 +303,7 @@ setActive("participants");
         var $table = $('#table')
 
         $(function() {
-            $table.bootstrapTable('hideColumn',['note','removed'])
+            $table.bootstrapTable('hideColumn',['note','removed','purpleOnly'])
             $('#filterByCheckedInOnly').click(function () {
                 if(this.value === "YES"){
                     this.value="NO";
@@ -324,7 +334,6 @@ setActive("participants");
                         removed: "True"
                     })
                 }
-
             })
             $('#filterByNote').click(function () {
                 if(this.value === "YES"){
@@ -342,6 +351,22 @@ setActive("participants");
                         'filterAlgorithm': (row, filters) => {
                             return row.note.length > 0
                         }
+                    })
+                }
+            })
+
+            $('#filterByPurpleOnly').click(function () {
+                if(this.value === "YES"){
+                    this.value="NO";
+
+                    $table.bootstrapTable('filterBy', {
+                        // Reset filter
+                    })
+                }
+                else if(this.value === "NO"){
+                    this.value="YES";
+                    $table.bootstrapTable('filterBy', {
+                        purpleOnly: "Ja"
                     })
                 }
             })

@@ -37,6 +37,10 @@
                     <i class='fas fa-bus bus'></i>
                     <span class="nav_name">Bus</span>
                 </a>
+                <a id="events" href="/events" class="nav_link">
+                    <i class="fas fa-calendar bus"></i>
+                    <span class="nav_name">Events</span>
+                </a>
                 <a id="settings" href="/settings" class="nav_link">
                     <i class="fas fa-cog circlePlus"></i>
                     <span class="nav_name">Instellingen</span>

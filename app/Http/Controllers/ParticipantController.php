@@ -308,6 +308,7 @@ class ParticipantController extends Controller {
 
         $participant = new Participant();
         $participant->fontysEmail= $request->input('fontysEmail');
+        $participant->purpleOnly = true;
         $participant->email = $request->input('email');
         $participant->save();
 

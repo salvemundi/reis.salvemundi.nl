@@ -60,6 +60,7 @@ class VerificationController extends Controller
         $userArr = [];
         $participants = Participant::all();
         foreach($participants as $participant) {
+
             if($participant->isVerified() && !$participant->purpleOnly) {
                 array_push($userArr, $participant);
             }

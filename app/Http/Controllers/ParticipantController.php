@@ -436,7 +436,6 @@ class ParticipantController extends Controller {
             'lastName' =>  ['required', 'regex:/^[a-zA-Z ]+$/'],
             'birthday' => 'required',
             'email' => 'required|email:rfc,dns|max:65',
-            'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
             'studyType' => 'nullable',
             'studentYear' => 'nullable',

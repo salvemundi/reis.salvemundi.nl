@@ -4,9 +4,9 @@ Beste {{ $participant->firstName }},
 
 {!! nl2br($konttent) !!}
 
-@if(!$confirmationToken){
-    betalingslink: {{ env('APP_URL') }}inschrijven/betalen/{{ $confirmationToken->id }}
-}
+@if(isset($confirmationToken))
+    Betalingslink: {{ env('APP_URL') }}inschrijven/betalen/{{ $confirmationToken->id }}
+@endif
 
 Met vriendelijke groet,
 

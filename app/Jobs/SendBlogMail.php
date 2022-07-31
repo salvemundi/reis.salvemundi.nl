@@ -20,7 +20,7 @@ class SendBlogMail implements ShouldQueue
 
     private Participant $participant;
     private Blog $blog;
-    private ConfirmationToken|bool $confirmationToken = false;
+    private bool $sendToken;
 
     /**
      * Create a new job instance.
@@ -31,10 +31,7 @@ class SendBlogMail implements ShouldQueue
     {
         $this->participant = $participant;
         $this->blog = $blog;
-        if($sendToken) {
-            $newConfirmationToken = new ConfirmationToken();
-            $this->participant->confirmationToken()->associate($newConfirmationToken);
-        }
+        $this->sendToken = $sendToken;
     }
 
     /**
@@ -45,7 +42,7 @@ class SendBlogMail implements ShouldQueue
     public function handle(): void
     {
         Mail::bcc($this->participant)
-            ->send(new participantMail($this->participant, $this->blog, $this->confirmationToken));
+            ->send(new participantMail($this->participant, $this->blog, $this->sendToken));
         $this->release();
     }
 }

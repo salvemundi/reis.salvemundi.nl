@@ -4,6 +4,10 @@ Beste {{ $participant->firstName }},
 
 {!! nl2br($konttent) !!}
 
+@if(!$confirmationToken){
+    betalingslink: {{ env('APP_URL') }}inschrijven/betalen/{{ $confirmationToken->id }}
+}
+
 Met vriendelijke groet,
 
 Salve Mundi <br>

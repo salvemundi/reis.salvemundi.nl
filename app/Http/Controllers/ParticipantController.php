@@ -513,7 +513,7 @@ class ParticipantController extends Controller {
     public function sendParticipantConfirmationEmail(Request $request): RedirectResponse
     {
         $participant = Participant::find($request->userId);
-        if(!$participant->hasPaid()) {
+        if(!$participant->hasPaid() && !$participant->purpleOnly) {
             Mail::to($participant->email)
                 ->send(new emailConfirmationSignup($participant, $this->createConfirmationToken($participant)));
             return back()->with('success','Confirmatie email verstuurd!');

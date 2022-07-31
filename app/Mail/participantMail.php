@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Blog;
+use App\Models\ConfirmationToken;
 use App\Models\Participant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,15 +16,17 @@ class participantMail extends Mailable
 
     private $participant;
     private $blog;
+    private ConfirmationToken|bool $confirmationToken;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Participant $participant, Blog $blog)
+    public function __construct(Participant $participant, Blog $blog, ConfirmationToken|bool $confirmationToken)
     {
         $this->participant = $participant;
         $this->blog = Blog::find($blog->id);
+        $this->confirmationToken = $confirmationToken;
     }
 
     /**
@@ -33,6 +36,6 @@ class participantMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mails/participantMail', ['participant' => $this->participant, 'konttent' => $this->blog->content])->subject($this->blog->name);
+        return $this->markdown('mails/participantMail', ['participant' => $this->participant, 'konttent' => $this->blog->content,'confirmationToken' => $this->confirmationToken])->subject($this->blog->name);
     }
 }

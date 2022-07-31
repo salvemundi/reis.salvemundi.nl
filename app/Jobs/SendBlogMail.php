@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Mail\participantMail;
 use App\Models\Blog;
+use App\Models\ConfirmationToken;
 use App\Models\Participant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -19,16 +20,21 @@ class SendBlogMail implements ShouldQueue
 
     private Participant $participant;
     private Blog $blog;
+    private ConfirmationToken|bool $confirmationToken = false;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Participant $participant, Blog $blog)
+    public function __construct(Participant $participant, Blog $blog, bool $sendToken)
     {
         $this->participant = $participant;
         $this->blog = $blog;
+        if($sendToken) {
+            $newConfirmationToken = new ConfirmationToken();
+            $this->participant->confirmationToken()->associate($newConfirmationToken);
+        }
     }
 
     /**
@@ -39,7 +45,7 @@ class SendBlogMail implements ShouldQueue
     public function handle(): void
     {
         Mail::bcc($this->participant)
-            ->send(new participantMail($this->participant, $this->blog));
+            ->send(new participantMail($this->participant, $this->blog, $this->confirmationToken));
         $this->release();
     }
 }

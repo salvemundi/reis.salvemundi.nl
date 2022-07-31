@@ -36,6 +36,11 @@
 
             Onderaan het mailtje komt standaard dit te staan: <br> <br>
 
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" name="addPaymentLink" role="switch" id="addPaymentLink">
+                <label class="form-check-label" for="addPaymentLink">Betalingslink toevoegen</label>
+            </div> <br>
+
             Met vriendelijke groet,<br>
             De introcommissie van Salve Mundi <br> <br>
 

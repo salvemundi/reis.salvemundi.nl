@@ -25,7 +25,7 @@ class StudentFontysEmailExport implements FromCollection, ShouldAutoSize, WithMa
                 $userArr[] = $participant;
             }
         }
-        return collect($userArr)->unique('fontysEmail')->pluck('fontysEmail');
+        return collect($userArr)->unique('fontysEmail');
     }
 
     public function headings(): array

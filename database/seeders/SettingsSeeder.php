@@ -17,7 +17,7 @@ class SettingsSeeder extends Seeder
     public function run(): void
     {
         // Signup page
-        if(Setting::find('SignupPageEnabled')->exists()) {
+        if(Setting::find('SignupPageEnabled') == null) {
             $setting = new Setting();
             $setting->name = "SignupPageEnabled";
             $setting->value = "true";
@@ -27,7 +27,7 @@ class SettingsSeeder extends Seeder
         }
 
         // Payment page
-        if(Setting::find('ConfirmationEnabled')->exists()) {
+        if(Setting::find('ConfirmationEnabled') == null) {
             $setting = new Setting();
             $setting->name = "ConfirmationEnabled";
             $setting->value = "true";
@@ -37,7 +37,7 @@ class SettingsSeeder extends Seeder
         }
 
         // Send automatic mails after opening date
-        if(Setting::find('AutoSendPaymentEmailDate')->exists()) {
+        if(Setting::find('AutoSendPaymentEmailDate') == null) {
             $setting = new Setting();
             $setting->name = "AutoSendPaymentEmailDate";
             $setting->value = new Carbon('2022-06-14');

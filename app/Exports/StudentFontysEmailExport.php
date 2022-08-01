@@ -22,7 +22,7 @@ class StudentFontysEmailExport implements FromCollection, ShouldAutoSize, WithMa
         foreach($participants as $participant)
         {
             if($participant->hasPaid() || $participant->purpleOnly){
-                array_push($userArr,$participant);
+                $userArr[] = $participant;
             }
         }
         return collect($userArr)->unique('fontysEmail')->pluck('fontysEmail');

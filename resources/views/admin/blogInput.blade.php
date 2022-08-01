@@ -85,9 +85,6 @@
 </div>
 
 <script>
-    function removePaidCheckbox() {
-        $()
-    }
     $('#addPaymentLink').click(function () {
         $("#Paid").prop("checked", false);
         if (this.checked) {

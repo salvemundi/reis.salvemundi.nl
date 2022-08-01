@@ -70,7 +70,7 @@ class Participant extends Model
         }
 
         foreach($this->payments()->get() as $payment) {
-            if($payment->paymentStatus == PaymentStatus::paid) {
+            if($payment->paymentStatus == PaymentStatus::paid && !$this->purpleOnly) {
                 return true;
             }
         }

@@ -40,7 +40,7 @@ class participantMail extends Mailable
     {
         $newConfirmationToken = null;
         Log::info($this->sendToken);
-        if($this->sendToken == 1 && !$this->participant->purpleOnly && $this->participant->hasPaid()) {
+        if($this->sendToken == 1 && !$this->participant->purpleOnly && !$this->participant->hasPaid()) {
             $newConfirmationToken = new ConfirmationToken();
             $newConfirmationToken->participant()->associate($this->participant);
             $newConfirmationToken->save();

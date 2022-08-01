@@ -14,6 +14,7 @@ use App\Models\Occupied;
 use Carbon\Carbon;
 use App\Mail\participantMail;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -152,6 +153,7 @@ class BlogController extends Controller
         $filtered = collect($userArr)->unique();
         foreach($filtered as $participant) {
             if(isset($participant)) {
+                Log::info('Send blog email to: '. $participant->email);
                 if(isset($request->addPaymentLink)){
                     SendBlogMail::dispatch($participant, $blog, true);
                 } else {

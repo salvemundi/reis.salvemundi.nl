@@ -89,7 +89,6 @@
         $("#Paid").prop("checked", false);
         if (this.checked) {
             $("#Paid").attr("disabled", true);
-
         } else {
             $("#Paid").removeAttr("disabled");
         }

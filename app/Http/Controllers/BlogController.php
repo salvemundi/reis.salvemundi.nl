@@ -69,6 +69,10 @@ class BlogController extends Controller
 
     public function savePost(Request $request): Redirector|Application|RedirectResponse
     {
+        $request->validate([
+            'name' => 'required',
+            'content' => 'required',
+        ]);
 
         if($request->input('blogId')) {
             $post = Blog::find($request->input('blogId'));

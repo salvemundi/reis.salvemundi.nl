@@ -51,7 +51,7 @@ html {
 }
 
 .mytable{
-    padding: 0px !important;
+    padding: 5px !important;
 }
 
 .currentEvent{
@@ -78,11 +78,10 @@ html {
      border-color: $salveMundi-boxShadow !important;
 }
 
-.vertrouwensPersoonText {
-    font-weight: bold;
-    font-size: 1rem;
-}
-
 .imgQR {
     width: 100%;
+}
+
+p{
+    margin-bottom: 0rem !important;
 }

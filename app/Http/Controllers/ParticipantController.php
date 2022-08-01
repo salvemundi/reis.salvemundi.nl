@@ -296,6 +296,9 @@ class ParticipantController extends Controller {
     //Create participant(purple only)
     public function purpleSignup(Request $request) {
         $request->validate([
+            'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'email' => 'required|email:rfc,dns|max:65'
         ]);
@@ -307,6 +310,9 @@ class ParticipantController extends Controller {
         }
 
         $participant = new Participant();
+        $participant->firstName = $request->input('firstName');
+        $participant->insertion = $request->input('insertion');
+        $participant->lastName = $request->input('lastName');
         $participant->fontysEmail= $request->input('fontysEmail');
         $participant->purpleOnly = true;
         $participant->email = $request->input('email');

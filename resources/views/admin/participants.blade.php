@@ -31,8 +31,8 @@ setActive("participants");
                     Export
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><a class="dropdown-item" href="{{ route('export_excel.excel')}}" >Export to Excel</a></li>
-                    <li><a class="dropdown-item" href="{{ route('fontysEmail.excel')}}" >Export student fontys mails</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export_excel.excel')}}">Export to Excel</a></li>
+                    <li><a class="dropdown-item" href="{{ route('fontysEmail.excel')}}">Export student fontys mails</a></li>
                 </ul>
             </div>
 
@@ -111,6 +111,8 @@ setActive("participants");
             </div>
         </div>
 
+        <h4 class="mt-3">Paarse achtegrond = Aleen naar purple inschrijving</h4>
+
         <div class="table-responsive">
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"
             data-show-columns="true">
@@ -137,7 +139,11 @@ setActive("participants");
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
                             <td data-value="{{ $participant->id }}">{{ $participant->id }}</td>
                             @if($participant->purpleOnly == 1)
-                                <td data-value="purpleOnly">Alleen purple</td>
+                                @if($participant->firstName == null || $participant->firstName == "")
+                                    <td class="purpleOnly" data-value="Ontbreekt">Ontbreekt</td>
+                                @else
+                                    <td class="purpleOnly" data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
+                                @endif
                             @else
                                 <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
                             @endif

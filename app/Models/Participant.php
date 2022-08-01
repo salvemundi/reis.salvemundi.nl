@@ -65,7 +65,7 @@ class Participant extends Model
     }
 
     public function hasPaid(): bool {
-        if($this->role !== Roles::child->value) {
+        if($this->role !== Roles::child) {
             return true;
         }
 

@@ -18,14 +18,14 @@ class StudentFontysEmailExport implements FromCollection, ShouldAutoSize, WithMa
     public function collection()
     {
         $userArr = [];
-        $participants = Participant::all('fontysEmail');
+        $participants = Participant::all();
         foreach($participants as $participant)
         {
             if($participant->hasPaid() || $participant->purpleOnly){
                 array_push($userArr,$participant);
             }
         }
-        return collect($userArr)->unique('fontysEmail');
+        return collect($userArr)->unique('fontysEmail')->pluck('fontysEmail');
     }
 
     public function headings(): array

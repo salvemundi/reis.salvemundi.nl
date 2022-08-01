@@ -91,7 +91,7 @@ class PaymentController extends Controller
         }
 
         foreach($verifiedParticipants as $participant) {
-            if($participant->hasPaid() && $participant->role = Roles::child()) {
+            if($participant->hasPaid() && $participant->role = Roles::child() && !$participant->purpleOnly) {
                 array_push($userArr, $participant);
             }
         }
@@ -103,7 +103,7 @@ class PaymentController extends Controller
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
         foreach($verifiedParticipants as $participant) {
-            if (!$participant->hasPaid() && $participant->role = Roles::child()) {
+            if (!$participant->hasPaid() && $participant->role = Roles::child() && !$participant->purpleOnly) {
                 array_push($userArr, $participant);
             }
         }

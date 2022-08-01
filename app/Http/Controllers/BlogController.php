@@ -69,6 +69,10 @@ class BlogController extends Controller
 
     public function savePost(Request $request): Redirector|Application|RedirectResponse
     {
+        $request->validate([
+            'name' => 'required',
+            'content' => 'required',
+        ]);
 
         if($request->input('blogId')) {
             $post = Blog::find($request->input('blogId'));
@@ -95,7 +99,7 @@ class BlogController extends Controller
     public function showPostInputs(Request $request): Factory|View|Application
     {
         $post = null;
-        if($request->blogId){
+        if($request->blogId) {
             $post = Blog::find($request->blogId);
         }
         return view('admin/blogInput',['post' => $post]);
@@ -148,7 +152,11 @@ class BlogController extends Controller
         $filtered = collect($userArr)->unique();
         foreach($filtered as $participant) {
             if(isset($participant)) {
-                SendBlogMail::dispatch($participant, $blog);
+                if(isset($request->addPaymentLink)){
+                    SendBlogMail::dispatch($participant, $blog, true);
+                } else {
+                    SendBlogMail::dispatch($participant, $blog, false);
+                }
             }
         }
     }

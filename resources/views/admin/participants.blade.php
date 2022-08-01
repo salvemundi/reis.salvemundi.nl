@@ -306,16 +306,19 @@ setActive("participants");
 
         $(function() {
             $table.bootstrapTable('hideColumn',['note','removed','purpleOnly'])
+            resetFilter();
             $('#filterByCheckedInOnly').click(function () {
                 resetFilter()
                 $table.bootstrapTable('filterBy', {
-                    checkedIn: "True"
+                    checkedIn: "True",
+                    purpleOnly: "Nee"
                 })
             })
             $('#filterByRemovedFromTerrain').click(function () {
                 resetFilter()
                 $table.bootstrapTable('filterBy', {
-                    removed: "Ja"
+                    removed: "Ja",
+                    purpleOnly: "Nee"
                 })
             })
             $('#filterByNote').click(function () {
@@ -323,7 +326,7 @@ setActive("participants");
 
                 $table.bootstrapTable('filterBy', {}, {
                     'filterAlgorithm': (row, filters) => {
-                        return row.note.length > 0
+                        return row.note.length > 0 && row.purpleOnly == "Nee"
                     }
                 })
             })
@@ -341,11 +344,11 @@ setActive("participants");
         })
 
         function resetFilter() {
-            $table.bootstrapTable('filterBy', {
-                // Reset filter
-            })
             $table.bootstrapTable('filterBy', {}, {
-                    'filterAlgorithm': 'and'
+                'filterAlgorithm': 'and'
+            })
+            $table.bootstrapTable('filterBy', {
+                purpleOnly: "Nee"
             })
         }
 

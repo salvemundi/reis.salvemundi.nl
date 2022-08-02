@@ -67,7 +67,7 @@ class VerificationController extends Controller
             }
         }
 
-        return collect($userArr)->unique();
+        return collect($userArr)->unique('id');
     }
 
     public function getNonVerifiedParticipants(): Collection
@@ -80,7 +80,7 @@ class VerificationController extends Controller
             }
         }
 
-        return collect($userArr)->unique();
+        return collect($userArr)->unique('id');
     }
 
     public function createNewVerificationToken(Participant $participant): VerificationToken {

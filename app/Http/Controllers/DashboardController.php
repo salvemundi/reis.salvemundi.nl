@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $viewVars['amountTotalCheckedIn']       = Participant::where('checkedIn', true)->count();
         $viewVars['amountCrew']                 = Participant::where('role', Roles::crew)->count();
         $viewVars['amountCrewCheckedIn']        = Participant::where('role', Roles::crew)->where('checkedIn', true)->count();
-        $viewVars['amountChildren']             = Participant::where('role', Roles::child)->count();
+        $viewVars['amountChildren']             = Participant::where([['role', Roles::child],['purpleOnly','0']])->count();
         $viewVars['amountChildrenPaid']         = count($this->paymentController->getAllPaidUsers());
         $viewVars['amountChildrenCheckedIn']    = Participant::where('role', Roles::child)->where('checkedIn', true)->count();
         $viewVars['amountParents']              = Participant::where('role', Roles::dad_mom)->count();

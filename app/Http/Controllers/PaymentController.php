@@ -95,7 +95,7 @@ class PaymentController extends Controller
                 array_push($userArr, $participant);
             }
         }
-        return collect($userArr)->unique();
+        return collect($userArr)->unique('id');
     }
 
     public function getAllNonPaidUsers(): Collection
@@ -107,7 +107,7 @@ class PaymentController extends Controller
                 array_push($userArr, $participant);
             }
         }
-        return collect($userArr)->unique();
+        return collect($userArr)->unique('id');
     }
 
     public function checkIfParticipantPaid(Participant $participant):bool {

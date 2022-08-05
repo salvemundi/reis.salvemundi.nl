@@ -12,7 +12,7 @@ class ParticipantsNotCheckedInExport implements FromCollection
     */
     public function collection()
     {
-        return Participant::all();
+        return Participant::select('id','firstName','lastName','email','fontysEmail','specials','medicalIssues')->get();
     }
 
     public function headings(): array
@@ -21,6 +21,8 @@ class ParticipantsNotCheckedInExport implements FromCollection
             'id',
             'firstName',
             'lastName',
+            'email',
+            'fontysEmail',
             'specials',
             'medicalIssues',
         ];
@@ -32,6 +34,8 @@ class ParticipantsNotCheckedInExport implements FromCollection
             $row->id,
             $row->firstName,
             $row->lastName,
+            $row->email,
+            $row->fontysEmail,
             $row->specials,
             $row->medicalIssues,
         ];

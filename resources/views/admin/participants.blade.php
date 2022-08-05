@@ -134,7 +134,6 @@ setActive("participants");
                         <th data-field="removed" data-sortable="false">Verwijderd</th>
                         <th data-field="email" data-sortable="false">email</th>
                         <th data-field="fontysEmail" data-sortable="false">Fontys email</th>
-
                     </tr>
                 </thead>
                 <tbody>

@@ -17,7 +17,7 @@ class ParticipantsNotCheckedInExport implements FromCollection, ShouldAutoSize, 
     public function collection()
     {
         $userArr = [];
-        $participants = Participant::select('id','firstName','lastName','email','fontysEmail','specials','medicalIssues','purpleOnly')->get();
+        $participants = Participant::select('id','firstName','lastName','email','fontysEmail','specials','medicalIssues','purpleOnly','role')->get();
         foreach($participants as $participant)
         {
             if($participant->hasPaid() || $participant->purpleOnly) {

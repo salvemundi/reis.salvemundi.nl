@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Participant;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ParticipantsNotCheckedInExport implements FromCollection
@@ -12,8 +13,15 @@ class ParticipantsNotCheckedInExport implements FromCollection
     */
     public function collection()
     {
-        return Participant::select('id','firstName','lastName','email','fontysEmail','specials','medicalIssues')->get();
-    }
+        $userArr = [];
+        $participants = Participant::all();
+        foreach($participants as $participant)
+        {
+            if($participant->hasPaid() || $participant->purpleOnly) {
+                $userArr[] = $participant;
+            }
+        }
+        return collect($userArr)->unique('fontysEmail');    }
 
     public function headings(): array
     {

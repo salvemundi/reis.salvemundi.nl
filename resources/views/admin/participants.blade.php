@@ -33,7 +33,7 @@ setActive("participants");
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     <li><a class="dropdown-item" href="{{ route('export_excel.excel')}}">Export checked in to Excel</a></li>
                     <li><a class="dropdown-item" href="{{ route('fontysEmail.excel')}}">Export student fontys mails</a></li>
-                    <li><a class="dropdown-item" href="{{ route('export_excel.all')}}">Export all to excel</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export_excel.all')}}">Export all paid/Purple</a></li>
                 </ul>
             </div>
 

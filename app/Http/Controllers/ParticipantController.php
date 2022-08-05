@@ -379,6 +379,7 @@ class ParticipantController extends Controller {
         $participant->insertion = $request->input('participantInsertion');
         $participant->lastName = $request->input('participantLastName');
         $participant->email = $request->input('participantEmail');
+        $participant->fontysEmail = $request->input('participantFontysEmail');
         $participant->birthday = $request->input('participantBirthday');
         $participant->phoneNumber = $request->input('participantPhoneNumber');
         $participant->firstNameParent = $request->input('participantFirstNameParent');

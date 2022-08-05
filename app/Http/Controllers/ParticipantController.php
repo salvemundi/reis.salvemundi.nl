@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StudentYear;
 use App\Exports\ParticipantsNotCheckedInExport;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\resendVerificationEmail;
@@ -201,12 +202,13 @@ class ParticipantController extends Controller {
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
         $participant->studyType = StudyType::coerce((int)$request->input('studyType'));
+        $participant->studentYear = StudentYear::coerce((int)$request->input('studentYear'));
 
-        if($request->input('studentYear') != null) {
-            $participant->studentYear = $request->input('studentYear');
-        } else {
-            $participant->studentYear = 0;
-        }
+//        if($request->input('studentYear') != null) {
+//            $participant->studentYear = $request->input('studentYear');
+//        } else {
+//            $participant->studentYear = 0;
+//        }
 
         $participant->firstNameParent = $request->input('firstNameParent');
         $participant->lastNameParent = $request->input('lastNameParent');

@@ -58,6 +58,14 @@
             </select>
         </div>
 
+        <label for="studentYear">Leerjaar*</label>
+        <div class="form-group">
+            <select class="form-control" name="studentYear" id="studentYear">
+                @foreach (App\Enums\StudentYear::getInstances() as $item)
+                    <option value="{{ $item->value }}">{{$item->description}}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="form-group">
             <label for="fontysEmail">Je fontys email adres*</label>
             <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">

@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Participant;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -12,11 +13,19 @@ use Illuminate\Http\Request;
 class StudentFontysEmailExport implements FromCollection, ShouldAutoSize, WithMapping, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
+    * @return Collection
     */
     public function collection()
     {
-        return Participant::all('fontysEmail');
+        $userArr = [];
+        $participants = Participant::all();
+        foreach($participants as $participant)
+        {
+            if($participant->hasPaid() || $participant->purpleOnly){
+                $userArr[] = $participant;
+            }
+        }
+        return collect($userArr)->unique('fontysEmail');
     }
 
     public function headings(): array

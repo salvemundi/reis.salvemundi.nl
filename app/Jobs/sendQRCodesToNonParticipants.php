@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 class sendQRCodesToNonParticipants implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    public $tries = 1;
 
     private Participant $participant;
     /**
@@ -36,6 +37,5 @@ class sendQRCodesToNonParticipants implements ShouldQueue
     {
         Mail::to($this->participant->email)
             ->send(new resendQRCode($this->participant));
-        $this->release();
     }
 }

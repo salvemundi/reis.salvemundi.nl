@@ -98,6 +98,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::get('/blogsadmin',[BlogController::class, 'showPostsAdmin']);
         Route::get('/blogsadmin/save',[BlogController::class, 'showPostInputs']);
         Route::post('/blogsadmin/save',[BlogController::class, 'savePost']);
+
         //  Update blogs / posts
         Route::get('/blogsadmin/save/{blogId}',[BlogController::class, 'showPostInputs']);
         Route::post('/blogsadmin/save/{blogId}',[BlogController::class, 'savePost']);

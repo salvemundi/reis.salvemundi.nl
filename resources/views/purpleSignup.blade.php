@@ -43,10 +43,19 @@
                             </div>
                         @endif
 
-                        <label for="fontysEmail">Je fontys email adres*</label>
+                        <label for="firstName" class="form-label">Naam*</label>
+                        <input class="form-control{{ $errors->has('firstName') ? ' is-invalid' : '' }}" value="{{ old('firstName') }}" id="firstName" name="firstName" placeholder="Naam...">
+
+                        <label for="insertion" class="form-label">Tussenvoegsel</label>
+                        <input class="form-control{{ $errors->has('insertion') ? ' is-invalid' : '' }}" value="{{ old('insertion') }}" id="insertion" name="insertion" placeholder="Tussenvoegsel...">
+
+                        <label for="lastName" class="form-label">Achternaam*</label>
+                        <input class="form-control{{ $errors->has('lastName') ? ' is-invalid' : '' }}" value="{{ old('lastName') }}" id="lastName" name="lastName" placeholder="Achternaam...">
+
+                        <label for="fontysEmail" class="form-label">Je fontys email adres*</label>
                         <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
 
-                        <label for="email" class="form-label">Email*</label>
+                        <label for="email" class="form-label">Persoonlijke email*</label>
                         <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" name="email" id="email" placeholder="name@example.com">
 
                         <button class="btn btn-primary my-3 w-100" type="submit">Inschrijven</button>
@@ -54,5 +63,6 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
+</dsiv>
 @endsection

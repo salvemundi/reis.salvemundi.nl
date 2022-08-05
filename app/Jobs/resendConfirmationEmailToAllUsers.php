@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 class resendConfirmationEmailToAllUsers implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    public $tries = 1;
 
     private Participant $participant;
     private ConfirmationToken $newConfirmationToken;
@@ -39,6 +40,5 @@ class resendConfirmationEmailToAllUsers implements ShouldQueue
     {
         Mail::to($this->participant->email)
             ->send(new emailConfirmationSignup($this->participant, $this->newConfirmationToken));
-        $this->release();
     }
 }

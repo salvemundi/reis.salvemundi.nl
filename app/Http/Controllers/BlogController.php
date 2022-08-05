@@ -14,6 +14,9 @@ use App\Models\Blog;
 use App\Models\Occupied;
 use Carbon\Carbon;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 // This controller is commonly referred to as blog / news controller. Previous PR #12 caused a naming nightmare. (May or may not have been me.)
 class BlogController extends Controller
@@ -68,6 +71,10 @@ class BlogController extends Controller
 
     public function savePost(Request $request): Redirector|Application|RedirectResponse
     {
+        $request->validate([
+            'name' => 'required',
+            'content' => 'required',
+        ]);
 
         if($request->input('blogId')) {
             $post = Blog::find($request->input('blogId'));
@@ -96,7 +103,7 @@ class BlogController extends Controller
     public function showPostInputs(Request $request): Factory|View|Application
     {
         $post = null;
-        if($request->blogId){
+        if($request->blogId) {
             $post = Blog::find($request->blogId);
         }
         return view('admin/blogInput',['post' => $post]);
@@ -147,10 +154,15 @@ class BlogController extends Controller
                 array_push($userArr, $participant);
             }
         }
-        $filtered = collect($userArr)->unique('email');
+        $filtered = collect($userArr)->unique('id');
         foreach($filtered as $participant) {
             if(isset($participant)) {
-                SendBlogMail::dispatch($participant, $blog);
+                Log::info('Send blog email to: '. $participant->email);
+                if(isset($request->addPaymentLink)){
+                    SendBlogMail::dispatch($participant, $blog, true);
+                } else {
+                    SendBlogMail::dispatch($participant, $blog, false);
+                }
             }
         }
     }

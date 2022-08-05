@@ -70,12 +70,12 @@ class Participant extends Model
     }
 
     public function hasPaid(): bool {
-        if($this->role != Roles::child) {
+        if($this->role !== Roles::child) {
             return true;
         }
 
         foreach($this->payments()->get() as $payment) {
-            if($payment->paymentStatus == PaymentStatus::paid) {
+            if($payment->paymentStatus === PaymentStatus::paid && !$this->purpleOnly) {
                 return true;
             }
         }

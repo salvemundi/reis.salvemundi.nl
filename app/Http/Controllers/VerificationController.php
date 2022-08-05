@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\VerificationToken;
 use App\Models\Participant;
 use Illuminate\Contracts\Foundation\Application;
@@ -58,24 +59,28 @@ class VerificationController extends Controller
     public function getVerifiedParticipants(): Collection
     {
         $userArr = [];
-        $allVerifiedTokens = VerificationToken::where('verified', true)->get();
+        $participants = Participant::all();
+        foreach($participants as $participant) {
 
-        foreach($allVerifiedTokens as $token) {
-            array_push($userArr, $token->participant);
+            if($participant->isVerified() && !$participant->purpleOnly && $participant->role == Roles::child()->value) {
+                array_push($userArr, $participant);
+            }
         }
-        return collect($userArr)->unique();
+
+        return collect($userArr)->unique('id');
     }
 
     public function getNonVerifiedParticipants(): Collection
     {
         $userArr = [];
-        $allVerifiedTokens = VerificationToken::where('verified', false)->get();
-
-        foreach($allVerifiedTokens as $token) {
-            array_push($userArr, $token->participant);
+        $participants = Participant::all();
+        foreach($participants as $participant) {
+            if(!$participant->isVerified() && !$participant->purpleOnly && $participant->role == Roles::child()->value) {
+                array_push($userArr, $participant);
+            }
         }
 
-        return collect($userArr)->unique();
+        return collect($userArr)->unique('id');
     }
 
     public function createNewVerificationToken(Participant $participant): VerificationToken {

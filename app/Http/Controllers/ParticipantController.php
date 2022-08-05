@@ -305,6 +305,9 @@ class ParticipantController extends Controller {
     //Create participant(purple only)
     public function purpleSignup(Request $request) {
         $request->validate([
+            'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'email' => 'required|email:rfc,dns|max:65'
         ]);
@@ -316,7 +319,11 @@ class ParticipantController extends Controller {
         }
 
         $participant = new Participant();
+        $participant->firstName = $request->input('firstName');
+        $participant->insertion = $request->input('insertion');
+        $participant->lastName = $request->input('lastName');
         $participant->fontysEmail= $request->input('fontysEmail');
+        $participant->purpleOnly = true;
         $participant->email = $request->input('email');
         $participant->save();
 
@@ -447,7 +454,6 @@ class ParticipantController extends Controller {
             'lastName' =>  ['required', 'regex:/^[a-zA-Z ]+$/'],
             'birthday' => 'required',
             'email' => 'required|email:rfc,dns|max:65',
-            'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
             'studyType' => 'nullable',
             'studentYear' => 'nullable',
@@ -525,7 +531,7 @@ class ParticipantController extends Controller {
     public function sendParticipantConfirmationEmail(Request $request): RedirectResponse
     {
         $participant = Participant::find($request->userId);
-        if(!$participant->hasPaid()) {
+        if(!$participant->hasPaid() && !$participant->purpleOnly) {
             Mail::to($participant->email)
                 ->send(new emailConfirmationSignup($participant, $this->createConfirmationToken($participant)));
             AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft nieuwe confirmatie mail gestuurd naar " . $participant->firstName . " " . $participant->lastName, $participant);

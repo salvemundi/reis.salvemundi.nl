@@ -14,7 +14,7 @@ class ParticipantsNotCheckedInExport implements FromCollection
     public function collection()
     {
         $userArr = [];
-        $participants = Participant::all();
+        $participants = Participant::select('id','firstName','lastName','email','fontysEmail','specials','medicalIssues')->get();
         foreach($participants as $participant)
         {
             if($participant->hasPaid() || $participant->purpleOnly) {

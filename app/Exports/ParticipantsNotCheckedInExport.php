@@ -21,7 +21,8 @@ class ParticipantsNotCheckedInExport implements FromCollection
                 $userArr[] = $participant;
             }
         }
-        return collect($userArr)->unique('fontysEmail');    }
+        return collect($userArr);
+    }
 
     public function headings(): array
     {

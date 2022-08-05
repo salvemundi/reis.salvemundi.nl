@@ -5,8 +5,11 @@ namespace App\Exports;
 use App\Models\Participant;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class ParticipantsNotCheckedInExport implements FromCollection
+class ParticipantsNotCheckedInExport implements FromCollection, ShouldAutoSize, WithMapping, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -14,14 +17,14 @@ class ParticipantsNotCheckedInExport implements FromCollection
     public function collection()
     {
         $userArr = [];
-        $participants = Participant::select('id','firstName','lastName','email','fontysEmail','specials','medicalIssues')->get();
+        $participants = Participant::select('id','firstName','lastName','email','fontysEmail','specials','medicalIssues','purpleOnly')->get();
         foreach($participants as $participant)
         {
             if($participant->hasPaid() || $participant->purpleOnly) {
                 $userArr[] = $participant;
             }
         }
-        return collect($userArr);
+        return collect($userArr)->unique('id');
     }
 
     public function headings(): array

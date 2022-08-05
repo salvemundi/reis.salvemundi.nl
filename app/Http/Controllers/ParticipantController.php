@@ -239,7 +239,7 @@ class ParticipantController extends Controller {
     }
 
     function excelAll() {
-        return Excel::download(new ParticipantsNotCheckedInExport(), 'deelnemersInformatie.xlsx');
+        return Excel::download(new ParticipantsNotCheckedInExport, 'deelnemersInformatie.xlsx');
     }
 
     function studentFontysEmails() {

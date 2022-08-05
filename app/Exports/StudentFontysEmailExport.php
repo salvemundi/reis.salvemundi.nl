@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Participant;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;

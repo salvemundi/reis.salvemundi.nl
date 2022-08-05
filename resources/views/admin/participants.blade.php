@@ -133,6 +133,8 @@ setActive("participants");
                         <th data-field="purpleOnly" data-sortable="false">Alleen Purple?</th>
                         <th data-field="removed" data-sortable="false">Verwijderd</th>
                         <th data-field="email" data-sortable="false">email</th>
+                        <th data-field="fontysEmail" data-sortable="false">Fontys email</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -192,6 +194,7 @@ setActive("participants");
                                 <td data-value="{{ $participant->removedFromIntro }}">Nee</td>
                             @endif
                             <td data-value="{{ $participant->email }}">{{$participant->email}}</td>
+                            <td data-value="{{ $participant->fontysEmail }}">{{$participant->fontysEmail}}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -313,7 +316,7 @@ setActive("participants");
 
 
         $(function() {
-            $table.bootstrapTable('hideColumn',['note','removed','purpleOnly','email'])
+            $table.bootstrapTable('hideColumn',['note','removed','purpleOnly','email','fontysEmail'])
             resetFilter();
             $('#filterByCheckedInOnly').click(function () {
                 resetFilter()

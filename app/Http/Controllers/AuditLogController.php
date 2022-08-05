@@ -6,6 +6,7 @@ use App\Enums\AuditCategory;
 use App\Models\AuditLog;
 use App\Models\Blog;
 use App\Models\Participant;
+use App\Models\Schedule;
 use App\Models\Setting;
 use App\Models\User;
 use http\Exception\InvalidArgumentException;
@@ -23,7 +24,7 @@ class AuditLogController extends Controller
         return view('admin/auditLogs',['logs' => $logs]);
     }
 
-    public static function Log(AuditCategory $category, string $description, Participant $participant = null, Blog $blog = null, Setting $setting = null): void
+    public static function Log(AuditCategory $category, string $description, Participant $participant = null, Blog $blog = null, Setting $setting = null, Schedule $schedule = null): void
     {
         $user = User::find(session('id'));
         $auditLog = new AuditLog(['description' => $description]);
@@ -50,6 +51,12 @@ class AuditLogController extends Controller
                 $auditLog->setting()->associate($setting);
                 $auditLog->save();
                 break;
+            case AuditCategory::ScheduleManagement():
+                if($schedule === null){
+                    throw new InvalidArgumentException('Missing schedule in parameter!');
+                }
+                $auditLog->schedule()->associate($schedule);
+                $auditLog->save();
         }
     }
 }

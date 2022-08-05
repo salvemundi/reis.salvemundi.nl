@@ -18,4 +18,5 @@ final class AuditCategory extends Enum
     const BlogManagement = 2;
     const Emailmanagement = 3;
     const SettingManagement = 4;
+    const ScheduleManagement = 5;
 }

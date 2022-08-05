@@ -33,5 +33,10 @@ class AuditLog extends Model
         return $this->belongsTo(Setting::class,'settingId','id');
     }
 
+    public function schedule(): BelongsTo
+    {
+        return $this->belongsTo(Schedule::class,'scheduleId','id');
+    }
+
     protected $table = 'audit_log';
 }

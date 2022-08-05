@@ -19,13 +19,13 @@ class CreateAuditLogTable extends Migration
             $table->longText('description');
             $table->tinyInteger('auditCategory')->default(AuditCategory::Other());
             $table->uuid('userId')->nullable();
-            $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('userId')->references('id')->on('users');
             $table->uuid('participantId')->nullable();
-            $table->foreign('participantId')->references('id')->on('participants')->onDelete('cascade');
+            $table->foreign('participantId')->references('id')->on('participants');
             $table->uuid('blogId')->nullable();
-            $table->foreign('blogId')->references('id')->on('content')->onDelete('cascade');
+            $table->foreign('blogId')->references('id')->on('content');
             $table->uuid('settingId')->nullable();
-            $table->foreign('settingId')->references('id')->on('settings')->onDelete('cascade');
+            $table->foreign('settingId')->references('id')->on('settings');
             $table->timestamps();
         });
     }

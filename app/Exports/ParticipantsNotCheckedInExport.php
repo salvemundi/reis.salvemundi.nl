@@ -17,7 +17,7 @@ class ParticipantsNotCheckedInExport implements FromCollection, ShouldAutoSize, 
     public function collection()
     {
         $userArr = [];
-        $participants = Participant::select('id','firstName','lastName','email','fontysEmail','specials','medicalIssues','purpleOnly','role')->get();
+        $participants = Participant::select('id','firstName','lastName','email','fontysEmail','specials','medicalIssues','purpleOnly','role','birthday')->get();
         foreach($participants as $participant)
         {
             if($participant->hasPaid() || $participant->purpleOnly) {
@@ -37,6 +37,7 @@ class ParticipantsNotCheckedInExport implements FromCollection, ShouldAutoSize, 
             'fontysEmail',
             'specials',
             'medicalIssues',
+            'birthday',
         ];
     }
 
@@ -50,6 +51,7 @@ class ParticipantsNotCheckedInExport implements FromCollection, ShouldAutoSize, 
             $row->fontysEmail,
             $row->specials,
             $row->medicalIssues,
+            $row->birthday,
         ];
         return $fields;
     }

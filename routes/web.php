@@ -116,6 +116,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
         // Excel
         Route::get('/export_excel/excel', [ParticipantController::class, 'excel'])->name('export_excel.excel');
+        Route::get('/export_excel/all', [ParticipantController::class, 'excel'])->name('export_excel.all');
         Route::get('/fontys_mail', [ParticipantController::class, 'studentFontysEmails'])->name('fontysEmail.excel');
         // Api
         Route::get('/import', [APIController::class, 'GetParticipants']);

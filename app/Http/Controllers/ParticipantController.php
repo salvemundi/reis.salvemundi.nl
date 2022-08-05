@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ParticipantsNotCheckedInExport;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\resendVerificationEmail;
 use App\Jobs\sendQRCodesToNonParticipants;
@@ -235,6 +236,10 @@ class ParticipantController extends Controller {
 
     function excel() {
         return Excel::download(new ParticipantsExport, 'deelnemersInformatie.xlsx');
+    }
+
+    function excelAll() {
+        return Excel::download(new ParticipantsNotCheckedInExport(), 'deelnemersInformatie.xlsx');
     }
 
     function studentFontysEmails() {

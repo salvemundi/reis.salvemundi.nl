@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Participant;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -21,8 +22,10 @@ class StudentFontysEmailExport implements FromCollection, ShouldAutoSize, WithMa
         $participants = Participant::all();
         foreach($participants as $participant)
         {
-            if($participant->hasPaid() || $participant->purpleOnly){
-                $userArr[] = $participant;
+            if($participant->hasPaid() || $participant->purpleOnly) {
+                if(Str::length($participant->fontysEmail) > 1) {
+                    $userArr[] = $participant;
+                }
             }
         }
         return collect($userArr)->unique('fontysEmail');

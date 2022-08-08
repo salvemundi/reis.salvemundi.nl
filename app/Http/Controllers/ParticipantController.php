@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AuditCategory;
+use App\Enums\StudentYear;
+use App\Exports\ParticipantsNotCheckedInExport;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\resendVerificationEmail;
 use App\Jobs\sendQRCodesToNonParticipants;
@@ -204,12 +206,13 @@ class ParticipantController extends Controller {
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
         $participant->studyType = StudyType::coerce((int)$request->input('studyType'));
+        $participant->studentYear = StudentYear::coerce((int)$request->input('studentYear'));
 
-        if($request->input('studentYear') != null) {
-            $participant->studentYear = $request->input('studentYear');
-        } else {
-            $participant->studentYear = 0;
-        }
+//        if($request->input('studentYear') != null) {
+//            $participant->studentYear = $request->input('studentYear');
+//        } else {
+//            $participant->studentYear = 0;
+//        }
 
         $participant->firstNameParent = $request->input('firstNameParent');
         $participant->lastNameParent = $request->input('lastNameParent');
@@ -240,6 +243,10 @@ class ParticipantController extends Controller {
     function excel() {
         AuditLogController::Log(AuditCategory::Other(), "Heeft een export gemaakt van alle deelnemers");
         return Excel::download(new ParticipantsExport, 'deelnemersInformatie.xlsx');
+    }
+
+    function excelAll() {
+        return Excel::download(new ParticipantsNotCheckedInExport, 'deelnemersInformatie.xlsx');
     }
 
     function studentFontysEmails() {
@@ -391,6 +398,7 @@ class ParticipantController extends Controller {
         $participant->insertion = $request->input('participantInsertion');
         $participant->lastName = $request->input('participantLastName');
         $participant->email = $request->input('participantEmail');
+        $participant->fontysEmail = $request->input('participantFontysEmail');
         $participant->birthday = $request->input('participantBirthday');
         $participant->phoneNumber = $request->input('participantPhoneNumber');
         $participant->firstNameParent = $request->input('participantFirstNameParent');

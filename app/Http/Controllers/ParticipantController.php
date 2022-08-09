@@ -43,7 +43,7 @@ class ParticipantController extends Controller {
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
         $participants = Participant::all();
-        AuditLogController::Log(AuditCategory::ParticipantManagement(),'Bezocht pagina met alle deelnemers');
+        AuditLogController::Log(AuditCategory::Other(),'Bezocht pagina met alle deelnemers');
         if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
             $dateToday = Carbon::now()->toDate();

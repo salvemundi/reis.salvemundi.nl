@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{$log->user->displayName . " heeft " . $log->description}}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{$log->user->displayName . ": " . $log->description}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -14,12 +14,10 @@
                     @case(App\Enums\AuditCategory::BlogManagement)
                         Blog: {{$log->blog->name}}
                         Blog is gemaakt op: {{ $log->blog->created_at }}
-
                         <div class="mb-3">
                             <label for="blogdesc" class="form-label">Content:</label>
                             <textarea class="form-control" disabled id="blogdesc" rows="3">{{$log->blog->content}}</textarea>
                         </div>
-
                         @break
                     @case(App\Enums\AuditCategory::ScheduleManagement)
                         Event: {{ $log->schedule->name }}<br>
@@ -34,12 +32,11 @@
                     @case(App\Enums\AuditCategory::ParticipantManagement)
                         @if(!$log->participant->purpleOnly)
                             Deelnemer: {{ $log->participant->getFullName() }}<br>
-                            Is 18 jaar of ouder: {{ $log->participant->above18() }}<br>
-                            Heeft betaald: {{$log->participant->hasPaid()}}<br>
+                            Is 18 jaar of ouder: {{ $log->participant->getAbove18Attribute() ? 'ja' : 'nee'}}<br>
+                            Heeft betaald: {{$log->participant->hasPaid() ? 'ja' : 'nee'}}<br>
                         @endif
                         Email: {{ $log->participant->email }}<br>
                         Fontys email: {{ $log->participant->fontysEmail }}
-
                         @break
                 @endswitch
             </div>

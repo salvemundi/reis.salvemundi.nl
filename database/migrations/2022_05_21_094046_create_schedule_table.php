@@ -19,7 +19,6 @@ class CreateScheduleTable extends Migration
             $table->string('description');
             $table->timestamp('beginTime')->nullable();
             $table->timestamp('endTime')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

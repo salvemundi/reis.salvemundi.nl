@@ -3,8 +3,6 @@
     <script>
         setActive("logs");
     </script>
-
-
     <div class="row">
         <div class="col-12 col-lg-6 container">
             @if(session()->has('success'))
@@ -31,7 +29,12 @@
                     </thead>
                     <tbody>
                         @foreach ($logs as $log)
-                            <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
+                            @include('include/logModal',['log' => $log])
+                            @if($log->auditCategory != App\Enums\AuditCategory::Other)
+                                <tr id="tr-id-3" class="tr-class-2" style="cursor: pointer;"  data-bs-toggle="modal" data-bs-target="#auditModal{{$log->id}}" data-title="bootstrap table">
+                            @else
+                                <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
+                            @endif
                                 <td data-value="{{ $log->user->displayName }}">{{ $log->user->displayName }}</td>
                                 <td data-value="{{ $log->description }}">{{ $log->description }}</td>
                                 <td data-value="{{ $log->created_at }}">{{ $log->created_at }}</td>

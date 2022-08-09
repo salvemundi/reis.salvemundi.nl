@@ -12,10 +12,12 @@ class AuditLog extends Model
     use HasFactory, UsesUuid;
 
     protected $fillable = ['category','description'];
+    protected $table = 'audit_log';
+
 
     public function participant(): BelongsTo
     {
-        return $this->belongsTo(Participant::class,'participantId','id');
+        return $this->belongsTo(Participant::class,'participantId','id')->withTrashed();
     }
 
     public function user(): BelongsTo
@@ -25,7 +27,7 @@ class AuditLog extends Model
 
     public function blog(): BelongsTo
     {
-        return $this->belongsTo(Blog::class,'blogId','id');
+        return $this->belongsTo(Blog::class,'blogId','id')->withTrashed();
     }
 
     public function setting(): BelongsTo
@@ -35,8 +37,7 @@ class AuditLog extends Model
 
     public function schedule(): BelongsTo
     {
-        return $this->belongsTo(Schedule::class,'scheduleId','id');
+        return $this->belongsTo(Schedule::class,'scheduleId','id')->withTrashed();
     }
 
-    protected $table = 'audit_log';
 }

@@ -10,13 +10,12 @@ use App\Http\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class Participant extends Model
 {
-    use HasFactory;
-    use Notifiable;
-    use UsesUuid;
+    use HasFactory, SoftDeletes, Notifiable, UsesUuid;
 
     protected $keyType = 'string';
 

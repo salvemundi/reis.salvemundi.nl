@@ -12,8 +12,8 @@
                 Log beschrijving: {{ $log->description }}<br>
             @switch($log->auditCategory)
                     @case(App\Enums\AuditCategory::BlogManagement)
-                        Blog: {{$log->blog->name}}
-                        Blog is gemaakt op: {{ $log->blog->created_at }}
+                        Blog: {{$log->blog->name}}<br>
+                        Blog is gemaakt op: {{ $log->blog->created_at }}<br>
                         <div class="mb-3">
                             <label for="blogdesc" class="form-label">Content:</label>
                             <textarea class="form-control" disabled id="blogdesc" rows="3">{{$log->blog->content}}</textarea>

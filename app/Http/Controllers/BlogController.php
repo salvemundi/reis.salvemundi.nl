@@ -85,12 +85,12 @@ class BlogController extends Controller
         $post->name =  $request->input('name');
         $post->content =  $request->input('content');
 
+        $post->save();
         if(isset($request->addBlog)) {
             AuditLogController::Log(AuditCategory::BlogManagement(),"Heeft blog toegevoegd of bewerkt: " . $post->name,null, $post);
             $post->show = true;
+            $post->save();
         }
-
-        $post->save();
 
         if(isset($request->sendEmail)) {
             AuditLogController::Log(AuditCategory::BlogManagement(),"Verstuurde emails van blog " . $post->name,null, $post);

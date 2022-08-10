@@ -6,6 +6,7 @@ use App\Enums\SettingTypes;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Log;
 
 class SettingsSeeder extends Seeder
 {

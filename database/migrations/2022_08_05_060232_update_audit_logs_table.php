@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MakeOccupiedTable extends Migration
+class UpdateAuditLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class MakeOccupiedTable extends Migration
      */
     public function up()
     {
-        Schema::create('occupied', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->integer('occupied');
-            $table->timestamps();
+        Schema::table('audit_log',function(Blueprint $table) {
+            $table->unsignedBigInteger('scheduleId')->nullable();
+            $table->foreign('scheduleId')->references('id')->on('schedule');
         });
+
     }
 
     /**
@@ -27,6 +27,6 @@ class MakeOccupiedTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('occupied');
+        //
     }
 }

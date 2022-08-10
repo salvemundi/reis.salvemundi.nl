@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AuditCategory;
 use Illuminate\Http\Request;
 use App\Models\Schedule;
 use Carbon\Carbon;
@@ -49,9 +50,9 @@ class ScheduleController extends Controller
             'beginTime' => 'required', 'date_format:Y-m-d\TH:i',
             'endTime' => 'required', 'date_format:Y-m-d\TH:i',
         ]);
-
-        $event = null;
+        $new = true;
         if($request->input('eventId')) {
+            $new = false;
             $event = Schedule::find($request->input('eventId'));
         } else {
             $event = new Schedule;
@@ -63,6 +64,11 @@ class ScheduleController extends Controller
         $event->endTime =  $request->input('endTime');
 
         $event->save();
+        if($new) {
+            AuditLogController::Log(AuditCategory::ScheduleManagement(), 'Nieuw event aangemaakt',null, null, null, $event);
+        } else {
+            AuditLogController::Log(AuditCategory::ScheduleManagement(), 'Event aangepast',null, null, null, $event);
+        }
         return redirect('/events')->with('success', 'Event is opgeslagen!');
     }
 
@@ -80,6 +86,7 @@ class ScheduleController extends Controller
             $event = Schedule::find($request->eventId);
             if($event != null) {
                 $event->delete();
+                AuditLogController::Log(AuditCategory::ScheduleManagement(), 'Event verwijderd',null, null, null, $event);
                 return redirect('/events')->with('success', 'Event is verwijderd!');
             }
             return redirect('/events')->with('error', 'Event kon niet gevonden worden!');
@@ -87,6 +94,4 @@ class ScheduleController extends Controller
         }
         return redirect('/events')->with('error', 'Er ging iets niet helemaal goed, probeer het later nog een keer.');
     }
-
-
 }

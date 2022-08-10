@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AuditCategory;
 use App\Enums\SettingTypes;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -25,6 +26,7 @@ class SettingController extends Controller
             $setting->value = $request->input('value');
         }
         $setting->save();
+        AuditLogController::Log(AuditCategory::SettingManagement(), "Heeft instelling ".  $setting->description. " bijgewerkt naar " . " $setting->value", null, null, $setting);
         return back()->with('success','Instelling is opgeslagen!');
     }
 }

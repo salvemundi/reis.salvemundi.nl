@@ -114,7 +114,7 @@ class BlogController extends Controller
         if($request->blogId) {
             $blog = Blog::find($request->blogId);
             if($blog != null) {
-                AuditLogController::Log(AuditCategory::BlogManagement(),"Heeeft blog " . $blog->name . " verwijderd.", null, $blog);
+                AuditLogController::Log(AuditCategory::BlogManagement(),"Heeft blog " . $blog->name . " verwijderd.", null, $blog);
                 $blog->delete();
                 return redirect('/blogsadmin')->with('success', 'Blog is verwijderd!');
             }

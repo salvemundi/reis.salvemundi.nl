@@ -57,6 +57,7 @@ class AuditLogController extends Controller
                 }
                 $auditLog->schedule()->associate($schedule);
                 $auditLog->save();
+                break;
         }
     }
 }

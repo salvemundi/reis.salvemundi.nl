@@ -120,7 +120,7 @@ class BlogController extends Controller
             }
             return redirect('/blogsadmin')->with('error', 'Blog kon niet gevonden worden!');
         }
-        return redirect('/blogsadmin')->with('error', 'Er ging iets niet helemaal goed, probeer het later nog een keer.');
+        return redirect('/blogsadmin')->with('erroor', 'Er ging iets niet helemaal goed, probeer het later nog een keer.');
     }
 
     private function sendEmails(Blog $blog, Request $request) {
@@ -139,7 +139,9 @@ class BlogController extends Controller
 
         if(isset($request->Verified)) {
             foreach($verifiedParticipants as $participant) {
-                array_push($userArr, $participant);
+                if(!$participant->hasPaid()) {
+                    array_push($userArr, $participant);
+                }
             }
         }
 

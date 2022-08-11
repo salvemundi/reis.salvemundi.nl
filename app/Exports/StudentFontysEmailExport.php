@@ -35,6 +35,7 @@ class StudentFontysEmailExport implements FromCollection, ShouldAutoSize, WithMa
     {
         return [
             'fontysEmail',
+            'birthday'
         ];
     }
 
@@ -42,6 +43,7 @@ class StudentFontysEmailExport implements FromCollection, ShouldAutoSize, WithMa
     public function map($row): array {
         $fields = [
             $row->fontysEmail,
+            $row->birthday,
         ];
         return $fields;
     }

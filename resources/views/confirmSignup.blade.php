@@ -53,7 +53,9 @@
         <div class="form-group">
             <select class="form-control" name="studyType">
                 @foreach (App\Enums\StudyType::getInstances() as $item)
-                    <option value="{{ $item->value }}">{{$item->description}}</option>
+                    @if($item->value != 2)
+                        <option value="{{ $item->value }}">{{$item->description}}</option>
+                    @endif
                 @endforeach
             </select>
         </div>

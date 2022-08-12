@@ -235,7 +235,7 @@ setActive("participants");
                                 <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
                                 <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
                                 <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
-                                <b>Studie type: </b> {{ App\Enums\StudyType::coerce($participant->studyType)->description}}<br>
+                                <b>Studie type: </b> {{ App\Enums\StudyType::coerce($selectedParticipant->studyType)->description}}<br>
                             @endif
                             @if($selectedParticipant->role == \App\Enums\Roles::dad_mom)
                                 <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>

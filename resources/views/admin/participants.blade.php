@@ -47,6 +47,9 @@ setActive("participants");
                     <li><button class="dropdown-item" id="filterByRemovedFromTerrain" value="NO" type="button">Verbannen deelnemers</button></li>
                     <li><button class="dropdown-item" id="filterByNote" value="NO" type="button">Deelnemers met opmerking</button></li>
                     <li><button class="dropdown-item" id="filterByPurpleOnly" value="NO" type="button">Alleen purple deelnemers</button></li>
+                    <li><button class="dropdown-item" id="filterByStudytypeDemandBased" value="NO" type="button">Alleen Demand Based</button></li>
+                    <li><button class="dropdown-item" id="filterByStudytypeCourseBased" value="NO" type="button">Alleen Course Based</button></li>
+                    <li><button class="dropdown-item" id="filterByStudytypeUnknown" value="NO" type="button">Alleen Onbekende Studytype</button></li>
                 </ul>
             </div>
             <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
@@ -135,6 +138,7 @@ setActive("participants");
                         <th data-field="removed" data-sortable="false">Verwijderd</th>
                         <th data-field="email" data-sortable="false">email</th>
                         <th data-field="fontysEmail" data-sortable="false">Fontys email</th>
+                        <th data-field="studyType" data-sortable="false">Study Type</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -195,6 +199,7 @@ setActive("participants");
                             @endif
                             <td data-value="{{ $participant->email }}">{{$participant->email}}</td>
                             <td data-value="{{ $participant->fontysEmail }}">{{$participant->fontysEmail}}</td>
+                            <td data-value="{{ $participant->studyType }}">{{$participant->studyType}}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -316,7 +321,7 @@ setActive("participants");
 
 
         $(function() {
-            $table.bootstrapTable('hideColumn',['note','removed','purpleOnly','email','fontysEmail'])
+            $table.bootstrapTable('hideColumn',['note','removed','purpleOnly','email','fontysEmail','studyType'])
             resetFilter();
             $('#filterByCheckedInOnly').click(function () {
                 resetFilter()
@@ -349,6 +354,31 @@ setActive("participants");
                     purpleOnly: "Ja"
                 })
             })
+
+            $('#filterByStudytypeDemandBased').click(function () {
+                resetFilter()
+
+                $table.bootstrapTable('filterBy', {
+                    studyType: "0"
+                })
+            })
+
+            $('#filterByStudytypeCourseBased').click(function () {
+                resetFilter()
+
+                $table.bootstrapTable('filterBy', {
+                    studyType: "1"
+                })
+            })
+
+            $('#filterByStudytypeUnknown').click(function () {
+                resetFilter()
+
+                $table.bootstrapTable('filterBy', {
+                    studyType: "2"
+                })
+            })
+
             $('#filterByNone').click(function () {
                 resetFilter()
             })

@@ -10,13 +10,12 @@ use App\Http\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class Participant extends Model
 {
-    use HasFactory;
-    use Notifiable;
-    use UsesUuid;
+    use HasFactory, SoftDeletes, Notifiable, UsesUuid;
 
     protected $keyType = 'string';
 
@@ -49,6 +48,11 @@ class Participant extends Model
         return $this->belongsTo(ConfirmationToken::class,'id','participantId','confirm_signup_request');
     }
 
+    public function auditLogs(): HasMany
+    {
+        return $this->hasMany(AuditLog::class,'participantId','id');
+    }
+
     public function getFullName(): string
     {
         if($this->insertion != "" || $this->insertion != null){
@@ -65,12 +69,12 @@ class Participant extends Model
     }
 
     public function hasPaid(): bool {
-        if($this->role != Roles::child) {
+        if($this->role !== Roles::child) {
             return true;
         }
 
         foreach($this->payments()->get() as $payment) {
-            if($payment->paymentStatus == PaymentStatus::paid) {
+            if($payment->paymentStatus === PaymentStatus::paid && !$this->purpleOnly) {
                 return true;
             }
         }

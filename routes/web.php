@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BusController;
@@ -97,6 +98,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::get('/blogsadmin',[BlogController::class, 'showPostsAdmin']);
         Route::get('/blogsadmin/save',[BlogController::class, 'showPostInputs']);
         Route::post('/blogsadmin/save',[BlogController::class, 'savePost']);
+
         //  Update blogs / posts
         Route::get('/blogsadmin/save/{blogId}',[BlogController::class, 'showPostInputs']);
         Route::post('/blogsadmin/save/{blogId}',[BlogController::class, 'savePost']);
@@ -115,6 +117,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
         // Excel
         Route::get('/export_excel/excel', [ParticipantController::class, 'excel'])->name('export_excel.excel');
+        Route::get('/export_excel/all', [ParticipantController::class, 'excelAll'])->name('export_excel.all');
         Route::get('/fontys_mail', [ParticipantController::class, 'studentFontysEmails'])->name('fontysEmail.excel');
         // Api
         Route::get('/import', [APIController::class, 'GetParticipants']);
@@ -137,6 +140,9 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         // Settings
         Route::get('/settings',[SettingController::class, 'showSettings']);
         Route::post('/settings/{settingId}/store',[SettingController::class, 'storeSetting']);
+
+        // Logs
+        Route::get('/logs',[AuditLogController::class,'index']);
     });
 
     Route::middleware('daddyware')->group(function () {

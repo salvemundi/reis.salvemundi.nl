@@ -91,11 +91,11 @@ class PaymentController extends Controller
         }
 
         foreach($verifiedParticipants as $participant) {
-            if($participant->hasPaid() && $participant->role = Roles::child()) {
+            if($participant->hasPaid() && $participant->role == Roles::child()->value && !$participant->purpleOnly) {
                 array_push($userArr, $participant);
             }
         }
-        return collect($userArr)->unique();
+        return collect($userArr)->unique('id');
     }
 
     public function getAllNonPaidUsers(): Collection
@@ -103,11 +103,11 @@ class PaymentController extends Controller
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
         foreach($verifiedParticipants as $participant) {
-            if (!$participant->hasPaid() && $participant->role = Roles::child()) {
+            if (!$participant->hasPaid() && $participant->role == Roles::child()->value && !$participant->purpleOnly) {
                 array_push($userArr, $participant);
             }
         }
-        return collect($userArr)->unique();
+        return collect($userArr)->unique('id');
     }
 
     public function checkIfParticipantPaid(Participant $participant):bool {

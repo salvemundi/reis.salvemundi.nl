@@ -31,8 +31,9 @@ setActive("participants");
                     Export
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><a class="dropdown-item" href="{{ route('export_excel.excel')}}" >Export to Excel</a></li>
-                    <li><a class="dropdown-item" href="{{ route('fontysEmail.excel')}}" >Export student fontys mails</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export_excel.excel')}}">Export checked in to Excel</a></li>
+                    <li><a class="dropdown-item" href="{{ route('fontysEmail.excel')}}">Export student fontys mails</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export_excel.all')}}">Export all paid/Purple</a></li>
                 </ul>
             </div>
 
@@ -46,6 +47,9 @@ setActive("participants");
                     <li><button class="dropdown-item" id="filterByRemovedFromTerrain" value="NO" type="button">Verbannen deelnemers</button></li>
                     <li><button class="dropdown-item" id="filterByNote" value="NO" type="button">Deelnemers met opmerking</button></li>
                     <li><button class="dropdown-item" id="filterByPurpleOnly" value="NO" type="button">Alleen purple deelnemers</button></li>
+                    <li><button class="dropdown-item" id="filterByStudytypeDemandBased" value="NO" type="button">Alleen Demand Based</button></li>
+                    <li><button class="dropdown-item" id="filterByStudytypeCourseBased" value="NO" type="button">Alleen Course Based</button></li>
+                    <li><button class="dropdown-item" id="filterByStudytypeUnknown" value="NO" type="button">Alleen Onbekende Studytype</button></li>
                 </ul>
             </div>
             <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
@@ -111,6 +115,8 @@ setActive("participants");
             </div>
         </div>
 
+        <h4 class="mt-3">Paarse achtegrond = Aleen naar purple inschrijving</h4>
+
         <div class="table-responsive">
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"
             data-show-columns="true">
@@ -130,6 +136,9 @@ setActive("participants");
                         <th data-field="note" data-sortable="false">Notitie</th>
                         <th data-field="purpleOnly" data-sortable="false">Alleen Purple?</th>
                         <th data-field="removed" data-sortable="false">Verwijderd</th>
+                        <th data-field="email" data-sortable="false">email</th>
+                        <th data-field="fontysEmail" data-sortable="false">Fontys email</th>
+                        <th data-field="studyType" data-sortable="false">Study Type</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -137,7 +146,11 @@ setActive("participants");
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
                             <td data-value="{{ $participant->id }}">{{ $participant->id }}</td>
                             @if($participant->purpleOnly == 1)
-                                <td data-value="purpleOnly">Alleen purple</td>
+                                @if($participant->firstName == null || $participant->firstName == "")
+                                    <td class="purpleOnly" data-value="Ontbreekt">Ontbreekt</td>
+                                @else
+                                    <td class="purpleOnly" data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
+                                @endif
                             @else
                                 <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
                             @endif
@@ -184,6 +197,9 @@ setActive("participants");
                             @else
                                 <td data-value="{{ $participant->removedFromIntro }}">Nee</td>
                             @endif
+                            <td data-value="{{ $participant->email }}">{{$participant->email}}</td>
+                            <td data-value="{{ $participant->fontysEmail }}">{{$participant->fontysEmail}}</td>
+                            <td data-value="{{ $participant->studyType }}">{{$participant->studyType}}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -219,7 +235,7 @@ setActive("participants");
                                 <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
                                 <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
                                 <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
-                                <b>Studie type: </b> {{ App\Enums\StudyType::coerce($participant->studyType)->description}}<br>
+                                <b>Studie type: </b> {{ App\Enums\StudyType::coerce($selectedParticipant->studyType)->description}}<br>
                             @endif
                             @if($selectedParticipant->role == \App\Enums\Roles::dad_mom)
                                 <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
@@ -305,17 +321,20 @@ setActive("participants");
 
 
         $(function() {
-            $table.bootstrapTable('hideColumn',['note','removed','purpleOnly'])
+            $table.bootstrapTable('hideColumn',['note','removed','purpleOnly','email','fontysEmail','studyType'])
+            resetFilter();
             $('#filterByCheckedInOnly').click(function () {
                 resetFilter()
                 $table.bootstrapTable('filterBy', {
-                    checkedIn: "True"
+                    checkedIn: "True",
+                    purpleOnly: "Nee"
                 })
             })
             $('#filterByRemovedFromTerrain').click(function () {
                 resetFilter()
                 $table.bootstrapTable('filterBy', {
-                    removed: "Ja"
+                    removed: "Ja",
+                    purpleOnly: "Nee"
                 })
             })
             $('#filterByNote').click(function () {
@@ -323,7 +342,7 @@ setActive("participants");
 
                 $table.bootstrapTable('filterBy', {}, {
                     'filterAlgorithm': (row, filters) => {
-                        return row.note.length > 0
+                        return row.note.length > 0 && row.purpleOnly == "Nee"
                     }
                 })
             })
@@ -335,17 +354,42 @@ setActive("participants");
                     purpleOnly: "Ja"
                 })
             })
+
+            $('#filterByStudytypeDemandBased').click(function () {
+                resetFilter()
+
+                $table.bootstrapTable('filterBy', {
+                    studyType: "0"
+                })
+            })
+
+            $('#filterByStudytypeCourseBased').click(function () {
+                resetFilter()
+
+                $table.bootstrapTable('filterBy', {
+                    studyType: "1"
+                })
+            })
+
+            $('#filterByStudytypeUnknown').click(function () {
+                resetFilter()
+
+                $table.bootstrapTable('filterBy', {
+                    studyType: "2"
+                })
+            })
+
             $('#filterByNone').click(function () {
                 resetFilter()
             })
         })
 
         function resetFilter() {
-            $table.bootstrapTable('filterBy', {
-                // Reset filter
-            })
             $table.bootstrapTable('filterBy', {}, {
-                    'filterAlgorithm': 'and'
+                'filterAlgorithm': 'and'
+            })
+            $table.bootstrapTable('filterBy', {
+                purpleOnly: "Nee"
             })
         }
 

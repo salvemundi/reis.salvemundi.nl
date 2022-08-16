@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('content')
 
+    <script>
+        setActive("events");
+    </script>
+
 <div class="row">
     <div class="col-12 col-lg-6 container">
         @if(session()->has('success'))

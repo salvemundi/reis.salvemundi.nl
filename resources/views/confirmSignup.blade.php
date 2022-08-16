@@ -53,11 +53,21 @@
         <div class="form-group">
             <select class="form-control" name="studyType">
                 @foreach (App\Enums\StudyType::getInstances() as $item)
-                    <option value="{{ $item->value }}">{{$item->description}}</option>
+                    @if($item->value != 2)
+                        <option value="{{ $item->value }}">{{$item->description}}</option>
+                    @endif
                 @endforeach
             </select>
         </div>
 
+        <label for="studentYear">Leerjaar*</label>
+        <div class="form-group">
+            <select class="form-control" name="studentYear" id="studentYear">
+                @foreach (App\Enums\StudentYear::getInstances() as $item)
+                    <option value="{{ $item->value }}">{{$item->description}}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="form-group">
             <label for="fontysEmail">Je fontys email adres*</label>
             <input class="form-control{{ $errors->has('fontysEmail') ? ' is-invalid' : '' }}" value="{{ old('fontysEmail') }}" id="fontysEmail" name="fontysEmail" placeholder="123456@student.fontys.nl...">
@@ -104,16 +114,16 @@
             <textarea class="form-control{{ $errors->has('specials') ? ' is-invalid' : '' }}" value="{{{ old('specials') }}}" type="textarea" id="specials" name="specials" placeholder="Bijzonderheden..."></textarea>
         </div><br>
 
-        {{-- <label for="participantStudyType" class="form-label">Studie type: </label>
-        <select id="participantStudyType" name="participantStudyType" class="form-select mb-3" aria-label="Default select example">
-            @foreach(App\Enums\StudyType::asArray() as $key => $val)
-                @if($val === $participant->studyType)
-                    <option selected value="{!! $val !!}">{{ App\Enums\StudyType::coerce($key)->description }}</option>
-                @else
-                    <option value="{!! $val !!}">{{ App\Enums\StudyType::coerce($key)->description }}</option>
-                @endif
-            @endforeach
-        </select> --}}
+{{--        <label for="participantStudyType" class="form-label">Studie type: </label>--}}
+{{--        <select id="participantStudyType" name="participantStudyType" class="form-select mb-3" aria-label="Default select example">--}}
+{{--            @foreach(App\Enums\StudyType::asArray() as $key => $val)--}}
+{{--                @if($val === $participant->studyType)--}}
+{{--                    <option selected value="{!! $val !!}">{{ App\Enums\StudyType::coerce($key)->description }}</option>--}}
+{{--                @else--}}
+{{--                    <option value="{!! $val !!}">{{ App\Enums\StudyType::coerce($key)->description }}</option>--}}
+{{--                @endif--}}
+{{--            @endforeach--}}
+{{--        </select>--}}
 
         <div class="form-group mb-5">
             <br>

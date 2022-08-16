@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AuditCategory;
+use App\Enums\StudentYear;
+use App\Exports\ParticipantsNotCheckedInExport;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\resendVerificationEmail;
 use App\Jobs\sendQRCodesToNonParticipants;
@@ -20,14 +23,12 @@ use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ParticipantsExport;
 use App\Exports\StudentFontysEmailExport;
-use App\Mail\emailNonVerifiedParticipants;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
 use App\Models\ConfirmationToken;
 use App\Enums\StudyType;
 use App\Mail\parentMailSignup;
 use App\Mail\manuallyAddedMail;
-use App\Mail\resendQRCode;
 use App\Mail\emailConfirmationSignup;
 
 class ParticipantController extends Controller {
@@ -42,11 +43,11 @@ class ParticipantController extends Controller {
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
         $participants = Participant::all();
-
+        AuditLogController::Log(AuditCategory::Other(),'Bezocht pagina met alle deelnemers');
         if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
             $dateToday = Carbon::now()->toDate();
-
+            AuditLogController::Log(AuditCategory::ParticipantManagement(), "Ziet gegevens van " . $selectedParticipant->firstName . " " . $selectedParticipant->lastName, $selectedParticipant);
             if(!isset($selectedParticipant)) {
                 return redirect("/participants");
             }
@@ -72,7 +73,8 @@ class ParticipantController extends Controller {
         return view('admin/participants', ['participants' => $participants]);
     }
 
-    public function checkedInView(Request $request){
+    public function checkedInView(Request $request): View|Factory|Redirector|RedirectResponse|Application
+    {
         $availableParticipants = Participant::where('checkedIn', 1)->get();
 
         if ($request->userId) {
@@ -108,6 +110,7 @@ class ParticipantController extends Controller {
         }
         $participant->checkedIn = true;
         $participant->save();
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " in gechecked", $participant);
 
         return back();
     }
@@ -116,19 +119,22 @@ class ParticipantController extends Controller {
         $participant = Participant::find($request->userId);
         $participant->checkedIn = false;
         $participant->save();
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " uit gechecked", $participant);
 
         return back();
     }
 
     public function checkOutEveryone() {
         Participant::query()->update(['checkedIn' => false]);
+        AuditLogController::Log(AuditCategory::Other(), "Heeft iedereen uit gechecked");
+
         return back();
     }
 
     public function delete(Request $request) {
         $participant = Participant::find($request->userId);
         $participant->delete();
-
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " verwijderd", $participant);
         return redirect("/participants");
     }
 
@@ -200,12 +206,13 @@ class ParticipantController extends Controller {
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
         $participant->studyType = StudyType::coerce((int)$request->input('studyType'));
+        $participant->studentYear = StudentYear::coerce((int)$request->input('studentYear'));
 
-        if($request->input('studentYear') != null) {
-            $participant->studentYear = $request->input('studentYear');
-        } else {
-            $participant->studentYear = 0;
-        }
+//        if($request->input('studentYear') != null) {
+//            $participant->studentYear = $request->input('studentYear');
+//        } else {
+//            $participant->studentYear = 0;
+//        }
 
         $participant->firstNameParent = $request->input('firstNameParent');
         $participant->lastNameParent = $request->input('lastNameParent');
@@ -234,10 +241,16 @@ class ParticipantController extends Controller {
     }
 
     function excel() {
+        AuditLogController::Log(AuditCategory::Other(), "Heeft een export gemaakt van alle deelnemers");
         return Excel::download(new ParticipantsExport, 'deelnemersInformatie.xlsx');
     }
 
+    function excelAll() {
+        return Excel::download(new ParticipantsNotCheckedInExport, 'deelnemersInformatie.xlsx');
+    }
+
     function studentFontysEmails() {
+        AuditLogController::Log(AuditCategory::Other(), "Heeft een export gemaakt van alle Fontys email adressen");
         return Excel::download(new StudentFontysEmailExport, 'fontysEmails.xlsx');
     }
 
@@ -245,6 +258,8 @@ class ParticipantController extends Controller {
         $participant = Participant::find($request->userId);
         $participant->note = $request->input('participantNote');
         $participant->save();
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft de notitie van" . $participant->firstName . " " . $participant->lastName. " bewerkt", $participant);
+
         return back();
     }
 
@@ -257,6 +272,7 @@ class ParticipantController extends Controller {
         }
 
         $participant->save();
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " verwijderd van het terrein", $participant);
         return back();
     }
 
@@ -296,6 +312,9 @@ class ParticipantController extends Controller {
     //Create participant(purple only)
     public function purpleSignup(Request $request) {
         $request->validate([
+            'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
             'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'email' => 'required|email:rfc,dns|max:65'
         ]);
@@ -307,6 +326,9 @@ class ParticipantController extends Controller {
         }
 
         $participant = new Participant();
+        $participant->firstName = $request->input('firstName');
+        $participant->insertion = $request->input('insertion');
+        $participant->lastName = $request->input('lastName');
         $participant->fontysEmail= $request->input('fontysEmail');
         $participant->purpleOnly = true;
         $participant->email = $request->input('email');
@@ -325,6 +347,8 @@ class ParticipantController extends Controller {
             resendVerificationEmail::dispatch($participant, $verificationToken);
         }
 
+        AuditLogController::Log(AuditCategory::Other(), "Heeft opnieuw verificatie mails verzonden naar alle niet geverifieerde deelnemers");
+
         return back()->with('message', 'De mails zijn verstuurd!');
     }
 
@@ -335,6 +359,7 @@ class ParticipantController extends Controller {
             resendQRCodeEmails::dispatch($participant);
         }
 
+        AuditLogController::Log(AuditCategory::Other(), "Heeft alle qr-codes opnieuw verzonden naar alle betaalde deelnemers");
         return back()->with('message', 'De mails zijn verstuurd!');
     }
 
@@ -344,7 +369,7 @@ class ParticipantController extends Controller {
         foreach($paidParticipants as $participant) {
             sendQRCodesToNonParticipants::dispatch($participant);
         }
-
+        AuditLogController::Log(AuditCategory::Other(), "Heeft alle qr-codes opnieuw verzonden naar alle niet-deelnemers");
         return back()->with('message', 'De mails zijn verstuurd!');
     }
 
@@ -364,8 +389,8 @@ class ParticipantController extends Controller {
             'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
             'participantSpecial' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/'
         ]);
-
         $participant = Participant::find($request->userId);
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Bewerkt gegevens van " . $participant->firstName . " " . $participant->lastName, $participant);
         if($participant == null) {
             return back()->with('error','Deelnemer niet gevonden!');
         }
@@ -373,6 +398,7 @@ class ParticipantController extends Controller {
         $participant->insertion = $request->input('participantInsertion');
         $participant->lastName = $request->input('participantLastName');
         $participant->email = $request->input('participantEmail');
+        $participant->fontysEmail = $request->input('participantFontysEmail');
         $participant->birthday = $request->input('participantBirthday');
         $participant->phoneNumber = $request->input('participantPhoneNumber');
         $participant->firstNameParent = $request->input('participantFirstNameParent');
@@ -506,6 +532,7 @@ class ParticipantController extends Controller {
             Mail::to($participant->email)
                 ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
         }
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft deelnemer " . $participant->firstName . " " . $participant->lastName. " toegevoegd", $participant);
 
         return back()->with('message', 'Deelnemer is opgeslagen!');
     }
@@ -516,6 +543,7 @@ class ParticipantController extends Controller {
         if(!$participant->hasPaid() && !$participant->purpleOnly) {
             Mail::to($participant->email)
                 ->send(new emailConfirmationSignup($participant, $this->createConfirmationToken($participant)));
+            AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft nieuwe confirmatie mail gestuurd naar " . $participant->firstName . " " . $participant->lastName, $participant);
             return back()->with('success','Confirmatie email verstuurd!');
         }
         return back()->with('error','Deelnemer heeft al betaald!');

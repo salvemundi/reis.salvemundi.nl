@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Payment;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use App\Models\Participant;
-use App\Enums\CovidProof;
-use App\Enums\PaymentStatus;
-use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ParticipantsExport;
-use App\Mail\VerificationMail;
-use App\Models\VerificationToken;
-use Illuminate\Auth\Notifications\VerifyEmail;
 
 class RegistrationController extends Controller
 {
@@ -24,7 +17,8 @@ class RegistrationController extends Controller
         $this->verificationController = new VerificationController();
     }
 
-    public function getRegistrationsWithInformation(Request $request) {
+    public function getRegistrationsWithInformation(Request $request): Factory|View|Application
+    {
         $participants = Participant::join('verify_email', 'verify_email.participantId', '=',  'participants.id')
                ->get(['participants.*', 'verify_email.verified', 'verify_email.updated_at']);
 

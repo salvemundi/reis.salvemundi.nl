@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\VerificationToken;
 use App\Models\Participant;
 use Illuminate\Contracts\Foundation\Application;
@@ -60,12 +61,13 @@ class VerificationController extends Controller
         $userArr = [];
         $participants = Participant::all();
         foreach($participants as $participant) {
-            if($participant->isVerified()) {
+
+            if($participant->isVerified() && !$participant->purpleOnly && $participant->role == Roles::child()->value) {
                 array_push($userArr, $participant);
             }
         }
 
-        return collect($userArr)->unique();
+        return collect($userArr)->unique('id');
     }
 
     public function getNonVerifiedParticipants(): Collection
@@ -73,12 +75,12 @@ class VerificationController extends Controller
         $userArr = [];
         $participants = Participant::all();
         foreach($participants as $participant) {
-            if(!$participant->isVerified()) {
+            if(!$participant->isVerified() && !$participant->purpleOnly && $participant->role == Roles::child()->value) {
                 array_push($userArr, $participant);
             }
         }
 
-        return collect($userArr)->unique();
+        return collect($userArr)->unique('id');
     }
 
     public function createNewVerificationToken(Participant $participant): VerificationToken {

@@ -6,6 +6,7 @@ use App\Enums\SettingTypes;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Log;
 
 class SettingsSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class SettingsSeeder extends Seeder
     public function run(): void
     {
         // Signup page
-        if(Setting::find('SignupPageEnabled') == null) {
+        if(!Setting::where('name','SignupPageEnabled')->exists()) {
             $setting = new Setting();
             $setting->name = "SignupPageEnabled";
             $setting->value = "true";
@@ -27,7 +28,7 @@ class SettingsSeeder extends Seeder
         }
 
         // Payment page
-        if(Setting::find('ConfirmationEnabled') == null) {
+        if(!Setting::where('name', 'ConfirmationEnabled')->exists()) {
             $setting = new Setting();
             $setting->name = "ConfirmationEnabled";
             $setting->value = "true";
@@ -37,7 +38,7 @@ class SettingsSeeder extends Seeder
         }
 
         // Send automatic mails after opening date
-        if(Setting::find('AutoSendPaymentEmailDate') == null) {
+        if(!Setting::where('name', 'AutoSendPaymentEmailDate')->exists()) {
             $setting = new Setting();
             $setting->name = "AutoSendPaymentEmailDate";
             $setting->value = new Carbon('2022-06-14');

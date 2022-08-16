@@ -2,42 +2,43 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Controllers\AuthController;
+use App\Http\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Microsoft\Graph\Graph;
+
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, UsesUuid;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    private Graph $graph;
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+        $authController = new AuthController();
+        $this->graph = $authController->connectToAzure();
+    }
+
+    protected $table = "users";
+
+    public function auditLogs(): HasMany
+    {
+        return $this->hasMany(AuditLog::class,'userId','id');
+    }
+
+    private function userIsLoggedIn(): bool
+    {
+        if(null !== session('id')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

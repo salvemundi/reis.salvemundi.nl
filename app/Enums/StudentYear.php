@@ -12,6 +12,7 @@ final class StudentYear extends Enum
 {
     const firstYear = 0;
     const secondYear = 1;
+    const thirdYear = 2;
 
     public static function getDescription($value): string
     {
@@ -20,6 +21,9 @@ final class StudentYear extends Enum
         }
         if ($value === self::secondYear) {
             return 'Leerjaar 2';
+        }
+        if ($value === self::thirdYear) {
+            return 'Leerjaar 3';
         }
         return parent::getDescription($value);
     }

@@ -26,7 +26,7 @@
                     <span class="nav_name">Deelnemers</span>
                 </a>
                 <a id="blogs" href="/blogsadmin" class="nav_link">
-                    <i class="fas fa-newspaper fixIconClipboard"></i>
+                    <i class="fas fa-newspaper circlePlus"></i>
                     <span class="nav_name">Blogs / Nieuws</span>
                 </a>
                 <a id="add" href="/add" class="nav_link">
@@ -36,6 +36,10 @@
                 <a id="bus" href="/bus" class="nav_link">
                     <i class='fas fa-bus bus'></i>
                     <span class="nav_name">Bus</span>
+                </a>
+                <a id="logs" href="/logs" class="nav_link">
+                    <i class="fas fa-clipboard-list fixIconClipboard"></i>
+                    <span class="nav_name">Audit logs</span>
                 </a>
                 <a id="events" href="/events" class="nav_link">
                     <i class="fas fa-calendar bus"></i>

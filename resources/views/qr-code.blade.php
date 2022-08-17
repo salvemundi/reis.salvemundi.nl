@@ -67,7 +67,7 @@
                 </div>
                 <div class="col-6">
                     <div class="card p-2 m-0">
-                        Kletsgroep
+                        <a class="link-qr" href="https://chat.whatsapp.com/HTLqjb5SKDC6pQtszDLUZL" target="_blank">Kletsgroep</a>
                     </div>
                 </div>
             </div>

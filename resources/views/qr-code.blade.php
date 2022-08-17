@@ -91,6 +91,14 @@
     </div>
 </div>
 
+<div class="mx-3 my-2 justify-content-center text-center">
+    <div class="max-width mx-auto">
+        <h2 class="purple">Infoboekje</h2>
+        Hieronder kan je ons infoboekje downloaden waarin alle informatie te vinden is voor de intro:
+        <br><a class="btn btn-primary mt-2" href="pdf/Infoboekje2022.pdf" download><i class="fa fa-download"></i> Download</a>
+    </div>
+</div>
+
 <div class="max-width mx-auto my-3">
     <h2 class="purple text-center">Planning</h2>
     <div class="my-2 max-width mx-auto">

@@ -27,6 +27,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/inschrijven/ouder">Ouder inschrijven</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/qrcode">Incheck</a>
+                </li>
             @endif
             @if($userIsAdmin)
                 <li class="nav-item">

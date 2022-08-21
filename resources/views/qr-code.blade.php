@@ -147,8 +147,8 @@
                 <table class="table table-striped">
                     <tbody>
                         @foreach ($events as $event)
-                            {{-- @if (date("l H:i:s", strtotime($event->beginTime)) >= 'Tuesday 03:00:00' && date("l H:i:s", strtotime($event->beginTime)) < 'Wednesday 03:00:00') --}}
-                            {{dd((date("l H:i:s", strtotime($event->beginTime)) >= 'Tuesday 03:00:00' && date("l H:i:s", strtotime($event->beginTime)) < 'Wednesday 02:59:59'))}}
+                            @if (date("l H:i:s", strtotime($event->beginTime)) >= 'Tuesday 03:00:00' && date("l H:i:s", strtotime($event->beginTime)) < 'Wednesday 03:00:00')
+                            {{-- {{dd((date("l H:i:s", strtotime($event->beginTime)) >= 'Tuesday 03:00:00' && date("l H:i:s", strtotime($event->beginTime)) < 'Wednesday 02:59:59'))}} --}}
                                 @if ($event == $currentEvent)
                                     <tr class="currentEvent">
                                         <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
@@ -160,7 +160,7 @@
                                         <td class="mytable text-left" style="width: 65%">{{$event->name}}</td>
                                     </tr>
                                 @endif
-                            {{-- @endif --}}
+                            @endif
                         @endforeach
                     </tbody>
                 </table>

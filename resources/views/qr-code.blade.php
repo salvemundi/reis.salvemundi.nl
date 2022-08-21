@@ -80,12 +80,12 @@
             <div class="col-md-6 col-6">
                 <img class="imgQR" src="images/vertrouwensPersonen/femke.jpeg">
                 <b><p class="vertrouwensPersoonText">Femke</p></b>
-                +31 61234567
+                <a class="btn btn-primary mt-1" href="tel:+31 6 36000643"><i class="fa fa-phone"></i> +31 6 36000643</a>
             </div>
             <div class="col-md-6 col-6">
                 <img class="imgQR" src="images/vertrouwensPersonen/jimmy.jpg">
                 <b><p class="vertrouwensPersoonText">Jimmy</p></b>
-                +31 61234567
+                <a class="btn btn-primary mt-1" href="tel:+31 6 51955040"><i class="fa fa-phone"></i> +31 6 51955040</a>
             </div>
         </div>
     </div>

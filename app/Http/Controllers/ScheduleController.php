@@ -12,7 +12,7 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        $events = Schedule::orderBy('beginTime', 'ASC')->get();
+        $events = Schedule::orderBy('beginTime', 'DESC')->get();
         $time = Carbon::now();
         $time->tz = new DateTimeZone('Europe/Amsterdam');
         $timeFound = false;

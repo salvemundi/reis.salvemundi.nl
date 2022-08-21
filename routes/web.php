@@ -75,8 +75,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         // Participants
         Route::get('/participants', [ParticipantController::class, 'getParticipantsWithInformation']);
         Route::get('/participants/{userId}', [ParticipantController::class, 'getParticipantsWithInformation']);
-        Route::post('/participants/{userId}/checkIn', [ParticipantController::class, 'checkIn']);
-        Route::post('/participants/{userId}/checkOut', [ParticipantController::class, 'checkOut']);
+
         Route::post('/participants/{userId}/delete', [ParticipantController::class, 'delete']);
         Route::post('/participants/{userId}/storeNote', [ParticipantController::class, 'storeNote']);
         Route::post('/participants/{userId}/storeRemove', [ParticipantController::class, 'storeRemove']);
@@ -91,8 +90,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::post('/add/store', [ParticipantController::class, 'storeSelfAddedParticipant']);
         Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
         Route::get('/participantscheckedin/{userId}', [ParticipantController::class, 'checkedInView']);
-        // Participants JSON
-        Route::get('/participants/{userId}/get', [ParticipantController::class, 'getParticipant']);
+
 
         // Posts / blogs
         Route::get('/blogsadmin',[BlogController::class, 'showPostsAdmin']);
@@ -122,10 +120,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         // Api
         Route::get('/import', [APIController::class, 'GetParticipants']);
 
-        // QRCode
-        Route::get('/qrcode', function () {
-            return view('admin/qr');
-        });
+
 
         // Events
         Route::get('/events', [ScheduleController::class, 'getAllEvents']);
@@ -148,5 +143,14 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::middleware('daddyware')->group(function () {
         Route::get('/inschrijven/ouder', [ParticipantController::class, 'daddyIndex']);
         Route::post('/inschrijven/ouders/store', [ParticipantController::class, 'daddyStore']);
+
+        // QRCode
+        Route::get('/qrcode', function () {
+            return view('admin/qr');
+        });
+        Route::post('/participants/{userId}/checkIn', [ParticipantController::class, 'checkIn']);
+        Route::post('/participants/{userId}/checkOut', [ParticipantController::class, 'checkOut']);
+        // Participants JSON
+        Route::get('/participants/{userId}/get', [ParticipantController::class, 'getParticipant']);
     });
 });

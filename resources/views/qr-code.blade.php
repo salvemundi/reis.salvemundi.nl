@@ -126,7 +126,7 @@
                 <table class="table table-events table-striped">
                     <tbody>
                         @foreach ($events as $event)
-                            @if (date("l H:i:s", strtotime($event->beginTime)) >= 'Monday 03:00:00' && date("l H:i:s", strtotime($event->beginTime)) < 'Tuesday 02:59:59')
+                            @if (date("l", strtotime($event->beginTime)) == "Monday")
                                 @if ($event == $currentEvent)
                                     <tr class="currentEvent">
                                         <th class="mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
@@ -147,8 +147,7 @@
                 <table class="table table-striped">
                     <tbody>
                         @foreach ($events as $event)
-                            @if (date("l H:i:s", strtotime($event->beginTime)) >= 'Tuesday 03:00:00' && date("l H:i:s", strtotime($event->beginTime)) < 'Wednesday 03:00:00')
-                            {{-- {{dd((date("l H:i:s", strtotime($event->beginTime)) >= 'Tuesday 03:00:00' && date("l H:i:s", strtotime($event->beginTime)) < 'Wednesday 02:59:59'))}} --}}
+                            @if (date("l", strtotime($event->beginTime)) == "Tuesday")
                                 @if ($event == $currentEvent)
                                     <tr class="currentEvent">
                                         <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
@@ -169,7 +168,7 @@
                 <table class="table table-striped">
                     <tbody>
                         @foreach ($events as $event)
-                            @if (date("l H:i:s", strtotime($event->beginTime)) >= 'Wednesday 03:00:00' && date("l H:i:s", strtotime($event->beginTime)) < 'Thursday 02:59:59')
+                            @if (date("l", strtotime($event->beginTime)) == "Wednesday")
                                 @if ($event == $currentEvent)
                                     <tr class="currentEvent">
                                         <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
@@ -190,7 +189,7 @@
                 <table class="table table-striped">
                     <tbody>
                         @foreach ($events as $event)
-                            @if (date("l H:i:s", strtotime($event->beginTime)) >= 'Thursday 03:00:00' && date("l H:i:s", strtotime($event->beginTime)) < 'Friday 02:59:59')
+                            @if (date("l", strtotime($event->beginTime)) == "Thursday")
                                 @if ($event == $currentEvent)
                                     <tr class="currentEvent">
                                         <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>
@@ -211,7 +210,7 @@
                 <table class="table table-striped">
                     <tbody>
                         @foreach ($events as $event)
-                            @if (date("l H:i:s", strtotime($event->beginTime)) >= 'Friday 03:00:00' && date("l H:i:s", strtotime($event->beginTime) < 'Friday 23:59:00'))
+                            @if (date("l", strtotime($event->beginTime)) == "Friday")
                                 @if ($event == $currentEvent)
                                     <tr class="currentEvent">
                                         <th class="purple mytable" style="width: 35%" scope="row">{{ date("H:i", strtotime($event->beginTime)) }} - {{ date("H:i", strtotime($event->endTime)) }}</th>

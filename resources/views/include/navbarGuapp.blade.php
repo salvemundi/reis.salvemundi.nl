@@ -14,9 +14,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">Inschrijven</a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="/purpleInschrijven">Purple</a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a class="nav-link" href="/blogs">Intro  blogs / updates</a>
             </li>

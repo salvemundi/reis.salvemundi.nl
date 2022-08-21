@@ -457,7 +457,7 @@ class ParticipantController extends Controller {
     public function storeSelfAddedParticipant(Request $request): RedirectResponse
     {
         $request->validate([
-            'firstName' => ['required', 'regex:/^[a-zA-Z ]+$/'],
+            'firstName' => ['required', 'regex:/^[a-zA-Z ë]+$/'],
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
             'lastName' =>  ['required', 'regex:/^[a-zA-Z ]+$/'],
             'birthday' => 'required',

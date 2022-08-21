@@ -145,14 +145,14 @@ class ParticipantController extends Controller {
     public function store(Request $request) {
         if($request->input('confirmation') == null) {
             $request->validate([
-                'firstName' => 'required', 'regex:/^[a-zA-Z ]+$/',
+                'firstName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
                 'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-                'lastName' => 'required', 'regex:/^[a-zA-Z ]+$/',
+                'lastName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
-                'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-                'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
+                'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
                 'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
                 'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
@@ -162,15 +162,15 @@ class ParticipantController extends Controller {
             ]);
         } else {
             $request->validate([
-                'firstName' => ['nullable', 'regex:/^[a-zA-Z ]+$/]'],
+                'firstName' => ['nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]'],
                 'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-                'lastName' =>  ['nullable', 'regex:/^[a-zA-Z ]+$/]'],
+                'lastName' =>  ['nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]'],
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
                 'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
-                'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-                'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+                'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
+                'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
                 'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
                 'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
                 'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
@@ -278,9 +278,9 @@ class ParticipantController extends Controller {
 
     public function signup(Request $request) {
         $request->validate([
-            'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-            'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
         ]);
 
@@ -312,9 +312,9 @@ class ParticipantController extends Controller {
     //Create participant(purple only)
     public function purpleSignup(Request $request) {
         $request->validate([
-            'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-            'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'fontysEmail' => 'required|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'email' => 'required|email:rfc,dns|max:65'
         ]);
@@ -376,14 +376,14 @@ class ParticipantController extends Controller {
     public function storeEdit(Request $request): RedirectResponse
     {
         $request->validate([
-            'participantFirstName' => 'required', 'regex:/^[a-zA-Z ]+$/',
+            'participantFirstName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
             'participantInsertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-            'participantLastName' => 'required', 'regex:/^[a-zA-Z ]+$/',
+            'participantLastName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
             'participantBirthday' => 'nullable',
             'participantEmail' => 'required|email:rfc,dns|max:65',
             'participantPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
-            'participantFirstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-            'participantLastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'participantFirstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
+            'participantLastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
             'participantParentPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
             'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
@@ -419,15 +419,15 @@ class ParticipantController extends Controller {
 
     public function daddyStore(Request $request){
         $request->validate([
-            'firstName' => ['required', 'regex:/^[a-zA-Z ]+$/'],
+            'firstName' => ['required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-            'lastName' =>  ['required', 'regex:/^[a-zA-Z ]+$/'],
+            'lastName' =>  ['required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
             'birthday' => 'required',
             'fontysEmail' => 'nullable|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
-            'firstNameParent' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-            'lastNameParent' => ['required', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'firstNameParent' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
+            'lastNameParent' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'phoneNumberParent' => 'required|max:15|regex:/(^[0-9]+$)+/',
             'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
             'specials' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
@@ -457,17 +457,17 @@ class ParticipantController extends Controller {
     public function storeSelfAddedParticipant(Request $request): RedirectResponse
     {
         $request->validate([
-            'firstName' => ['required', 'regex:/^[a-zA-Z ë]+$/'],
+            'firstName' => ['required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-            'lastName' =>  ['required', 'regex:/^[a-zA-Z ]+$/'],
+            'lastName' =>  ['required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'birthday' => 'required',
             'email' => 'required|email:rfc,dns|max:65',
             'fontysEmail' => 'nullable|email:rfc,dns|max:65|ends_with:student.fontys.nl',
             'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
             'studyType' => 'nullable',
             'studentYear' => 'nullable',
-            'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
-            'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z ]+$/'],
+            'firstNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
+            'lastNameParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'addressParent' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
             'phoneNumberParent' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
             'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',

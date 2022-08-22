@@ -184,6 +184,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                <p style="color:red;font-size:1em;">LET OP! Bij de tab 'Do' staat er nog informatie over hoe laat de bussen vertrekken!</p>
             </div>
             <div class="tab-pane w-100 fade text-black" id="donderdag" role="tabpanel" aria-labelledby="contact-tab">
                 <table class="table table-striped">
@@ -205,6 +206,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                <p style="color:red;font-size:1em;">LET OP! Bij de tab 'Vr' staat er nog informatie over hoe laat de afterparty is!</p>
             </div>
             <div class="tab-pane w-100 fade text-black" id="vrijdag" role="tabpanel" aria-labelledby="contact-tab">
                 <table class="table table-striped">

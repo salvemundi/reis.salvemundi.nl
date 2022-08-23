@@ -27,6 +27,7 @@ class DashboardController extends Controller
         $viewVars['amountTeachers']             = Participant::where('role', Roles::teacher)->count();
         $viewVars['amountTeachersCheckedIn']    = Participant::where('role', Roles::teacher)->where('checkedIn', true)->count();
         $viewVars['amountEveryone']             = $viewVars['amountChildrenPaid'] + $viewVars['amountTeachers'] + $viewVars['amountCrew'] + $viewVars['amountParents'];
+        $viewVars['amountEveryoneCheckedIn']    = $viewVars['amountChildrenCheckedIn'] + $viewVars['amountParentsCheckedIn'] + $viewVars['amountTeachersCheckedIn'] + $viewVars['amountCrewCheckedIn'];
 
         return view('admin/dashboard', $viewVars);
     }

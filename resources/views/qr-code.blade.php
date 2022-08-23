@@ -46,6 +46,13 @@
         Er is geen activiteit bezig
     </p>
 @endif
+<h3 class="text-center">Schrijf je hier in voor het bierpong toernooi door op de foto te klikken!</h3>
+<a href="https://forms.office.com/r/WZG1GnadyJ">
+    <img style="width: 34%;  display: block;
+      margin-left: auto;
+      margin-right: auto;" src="{{asset('images/bierpong.jpeg')}}">
+</a>
+
 <div class="text-center">
     <a href="#timetable" class="link-qr">Bekijk volledige planning</a>
 </div>

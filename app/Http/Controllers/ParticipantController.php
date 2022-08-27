@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ParticipantsExport;
+use App\Exports\ExportPayment;
 use App\Exports\StudentFontysEmailExport;
 use App\Mail\VerificationMail;
 use App\Models\VerificationToken;
@@ -252,6 +253,11 @@ class ParticipantController extends Controller {
     function studentFontysEmails() {
         AuditLogController::Log(AuditCategory::Other(), "Heeft een export gemaakt van alle Fontys email adressen");
         return Excel::download(new StudentFontysEmailExport, 'fontysEmails.xlsx');
+    }
+
+    function exportParticipants() {
+        AuditLogController::Log(AuditCategory::Other(), "Heeft een export gemaakt van alle participants die een membership nodig hebben");
+        return Excel::download(new ExportPayment, 'participantsExport.xlsx');
     }
 
     public function storeNote(Request $request): RedirectResponse {

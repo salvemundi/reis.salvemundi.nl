@@ -2,17 +2,6 @@
 @section('content')
 {{-- <img src="{{ asset("images/logo.svg") }}" class="samuLogo"/> --}}
 <div class="container">
-    @if(session()->has('message'))
-        <div class="alert alert-primary">
-            {{ session()->get('message') }}
-        </div>
-    @endif
-    @if(session()->has('error'))
-        <div class="alert alert-danger">
-            {{ session()->get('error') }}
-        </div>
-    @endif
-
     <div class="row justify-content-center">
         <div class="col-auto col-md-6 col-12 pl-5">
             <h1 class="display-5">Een <b class="purple">intro</b> die je niet kan missen en nooit zal vergeten.</h1>
@@ -53,8 +42,15 @@
                             </div>
                         @endif
 
+                        @if(session()->has('error'))
+                            <div class="alert alert-danger">
+                                {{ session()->get('error') }}
+                            </div>
+                        @endif
+
                         <label for="firstName" class="form-label">Voornaam</label>
                         <input type="text" class="form-control{{ $errors->has('firstName') ? ' is-invalid' : '' }}" value="{{ old('firstName') }}" name="firstName" id="firstName" placeholder="Voornaam">
+
                         <label for="insertion" class="form-label">Tussenvoegsel</label>
                         <input type="text" class="form-control{{ $errors->has('insertion') ? ' is-invalid' : '' }}" value="{{ old('insertion') }}" name="insertion" id="insertion" placeholder="Tussenvoegsel">
 
@@ -63,6 +59,9 @@
 
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" name="email" id="email" placeholder="name@example.com">
+
+                        <label for="phoneNumber" class="form-label">Telefoonnummer</label>
+                        <input type="text" class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" name="phoneNumber" id="phoneNumber" placeholder="Telefoonnummer">
 
                         <button data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right" class="btn btn-primary my-3 w-100" type="submit">Inschrijven</button>
                     </form>

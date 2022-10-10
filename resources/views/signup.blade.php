@@ -19,7 +19,7 @@
                 </ul>
             </p>
         <div class="box-purple p-3 mb-3">
-            <b>Datum:</b> 22 augustus - 26 augustus <br><b>Kosten:</b> 90 euro
+            <b>Datum:</b> 21 augustus - 25 augustus <br><b>Kosten:</b> wordt nader bepaald
         </div>
         </div>
         <div class="col-md-6 px-md-5">
@@ -97,12 +97,11 @@
         </div>
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>Wat hebben wij nu voor jullie georganiseerd?</h3>
-            De introductie van Salve Mundi bestaat uit 5 dagen vol informatie, spellen en te gekke feesten op onze vette intro locatie.<br>
-            De maandag zal in het teken staan van inchecken, algemene informatie en een dik feest in onze evenementenzaal om de introductie week in te luiden.<br>
-            Op de dinsdag hebben we een dag vol spelletjes georganiseerd om je nieuwe studiegenoten te leren kennen. Deze dag zal worden afgesloten met een te gekke afterparty.<br>
-            Woensdagochtend zullen we met zijn allen vertrekken naar Fontys waar in de middag een Crazy88 wordt gehouden.<br>
-            Op donderdag gaan we richting Tilburg voor het Purple Festival. Hier zullen we de hele dag lekker gaan feesten, relaxen en genieten voordat we 's avonds de dag zullen afsluiten met een dikke afterparty op onze intro locatie.<br>
-            Vrijdag staat helaas in het teken van uitchecken en vertrekken, maar wij hopen dat jullie dan vol goede moed aan de opleiding gaan beginnen. Tijdens de introductie zal er doorgaans voor lunch en avondeten worden gezorgd. Op woensdag en donderdag zal het avondeten zelf moeten worden verzorgd en op vrijdag zal je voor het middageten alweer thuis zijn.<br>
+            De introductie van Salve Mundi bestaat uit een aantal dagen vol informatie, spellen en te gekke feesten op onze vette intro locatie.<br><br>
+            Wat je kan verwachten is een spelletjes middag om al je studiegenoten te leren kennen en vette feesten in onze evenementezaal.
+            Op woensdag gaan we naar Fontys voor alle nodige informatie over de studie en daarna gaan we de stad in om Eindhoven te leren kennen doormiddel van een Crazy88.
+            Op donderdag gaan we naar het Purple Festival. Hier zullen we de hele dag lekker gaan feesten, relaxen en genieten voordat we 's avonds de dag zullen afsluiten met een dikke afterparty op onze intro locatie.<br><br>
+            Tijdens de introductie zal er doorgaans voor ontbijt, lunch en avondeten worden gezorgd. Op woensdag en donderdag zal het avondeten zelf moeten worden verzorgd.
         </div>
     </div>
 </div>

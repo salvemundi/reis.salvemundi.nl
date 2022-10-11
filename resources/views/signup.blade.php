@@ -19,7 +19,7 @@
                 </ul>
             </p>
         <div class="box-purple p-3 mb-3">
-            <b>Datum:</b> 21 augustus - 25 augustus <br><b>Kosten:</b> wordt nader bepaald
+            <b>Datum:</b> week 34 <br><b>Kosten:</b> wordt nader bepaald
         </div>
         </div>
         <div class="col-md-6 px-md-5">

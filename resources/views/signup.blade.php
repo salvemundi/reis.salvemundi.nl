@@ -61,7 +61,7 @@
                         <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" name="email" id="email" placeholder="name@example.com">
 
                         <label for="phoneNumber" class="form-label">Telefoonnummer</label>
-                        <input type="text" class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ old('phoneNumber') }}" name="phoneNumber" id="phoneNumber" placeholder="Telefoonnummer">
+                        <input type="text" minlength="10" maxlength="15" class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" max="15" value="{{ old('phoneNumber') }}" name="phoneNumber" id="phoneNumber" placeholder="0612345678">
 
                         <button data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right" class="btn btn-primary my-3 w-100" type="submit">Inschrijven</button>
                     </form>

@@ -288,7 +288,7 @@ class ParticipantController extends Controller {
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
             'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
-            'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
+            'phoneNumber' => 'required|min:10|max:15|regex:/(^[0-9+]+$)+/|',
         ]);
 
         if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {

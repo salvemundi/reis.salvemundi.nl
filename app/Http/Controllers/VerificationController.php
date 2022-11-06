@@ -62,7 +62,7 @@ class VerificationController extends Controller
         $participants = Participant::all();
         foreach($participants as $participant) {
 
-            if($participant->isVerified() && !$participant->purpleOnly && $participant->role == Roles::child()->value) {
+            if($participant->isVerified() && $participant->role == Roles::participant()->value) {
                 array_push($userArr, $participant);
             }
         }
@@ -75,7 +75,7 @@ class VerificationController extends Controller
         $userArr = [];
         $participants = Participant::all();
         foreach($participants as $participant) {
-            if(!$participant->isVerified() && !$participant->purpleOnly && $participant->role == Roles::child()->value) {
+            if(!$participant->isVerified() && $participant->role == Roles::participant()->value) {
                 array_push($userArr, $participant);
             }
         }

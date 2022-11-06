@@ -17,11 +17,6 @@
                             <input type="email" class="form-control" value="{{ $participant->email }}" id="participantEmail" name="participantEmail" placeholder="name@example.com">
                         </div>
 
-                        <div class="mb-3">
-                            <label for="participantFontysEmail" class="form-label">Fontys email adres</label>
-                            <input type="email" class="form-control" value="{{$participant->fontysEmail ?? "" }}" id="participantFontysEmail" name="participantFontysEmail" placeholder="123456@student.fontys.nl">
-                        </div>
-
                         <div class="input-group mb-3">
                             <span class="input-group-text">Naam</span>
                             <input type="text" aria-label="First name" id="participantFirstName" name="participantFirstName" value="{{ $participant->firstName }}" placeholder="Voornaam" class="form-control">
@@ -72,17 +67,6 @@
                                     <option selected value="{!!$val !!}">{{ App\Enums\Roles::coerce($key)->description }}</option>
                                 @else
                                     <option value="{!! $val !!}">{{ App\Enums\Roles::coerce($key)->description }}</option>
-                                @endif
-                            @endforeach
-                    </select>
-
-                    <label for="participantStudyType" class="form-label">Studie type: </label>
-                    <select id="participantStudyType" name="participantStudyType" class="form-select mb-3" aria-label="Default select example">
-                            @foreach(App\Enums\StudyType::asArray() as $key => $val)
-                                @if($val === $participant->studyType)
-                                    <option selected value="{!! $val !!}">{{ App\Enums\StudyType::coerce($key)->description }}</option>
-                                @else
-                                    <option value="{!! $val !!}">{{ App\Enums\StudyType::coerce($key)->description }}</option>
                                 @endif
                             @endforeach
                     </select>

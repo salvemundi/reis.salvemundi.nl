@@ -1,10 +1,8 @@
 <?php
 
-use App\Http\Controllers\APIController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\BusController;
 use App\Http\Controllers\ConfirmationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ParticipantController;
@@ -31,12 +29,6 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::get('/login', [AuthController::class, 'signIn']);
     Route::get('/callback', [AuthController::class, 'callback']);
     Route::get('/signout', [AuthController::class, 'signOut']);
-
-    //singup Purple festival
-    // Route::get('/purpleInschrijven', function () {
-    //     return view('purpleSignup');
-    // });
-    // Route::post('/purpleInschrijven', [ParticipantController::class, 'purpleSignup']);
 
     // Signup
     Route::post('/inschrijven', [ParticipantController::class, 'signup']);
@@ -106,23 +98,6 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         // Occupation percentage
         Route::post('/occupied/save',[BlogController::class, 'updateOccupiedPercentage']);
 
-        // Bus
-        Route::get('/bus', [BusController::class, 'index']);
-        Route::post('/bus/add', [BusController::class, 'addBusses']);
-        Route::post('/bus/reset', [BusController::class, 'resetBusses']);
-        Route::post('/bus/addBusNumber', [BusController::class, 'addBusNumber']);
-        Route::post('/bus/addPersons', [BusController::class, 'addPersonsToBus']);
-
-        // Excel
-        Route::get('/export_excel/excel', [ParticipantController::class, 'excel'])->name('export_excel.excel');
-        Route::get('/export_excel/all', [ParticipantController::class, 'excelAll'])->name('export_excel.all');
-        Route::get('/fontys_mail', [ParticipantController::class, 'studentFontysEmails'])->name('fontysEmail.excel');
-        Route::get('/participantsExport', [ParticipantController::class, 'exportParticipants'])->name('exportParticipants.excel');
-        // Api
-        Route::get('/import', [APIController::class, 'GetParticipants']);
-
-
-
         // Events
         Route::get('/events', [ScheduleController::class, 'getAllEvents']);
         Route::get('/events/save',[ScheduleController::class, 'showEventInputs']);
@@ -139,19 +114,5 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
         // Logs
         Route::get('/logs',[AuditLogController::class,'index']);
-    });
-
-    Route::middleware('daddyware')->group(function () {
-        Route::get('/inschrijven/ouder', [ParticipantController::class, 'daddyIndex']);
-        Route::post('/inschrijven/ouders/store', [ParticipantController::class, 'daddyStore']);
-
-        // QRCode
-        Route::get('/qrcode', function () {
-            return view('admin/qr');
-        });
-        Route::post('/participants/{userId}/checkIn', [ParticipantController::class, 'checkIn']);
-        Route::post('/participants/{userId}/checkOut', [ParticipantController::class, 'checkOut']);
-        // Participants JSON
-        Route::get('/participants/{userId}/get', [ParticipantController::class, 'getParticipant']);
     });
 });

@@ -34,8 +34,8 @@ setActive("dashboard");
             <div class="card-body">
                 <div class="row align-items-center gx-0">
                     <div class="col">
-                        <h6 class="text-uppercase text-muted mb-2">Aantal betaalde kiddos:</h6>
-                        <span class="h2 mb-0">{{ $amountChildrenPaid }} / {{ $amountChildren }}</span>
+                        <h6 class="text-uppercase text-muted mb-2">Aantal betaalde deelnemers:</h6>
+                        <span class="h2 mb-0">{{ $amountParticipantsPaid }} / {{ $amountParticipants }}</span>
                     </div>
                 </div>
             </div>
@@ -60,34 +60,8 @@ setActive("dashboard");
             <div class="card-body">
                 <div class="row align-items-center gx-0">
                     <div class="col">
-                        <h6 class="text-uppercase text-muted mb-2">Aantal kinderen:</h6>
-                        <span class="h2 mb-0">{{ $amountChildrenCheckedIn }} / {{ $amountChildren }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="row align-items-center gx-0">
-                    <div class="col">
-                        <h6 class="text-uppercase text-muted mb-2">Aantal ouders:</h6>
-                        <span class="h2 mb-0">{{ $amountParentsCheckedIn }} / {{ $amountParents }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row mb-2">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="row align-items-center gx-0">
-                    <div class="col">
-                        <h6 class="text-uppercase text-muted mb-2">Aantal docenten:</h6>
-                        <span class="h2 mb-0">{{ $amountTeachersCheckedIn }} / {{ $amountTeachers }}</span>
+                        <h6 class="text-uppercase text-muted mb-2">Aantal deelnemers:</h6>
+                        <span class="h2 mb-0">{{ $amountParticipantsCheckedIn }} / {{ $amountParticipants }}</span>
                     </div>
                 </div>
             </div>

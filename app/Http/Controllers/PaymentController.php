@@ -24,7 +24,7 @@ class PaymentController extends Controller
         $this->verificationController = new VerificationController();
     }
 
-    public function payForIntro($token): Response|RedirectResponse
+    public function payForReis($token): Response|RedirectResponse
     {
         $confirmationToken = ConfirmationToken::findOrFail($token);
         try{
@@ -33,9 +33,9 @@ class PaymentController extends Controller
             $payment = $mollie->payments->create([
                 "amount" => [
                     "currency" => "EUR",
-                    "value" => ($confirmationToken->participant->alreadyPaidForMembership) ? "70.00" : "90.00"
+                    "value" => "90.00"
                 ],
-                "description" => "Introductie ". Date("Y"),
+                "description" => "Reis ". Date("Y"),
                 "redirectUrl" => route('payment.success', ['userId' => $confirmationToken->participant->id]),
                 "webhookUrl"  => env('NGROK_LINK') ?? route('webhooks.mollie'),
                 "metadata" => [
@@ -91,7 +91,7 @@ class PaymentController extends Controller
         }
 
         foreach($verifiedParticipants as $participant) {
-            if($participant->hasPaid() && $participant->role == Roles::child()->value && !$participant->purpleOnly) {
+            if($participant->hasPaid() && $participant->role == Roles::participant()->value) {
                 array_push($userArr, $participant);
             }
         }
@@ -103,7 +103,7 @@ class PaymentController extends Controller
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
         foreach($verifiedParticipants as $participant) {
-            if (!$participant->hasPaid() && $participant->role == Roles::child()->value && !$participant->purpleOnly) {
+            if (!$participant->hasPaid() && $participant->role == Roles::participant()->value) {
                 array_push($userArr, $participant);
             }
         }

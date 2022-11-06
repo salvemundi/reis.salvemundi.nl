@@ -23,7 +23,7 @@ class Participant extends Model
 
     protected $table = 'participants';
 
-    protected $fillable = ['firstName', 'insertion', 'lastName', 'birthday', 'email', 'fontysEmail', 'phoneNumber', 'firstNameParent', 'lastNameParent', 'addressParent', 'phoneNumberParent', 'medicalIssues', 'role', 'checkedIn'];
+    protected $fillable = ['firstName', 'insertion', 'lastName', 'birthday', 'email', 'phoneNumber', 'medicalIssues', 'role', 'checkedIn'];
 
     public  function getHaspaidAttribute(): bool {
         return $this->hasPaid();
@@ -69,12 +69,12 @@ class Participant extends Model
     }
 
     public function hasPaid(): bool {
-        if($this->role !== Roles::child) {
+        if($this->role !== Roles::participant) {
             return true;
         }
 
         foreach($this->payments()->get() as $payment) {
-            if($payment->paymentStatus === PaymentStatus::paid && !$this->purpleOnly) {
+            if($payment->paymentStatus === PaymentStatus::paid) {
                 return true;
             }
         }

@@ -46,54 +46,9 @@
         Er is geen activiteit bezig
     </p>
 @endif
-<h3 class="text-center">Schrijf je hier in voor het bierpong toernooi door op de foto te klikken!</h3>
-<a href="https://forms.office.com/r/WZG1GnadyJ">
-    <img style="width: 34%;  display: block;
-      margin-left: auto;
-      margin-right: auto;" src="{{asset('images/bierpong.jpeg')}}">
-</a>
 
 <div class="text-center">
     <a href="#timetable" class="link-qr">Bekijk volledige planning</a>
-</div>
-
-<div class="mx-3 my-2 justify-content-center text-center">
-    <div class="max-width mx-auto">
-        <h2 class="purple">Problemen of vragen?</h2>
-        Er is altijd een BHV'er of crewlid ter beschikking om jouw vraag te beantwoorden! Bel bij nood het onderstaande telefoonnummer, in andere gevallen kan je een appje sturen.
-        <br><a class="btn btn-primary" href="tel:+31 6 24827777"><i class="fa fa-phone"></i> +31 6 24827777</a>
-    </div>
-    <div id="timetable" class="mx-3 my-4 justify-content-center text-center">
-        <div class="max-width mx-auto">
-            <h2 class="purple">Belangrijke WhatsApp groepen</h2>
-            <div class="row">
-                <div class="col-6">
-                    <div class="card p-2 m-0">
-                        <a class="link-qr" href="https://chat.whatsapp.com/LqjT2fcEdy0ECGPQo6owRB" target="_blank">Announcements</a>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card p-2 m-0">
-                        <a class="link-qr" href="https://chat.whatsapp.com/HTLqjb5SKDC6pQtszDLUZL" target="_blank">Kletsgroep</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="max-width mx-auto my-3">
-        <h2 class="purple">Vertrouwenspersonen</h2>
-        Wij doen ons uiterste best om de intro zo leuk en veilig mogelijk te maken voor iedere deelnemer. Hier hoort bij dat wij alle deelnemers een mogelijkheid willen geven om in alle vertrouwen contact te kunnen zoeken over iets wat ze dwars zit. Dit kan alles zijn; je klikt niet met de groep, je voelt je onder druk gezet of je bent slachtoffer geworden van ongewenst gedrag. Voor alles wat je dwarszit kan je een van onze contactpersonen benaderen.
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-6 col-6">
-                <img class="imgQR" src="images/vertrouwensPersonen/femke.jpeg">
-                <b><p class="vertrouwensPersoonText">Femke</p></b>
-            </div>
-            <div class="col-md-6 col-6">
-                <img class="imgQR" src="images/vertrouwensPersonen/jimmy.jpg">
-                <b><p class="vertrouwensPersoonText">Jimmy</p></b>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="mx-3 my-2 justify-content-center text-center">

@@ -3,9 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\CovidProof;
-use App\Enums\Roles;
-use App\Enums\StudentYear;
+
 
 class CreateParticipantsTable extends Migration
 {
@@ -17,23 +15,17 @@ class CreateParticipantsTable extends Migration
     public function up()
     {
         Schema::create('participants', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('firstName');
+            $table->uuid('id')->primary();
+            $table->string('firstName')->nullable();;
             $table->string('insertion')->nullable();
-            $table->string('lastName');
-            $table->date('birthday');
+            $table->string('lastName')->nullable();;
+            $table->date('birthday')->nullable();
             $table->string('email')->unique();
-            $table->string('phoneNumber');
-            $table->string('firstNameParent')->nullable();
-            $table->string('lastNameParent')->nullable();
-            $table->string('addressParent')->nullable();
+            $table->string('phoneNumber')->nullable();
+            $table->longText('note')->nullable();
             $table->string('medicalIssues')->nullable();
             $table->string('specials')->nullable();
-            $table->string('phoneNumberParent')->nullable();
-            $table->boolean('checkedIn');
-            $table->tinyInteger('studentYear')->unsigned()->default(StudentYear::firstYear);
-            $table->tinyInteger('covidTest')->unsigned()->default(CovidProof::none);
-            $table->tinyInteger('role')->unsigned()->default(Roles::child);
+            $table->boolean('checkedIn')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

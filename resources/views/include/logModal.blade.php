@@ -36,7 +36,6 @@
                             Heeft betaald: {{$log->participant->hasPaid() ? 'ja' : 'nee'}}<br>
                         @endif
                         Email: {{ $log->participant->email }}<br>
-                        Fontys email: {{ $log->participant->fontysEmail }}
                         @break
                 @endswitch
             </div>

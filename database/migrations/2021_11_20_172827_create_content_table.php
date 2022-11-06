@@ -17,6 +17,7 @@ class CreateContentTable extends Migration
             $table->UUID('id')->primary();
             $table->longText('content');
             $table->string('name');
+            $table->boolean('show')->default(false);
             $table->timestamps();
         });
     }

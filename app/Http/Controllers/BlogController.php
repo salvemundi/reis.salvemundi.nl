@@ -124,10 +124,10 @@ class BlogController extends Controller
     }
 
     private function sendEmails(Blog $blog, Request $request) {
-        $verifiedParticipants = $this->verificationController->getVerifiedParticipants()->where('role', Roles::child);
-        $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants()->where('role', Roles::child);
-        $paidParticipants = $this->paymentController->getAllPaidUsers()->where('role', Roles::child);
-        $unPaidParticipants = $this->paymentController->getAllNonPaidUsers()->where('role', Roles::child);
+        $verifiedParticipants = $this->verificationController->getVerifiedParticipants()->where('role', Roles::participant);
+        $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants()->where('role', Roles::participant);
+        $paidParticipants = $this->paymentController->getAllPaidUsers()->where('role', Roles::participant);
+        $unPaidParticipants = $this->paymentController->getAllNonPaidUsers()->where('role', Roles::participant);
 
         $userArr = [];
 

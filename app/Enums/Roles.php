@@ -13,28 +13,16 @@ use BenSampo\Enum\Enum;
  */
 final class Roles extends Enum
 {
-    const child = 0;
-    const dad_mom = 1;
-    const teacher = 2;
-    const crew = 3;
-    const other = 4;
+    const participant = 0;
+    const crew = 1;
 
     public static function getDescription($value): string
     {
-        if ($value === self::child) {
-            return 'Kiddo';
-        }
-        if ($value === self::dad_mom) {
-            return 'Ouder / Begeleiding';
-        }
-        if ($value === self::teacher) {
-            return 'Leraar';
+        if ($value === self::participant) {
+            return 'Deelnemer';
         }
         if ($value === self::crew) {
             return 'Crew';
-        }
-        if ($value === self::other) {
-            return 'Overige';
         }
 
         return parent::getDescription($value);

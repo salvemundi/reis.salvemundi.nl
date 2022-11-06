@@ -20,14 +20,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="https://salvemundi.nl/merch">Merch</a>
             </li>
-            @if($userIsParent)
-                <li class="nav-item">
-                    <a class="nav-link" href="/inschrijven/ouder">Ouder inschrijven</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/qrcode">Incheck</a>
-                </li>
-            @endif
             @if($userIsAdmin)
                 <li class="nav-item">
                     <a class="nav-link" href="/dashboard">Admin</a>

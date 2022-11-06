@@ -100,9 +100,6 @@ class ParticipantController extends Controller {
 
     public function checkIn(Request $request) {
         $participant = Participant::find($request->userId);
-        if($participant->removedFromintro){
-            return back();
-        }
         $participant->checkedIn = true;
         $participant->save();
         AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " in gechecked", $participant);
@@ -206,28 +203,6 @@ class ParticipantController extends Controller {
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');
-    }
-
-    public function storeNote(Request $request): RedirectResponse {
-        $participant = Participant::find($request->userId);
-        $participant->note = $request->input('participantNote');
-        $participant->save();
-        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft de notitie van" . $participant->firstName . " " . $participant->lastName. " bewerkt", $participant);
-
-        return back();
-    }
-
-    public function storeRemove(Request $request) {
-        $participant = Participant::find($request->userId);
-        $participant->removedFromIntro = !$participant->removedFromIntro;
-
-        if($participant->removedFromIntro) {
-            $participant->checkedIn = false;
-        }
-
-        $participant->save();
-        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " verwijderd van het terrein", $participant);
-        return back();
     }
 
     public function signup(Request $request) {

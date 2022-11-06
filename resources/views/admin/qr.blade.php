@@ -103,13 +103,6 @@
                         success: function(response) {
                             obj = JSON.parse(response);
 
-                            if(obj.removedFromIntro){
-                                setInformation(obj, "nee, permanent verwijderd");
-                                document.getElementById('particpant-card').classList.remove('aboveEightTeenQR');
-                                document.getElementById('particpant-card').classList.add('underEightTeenQR');
-                                flashBackgroundRed();
-                                return;
-                            }
                             if(!obj.haspaid) {
                                 setInformation(obj, "nee, niet betaald");
                                 document.getElementById('particpant-card').classList.remove('aboveEightTeenQR');

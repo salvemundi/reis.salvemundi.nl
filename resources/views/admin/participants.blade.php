@@ -37,18 +37,6 @@ setActive("participants");
                     <li><a class="dropdown-item" href="">Export</a></li>
                 </ul>
             </div>
-
-            <div class="dropdown" style="margin-left: 4px;">
-                <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                    Filter
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><button class="dropdown-item" id="filterByNone" value="NO" type="button">#NoFilter</button></li>
-                    <li><button class="dropdown-item" id="filterByCheckedInOnly" value="NO" type="button">Ingechecked</button></li>
-                    <li><button class="dropdown-item" id="filterByRemovedFromTerrain" value="NO" type="button">Verbannen deelnemers</button></li>
-                    <li><button class="dropdown-item" id="filterByNote" value="NO" type="button">Deelnemers met opmerking</button></li>
-                </ul>
-            </div>
             <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
                 Check allen uit
             </button>
@@ -117,7 +105,6 @@ setActive("participants");
             data-show-columns="true">
                 <thead>
                     <tr class="tr-class-1">
-                        <th data-field="Id" data-sortable="true">Id</th>
                         <th data-field="firstName" data-sortable="true">Naam</th>
                         <th data-field="role" data-sortable="true">Rol</th>
                         <th data-field="verified" data-sortable="true">Geverifieerd</th>
@@ -127,16 +114,14 @@ setActive("participants");
                             <th data-field="createdat" data-sortable="true">Laatste aanpassing</th>
                             <th data-field="daysDif" data-sortable="true">Dagen geleden ingeschreven</th>
                         @endif
-                        <th data-field="paid" data-sortable="true">Betaald</th>
-                        <th data-field="note" data-sortable="false">Notitie</th>
-                        <th data-field="removed" data-sortable="false">Verwijderd</th>
                         <th data-field="email" data-sortable="false">email</th>
+                        <th data-field="paid" data-sortable="true">Betaald</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($participants as $participant)
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
-                            <td data-value="{{ $participant->id }}">{{ $participant->id }}</td>
+                            <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->lastName }}</td>
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
                             <td data-value="{{ $participant->isVerified() }}">{{ $participant->isVerified() ? 'Ja' : 'Nee' }}</td>
 
@@ -150,6 +135,7 @@ setActive("participants");
                                 <td data-value="{{ $participant->firstName }}">{{ $participant->updated_at }}</td>
                                 <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference }}</td>
                             @endif
+                            <td data-value="{{ $participant->email }}">{{$participant->email}}</td>
                             <td data-value="{{ $participant->paid }}">
                                 @if($participant->latestPayment)
                                     @if($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::paid)
@@ -169,13 +155,6 @@ setActive("participants");
                                     <span class="badge rounded-pill bg-secondary">Geen transacties</span>
                                 @endif
                             </td>
-                            <td data-value="{{ $participant->note }}">{{ $participant->note }}</td>
-                            @if($participant->removedFromIntro == 1)
-                                <td data-value="{{ $participant->removedFromIntro }}">Ja</td>
-                            @else
-                                <td data-value="{{ $participant->removedFromIntro }}">Nee</td>
-                            @endif
-                            <td data-value="{{ $participant->email }}">{{$participant->email}}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -206,15 +185,6 @@ setActive("participants");
                             @endif
                             <b>Email:</b> {{ $selectedParticipant->email}}<br>
                             <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
-                            @if($selectedParticipant->role == \App\Enums\Roles::participant)
-                                <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
-                                <b>Adres Ouder:</b> {{ $selectedParticipant->addressParent}}<br>
-                                <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
-                            @endif
-                            @if($selectedParticipant->role == \App\Enums\Roles::dad_mom)
-                                <b>Naam Ouder:</b> {{ $selectedParticipant->firstNameParent}} {{ $selectedParticipant->lastNameParent}}<br>
-                                <b>Telefoonnummer ouder:</b> {{ $selectedParticipant->phoneNumberParent}}<br>
-                            @endif
                             <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
                             <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
 
@@ -244,26 +214,6 @@ setActive("participants");
                             </div>
                         </span>
                     </div>
-                    <div class="flex-column w-50">
-                        <div>
-                            <form class="mb-2" method="POST" action="/participants/{{ $selectedParticipant->id }}/storeNote">
-                                @csrf
-                                <div class="form-floating">
-                                    <textarea class="form-control" name="participantNote" placeholder="Leave a comment here" id="participantNote" style="height: 100px">{{ $selectedParticipant->note }}</textarea>
-                                    <label for="participantNote">Opmerkingen over deelnemer</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary mt-2">Opslaan</button>
-                            </form>
-                            <form method="POST" action="/participants/{{ $selectedParticipant->id }}/storeRemove">
-                                @csrf
-                                @if(!$selectedParticipant->removedFromIntro)
-                                    <button type="submit" class="btn btn-danger">Verban deelnemer van terrein / intro</button>
-                                @else
-                                    <button type="submit" class="btn btn-success">Laat deelnemer weer toe op terrein / intro</button>
-                                @endif
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -290,40 +240,4 @@ setActive("participants");
     </div>
 </div>
     @endif
-    <script>
-        var $table = $('#table')
-
-
-        $(function() {
-            $table.bootstrapTable('hideColumn',['note','removed','email'])
-            resetFilter();
-            $('#filterByCheckedInOnly').click(function () {
-                resetFilter()
-                $table.bootstrapTable('filterBy', {
-                    checkedIn: "True",
-                })
-            })
-
-            $('#filterByNote').click(function () {
-                resetFilter()
-
-                $table.bootstrapTable('filterBy', {}, {
-                    'filterAlgorithm': (row, filters) => {
-                        return row.note.length > 0
-                    }
-                })
-            })
-
-            $('#filterByNone').click(function () {
-                resetFilter()
-            })
-        })
-
-        function resetFilter() {
-            $table.bootstrapTable('filterBy', {}, {
-                'filterAlgorithm': 'and'
-            })
-        }
-
-    </script>
 @endsection

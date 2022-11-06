@@ -41,7 +41,7 @@ class SettingsSeeder extends Seeder
         if(!Setting::where('name', 'AutoSendPaymentEmailDate')->exists()) {
             $setting = new Setting();
             $setting->name = "AutoSendPaymentEmailDate";
-            $setting->value = new Carbon('2022-06-14');
+            $setting->value = new Carbon('2025-06-14');
             $setting->description = "Stel de datum in waarop de betalings email automatisch wordt verzonden.";
             $setting->valueType = SettingTypes::date();
             $setting->save();

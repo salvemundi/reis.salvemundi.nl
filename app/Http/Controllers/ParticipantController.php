@@ -35,6 +35,12 @@ class ParticipantController extends Controller {
         $this->paymentController = new PaymentController();
     }
 
+    public function view() {
+        $checkSignUp = Setting::where('name','SignupPageEnabled')->first()->value;
+        $checkSignUp = filter_var($checkSignUp, FILTER_VALIDATE_BOOLEAN);
+        return view('/signup', ['checkSignUp' => $checkSignUp]);
+    }
+
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
         $participants = Participant::all();
@@ -228,6 +234,11 @@ class ParticipantController extends Controller {
         $participant->lastName = $request->input('lastName');
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
+
+        if (!$request->input('cbx')) {
+            return back()->with('warning', 'Accept the terms and conditions');
+        }
+
         $participant->save();
 
         $token = new VerificationToken;

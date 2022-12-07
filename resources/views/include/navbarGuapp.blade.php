@@ -9,16 +9,7 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav justify-content-lg-start">
             <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/commissies">Commissies</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/">Inschrijven</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/blogs">Intro  blogs / updates</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/merch">Merch</a>
+                <a class="nav-link" href="/blogs">Updates / Hints</a>
             </li>
             @if($userIsAdmin)
                 <li class="nav-item">
@@ -31,9 +22,9 @@
                 <!-- Authentication Links -->
                 <li class="nav-item">
                     @if(session('id'))
-                        <a class="nav-link" href="/signout">Uitloggen</a>
+                        <a class="nav-link" href="/signout">Logout</a>
                     @else
-                        <a class="nav-link" href="/login">Inloggen</a>
+                        <a class="nav-link" href="/login">Log in</a>
                     @endif
                 </li>
             </ul>

@@ -23,7 +23,7 @@ class CreateAuditLogTable extends Migration
             $table->uuid('participantId')->nullable();
             $table->foreign('participantId')->references('id')->on('participants');
             $table->uuid('blogId')->nullable();
-            $table->foreign('blogId')->references('id')->on('content');
+            $table->foreign('blogId')->references('id')->on('blogs');
             $table->uuid('settingId')->nullable();
             $table->foreign('settingId')->references('id')->on('settings');
             $table->timestamps();

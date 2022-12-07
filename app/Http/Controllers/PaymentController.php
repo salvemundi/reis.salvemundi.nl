@@ -24,7 +24,7 @@ class PaymentController extends Controller
         $this->verificationController = new VerificationController();
     }
 
-    public function payForReis($token): Response|RedirectResponse
+    public function payForReis($token, $amount): Response|RedirectResponse
     {
         $confirmationToken = ConfirmationToken::findOrFail($token);
         try{
@@ -33,7 +33,7 @@ class PaymentController extends Controller
             $payment = $mollie->payments->create([
                 "amount" => [
                     "currency" => "EUR",
-                    "value" => "90.00"
+                    "value" => "$amount"
                 ],
                 "description" => "Reis ". Date("Y"),
                 "redirectUrl" => route('payment.success', ['userId' => $confirmationToken->participant->id]),

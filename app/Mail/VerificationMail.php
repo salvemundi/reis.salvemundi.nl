@@ -33,7 +33,7 @@ class VerificationMail extends Mailable
     public function build()
     {
         return $this
-                ->subject("Aanmelding Salve Mundi FHICT introductie")
+                ->subject("Aanmelding Salve Mundi FHICT reis")
                 ->markdown('mails/signup', ['participant'=> $this->participant, 'verificationToken' => $this->verificationToken]);
     }
 }

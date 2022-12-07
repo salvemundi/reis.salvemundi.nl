@@ -35,9 +35,9 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::get('/inschrijven', function() {
         return redirect('/'); // Fix 405 error
     });
-    Route::get('/', function () {
-        return view('signup');
-    });
+
+    Route::get('/', [ParticipantController::class, 'view']);
+
     Route::get('/inschrijven/verify/{token}',[VerificationController::class,'verify']);
 
     // Payment
@@ -49,8 +49,8 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::post('webhooks/mollie',[WebhookController::class, 'handle'])->name('webhooks.mollie');
 
     // Blogs / news
-    Route::get('/blogs',[BlogController::class, 'showPosts']);
-    Route::get('/blogs/{postId}',[BlogController::class, 'showPost']);
+    Route::get('/blogs',[BlogController::class, 'showBlogs']);
+    Route::get('/blogs/{blogId}',[BlogController::class, 'showBlog']);
 
     // Schedule qr pagina
     Route::get('/qr-code', [ScheduleController::class, 'index']);
@@ -83,18 +83,15 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
 
         // Posts / blogs
-        Route::get('/blogsadmin',[BlogController::class, 'showPostsAdmin']);
-        Route::get('/blogsadmin/save',[BlogController::class, 'showPostInputs']);
-        Route::post('/blogsadmin/save',[BlogController::class, 'savePost']);
+        Route::get('/blogsadmin',[BlogController::class, 'showBlogsAdmin']);
+        Route::get('/blogsadmin/save',[BlogController::class, 'showBlogInputs']);
+        Route::post('/blogsadmin/save',[BlogController::class, 'saveBlog']);
 
         //  Update blogs / posts
-        Route::get('/blogsadmin/save/{blogId}',[BlogController::class, 'showPostInputs']);
-        Route::post('/blogsadmin/save/{blogId}',[BlogController::class, 'savePost']);
+        Route::get('/blogsadmin/save/{blogId}',[BlogController::class, 'showBlogInputs']);
+        Route::post('/blogsadmin/save/{blogId}',[BlogController::class, 'saveBlog']);
         // Delete blogs
-        Route::get('/blogsadmin/delete/{blogId}',[BlogController::class, 'deletePost']);
-
-        // Occupation percentage
-        Route::post('/occupied/save',[BlogController::class, 'updateOccupiedPercentage']);
+        Route::get('/blogsadmin/delete/{blogId}',[BlogController::class, 'deleteBlog']);
 
         // Events
         Route::get('/events', [ScheduleController::class, 'getAllEvents']);

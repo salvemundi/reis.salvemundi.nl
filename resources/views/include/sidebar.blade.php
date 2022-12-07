@@ -24,7 +24,7 @@
                 </a>
                 <a id="blogs" href="/blogsadmin" class="nav_link">
                     <i class="fas fa-newspaper circlePlus"></i>
-                    <span class="nav_name">Blogs / Nieuws</span>
+                    <span class="nav_name">Blogs</span>
                 </a>
                 <a id="add" href="/add" class="nav_link">
                     <i class='bx bi bi-plus-circle circlePlus'></i>

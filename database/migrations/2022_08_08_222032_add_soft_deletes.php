@@ -16,7 +16,7 @@ class AddSoftDeletes extends Migration
         Schema::table('schedule', function (Blueprint $table) {
             $table->softDeletes();
         });
-        Schema::table('content', function (Blueprint $table) {
+        Schema::table('blogs', function (Blueprint $table) {
             $table->softDeletes();
         });
     }
@@ -31,7 +31,7 @@ class AddSoftDeletes extends Migration
         Schema::table('schedule', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
-        Schema::table('content', function (Blueprint $table) {
+        Schema::table('blogs', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }

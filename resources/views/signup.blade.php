@@ -123,7 +123,7 @@
             <div class="col-auto col-md-6 col-12 pl-5">
                 <h1 class="display-5">Fontys ICT goes international!</h1>
                 <div>
-                    <b>Date:</b> 29 April - 3 May <br><b>Costs:</b> Will be determend
+                    <b>Date:</b> 29 April - 3 May <br><b>Costs:</b> Will be determined
                 </div>
                 <p>
                     <ul>

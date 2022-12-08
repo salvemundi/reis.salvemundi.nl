@@ -60,19 +60,6 @@
             </table>
         </div>
         <a class="mt-3 btn btn-primary" href="blogsadmin/save" style="width: 100%;">Toevoegen</a>
-
-        <form action="/occupied/save" method="post" enctype="multipart/form-data">
-            <h2 class="h2">qr code percentage: {{$occupied->occupied ?? 0}}% </h2>
-            <input type="hidden" name="blogId" id="blogId" value="{{ $blog->id ?? null }}">
-            <div class="form-group">
-                <label for="voornaam">Nieuwe percentage</label>
-                <input type="number" class="form-control{{ $errors->has('occupied') ? ' is-invalid' : '' }}" id="occupied" name="occupied" placeholder="percentage...">
-            </div> <br>
-            <div class="form-group mb-5">
-                <input class="btn btn-primary" type="submit" value="Change">
-            </div>
-            @csrf
-        </form>
     </div>
 </div>
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.guapp')
 @section('content')
 
-<div class="row m-0 m-md-5">
+<div class="row m-0 m-md-5 marginBlog">
     <div class="col-sm-12">
         @foreach ($blogs as $blog)
             @if($blog['show'] == true)
@@ -19,17 +19,22 @@
                             <div id="collapseOne{{ $blog['id'] }}" class="accordion-collapse collapse ownShow" aria-labelledby="headingOne{{ $blog['id'] }}" data-bs-parent="#accordionExample{{ $blog['id'] }}">
                         @endif
                             <div class="accordion-body">
-                                <div class="row">
+                                <div class="row d-flex justify-content-center">
+                                    @if($blog->imageExtension)
+                                        <div class="col-md-6">
+                                    @else
+                                        <div class="col-md-6">
+                                    @endif
+                                            <p class="card-text wrap">
+                                                {{ $blog['description']}}
+                                            </p>
+                                        </div>
+                                @if($blog->imageExtension)
                                     <div class="col-md-6">
-                                        <p class="card-text wrap">
-                                            {{ $blog['description']}}
-                                        </p>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <img class="img-responsive" style="width: 50%;" src="{{ asset('storage/blogImages/'.$blog->id.'.'.$blog->imageExtension)}}" alt="">
+                                        <img class="imageBlog" src="{{ asset('storage/blogImages/'.$blog->id.'.'.$blog->imageExtension)}}" alt="">
                                     </div>
                                 </div>
+                                @endif
                             </div>
 
                             </div>

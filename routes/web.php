@@ -81,6 +81,10 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
         Route::get('/participantscheckedin/{userId}', [ParticipantController::class, 'checkedInView']);
 
+        // QRCode
+        Route::get('/qrcode', function () {
+            return view('admin/qr');
+        });
 
         // Posts / blogs
         Route::get('/blogsadmin',[BlogController::class, 'showBlogsAdmin']);

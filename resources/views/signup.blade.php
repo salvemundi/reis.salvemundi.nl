@@ -1,6 +1,8 @@
 @extends('layouts.guapp')
 @section('content')
 
+
+
 <div class="container">
     @if($checkSignUp)
         <div class="row justify-content-center">
@@ -18,10 +20,10 @@
                             A trip you will never forget
                         </li>
                         <li>
-                            We organize the flight, the accomendation and some activities!
+                            We organize the flight, the accommodation and some activities!
                         </li>
                         <li>
-                            Every member of a study assosiation of FHICT is able to join this trip.
+                            Every member of a study association of FHICT is able to join this trip.
                         </li>
                     </ul>
                 </p>
@@ -36,7 +38,7 @@
             <div class="col-lg-6 px-md-5 mb-3">
                 <div class="box h-100 px-md-5 px-4 py-3 p-auto">
                     <h2 class="mt-3 text-center">Do you want to join the trip? <br> <b>Sign up down below!</b></h2>
-                    We can not assure you a ticket for this trip when you sign up. There are limited amount of tickets available, so sign up quick to claim your ticket!
+                    We can not assure you a ticket for this trip when you register. There are limited amount of tickets available, so I would sign up quick to claim your ticket!
                     <div class="mb-3">
                         <form action="/inschrijven" method="post">
                             @csrf
@@ -134,20 +136,18 @@
                             A trip you will never forget
                         </li>
                         <li>
-                            We organize the flight, the accomendation and some activities!
+                            We organize the flight, the accommodation and some activities!
                         </li>
                         <li>
-                            Every member of a study assosiation of FHICT is able to join this trip.
+                            Every member of a study association of FHICT is able to join this trip.
                         </li>
                     </ul>
                 </p>
             </div>
 
             <div class="m-auto col-md-6 px-md-5 text-left">
-                <h2><b>The signup will be available on the 25th of Januari at 12:00.</b></h2>
-                We can not assure you a ticket for this trip when you sign up. There are limited amount of
-                tickets
-                available, so I would sign up quick to claim your ticket!
+                <h2><b>Registration will be available on the 25th of January at 12:00.</b></h2>
+                 We can not assure you a ticket for this trip when you register. There are limited amount of tickets available, so I would sign up quick to claim your ticket!
                 <h4 class="mt-2"><b>Do you want to know where we are going? Check our hints <a
                             href="/blogs">here!</a></b></h4>
             </div>
@@ -180,26 +180,11 @@
     <div class="row">
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>What can I expect from this trip?</h3>
-            Every year Salve Mundi tries to organize a trip for students of FHICT. The members of the study assosiations
-            Proxy and IERA are also invited to this trip.
-            During this trip you will see a lot of the city where we are going too, and we will do some activities
-            during
-            this trip.
-            You do not have to worry about anything. We organized the whole travel from the airport we are flying from
-            to
-            the hostel in the city that we are going to. During the trip we will have activities and you have free time
-            to
-            fill in yourself.
-            The entire trip takes an average of 5 days.
+            Every year Salve Mundi tries to organize a trip for students of FHICT. The members of the study associations Proxy and IERA are also invited to this trip. During this trip you will see a lot of the city where we are going to, and we will do some activities during this trip. You do not have to worry about a thing. We organized the whole trip, from the airport we are flying from to the hostel in the city that we are going to. During the trip we will have activities and you have free time to fill in yourself. The entire trip takes an average of 5 days.
         </div>
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>What we did the previous trip</h3>
-            The previous trip we went to Prague. There we stayed at a hostel really close at a metro station so we could
-            travel the city when we liked to.
-            During the trip we did some activities like visiting a beer brewery (pilsner was invented in Czech
-            Republic), we
-            did a boat trip and we did a pub crawl.
-            We saw a lot from the city and we hat a lot of fun!
+            The previous trip we went to Prague. There we stayed at a hostel really close at a metro station so we could travel the city when we liked that. During the trip we did some activities like visiting a beer brewery (pilsner was invented in Czech Republic), a boat trip and a pub crawl. We saw a lot from the city and we had a lot of fun!
         </div>
     </div>
 </div>

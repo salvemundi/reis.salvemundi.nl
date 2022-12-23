@@ -5,7 +5,6 @@ setActive("participants");
 </script>
 <div class="row">
     <div class="col-12 col-md-6 container">
-        {{-- <a href="{{ route('export_excel.excel')}}" class="btn btn-primary btn-sm">Export to Excel</a> --}}
         <div class="table-responsive">
             <table id="table" data-toggle="table" data-search="true" data-sortable="true" data-pagination="true"
             data-show-columns="true">

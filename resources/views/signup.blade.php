@@ -146,7 +146,7 @@
             </div>
 
             <div class="m-auto col-md-6 px-md-5 text-left">
-                <h2><b>Registration will be available on the 25th of January at 12:00.</b></h2>
+                <h2><b>Registration will be available on the 11th of January at 12:00.</b></h2>
                  We can not assure you a ticket for this trip when you register. There are limited amount of tickets available, so I would sign up quick to claim your ticket!
                 <h4 class="mt-2"><b>Do you want to know where we are going? Check our hints <a
                             href="/blogs">here!</a></b></h4>

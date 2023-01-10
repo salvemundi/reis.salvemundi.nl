@@ -2,9 +2,10 @@
 
 Beste {{ $participant->firstName }},
 
-Bedankt voor het verifiëren van je email!
+Bedankt voor het inschrijven!
 
 Helaas ben je te laat, maar wees niet getreurd je zit in de wachtrij!
+Check vooral ook de email verificatie mail en klik op de link om je email te verifieren!
 
 Met vriendelijke groet,
 

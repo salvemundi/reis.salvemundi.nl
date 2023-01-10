@@ -20,6 +20,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Mail\VerificationMail;
+use App\Mail\VerifySignUpWaitingList;
 use App\Models\VerificationToken;
 use App\Models\ConfirmationToken;
 use App\Mail\parentMailSignup;
@@ -247,7 +248,11 @@ class ParticipantController extends Controller {
 
         Mail::to($participant->email)
             ->send(new VerificationMail($participant, $token));
-
+        if ((int)Setting::where('name', 'MaxAmountParticipants')->first()->value < Participant::count()) {
+            Mail::to($participant->email)
+                ->send(new VerifySignUpWaitingList($participant));
+            return back()->with('message', 'Je hebt je succesvol ingeschreven maar je bent helaas te laat en staat in de wachtrij.');
+        }
         return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');
     }
 

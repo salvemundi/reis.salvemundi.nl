@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use App\Models\ConfirmationToken;
 use App\Models\Setting;
 use App\Mail\emailConfirmationSignup;
+use App\Mail\VerifySignUpWaitingList;
 
 class VerificationController extends Controller
 {
@@ -34,8 +35,13 @@ class VerificationController extends Controller
 
             $participant = $verificationToken->participant()->first();
 
-            Mail::to($participant->email)
-                ->send(new emailVerificationResponse($participant));
+            if ((int)Setting::where('name', 'MaxAmountParticipants')->first()->value < Participant::count()) {
+                Mail::to($participant->email)
+                    ->send(new VerifySignUpWaitingList($participant));
+            } else {
+                Mail::to($participant->email)
+                    ->send(new emailVerificationResponse($participant));
+            }
 
             $today = Carbon::now()->format('Y-m-d'); //yyyy-mm-dd
 

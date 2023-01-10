@@ -46,5 +46,15 @@ class SettingsSeeder extends Seeder
             $setting->valueType = SettingTypes::date();
             $setting->save();
         }
+
+        // Send mail that you are in the waiting list
+        if(!Setting::where('name', 'MaxAmountParticipants')->exists()) {
+            $setting = new Setting();
+            $setting->name = "MaxAmountParticipants";
+            $setting->value = 28;
+            $setting->description = "Stel het getal in waarop de wachtlijst benoemd moet worden in de mail";
+            $setting->valueType = SettingTypes::int();
+            $setting->save();
+        }
     }
 }

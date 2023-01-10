@@ -92,7 +92,7 @@
                             <div class="form-check mt-2">
                                 <input class="form-check-input" name="cbx" type="checkbox" id="flexCheckDefault">
                                 <label class="form-check-label" for="flexCheckDefault">
-                                    I accept the <a href="https://google.com/"> terms and conditions</a>
+                                    I accept the <a href="{{ asset('storage/documents/algemenevoorwaarden.pdf') }}" download> terms and conditions</a>
                                 </label>
                             </div>
 

@@ -1,8 +1,6 @@
 @extends('layouts.guapp')
 @section('content')
 
-
-
 <div class="container">
     @if($checkSignUp)
         <div class="row justify-content-center">
@@ -98,8 +96,7 @@
                                 </label>
                             </div>
 
-                            <button data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"
-                                class="btn btn-primary my-3 w-100" type="submit">Sign up!</button>
+                            <button class="btn btn-primary my-3 w-100" type="submit">Sign up!</button>
                         </form>
                     </div>
                 </div>

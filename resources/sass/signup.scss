@@ -112,3 +112,8 @@ a:hover {
         margin-bottom: 1rem;
     }
 }
+
+.btn-primary:hover {
+    background-color: $salveMundi-link !important;
+    border-color: $salveMundi-link !important; 
+}

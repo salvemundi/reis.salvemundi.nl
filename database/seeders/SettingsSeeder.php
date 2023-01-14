@@ -52,7 +52,17 @@ class SettingsSeeder extends Seeder
             $setting = new Setting();
             $setting->name = "MaxAmountParticipants";
             $setting->value = 28;
-            $setting->description = "Stel het getal in waarop de wachtlijst benoemd moet worden in de mail";
+            $setting->description = "Stel het getal in waarop de wachtlijst benoemd moet worden in de mail.";
+            $setting->valueType = SettingTypes::int();
+            $setting->save();
+        }
+
+        // Aanbetaling amount
+        if(!Setting::where('name', 'Aanbetaling')->exists()) {
+            $setting = new Setting();
+            $setting->name = "Aanbetaling";
+            $setting->value = 60.00;
+            $setting->description = "Stel het bedrag voor de aanbetaling in.";
             $setting->valueType = SettingTypes::int();
             $setting->save();
         }

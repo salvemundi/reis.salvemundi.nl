@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Activity;
 
 class Participant extends Model
 {
@@ -27,6 +28,10 @@ class Participant extends Model
 
     public  function getHaspaidAttribute(): bool {
         return $this->hasPaid();
+    }
+
+    public function activities() {
+        return $this->belongsToMany(Activity::class);
     }
 
     public function getAbove18Attribute(): bool {

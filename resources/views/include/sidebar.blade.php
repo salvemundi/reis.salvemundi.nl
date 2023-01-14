@@ -38,6 +38,10 @@
                     <i class="fas fa-calendar bus"></i>
                     <span class="nav_name">Events</span>
                 </a>
+                <a id="activities" href="/activities" class="nav_link">
+                    <i class="fas fa-skiing circlePlus"></i>
+                    <span class="nav_name">Activiteiten</span>
+                </a>
                 <a id="settings" href="/settings" class="nav_link">
                     <i class="fas fa-cog circlePlus"></i>
                     <span class="nav_name">Instellingen</span>

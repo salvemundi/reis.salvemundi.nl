@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
@@ -113,5 +114,13 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
         // Logs
         Route::get('/logs',[AuditLogController::class,'index']);
+
+        // Activities
+        Route::get('/activities',[ActivityController::class,'view']);
+        Route::get('/activities/create',[ActivityController::class, 'showCreatePage']);
+        Route::post('/activities/create/save',[ActivityController::class, 'store']);
+        Route::post('/activities/delete/{activityId}', [ActivityController::class, 'delete']);
+        Route::get('/activities/update/{activityId}',[ActivityController::class, 'showCreatePage']);
+        Route::post('/activities/update/{activityId}',[ActivityController::class, 'update']);
     });
 });

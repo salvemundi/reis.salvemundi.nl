@@ -6,10 +6,12 @@ use App\Enums\AuditCategory;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\resendVerificationEmail;
 use App\Jobs\sendQRCodesToNonParticipants;
+use App\Models\Activity;
 use App\Models\Setting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Participant;
@@ -26,17 +28,33 @@ use App\Models\ConfirmationToken;
 use App\Mail\parentMailSignup;
 use App\Mail\manuallyAddedMail;
 use App\Mail\emailConfirmationSignup;
+use Throwable;
 
 class ParticipantController extends Controller {
     private VerificationController $verificationController;
     private PaymentController $paymentController;
+    private ActivityController $activityController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();
         $this->paymentController = new PaymentController();
+        $this->activityController = new ActivityController();
     }
 
-    public function view() {
+    /**
+     * @throws Throwable
+     */
+    public function linkActivities(Participant $participant, Collection $activities): Participant {
+        foreach($activities as $activity) {
+            $participant->activities()->attach($activity, ['id' => Str::uuid()->toString()]);
+        }
+        $participant->saveOrFail();
+
+        return $participant;
+    }
+
+    public function view(): Factory|View|Application
+    {
         $checkSignUp = Setting::where('name','SignupPageEnabled')->first()->value;
         $checkSignUp = filter_var($checkSignUp, FILTER_VALIDATE_BOOLEAN);
         return view('/signup', ['checkSignUp' => $checkSignUp]);
@@ -141,7 +159,11 @@ class ParticipantController extends Controller {
         return view('admin/addParticipants');
     }
 
-    public function store(Request $request) {
+    /**
+     * @throws Throwable
+     */
+    public function store(Request $request): RedirectResponse
+    {
         if($request->input('confirmation') == null) {
             $request->validate([
                 'firstName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
@@ -153,7 +175,8 @@ class ParticipantController extends Controller {
                 'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
                 'specials' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
                 'role' => 'nullable',
-                'checkedIn' => 'nullable'
+                'checkedIn' => 'nullable',
+                'activities' => 'required',
             ]);
         } else {
             $request->validate([
@@ -206,6 +229,13 @@ class ParticipantController extends Controller {
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
+
+        $activityCollection = new Collection();
+
+        foreach ($request->only(['activities'])['activities'] as $uuid) {
+            $activityCollection->add($this->activityController->show($uuid));
+        }
+        $this->linkActivities($participant, $activityCollection);
 
         $participant->save();
 

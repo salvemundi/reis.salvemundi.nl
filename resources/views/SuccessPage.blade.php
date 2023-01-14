@@ -6,7 +6,7 @@
                 <h1 class="text-center">Je betaling wordt verwerkt!</h1>
                 <p>
                     Binnen 10 minuten ontvang je een e-mail of je betaling goed is ontvangen. <br>
-                    Hopelijk tot op de intro!
+                    Hopelijk tot op de reis!
                 </p>
                 <div class="center mb-3">
                     <a class="btn btn-primary center" href="https://salvemundi.nl/">Salve Mundi website</a>

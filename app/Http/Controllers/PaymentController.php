@@ -27,13 +27,14 @@ class PaymentController extends Controller
     public function payForReis($token, $amount): Response|RedirectResponse
     {
         $confirmationToken = ConfirmationToken::findOrFail($token);
+        $amountWithDecimal = number_format($amount, 2);
         try{
             $mollie = $this->createMollieInstance();
             $paymentObject = $this->createPaymentEntry($confirmationToken->participant);
             $payment = $mollie->payments->create([
                 "amount" => [
                     "currency" => "EUR",
-                    "value" => "$amount"
+                    "value" => "$amountWithDecimal"
                 ],
                 "description" => "Reis ". Date("Y"),
                 "redirectUrl" => route('payment.success', ['userId' => $confirmationToken->participant->id]),

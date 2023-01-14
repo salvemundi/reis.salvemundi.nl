@@ -22,11 +22,14 @@ class ConfirmationController extends Controller
     private ParticipantController $participantController;
     private PaymentController $paymentController;
     private VerificationController $verifiedController;
+    private ActivityController $activityController;
 
     public function __construct() {
         $this->participantController = new ParticipantController();
         $this->paymentController = new PaymentController();
         $this->verifiedController = new VerificationController();
+        $this->activityController = new ActivityController();
+
     }
 
     public function confirmSignUpView(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -37,7 +40,7 @@ class ConfirmationController extends Controller
             return redirect('/')->with('error','Jij bent neppert!! pffff');
         }
 
-        return view('confirmSignup')->with(['confirmationToken' => $token]);
+        return view('confirmSignup')->with(['confirmationToken' => $token,'activities' => $this->activityController->index()]);
     }
 
     public function confirm(Request $request): Response|RedirectResponse
@@ -60,7 +63,7 @@ class ConfirmationController extends Controller
             $confirmationToken->save();
             $this->participantController->store($request);
             if(!$this->paymentController->checkIfParticipantPaid($user)) {
-                return $this->paymentController->payForReis($confirmationToken->id);
+                return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name','Aanbetaling')->first()->value);
             }
             return back()->with('success','Je gegevens zijn opgeslagen!');
         }

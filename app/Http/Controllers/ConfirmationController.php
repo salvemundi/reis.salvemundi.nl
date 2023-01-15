@@ -29,7 +29,6 @@ class ConfirmationController extends Controller
         $this->paymentController = new PaymentController();
         $this->verifiedController = new VerificationController();
         $this->activityController = new ActivityController();
-
     }
 
     public function confirmSignUpView(Request $request): View|Factory|Redirector|RedirectResponse|Application

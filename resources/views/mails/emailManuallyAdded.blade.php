@@ -2,7 +2,7 @@
 
 Beste {{ $participant->firstName }},
 
-Bewaar de QR-code in de bijlagen goed, deze heb je nodig tijdens de introductie!
+Bewaar de QR-code in de bijlagen goed, deze heb je nodig tijdens de reis!
 
 Voor meer nieuws en updates: https://reis.salvemundi.nl/blogs
 

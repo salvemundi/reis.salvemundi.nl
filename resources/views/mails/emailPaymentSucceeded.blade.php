@@ -3,7 +3,7 @@
 Beste {{ $participant->firstName }},
 
 Je betaling is in goede orde ontvangen.
-Bedankt voor het inschrijven voor de intro!
+Bedankt voor het inschrijven voor de reis!
 
 Bewaar de QR-code in de bijlagen goed!
 

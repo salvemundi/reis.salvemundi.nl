@@ -46,7 +46,7 @@
             </div> <br>
 
             Met vriendelijke groet,<br>
-            De introcommissie van Salve Mundi <br> <br>
+            De reiscommissie van Salve Mundi <br> <br>
 
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" name="addBlog" role="switch" id="addBlog">

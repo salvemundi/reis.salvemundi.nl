@@ -46,6 +46,7 @@
         </div>
     </div>
 </div>
+@endsection
 <script type="text/javascript">
     function enableTorch(codeReader, value) {
         codeReader.stream.getVideoTracks()[0].applyConstraints({
@@ -89,7 +90,6 @@
         await delay(250);
         document.body.style.backgroundColor = "white";
     }
-
     function decodeContinuously(codeReader, selectedDeviceId) {
         codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'video', (result, err) => {
             if (result) {
@@ -143,7 +143,7 @@
                                 type: 'GET',
                                 success: function(response) {
                                     obj = JSON.parse(response)
-                                    setInformation(obj,"N/A");
+                                    setInformation(obj,"Deelnemer uitgechecked!");
                                     flashBackgroundGreen();
                                 },
                                 beforeSend: function (request) {
@@ -241,4 +241,3 @@
             })
     })
 </script>
-@endsection

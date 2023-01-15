@@ -46,6 +46,7 @@
         </div>
     </div>
 </div>
+@endsection
 <script type="text/javascript">
     function enableTorch(codeReader, value) {
         codeReader.stream.getVideoTracks()[0].applyConstraints({
@@ -89,7 +90,13 @@
         await delay(250);
         document.body.style.backgroundColor = "white";
     }
-
+    @php
+        $groupIds = [];
+        $groups = json_encode(session('groups'));
+        foreach(json_decode($groups) as $group) {
+            array_push($groupIds,$group->id);
+        }
+    @endphp
     function decodeContinuously(codeReader, selectedDeviceId) {
         codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'video', (result, err) => {
             if (result) {
@@ -98,8 +105,12 @@
                 console.log('Found QR code!', result)
                 if(check.checked) {
                     $.ajax({
-                        url: '/participants/' + result.text + "/get",
+                        url: '/api/participants/' + result.text + "/get",
                         type: 'GET',
+                        headers: {
+                            'UID':  '{{session('id')}}',
+                            'groups': '{{implode(',',$groupIds)}}'
+                        },
                         success: function(response) {
                             obj = JSON.parse(response);
 
@@ -121,6 +132,10 @@
                             $.ajax({
                                 url: '/participants/' + result.text + "/checkIn",
                                 type: 'POST',
+                                headers: {
+                                    'UID':  '{{session('id')}}',
+                                    'groups': '{{implode(',',$groupIds)}}'
+                                },
                                 success: function(response) {
                                     flashBackgroundGreen();
                                 },
@@ -137,13 +152,21 @@
                     $.ajax({
                         url: '/participants/' + result.text + "/checkOut",
                         type: 'POST',
+                        headers: {
+                            'UID':  '{{session('id')}}',
+                            'groups': '{{implode(',',$groupIds)}}'
+                        },
                         success: function(response) {
                             $.ajax({
-                                url: '/participants/' + result.text + "/get",
+                                url: '/api/participants/' + result.text + "/get",
                                 type: 'GET',
+                                headers: {
+                                    'UID':  '{{session('id')}}',
+                                    'groups': '{{implode(',',$groupIds)}}'
+                                },
                                 success: function(response) {
                                     obj = JSON.parse(response)
-                                    setInformation(obj,"N/A");
+                                    setInformation(obj,"Deelnemer uitgechecked!");
                                     flashBackgroundGreen();
                                 },
                                 beforeSend: function (request) {
@@ -241,4 +264,3 @@
             })
     })
 </script>
-@endsection

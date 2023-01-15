@@ -68,7 +68,8 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         // Participants
         Route::get('/participants', [ParticipantController::class, 'getParticipantsWithInformation']);
         Route::get('/participants/{userId}', [ParticipantController::class, 'getParticipantsWithInformation']);
-
+        Route::post('/participants/{userId}/checkIn', [ParticipantController::class, 'checkIn']);
+        Route::post('/participants/{userId}/checkOut', [ParticipantController::class, 'checkOut']);
         Route::post('/participants/{userId}/delete', [ParticipantController::class, 'delete']);
         Route::post('/participants/{userId}/storeEdit', [ParticipantController::class,'storeEdit']);
         Route::post('/participants/checkOutEveryone', [ParticipantController::class,'checkOutEveryone']);

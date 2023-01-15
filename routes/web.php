@@ -66,6 +66,7 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::post('/registrations', [ConfirmationController::class, 'sendConfirmEmailToAllUsers']);
 
         // Participants
+        Route::get('/participants/{userId}/get', [ParticipantController::class, 'getParticipant']);
         Route::get('/participants', [ParticipantController::class, 'getParticipantsWithInformation']);
         Route::get('/participants/{userId}', [ParticipantController::class, 'getParticipantsWithInformation']);
         Route::post('/participants/{userId}/checkIn', [ParticipantController::class, 'checkIn']);

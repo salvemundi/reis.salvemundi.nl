@@ -9,39 +9,22 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav justify-content-lg-start">
             <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/commissies">Commissies</a>
+                <a class="nav-link" href="/blogs">Updates / Hints</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/">Inschrijven</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/blogs">Intro  blogs / updates</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://salvemundi.nl/merch">Merch</a>
-            </li>
-            @if($userIsParent)
-                <li class="nav-item">
-                    <a class="nav-link" href="/inschrijven/ouder">Ouder inschrijven</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/qrcode">Incheck</a>
-                </li>
-            @endif
             @if($userIsAdmin)
                 <li class="nav-item">
                     <a class="nav-link" href="/dashboard">Admin</a>
                 </li>
             @endif
         </ul>
-            <ul class="navbar-nav w-50 d-flex justify-content-end">
+            <ul class="navbar-nav w-75 d-flex justify-content-end">
             <!-- Right Side Of Navbar -->
                 <!-- Authentication Links -->
                 <li class="nav-item">
                     @if(session('id'))
-                        <a class="nav-link" href="/signout">Uitloggen</a>
+                        <a class="nav-link" href="/signout">Logout</a>
                     @else
-                        <a class="nav-link" href="/login">Inloggen</a>
+                        <a class="nav-link" href="/login">Log in</a>
                     @endif
                 </li>
             </ul>

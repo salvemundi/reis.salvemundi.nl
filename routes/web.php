@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
@@ -35,9 +36,9 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::get('/inschrijven', function() {
         return redirect('/'); // Fix 405 error
     });
-    Route::get('/', function () {
-        return view('signup');
-    });
+
+    Route::get('/', [ParticipantController::class, 'view']);
+
     Route::get('/inschrijven/verify/{token}',[VerificationController::class,'verify']);
 
     // Payment
@@ -49,8 +50,8 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::post('webhooks/mollie',[WebhookController::class, 'handle'])->name('webhooks.mollie');
 
     // Blogs / news
-    Route::get('/blogs',[BlogController::class, 'showPosts']);
-    Route::get('/blogs/{postId}',[BlogController::class, 'showPost']);
+    Route::get('/blogs',[BlogController::class, 'showBlogs']);
+    Route::get('/blogs/{blogId}',[BlogController::class, 'showBlog']);
 
     // Schedule qr pagina
     Route::get('/qr-code', [ScheduleController::class, 'index']);
@@ -69,8 +70,6 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::get('/participants/{userId}', [ParticipantController::class, 'getParticipantsWithInformation']);
 
         Route::post('/participants/{userId}/delete', [ParticipantController::class, 'delete']);
-        Route::post('/participants/{userId}/storeNote', [ParticipantController::class, 'storeNote']);
-        Route::post('/participants/{userId}/storeRemove', [ParticipantController::class, 'storeRemove']);
         Route::post('/participants/{userId}/storeEdit', [ParticipantController::class,'storeEdit']);
         Route::post('/participants/checkOutEveryone', [ParticipantController::class,'checkOutEveryone']);
         Route::post('/participants/resendVerificationEmails', [ParticipantController::class, 'sendEmailsToNonVerified']);
@@ -83,20 +82,21 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::get('/participantscheckedin', [ParticipantController::class, 'checkedInView']);
         Route::get('/participantscheckedin/{userId}', [ParticipantController::class, 'checkedInView']);
 
+        // QRCode
+        Route::get('/qrcode', function () {
+            return view('admin/qr');
+        });
 
         // Posts / blogs
-        Route::get('/blogsadmin',[BlogController::class, 'showPostsAdmin']);
-        Route::get('/blogsadmin/save',[BlogController::class, 'showPostInputs']);
-        Route::post('/blogsadmin/save',[BlogController::class, 'savePost']);
+        Route::get('/blogsadmin',[BlogController::class, 'showBlogsAdmin']);
+        Route::get('/blogsadmin/save',[BlogController::class, 'showBlogInputs']);
+        Route::post('/blogsadmin/save',[BlogController::class, 'saveBlog']);
 
         //  Update blogs / posts
-        Route::get('/blogsadmin/save/{blogId}',[BlogController::class, 'showPostInputs']);
-        Route::post('/blogsadmin/save/{blogId}',[BlogController::class, 'savePost']);
+        Route::get('/blogsadmin/save/{blogId}',[BlogController::class, 'showBlogInputs']);
+        Route::post('/blogsadmin/save/{blogId}',[BlogController::class, 'saveBlog']);
         // Delete blogs
-        Route::get('/blogsadmin/delete/{blogId}',[BlogController::class, 'deletePost']);
-
-        // Occupation percentage
-        Route::post('/occupied/save',[BlogController::class, 'updateOccupiedPercentage']);
+        Route::get('/blogsadmin/delete/{blogId}',[BlogController::class, 'deleteBlog']);
 
         // Events
         Route::get('/events', [ScheduleController::class, 'getAllEvents']);
@@ -114,5 +114,13 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
         // Logs
         Route::get('/logs',[AuditLogController::class,'index']);
+
+        // Activities
+        Route::get('/activities',[ActivityController::class,'view']);
+        Route::get('/activities/create',[ActivityController::class, 'showCreatePage']);
+        Route::post('/activities/create/save',[ActivityController::class, 'store']);
+        Route::post('/activities/delete/{activityId}', [ActivityController::class, 'delete']);
+        Route::get('/activities/update/{activityId}',[ActivityController::class, 'showCreatePage']);
+        Route::post('/activities/update/{activityId}',[ActivityController::class, 'update']);
     });
 });

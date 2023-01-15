@@ -3,10 +3,9 @@
   <div class="container">
         <div class="justify-content-center">
             <div class="textBox justify-content-center">
-                <h1 class="text-center">Je betaling wordt verwerkt!</h1>
+                <h1 class="text-center">Your down payment is being processed!</h1>
                 <p>
-                    Binnen 10 minuten ontvang je een e-mail of je betaling goed is ontvangen. <br>
-                    Hopelijk tot op de intro!
+                    Within 10 minutes you will receive an e-mail with your payment status. <br>
                 </p>
                 <div class="center mb-3">
                     <a class="btn btn-primary center" href="https://salvemundi.nl/">Salve Mundi website</a>

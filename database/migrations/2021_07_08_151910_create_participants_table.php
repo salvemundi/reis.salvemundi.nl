@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\Roles;
 
 
 class CreateParticipantsTable extends Migration
@@ -22,10 +23,10 @@ class CreateParticipantsTable extends Migration
             $table->date('birthday')->nullable();
             $table->string('email')->unique();
             $table->string('phoneNumber')->nullable();
-            $table->longText('note')->nullable();
             $table->string('medicalIssues')->nullable();
             $table->string('specials')->nullable();
             $table->boolean('checkedIn')->default(0);
+            $table->tinyInteger('role')->unsigned()->default(Roles::participant);
             $table->softDeletes();
             $table->timestamps();
         });

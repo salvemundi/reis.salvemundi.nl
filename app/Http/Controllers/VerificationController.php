@@ -36,7 +36,6 @@ class VerificationController extends Controller
 
             Mail::to($participant->email)
                 ->send(new emailVerificationResponse($participant));
-
             $today = Carbon::now()->format('Y-m-d'); //yyyy-mm-dd
 
             if(Setting::where('name','AutoSendPaymentEmailDate')->first()->value <= $today) {

@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
-// This controller is commonly referred to as blog / news controller. Previous PR #12 caused a naming nightmare. (May or may not have been me.)
 class BlogController extends Controller
 {
     private VerificationController $verificationController;
@@ -29,9 +28,9 @@ class BlogController extends Controller
         $this->paymentController = new PaymentController();
     }
 
-    public function showPosts(): Factory|View|Application
+    public function showBlogs(): Factory|View|Application
     {
-        $posts = Blog::orderBy('created_at', 'desc')->where('show','1')->get();
+        $blogs = Blog::orderBy('created_at', 'desc')->where('show','1')->get();
         $lastBlog = Blog::where('show', '1')->latest()->first();
 
         $dateForIntro = Carbon::parse('2022-08-22');
@@ -41,75 +40,71 @@ class BlogController extends Controller
 
         $occupied = Occupied::all()->first();
 
-        return view('blogs', ['posts' => $posts, 'date' => $diffDate, 'occupied' => $occupied, 'lastBlog' => $lastBlog]);
+        return view('blogs', ['blogs' => $blogs, 'date' => $diffDate, 'occupied' => $occupied, 'lastBlog' => $lastBlog]);
     }
 
-    public function showPostsAdmin(): Factory|View|Application
+    public function showBlogsAdmin(): Factory|View|Application
     {
-        $posts = Blog::all();
+        $blogs = Blog::all();
         $occupied = Occupied::all()->first();
-        return view('admin/blogs', ['posts' => $posts, 'occupied' => $occupied]);
+        return view('admin/blogs', ['blogs' => $blogs, 'occupied' => $occupied]);
     }
 
-    public function updateOccupiedPercentage(Request $request): Redirector|Application|RedirectResponse
-    {
-        if(Occupied::all()->first() != null) {
-            $occupied = Occupied::all()->first();
-        } else {
-            $occupied = new Occupied();
-        }
-
-        $occupied->occupied = $request->input('occupied');
-        $occupied->save();
-        AuditLogController::Log(AuditCategory::Other(),"Heeft percentage beschikbare plekken aangepast naar: " . $occupied->occupied);
-        return redirect('/blogsadmin')->with('success', 'percentage is geupdated!');
+    public function showBlog(Request $request) {
+        $blogId = $request->blogId;
     }
 
-    public function showPost(Request $request) {
-        $postId = $request->postId;
-    }
-
-    public function savePost(Request $request): Redirector|Application|RedirectResponse
+    public function saveBlog(Request $request): Redirector|Application|RedirectResponse
     {
         $request->validate([
             'name' => 'required',
-            'content' => 'required',
+            'description' => 'required',
+            'file' => ['mimes:png,jpg,jpeg'],
         ]);
 
+
         if($request->input('blogId')) {
-            $post = Blog::find($request->input('blogId'));
+            $blog = Blog::find($request->input('blogId'));
         } else {
-            $post = new Blog;
+            $blog = new Blog;
         }
 
-        $post->name =  $request->input('name');
-        $post->content =  $request->input('content');
-
-        $post->save();
+        $blog->name =  $request->input('name');
+        $blog->description =  $request->input('description');
+        if($request->file('file') !== null) {
+            $blog->imageExtension = $request->file('file')->extension();
+        }
+        $blog->save();
         if(isset($request->addBlog)) {
-            AuditLogController::Log(AuditCategory::BlogManagement(),"Heeft blog toegevoegd of bewerkt: " . $post->name,null, $post);
-            $post->show = true;
-            $post->save();
+            AuditLogController::Log(AuditCategory::BlogManagement(),"Heeft blog toegevoegd of bewerkt: " . $blog->name, null, $blog);
+            $blog->show = true;
+            $blog->save();
         }
 
         if(isset($request->sendEmail)) {
-            AuditLogController::Log(AuditCategory::BlogManagement(),"Verstuurde emails van blog " . $post->name,null, $post);
-            $this->sendEmails($post, $request);
+            AuditLogController::Log(AuditCategory::BlogManagement(),"Verstuurde emails van blog " . $blog->name, null, $blog);
+            $this->sendEmails($blog, $request);
+        }
+
+        if ($request->file('file') !== null) {
+            $request->file('file')->storeAs(
+                'public/blogImages', $blog->id . '.' . $request->file('file')->extension()
+            );
         }
 
         return redirect('/blogsadmin')->with('success', 'Blog is opgeslagen!');
     }
 
-    public function showPostInputs(Request $request): Factory|View|Application
+    public function showBlogInputs(Request $request): Factory|View|Application
     {
-        $post = null;
+        $blog = null;
         if($request->blogId) {
-            $post = Blog::find($request->blogId);
+            $blog = Blog::find($request->blogId);
         }
-        return view('admin/blogInput',['post' => $post]);
+        return view('admin/blogInput',['blog' => $blog]);
     }
 
-    public function deletePost(Request $request): Redirector|Application|RedirectResponse
+    public function deleteBlog(Request $request): Redirector|Application|RedirectResponse
     {
         if($request->blogId) {
             $blog = Blog::find($request->blogId);

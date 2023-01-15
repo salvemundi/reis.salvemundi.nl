@@ -17,25 +17,18 @@
                     <i class="fas fa-qrcode nav_icon"></i>
                     <span class="nav_name">QR code</span>
                 </a>
-{{--                <a id="registrations" href="/registrations" class="nav_link">--}}
-{{--                    <i class='bx bx-user nav_icon'></i> <span class="nav_name">Aanmeldingen</span>--}}
-{{--                </a>--}}
+
                 <a id="participants" href="/participants" class="nav_link">
-                    {{--<i class="bx bi-clipboard-check fixIconClipboard"></i>--}}
                     <i class='bx bx-user nav_icon'></i>
                     <span class="nav_name">Deelnemers</span>
                 </a>
                 <a id="blogs" href="/blogsadmin" class="nav_link">
                     <i class="fas fa-newspaper circlePlus"></i>
-                    <span class="nav_name">Blogs / Nieuws</span>
+                    <span class="nav_name">Blogs</span>
                 </a>
                 <a id="add" href="/add" class="nav_link">
                     <i class='bx bi bi-plus-circle circlePlus'></i>
                     <span class="nav_name">Voeg toe</span>
-                </a>
-                <a id="bus" href="/bus" class="nav_link">
-                    <i class='fas fa-bus bus'></i>
-                    <span class="nav_name">Bus</span>
                 </a>
                 <a id="logs" href="/logs" class="nav_link">
                     <i class="fas fa-clipboard-list fixIconClipboard"></i>
@@ -44,6 +37,10 @@
                 <a id="events" href="/events" class="nav_link">
                     <i class="fas fa-calendar bus"></i>
                     <span class="nav_name">Events</span>
+                </a>
+                <a id="activities" href="/activities" class="nav_link">
+                    <i class="fas fa-skiing circlePlus"></i>
+                    <span class="nav_name">Activiteiten</span>
                 </a>
                 <a id="settings" href="/settings" class="nav_link">
                     <i class="fas fa-cog circlePlus"></i>

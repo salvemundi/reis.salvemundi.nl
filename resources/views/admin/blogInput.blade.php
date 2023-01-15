@@ -19,10 +19,10 @@
             @csrf
             <br>
             <h2 class="h2">Blog opslaan / Email versturen</h2>
-            <input type="hidden" name="blogId" id="blogId" value="{{ $post->id ?? null }}">
+            <input type="hidden" name="blogId" id="blogId" value="{{ $blog->id ?? null }}">
             <div class="form-group">
                 <label for="voornaam">Naam*</label>
-                <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ $post->name ?? old('name') }}" id="name" name="name" placeholder="Naam...">
+                <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ $blog->name ?? old('name') }}" id="name" name="name" placeholder="Naam...">
             </div><br>
 
             Bovenaan het mailtje komt standaard dit te staan: <br> <br>
@@ -30,11 +30,15 @@
             Beste {naam}, <br> <br>
 
             <div class="form-group">
-                <label for="content">Content</label>
-                <textarea class="form-control wrap{{ $errors->has('content') ? ' is-invalid' : '' }}" id="content" name="content" placeholder="Content...">{{ $post->content ?? old('content') }}</textarea>
+                <label for="description">description</label>
+                <textarea class="form-control wrap{{ $errors->has('description') ? ' is-invalid' : '' }}" id="description" name="description" placeholder="description...">{{ $blog->description ?? old('description') }}</textarea>
             </div><br>
 
             Onderaan het mailtje komt standaard dit te staan: <br> <br>
+            <div class="mb-3">
+                <label for="file" class="form-label">Upload foto (optioneel)</label>
+                <input class="form-control" type="file" name="file" id="file">
+            </div>
 
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" name="addPaymentLink" role="switch" id="addPaymentLink">
@@ -42,7 +46,7 @@
             </div> <br>
 
             Met vriendelijke groet,<br>
-            De introcommissie van Salve Mundi <br> <br>
+            De reiscommissie van Salve Mundi <br> <br>
 
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" name="addBlog" role="switch" id="addBlog">

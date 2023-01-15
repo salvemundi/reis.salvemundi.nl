@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Blog extends Model
 {
     use UsesUuid, SoftDeletes;
-    // Yea I know lol \/
-    protected $table = 'content';
+    protected $table = 'blogs';
 
     public function auditLogs(): HasMany
     {

@@ -27,7 +27,7 @@
                                     <input type="text" name="value" class="form-control" id="stringValue" placeholder="Enter value">
                             </div>
                             @break
-                        @case(App\Enums\SettingTypes::integer()->value)
+                        @case(App\Enums\SettingTypes::int()->value)
                             <div class="mb-3">
                                     <label for="numberValue" class="form-label">Waarde:</label>
                                     <input type="number" name="value" class="form-control" id="numberValue" placeholder="Enter value">

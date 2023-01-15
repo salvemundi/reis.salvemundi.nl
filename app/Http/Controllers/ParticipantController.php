@@ -6,10 +6,12 @@ use App\Enums\AuditCategory;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\resendVerificationEmail;
 use App\Jobs\sendQRCodesToNonParticipants;
+use App\Models\Activity;
 use App\Models\Setting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Participant;
@@ -20,19 +22,42 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Mail\VerificationMail;
+use App\Mail\VerifySignUpWaitingList;
 use App\Models\VerificationToken;
 use App\Models\ConfirmationToken;
 use App\Mail\parentMailSignup;
 use App\Mail\manuallyAddedMail;
 use App\Mail\emailConfirmationSignup;
+use Throwable;
 
 class ParticipantController extends Controller {
     private VerificationController $verificationController;
     private PaymentController $paymentController;
+    private ActivityController $activityController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();
         $this->paymentController = new PaymentController();
+        $this->activityController = new ActivityController();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function linkActivities(Participant $participant, Collection $activities): Participant {
+        foreach($activities as $activity) {
+            $participant->activities()->attach($activity, ['id' => Str::uuid()->toString()]);
+        }
+        $participant->saveOrFail();
+
+        return $participant;
+    }
+
+    public function view(): Factory|View|Application
+    {
+        $checkSignUp = Setting::where('name','SignupPageEnabled')->first()->value;
+        $checkSignUp = filter_var($checkSignUp, FILTER_VALIDATE_BOOLEAN);
+        return view('/signup', ['checkSignUp' => $checkSignUp]);
     }
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -100,9 +125,6 @@ class ParticipantController extends Controller {
 
     public function checkIn(Request $request) {
         $participant = Participant::find($request->userId);
-        if($participant->removedFromintro){
-            return back();
-        }
         $participant->checkedIn = true;
         $participant->save();
         AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " in gechecked", $participant);
@@ -137,7 +159,11 @@ class ParticipantController extends Controller {
         return view('admin/addParticipants');
     }
 
-    public function store(Request $request) {
+    /**
+     * @throws Throwable
+     */
+    public function store(Request $request): RedirectResponse
+    {
         if($request->input('confirmation') == null) {
             $request->validate([
                 'firstName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
@@ -149,7 +175,8 @@ class ParticipantController extends Controller {
                 'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
                 'specials' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
                 'role' => 'nullable',
-                'checkedIn' => 'nullable'
+                'checkedIn' => 'nullable',
+                'activities' => 'required',
             ]);
         } else {
             $request->validate([
@@ -203,31 +230,16 @@ class ParticipantController extends Controller {
             $participant->checkedIn = Roles::coerce(0);
         }
 
+        $activityCollection = new Collection();
+
+        foreach ($request->only(['activities'])['activities'] as $uuid) {
+            $activityCollection->add($this->activityController->show($uuid));
+        }
+        $this->linkActivities($participant, $activityCollection);
+
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');
-    }
-
-    public function storeNote(Request $request): RedirectResponse {
-        $participant = Participant::find($request->userId);
-        $participant->note = $request->input('participantNote');
-        $participant->save();
-        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft de notitie van" . $participant->firstName . " " . $participant->lastName. " bewerkt", $participant);
-
-        return back();
-    }
-
-    public function storeRemove(Request $request) {
-        $participant = Participant::find($request->userId);
-        $participant->removedFromIntro = !$participant->removedFromIntro;
-
-        if($participant->removedFromIntro) {
-            $participant->checkedIn = false;
-        }
-
-        $participant->save();
-        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " verwijderd van het terrein", $participant);
-        return back();
     }
 
     public function signup(Request $request) {
@@ -253,6 +265,11 @@ class ParticipantController extends Controller {
         $participant->lastName = $request->input('lastName');
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
+
+        if (!$request->input('cbx')) {
+            return back()->with('warning', 'Accept the terms and conditions');
+        }
+
         $participant->save();
 
         $token = new VerificationToken;
@@ -261,7 +278,11 @@ class ParticipantController extends Controller {
 
         Mail::to($participant->email)
             ->send(new VerificationMail($participant, $token));
-
+        if ((int)Setting::where('name', 'MaxAmountParticipants')->first()->value < Participant::count()) {
+            Mail::to($participant->email)
+                ->send(new VerifySignUpWaitingList($participant));
+            return back()->with('message', 'Je hebt je succesvol ingeschreven maar je bent helaas te laat en staat in de wachtrij.');
+        }
         return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');
     }
 

@@ -2,10 +2,10 @@
 
 Beste {{ $participant->firstName }},
 
-Wat fijn dat je ons mee wil helpen tijdens de reis!
-In de bijlage van deze mail staat je QR code die wij gaan gebruiken om je in te checken.
+Bedankt voor het inschrijven!
 
-Mocht je nog vragen hebben dan horen wij het graag!
+Helaas ben je te laat, maar wees niet getreurd je zit in de wachtrij!
+Check vooral ook de email verificatie mail en klik op de link om je email te verifieren!
 
 Met vriendelijke groet,
 

@@ -2,7 +2,7 @@
 
 Beste {{ $participant->firstName }},
 
-Hierbij nog een keer je QR-code voor de introductie, mocht je deze hebben kwijt geraakt.
+Hierbij nog een keer je QR-code voor de reis, mocht je deze hebben kwijt geraakt.
 
 Met vriendelijke groet,
 

@@ -15,7 +15,7 @@ setActive("add");
             {{ session()->get('error') }}
         </div>
         @endif
-        <form action="/add/store" method="post" enctype="multipart/form-data">
+        <form action="/create/store" method="post" enctype="multipart/form-data">
             @csrf
             <br>
             <h2 class="h2">Deelnemer toevoegen</h2>
@@ -111,12 +111,12 @@ setActive("add");
 <script>
     function getRole() {
         var role = document.getElementById("role").value;
-        if(role == {{ App\Enums\Roles::coerce("child")->value }})
+        if(role == {{ App\Enums\Roles::coerce("participant")->value }})
         {
             document.getElementById("child").style.display = "inline";
             document.getElementById("dad_mom").style.display = "none";
         }
-        else if(role == {{ App\Enums\Roles::coerce("dad_mom")->value }})
+        else if(role == {{ App\Enums\Roles::coerce("crew")->value }})
         {
             document.getElementById("child").style.display = "none";
             document.getElementById("dad_mom").style.display = "inline";

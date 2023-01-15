@@ -17,7 +17,7 @@
                 </li>
             @endif
         </ul>
-            <ul class="navbar-nav w-50 d-flex justify-content-end">
+            <ul class="navbar-nav w-75 d-flex justify-content-end">
             <!-- Right Side Of Navbar -->
                 <!-- Authentication Links -->
                 <li class="nav-item">

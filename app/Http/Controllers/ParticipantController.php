@@ -348,7 +348,6 @@ class ParticipantController extends Controller {
         $participant->phoneNumber = $request->input('participantPhoneNumber');
         $participant->medicalIssues = $request->input('participantMedicalIssues');
         $participant->role = $request->input('participantRole') ?? 0;
-        $participant->alreadyPaidForMembership = isset($request->participantAlreadyPaid);
         $participant->save();
         return back()->with('success','Deelnemer gegevens opgeslagen!');
     }

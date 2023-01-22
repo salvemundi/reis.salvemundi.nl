@@ -62,7 +62,7 @@ class ConfirmationController extends Controller
             $confirmationToken->save();
             $this->participantController->store($request);
             if(!$this->paymentController->checkIfParticipantPaid($user)) {
-                return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name','Aanbetaling')->first()->value);
+                return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name','Aanbetaling')->first()->value, "down_payment");
             }
             return back()->with('success','Je gegevens zijn opgeslagen!');
         }

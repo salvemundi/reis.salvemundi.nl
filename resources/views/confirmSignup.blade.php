@@ -50,7 +50,7 @@
         </div><br>
 
         <div class="form-group">
-            <label for="activities">Choose the activities you would like to join</label>
+            <label for="activities">Choose the options you would like</label>
             @foreach($activities as $activity)
                 <div class="form-check mt-2">
                     <input class="form-check-input" name="activities[]" value="{{ $activity->id }}" type="checkbox" id="flexCheckDefault{{ $activity->id }}">

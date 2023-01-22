@@ -1,11 +1,11 @@
 @component('mail::message')
-Beste {{ $participant->firstName }},
+Dear {{ $participant->firstName }},
 
-Je kan nu je inschrijving afronden door op deze link te klikken en de benodigde informatie in te vullen!
+You now can pay your down payment if you click the link below!
 
 {{ env('APP_URL') }}inschrijven/betalen/{{ $confirmationToken->id }}
 
-Met vriendelijke groet,
+Sincerely,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

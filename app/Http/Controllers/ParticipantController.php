@@ -426,6 +426,24 @@ class ParticipantController extends Controller {
         return back()->with('error','Deelnemer heeft al betaald!');
     }
 
+    public function finalPaymentView(Request $request): Factory|View|Application {
+        $confirmationToken = ConfirmationToken::find($request->token);
+        $selectedActivities = $confirmationToken->participant->activities;
+
+        return view('/finalPayment', ['selectedActivities' => $selectedActivities, 'totalPaymentAmount' => $this->paymentController->calculateFinalPrice($request)]);
+    }
+
+    public function sendFinalPaymentEmail(): RedirectResponse {
+        $paidParticipants = $this->paymentController->getAllPaidUsers();
+
+        foreach($paidParticipants as $participant) {
+            resendQRCodeEmails::dispatch($participant);
+        }
+
+        AuditLogController::Log(AuditCategory::Other(), "Heeft alle qr-codes opnieuw verzonden naar alle betaalde deelnemers");
+        return back()->with('message', 'De mails zijn verstuurd!');
+    }
+
     private function createConfirmationToken(Participant $participant): ConfirmationToken
     {
         $confirmationToken =  new ConfirmationToken();

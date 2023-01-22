@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Roles;
+use App\Models\Activity;
 use App\Models\ConfirmationToken;
 use App\Models\Participant;
+use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -24,7 +26,7 @@ class PaymentController extends Controller
         $this->verificationController = new VerificationController();
     }
 
-    public function payForReis($token, $amount): Response|RedirectResponse
+    public function payForReis($token, $amount, string $paymentType): Response|RedirectResponse
     {
         $confirmationToken = ConfirmationToken::findOrFail($token);
         $amountWithDecimal = number_format($amount, 2);
@@ -41,6 +43,7 @@ class PaymentController extends Controller
                 "webhookUrl"  => env('NGROK_LINK') ?? route('webhooks.mollie'),
                 "metadata" => [
                     "payment_id" => $paymentObject->id,
+                    "paymentType" => $paymentType
                 ],
             ]);
             $paymentObject->mollie_transaction_id = $payment->id;
@@ -52,17 +55,11 @@ class PaymentController extends Controller
         }
     }
 
-    public function createMollieInstance() {
+    public function createMollieInstance(): MollieApiClient
+    {
         $mollie = new MollieApiClient();
         $mollie->setApiKey(env('MOLLIE_KEY'));
         return $mollie;
-    }
-
-    private function createPaymentEntry(Participant $participant) {
-        $payment = new Payment;
-        $payment->save();
-        $payment->participant()->associate($participant)->save();
-        return $payment;
     }
 
     public function returnSuccessPage(Request $request) {
@@ -111,7 +108,7 @@ class PaymentController extends Controller
         return collect($userArr)->unique('id');
     }
 
-    public function checkIfParticipantPaid(Participant $participant):bool {
+    public function checkIfParticipantPaid(Participant $participant): bool {
         $participant->latestPayment = $participant->payments()->latest()->first();
 
         if ($participant->latestPayment != null) {
@@ -122,4 +119,28 @@ class PaymentController extends Controller
         return false;
     }
 
+    public function calculateFinalPrice(Request $request): float {
+        $confirmationToken = ConfirmationToken::find($request->token);
+        $participant = $confirmationToken->participant;
+
+        $totalPrice = Setting::where('name','FinalPaymentAmount')->first()->value;
+        $amountActivity = 0;
+
+        foreach($participant->activities as $activity) {
+            $amountActivity = $amountActivity + $activity->price;
+        }
+
+        return $totalPrice + $amountActivity;
+    }
+
+    public function finalPayment(Request $request): Response|RedirectResponse {
+        return $this->payForReis($request->token, $this->calculateFinalPrice($request), "final_payment");
+    }
+
+    private function createPaymentEntry(Participant $participant) {
+        $payment = new Payment;
+        $payment->save();
+        $payment->participant()->associate($participant)->save();
+        return $payment;
+    }
 }

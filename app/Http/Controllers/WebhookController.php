@@ -32,8 +32,16 @@ class WebhookController extends Controller
                  * At this point you'd probably want to start the process of delivering the product to the customer.
                  */
                 $participant = $paymentStorage->participant;
+
+                if ($payment->metadata->paymentType == "down_payment") {
+                    $downPaymentBool = true;
+                }
+                else {
+                    $downPaymentBool = false;
+                }
+
                 Mail::to($participant)
-                    ->send(new emailPaymentSucceeded($participant));
+                    ->send(new emailPaymentSucceeded($participant, $downPaymentBool));
 
                 return response(null, 200);
             } elseif ($payment->isOpen()) {

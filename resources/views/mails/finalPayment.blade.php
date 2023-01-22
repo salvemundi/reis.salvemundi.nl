@@ -1,10 +1,9 @@
 @component('mail::message')
-
 Dear {{ $participant->firstName }},
 
-Thanks for verifying your email!
+You can now complete your registration by clicking on this link!
 
-Soon you will hear more from us.
+{{ env('APP_URL') }}reisbetaling/{{ $confirmationToken->id }}
 
 Sincerely,
 

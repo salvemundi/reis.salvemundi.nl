@@ -2,9 +2,12 @@
 
 Dear {{ $participant->firstName }},
 
-Thanks for verifying your email!
+Your down payment has been received in good order.
+Thank you for registering for the trip!
 
-Soon you will hear more from us.
+Soon you will hear more from us!
+
+For more news and updates: https://reis.salvemundi.nl/blogs
 
 Sincerely,
 

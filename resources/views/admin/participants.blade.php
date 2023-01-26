@@ -136,23 +136,29 @@ setActive("participants");
                                 <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference }}</td>
                             @endif
                             <td data-value="{{ $participant->email }}">{{$participant->email}}</td>
-                            <td data-value="{{ $participant->paid }}">
-                                @if($participant->latestPayment)
-                                    @if($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::paid)
-                                        <span class="badge rounded-pill bg-success text-black">Betaald</span>
-                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::pending)
-                                        <span class="badge rounded-pill bg-warning text-black">In behandeling</span>
-                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::canceled)
-                                        <span class="badge rounded-pill bg-secondary">Geannuleerd</span>
-                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::expired)
-                                        <span class="badge rounded-pill bg-secondary">Verlopen</span>
-                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::failed)
-                                        <span class="badge rounded-pill bg-danger">Gefaald</span>
-                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::open)
-                                        <span class="badge rounded-pill bg-secondary">Open</span>
-                                    @endif
+                            <td>
+                                @if($participant->hasCompletedFinalPayment())
+                                    <span class="badge rounded-pill bg-success text-black">Restbetaling voltooid</span>
+                                @endif
+
+                                @if($participant->hasCompletedDownPayment())
+                                    <span class="badge rounded-pill bg-success text-black">Aanbetaling voltooid</span>
                                 @else
-                                    <span class="badge rounded-pill bg-secondary">Geen transacties</span>
+                                    @if($participant->latestPayment)
+                                        @switch($participant->latestPayment->paymentStatus)
+                                            @case(1)
+                                                <span class="badge rounded-pill bg-warning text-black">{{ \App\Enums\PaymentStatus::getDescription(1) }}</span>
+                                                @break
+                                            @case(6)
+                                                <span class="badge rounded-pill bg-danger text-black">{{ \App\Enums\PaymentStatus::getDescription(6) }}</span>
+                                                @break
+                                            @default
+                                                <span class="badge rounded-pill bg-secondary">{{ \App\Enums\PaymentStatus::getDescription($participant->latestPayment->paymentStatus) }}</span>
+                                                @break
+                                        @endswitch
+                                    @else
+                                        <span class="badge rounded-pill bg-secondary">Geen transacties</span>
+                                    @endif
                                 @endif
                             </td>
                         </tr>

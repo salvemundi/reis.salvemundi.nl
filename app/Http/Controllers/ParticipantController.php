@@ -62,35 +62,29 @@ class ParticipantController extends Controller {
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
-        $participants = Participant::all();
         AuditLogController::Log(AuditCategory::Other(),'Bezocht pagina met alle deelnemers');
-        if ($request->userId) {
-            $selectedParticipant = Participant::find($request->userId);
-            $dateToday = Carbon::now()->toDate();
-            AuditLogController::Log(AuditCategory::ParticipantManagement(), "Ziet gegevens van " . $selectedParticipant->firstName . " " . $selectedParticipant->lastName, $selectedParticipant);
-            if(!isset($selectedParticipant)) {
+
+        $participants = Participant::all();
+        $dateToday = Carbon::now()->toDate();
+        $selectedParticipant = Participant::find($request->userId);
+
+        if(!isset($selectedParticipant)) {
+            if($request->userId) {
                 return redirect("/participants");
             }
-
-            foreach($participants as $participant) {
-                if($participant->payments != null) {
-                    $participant->latestPayment = $participant->payments()->latest()->first();
-                }
-                $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
-            }
-
-            $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
-            return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         } else {
-            $dateToday = Carbon::now()->toDate();
-            foreach($participants as $participant) {
-                if($participant->payments != null) {
-                    $participant->latestPayment = $participant->payments()->latest()->first();
-                }
-                $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
-            }
+            $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
+            AuditLogController::Log(AuditCategory::ParticipantManagement(), "Ziet gegevens van " . $selectedParticipant->firstName . " " . $selectedParticipant->lastName, $selectedParticipant);
         }
-        return view('admin/participants', ['participants' => $participants]);
+
+        foreach($participants as $participant) {
+            if($participant->payments != null) {
+                $participant->latestPayment = $participant->payments()->latest()->first();
+            }
+            $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
+        }
+
+        return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant ?? null, 'age' => $age ?? null]);
     }
 
     public function checkedInView(Request $request): View|Factory|Redirector|RedirectResponse|Application

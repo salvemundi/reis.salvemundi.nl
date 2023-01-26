@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\PaymentTypes;
 use App\Enums\Roles;
-use App\Models\Activity;
 use App\Models\ConfirmationToken;
 use App\Models\Participant;
 use App\Models\Setting;
@@ -139,7 +138,8 @@ class PaymentController extends Controller
         return $this->payForReis($request->token, $this->calculateFinalPrice($request), "final_payment");
     }
 
-    private function createPaymentEntry(Participant $participant) {
+    private function createPaymentEntry(Participant $participant): Payment
+    {
         $payment = new Payment;
         $payment->save();
         $payment->participant()->associate($participant)->save();

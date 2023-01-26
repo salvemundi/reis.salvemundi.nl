@@ -64,7 +64,7 @@
         @else
             <div class="form-group">
                 <label for="activities">Options you have chosen before:</label>
-                @foreach($activities as $activity)
+                @foreach($confirmationToken->participant->activities as $activity)
                     <p class="form-check-label">
                         {{ $activity->name }}: price: €{{ $activity->price }}
                     </p>

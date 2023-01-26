@@ -12,7 +12,7 @@ return new class extends Migration
      * @return void
      */
     public function up() {
-        Schema::create('participants', function (Blueprint $table) {
+        Schema::table('participants',function(Blueprint $table) {
             $table->boolean('isOnReserveList')->default(false);
         });
     }

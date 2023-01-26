@@ -54,6 +54,7 @@ class VerificationController extends Controller
 
         return view('verifyResponse', ['Response' => false]);
     }
+    /* @var $participant Participant */
 
     public function getVerifiedParticipants(): Collection
     {

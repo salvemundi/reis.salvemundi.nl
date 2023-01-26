@@ -80,18 +80,18 @@ class PaymentController extends Controller
             return view('paymentFailed');
         }
     }
-
-    public function getAllPaidUsers(): Collection {
+    /**
+     * @var $verifiedParticipants Participant[]
+     * @var $Participant Participant
+     * @return Collection|null
+     */
+    public function getAllPaidUsers(): Collection|null {
         $userArr = [];
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
-
-        if($verifiedParticipants == null) {
-            return collect($userArr);
-        }
-
+        /** @var $verifiedParticipants Participant[] */
         foreach($verifiedParticipants as $participant) {
-            if($participant->hasPaid() && $participant->role == Roles::participant()->value) {
-                array_push($userArr, $participant);
+            if($participant->hasCompletedAllPayments() && $participant->role == Roles::participant()->value) {
+                $userArr[] = $participant;
             }
         }
         return collect($userArr)->unique('id');
@@ -101,9 +101,10 @@ class PaymentController extends Controller
     {
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
+        /** @var $verifiedParticipants Participant[] */
         foreach($verifiedParticipants as $participant) {
-            if (!$participant->hasPaid() && $participant->role == Roles::participant()->value) {
-                array_push($userArr, $participant);
+            if (!$participant->hasCompletedAllPayments() && $participant->role == Roles::participant()->value) {
+                $userArr[] = $participant;
             }
         }
         return collect($userArr)->unique('id');

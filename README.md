@@ -27,6 +27,7 @@ docker run --rm \
     composer install --ignore-platform-reqs
 ```
 
-First, start the services by running `./vendor/bin/sail up -d`. Migrate the database by running `./vendor/bin/sail artisan migrate` and finally seed
-the database by running `
-./vendor/bin/sail artisan db:seed`.
+* First, start the services by running `./vendor/bin/sail up -d`.
+* Migrate the database by running `./vendor/bin/sail artisan migrate`.
+* Finally seed the database by running `./vendor/bin/sail artisan db:seed`.
+* Optionally you can add sail as an alias in your bashrc `alias sail="bash ./vendor/bin/sail"`

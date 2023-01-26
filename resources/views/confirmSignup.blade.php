@@ -75,7 +75,11 @@
 
         <div class="form-group mb-5">
             <br>
-            <input class="btn btn-primary" type="submit" value="Pay {{ $price }}">
+            @if($confirmationToken->participant->hasCompletedAllPayments())
+                <input class="btn btn-primary" type="submit" value="Save">
+            @else
+                <input class="btn btn-primary" type="submit" value="Pay {{ $price }}">
+            @endif
         </div>
     </form>
 </div>

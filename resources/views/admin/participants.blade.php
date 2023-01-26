@@ -139,25 +139,25 @@ setActive("participants");
                             <td>
                                 @if($participant->hasCompletedFinalPayment())
                                     <span class="badge rounded-pill bg-success text-black">Restbetaling voltooid</span>
-                                @endif
-
-                                @if($participant->hasCompletedDownPayment())
-                                    <span class="badge rounded-pill bg-success text-black">Aanbetaling voltooid</span>
                                 @else
-                                    @if($participant->latestPayment)
-                                        @switch($participant->latestPayment->paymentStatus)
-                                            @case(1)
-                                                <span class="badge rounded-pill bg-warning text-black">{{ \App\Enums\PaymentStatus::getDescription(1) }}</span>
-                                                @break
-                                            @case(6)
-                                                <span class="badge rounded-pill bg-danger text-black">{{ \App\Enums\PaymentStatus::getDescription(6) }}</span>
-                                                @break
-                                            @default
-                                                <span class="badge rounded-pill bg-secondary">{{ \App\Enums\PaymentStatus::getDescription($participant->latestPayment->paymentStatus) }}</span>
-                                                @break
-                                        @endswitch
+                                    @if($participant->hasCompletedDownPayment())
+                                        <span class="badge rounded-pill bg-success text-black">Aanbetaling voltooid</span>
                                     @else
-                                        <span class="badge rounded-pill bg-secondary">Geen transacties</span>
+                                        @if($participant->latestPayment)
+                                            @switch($participant->latestPayment->paymentStatus)
+                                                @case(1)
+                                                    <span class="badge rounded-pill bg-warning text-black">{{ \App\Enums\PaymentStatus::getDescription(1) }}</span>
+                                                    @break
+                                                @case(6)
+                                                    <span class="badge rounded-pill bg-danger text-black">{{ \App\Enums\PaymentStatus::getDescription(6) }}</span>
+                                                    @break
+                                                @default
+                                                    <span class="badge rounded-pill bg-secondary">{{ \App\Enums\PaymentStatus::getDescription($participant->latestPayment->paymentStatus) }}</span>
+                                                    @break
+                                            @endswitch
+                                        @else
+                                            <span class="badge rounded-pill bg-secondary">Geen transacties</span>
+                                        @endif
                                     @endif
                                 @endif
                             </td>

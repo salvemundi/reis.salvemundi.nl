@@ -78,7 +78,7 @@ class ConfirmationController extends Controller
             }
             $this->participantController->store($request);
 
-            return back()->with('success','Je gegevens zijn opgeslagen!');
+            return back()->with('success','Information saved!');
         }
         return back()->with('error','input is not valid');
     }

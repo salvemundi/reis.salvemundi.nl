@@ -11,9 +11,10 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up() {
-        Schema::create('participants', function (Blueprint $table) {
-            $table->boolean('isOnReserveList')->default(false);
+    public function up()
+    {
+        Schema::table('payments',function(Blueprint $table) {
+            $table->tinyInteger('paymentType')->default(0);
         });
     }
 

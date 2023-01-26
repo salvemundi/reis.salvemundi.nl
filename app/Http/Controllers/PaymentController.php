@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaymentTypes;
 use App\Enums\Roles;
 use App\Models\Activity;
 use App\Models\ConfirmationToken;
@@ -26,7 +27,7 @@ class PaymentController extends Controller
         $this->verificationController = new VerificationController();
     }
 
-    public function payForReis($token, $amount, string $paymentType): Response|RedirectResponse
+    public function payForReis(string $token, int $amount, PaymentTypes $paymentType = null): Response|RedirectResponse
     {
         $confirmationToken = ConfirmationToken::findOrFail($token);
         $amountWithDecimal = number_format($amount, 2);
@@ -43,7 +44,7 @@ class PaymentController extends Controller
                 "webhookUrl"  => env('NGROK_LINK') ?? route('webhooks.mollie'),
                 "metadata" => [
                     "payment_id" => $paymentObject->id,
-                    "paymentType" => $paymentType
+                    "paymentType" => $paymentType ?? PaymentTypes::DownPayment
                 ],
             ]);
             $paymentObject->mollie_transaction_id = $payment->id;

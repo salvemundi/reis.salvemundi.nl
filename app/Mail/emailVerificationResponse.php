@@ -12,7 +12,7 @@ class emailVerificationResponse extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $participant;
+    private Participant $participant;
     /**
      * Create a new message instance.
      *

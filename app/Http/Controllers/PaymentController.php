@@ -42,7 +42,7 @@ class PaymentController extends Controller
                 "webhookUrl"  => env('NGROK_LINK') ?? route('webhooks.mollie'),
                 "metadata" => [
                     "payment_id" => $paymentObject->id,
-                    "paymentType" => $paymentType ?? PaymentTypes::DownPayment,
+                    "paymentType" => $paymentType->value ?? PaymentTypes::DownPayment,
                     "confirmationTokenId" => $confirmationToken->id
                 ],
             ]);

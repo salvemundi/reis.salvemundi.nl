@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaymentTypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
@@ -33,15 +34,8 @@ class WebhookController extends Controller
                  */
                 $participant = $paymentStorage->participant;
 
-                if ($payment->metadata->paymentType == "down_payment") {
-                    $downPaymentBool = true;
-                }
-                else {
-                    $downPaymentBool = false;
-                }
-
                 Mail::to($participant)
-                    ->send(new emailPaymentSucceeded($participant, $downPaymentBool));
+                    ->send(new emailPaymentSucceeded($participant, PaymentTypes::coerce($payment->metadata->paymentType)));
 
                 return response(null, 200);
             } elseif ($payment->isOpen()) {

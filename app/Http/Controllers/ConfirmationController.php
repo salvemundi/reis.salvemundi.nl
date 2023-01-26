@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\resendConfirmationEmailToAllUsers;
 use App\Models\ConfirmationToken;
 use App\Models\Setting;
+use App\Models\Activity;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,10 +13,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\emailConfirmationSignup;
-use App\Enums\PaymentStatus;
-use App\Models\Participant;
 
 class ConfirmationController extends Controller
 {
@@ -36,10 +33,25 @@ class ConfirmationController extends Controller
         $token = ConfirmationToken::find($request->token);
 
         if(!$token) {
-            return redirect('/')->with('error','Jij bent neppert!! pffff');
+            return redirect('/')->with('error','Token is not valid!');
         }
+        return view('confirmSignup')->with(['confirmationToken' => $token,'activities' => $this->activityController->index(),'price' => $this->calculatePrice($token)]);
+    }
 
-        return view('confirmSignup')->with(['confirmationToken' => $token,'activities' => $this->activityController->index()]);
+    public function calculatePrice(ConfirmationToken $confirmationToken): float
+    {
+        $participant = $confirmationToken->participant;
+
+        if ($participant->hasCompletedDownPayment) {
+            (float)$basePrice = Setting::where('name', 'FinalPaymentAmount')->first()->value;
+            /** @var  $activity activity */
+            foreach ($participant->activities as $activity) {
+                $basePrice += (float)$activity->price;
+            }
+            return $basePrice;
+        } else {
+            return (float)Setting::where('name', 'Aanbetaling')->first()->value;
+        }
     }
 
     public function confirm(Request $request): Response|RedirectResponse
@@ -58,7 +70,6 @@ class ConfirmationController extends Controller
                 $confirmationToken = $newConfirmationToken;
             }
 
-            $confirmationToken->confirmed = true;
             $confirmationToken->save();
             $this->participantController->store($request);
             if(!$this->paymentController->checkIfParticipantPaid($user)) {

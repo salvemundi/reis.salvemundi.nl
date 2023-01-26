@@ -49,17 +49,19 @@
             <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ $confirmationToken->participant->phoneNumber }}" id="phoneNumber" name="phoneNumber" placeholder="Phonenumber...">
         </div><br>
 
-        <div class="form-group">
-            <label for="activities">Choose the options you would like</label>
-            @foreach($activities as $activity)
-                <div class="form-check mt-2">
-                    <input class="form-check-input" name="activities[]" value="{{ $activity->id }}" type="checkbox" id="flexCheckDefault{{ $activity->id }}">
-                    <label class="form-check-label" for="flexCheckDefault{{ $activity->id }}">
-                        {{ $activity->name }}: price: €{{ $activity->price }}
-                    </label>
-                </div>
-            @endforeach
-        </div>
+        @if(!$confirmationToken->participant->hasCompletedDownPayment())
+            <div class="form-group">
+                <label for="activities">Choose the options you would like</label>
+                @foreach($activities as $activity)
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" name="activities[]" value="{{ $activity->id }}" type="checkbox" id="flexCheckDefault{{ $activity->id }}">
+                        <label class="form-check-label" for="flexCheckDefault{{ $activity->id }}">
+                            {{ $activity->name }}: price: €{{ $activity->price }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        @endif
 
         <div class="form-group">
             <label for="voornaam">Allergies</label>
@@ -73,7 +75,7 @@
 
         <div class="form-group mb-5">
             <br>
-            <input class="btn btn-primary" type="submit" value="Pay">
+            <input class="btn btn-primary" type="submit" value="Pay {{ $price }}">
         </div>
     </form>
 </div>

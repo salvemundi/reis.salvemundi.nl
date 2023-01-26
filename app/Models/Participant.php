@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PaymentStatus;
+use App\Enums\PaymentTypes;
 use App\Enums\Roles;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Activity;
 
 class Participant extends Model
 {
@@ -20,14 +20,14 @@ class Participant extends Model
 
     protected $keyType = 'string';
 
-    protected $appends = array('haspaid','above18');
+    protected $appends = array('hasCompletedDownPayment', 'hasCompletedFinalPayment', 'above18');
 
     protected $table = 'participants';
 
     protected $fillable = ['firstName', 'insertion', 'lastName', 'birthday', 'email', 'phoneNumber', 'medicalIssues', 'role', 'checkedIn'];
 
     public  function getHaspaidAttribute(): bool {
-        return $this->hasPaid();
+        return $this->hasCompletedAllPayments();
     }
 
     public function activities() {
@@ -73,17 +73,34 @@ class Participant extends Model
         return $this->hasMany(Payment::class,'participant_id','id');
     }
 
-    public function hasPaid(): bool {
+    public function hasCompletedDownPayment(): bool {
         if($this->role !== Roles::participant) {
             return true;
         }
 
         foreach($this->payments()->get() as $payment) {
-            if($payment->paymentStatus === PaymentStatus::paid) {
+            if($payment->paymentStatus === PaymentStatus::paid && $payment->paymentType === PaymentTypes::DownPayment) {
                 return true;
             }
         }
         return false;
+    }
+
+    public function hasCompletedFinalPayment(): bool {
+        if($this->role !== Roles::participant) {
+            return true;
+        }
+
+        foreach($this->payments()->get() as $payment) {
+            if($payment->paymentStatus === PaymentStatus::paid && $payment->paymentType === PaymentTypes::FinalPayment) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function hasCompletedAllPayments(): bool {
+        return $this->hasCompletedDownPayment() && $this->hasCompletedFinalPayment();
     }
 
     public function isVerified():bool {

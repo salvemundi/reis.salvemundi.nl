@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaymentTypes;
 use App\Jobs\resendConfirmationEmailToAllUsers;
 use App\Models\ConfirmationToken;
 use App\Models\Setting;
@@ -73,7 +74,7 @@ class ConfirmationController extends Controller
             $confirmationToken->save();
             $this->participantController->store($request);
             if(!$this->paymentController->checkIfParticipantPaid($user)) {
-                return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name','Aanbetaling')->first()->value, "down_payment");
+                return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name','Aanbetaling')->first()->value, PaymentTypes::DownPayment());
             }
             return back()->with('success','Je gegevens zijn opgeslagen!');
         }

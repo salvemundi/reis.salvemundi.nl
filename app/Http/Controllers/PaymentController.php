@@ -135,7 +135,7 @@ class PaymentController extends Controller
     }
 
     public function finalPayment(Request $request): Response|RedirectResponse {
-        return $this->payForReis($request->token, $this->calculateFinalPrice($request), "final_payment");
+        return $this->payForReis($request->token, $this->calculateFinalPrice($request), PaymentTypes::FinalPayment());
     }
 
     private function createPaymentEntry(Participant $participant): Payment

@@ -65,21 +65,18 @@ class ConfirmationController extends Controller
         }
         if ($token && $confirmationToken !== null) {
             if($confirmationToken->confirmed) {
-                $newConfirmationToken = new ConfirmationToken();
-                $newConfirmationToken->participant()->associate($user);
-                $newConfirmationToken->save();
-                $confirmationToken = $newConfirmationToken;
+                redirect('/')->with('error','This token is already confirmed!');
             }
 
-            $confirmationToken->save();
-            $this->participantController->store($request);
-
-            if(!$user->hasCompletedDownPayment()){
-                return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name','Aanbetaling')->first()->value, PaymentTypes::DownPayment());
-            }
-            if(!$user->hasCompletedFinalPayment()) {
+            if(!$user->hasCompletedFinalPayment() && $user->hasCompletedDownPayment()) {
+                $this->participantController->store($request);
                 return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name', 'Aanbetaling')->first()->value, PaymentTypes::FinalPayment());
             }
+            if(!$user->hasCompletedDownPayment()){
+                $this->participantController->store($request, true);
+                return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name','Aanbetaling')->first()->value, PaymentTypes::DownPayment());
+            }
+            $this->participantController->store($request);
 
             return back()->with('success','Je gegevens zijn opgeslagen!');
         }

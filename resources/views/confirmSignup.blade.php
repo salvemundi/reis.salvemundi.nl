@@ -61,6 +61,16 @@
                     </div>
                 @endforeach
             </div>
+        @else
+            <div class="form-group">
+                <label for="activities">Options you have chosen before:</label>
+                @foreach($activities as $activity)
+                    <p class="form-check-label">
+                        {{ $activity->name }}: price: €{{ $activity->price }}
+                    </p>
+                @endforeach
+            </div>
+
         @endif
 
         <div class="form-group">

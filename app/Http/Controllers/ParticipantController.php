@@ -153,7 +153,7 @@ class ParticipantController extends Controller {
     /**
      * @throws Throwable
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, bool $saveActivities = false): RedirectResponse
     {
         if($request->input('confirmation') == null) {
             $request->validate([
@@ -220,14 +220,13 @@ class ParticipantController extends Controller {
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
-
-        $activityCollection = new Collection();
-
-        foreach ($request->only(['activities'])['activities'] as $uuid) {
-            $activityCollection->add($this->activityController->show($uuid));
+        if($saveActivities) {
+            $activityCollection = new Collection();
+            foreach ($request->only(['activities'])['activities'] as $uuid) {
+                $activityCollection->add($this->activityController->show($uuid));
+            }
+            $this->linkActivities($participant, $activityCollection);
         }
-        $this->linkActivities($participant, $activityCollection);
-
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');

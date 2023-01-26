@@ -19,7 +19,6 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-
     private VerificationController $verificationController;
 
     public function __construct() {

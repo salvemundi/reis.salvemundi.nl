@@ -47,10 +47,6 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
     Route::post('/inschrijven/betalen/{token}',[ConfirmationController::class, 'confirm']);
     Route::get('/inschrijven/betalen/paymentFailed', [PaymentController::class, 'returnSuccessPage']);
 
-    // Final payment
-    Route::get('/restbetaling/{token}', [ParticipantController::class, 'finalPaymentView']);
-    Route::post('/restbetaling/{token}', [PaymentController::class, 'finalPayment']);
-
     Route::post('webhooks/mollie',[WebhookController::class, 'handle'])->name('webhooks.mollie');
 
     // Blogs / news

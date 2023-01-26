@@ -32,7 +32,7 @@ class ConfirmationController extends Controller
     {
         $token = ConfirmationToken::find($request->token);
 
-        if(!$token) {
+        if(!$token || $token->confirmed) {
             return redirect('/')->with('error','Token is not valid!');
         }
         return view('confirmSignup')->with(['confirmationToken' => $token,'activities' => $this->activityController->index(),'price' => $this->calculatePrice($token)]);

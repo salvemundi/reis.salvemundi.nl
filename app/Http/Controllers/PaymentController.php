@@ -43,7 +43,7 @@ class PaymentController extends Controller
                 "metadata" => [
                     "payment_id" => $paymentObject->id,
                     "paymentType" => $paymentType ?? PaymentTypes::DownPayment,
-                    "confirmationToken_id" => $confirmationToken->id
+                    "confirmationTokenId" => $confirmationToken->id
                 ],
             ]);
             $paymentObject->mollie_transaction_id = $payment->id;

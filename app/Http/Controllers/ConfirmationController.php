@@ -36,23 +36,7 @@ class ConfirmationController extends Controller
         if(!$token || $token->confirmed) {
             return redirect('/')->with('error','Token is not valid!');
         }
-        return view('confirmSignup')->with(['confirmationToken' => $token,'activities' => $this->activityController->index(),'price' => $this->calculatePrice($token)]);
-    }
-
-    public function calculatePrice(ConfirmationToken $confirmationToken): float
-    {
-        $participant = $confirmationToken->participant;
-
-        if ($participant->hasCompletedDownPayment) {
-            (float)$basePrice = Setting::where('name', 'FinalPaymentAmount')->first()->value;
-            /** @var  $activity activity */
-            foreach ($participant->activities as $activity) {
-                $basePrice += (float)$activity->price;
-            }
-            return $basePrice;
-        } else {
-            return (float)Setting::where('name', 'Aanbetaling')->first()->value;
-        }
+        return view('confirmSignup')->with(['confirmationToken' => $token,'activities' => $this->activityController->index(),'price' => $this->paymentController->calculateFinalPrice($token)]);
     }
 
     public function confirm(Request $request): Response|RedirectResponse
@@ -74,7 +58,7 @@ class ConfirmationController extends Controller
             }
             if(!$user->hasCompletedDownPayment()){
                 $this->participantController->store($request, true);
-                return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name','Aanbetaling')->first()->value, PaymentTypes::DownPayment());
+                return $this->paymentController->payForReis($confirmationToken->id, $this->paymentController->calculateFinalPrice($confirmationToken), PaymentTypes::DownPayment());
             }
             $this->participantController->store($request);
 

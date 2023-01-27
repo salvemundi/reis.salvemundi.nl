@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\PaymentTypes;
 use App\Enums\Roles;
+use App\Models\Activity;
 use App\Models\ConfirmationToken;
 use App\Models\Participant;
 use App\Models\Setting;
@@ -120,18 +121,20 @@ class PaymentController extends Controller
         return false;
     }
 
-    public function calculateFinalPrice(Request $request): float {
-        $confirmationToken = ConfirmationToken::find($request->token);
+    public function calculateFinalPrice(ConfirmationToken $confirmationToken): float
+    {
         $participant = $confirmationToken->participant;
 
-        $totalPrice = Setting::where('name','FinalPaymentAmount')->first()->value;
-        $amountActivity = 0;
-
-        foreach($participant->activities as $activity) {
-            $amountActivity = $amountActivity + $activity->price;
+        if ($participant->hasCompletedDownPayment) {
+            (float)$basePrice = Setting::where('name', 'FinalPaymentAmount')->first()->value;
+            /** @var  $activity activity */
+            foreach ($participant->activities as $activity) {
+                $basePrice += (float)$activity->price;
+            }
+            return $basePrice;
+        } else {
+            return (float)Setting::where('name', 'Aanbetaling')->first()->value;
         }
-
-        return $totalPrice + $amountActivity;
     }
 
     private function createPaymentEntry(Participant $participant): Payment

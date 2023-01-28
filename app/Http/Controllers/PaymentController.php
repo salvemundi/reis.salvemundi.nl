@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaymentTypes;
 use App\Enums\Roles;
+use App\Models\Activity;
 use App\Models\ConfirmationToken;
 use App\Models\Participant;
+use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -17,20 +20,19 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-
     private VerificationController $verificationController;
 
     public function __construct() {
         $this->verificationController = new VerificationController();
     }
 
-    public function payForReis($token, $amount): Response|RedirectResponse
+    public function payForReis(string $token, int $amount, PaymentTypes $paymentType = null): Response|RedirectResponse
     {
         $confirmationToken = ConfirmationToken::findOrFail($token);
-        $amountWithDecimal = number_format($amount, 2);
+        $amountWithDecimal = str_replace(",", "", number_format($amount, 2));
         try{
             $mollie = $this->createMollieInstance();
-            $paymentObject = $this->createPaymentEntry($confirmationToken->participant);
+            $paymentObject = $this->createPaymentEntry($confirmationToken->participant, $paymentType);
             $payment = $mollie->payments->create([
                 "amount" => [
                     "currency" => "EUR",
@@ -41,6 +43,8 @@ class PaymentController extends Controller
                 "webhookUrl"  => env('NGROK_LINK') ?? route('webhooks.mollie'),
                 "metadata" => [
                     "payment_id" => $paymentObject->id,
+                    "paymentType" => $paymentType->value ?? PaymentTypes::DownPayment,
+                    "confirmationTokenId" => $confirmationToken->id
                 ],
             ]);
             $paymentObject->mollie_transaction_id = $payment->id;
@@ -52,17 +56,11 @@ class PaymentController extends Controller
         }
     }
 
-    public function createMollieInstance() {
+    public function createMollieInstance(): MollieApiClient
+    {
         $mollie = new MollieApiClient();
         $mollie->setApiKey(env('MOLLIE_KEY'));
         return $mollie;
-    }
-
-    private function createPaymentEntry(Participant $participant) {
-        $payment = new Payment;
-        $payment->save();
-        $payment->participant()->associate($participant)->save();
-        return $payment;
     }
 
     public function returnSuccessPage(Request $request) {
@@ -72,7 +70,7 @@ class PaymentController extends Controller
 
             if ($participant != null) {
                 if ($participant->latestPayment != null || $participant->latestPayment->paymentStatus == PaymentStatus::paid) {
-                    return view('SuccessPage');
+                    return view('SuccessPage')->with(['paymentType' => $participant->latestPayment->paymentType]);
                 }
             return view('paymentFailed');
             }
@@ -82,18 +80,18 @@ class PaymentController extends Controller
             return view('paymentFailed');
         }
     }
-
-    public function getAllPaidUsers(): Collection {
+    /**
+     * @var $verifiedParticipants Participant[]
+     * @var $Participant Participant
+     * @return Collection|null
+     */
+    public function getAllPaidUsers(): Collection|null {
         $userArr = [];
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
-
-        if($verifiedParticipants == null) {
-            return collect($userArr);
-        }
-
+        /** @var $verifiedParticipants Participant[] */
         foreach($verifiedParticipants as $participant) {
-            if($participant->hasPaid() && $participant->role == Roles::participant()->value) {
-                array_push($userArr, $participant);
+            if($participant->hasCompletedAllPayments() && $participant->role == Roles::participant()->value && !$participant->isOnReserveList) {
+                $userArr[] = $participant;
             }
         }
         return collect($userArr)->unique('id');
@@ -103,15 +101,16 @@ class PaymentController extends Controller
     {
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         $userArr = [];
+        /** @var $verifiedParticipants Participant[] */
         foreach($verifiedParticipants as $participant) {
-            if (!$participant->hasPaid() && $participant->role == Roles::participant()->value) {
-                array_push($userArr, $participant);
+            if (!$participant->hasCompletedAllPayments() && $participant->role == Roles::participant()->value && !$participant->isOnReserveList) {
+                $userArr[] = $participant;
             }
         }
         return collect($userArr)->unique('id');
     }
 
-    public function checkIfParticipantPaid(Participant $participant):bool {
+    public function checkIfParticipantPaid(Participant $participant): bool {
         $participant->latestPayment = $participant->payments()->latest()->first();
 
         if ($participant->latestPayment != null) {
@@ -122,4 +121,28 @@ class PaymentController extends Controller
         return false;
     }
 
+    public function calculateFinalPrice(ConfirmationToken $confirmationToken): float
+    {
+        $participant = $confirmationToken->participant;
+
+        if ($participant->hasCompletedDownPayment()) {
+            (float)$basePrice = Setting::where('name', 'FinalPaymentAmount')->first()->value;
+            /** @var  $activity activity */
+            foreach ($participant->activities as $activity) {
+                $basePrice += (float)$activity->price;
+            }
+            return $basePrice;
+        } else {
+            return (float)Setting::where('name', 'Aanbetaling')->first()->value;
+        }
+    }
+
+    private function createPaymentEntry(Participant $participant, PaymentTypes $paymentType = null): Payment
+    {
+        $payment = new Payment;
+        $payment->save();
+        $payment->participant()->associate($participant)->save();
+        $payment->paymentType = $paymentType->value ?? PaymentTypes::DownPayment;
+        return $payment;
+    }
 }

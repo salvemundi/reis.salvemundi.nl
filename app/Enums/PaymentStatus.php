@@ -22,4 +22,19 @@ final class PaymentStatus extends Enum
     const expired = 4;
     const paid = 5;
     const failed = 6;
+
+    public static function getDescription($value): string
+    {
+        return match ($value) {
+            self::open => 'Open',
+            self::pending => 'In verwerking',
+            self::authorized => 'geautoriseerd',
+            self::canceled => 'geannuleerd',
+            self::expired => 'Verlopen',
+            self::paid => 'Betaald',
+            self::failed => 'Gefaald',
+            default => parent::getDescription($value),
+        };
+
+    }
 }

@@ -35,7 +35,7 @@ class emailConfirmationSignup extends Mailable
     public function build()
     {
         return $this
-            ->subject("Afronding inschrijving voor de reis!")
+            ->subject("Completion of registration for the trip!")
             ->markdown('mails/emailConfirmationResponse',['participant' => $this->participant, 'confirmationToken' => $this->confirmationToken]);
     }
 }

@@ -1,18 +1,16 @@
 @component('mail::message')
 
-Beste {{ $participant->firstName }},
+Dear {{ $participant->firstName }},
 
-Bedankt voor het inschrijven voor de Salve Mundi reis!
+Thank you for registering for the Salve Mundi trip!
 
-Binnenkort ontvang je per mail meer informatie over de reis.
+Soon you will receive more information about the trip by email.
 
-Wel vragen we je om je mail te verifiëren via de volgende link:
+We do ask you to verify your email via the following link:
 
 {{ env('APP_URL') }}inschrijven/verify/{{ $verificationToken->id }}
 
-Alvast bedankt!
-
-Met vriendelijke groet,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

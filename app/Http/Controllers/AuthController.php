@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AuditCategory;
-use App\Http\Middleware\AzureAuth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
@@ -15,8 +13,6 @@ use Microsoft\Graph\Exception\GraphException;
 use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model;
 use App\TokenStore\TokenCache;
-use App\Models\User;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 

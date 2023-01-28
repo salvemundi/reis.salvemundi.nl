@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaymentTypes;
+use App\Models\ConfirmationToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
@@ -32,8 +34,13 @@ class WebhookController extends Controller
                  * At this point you'd probably want to start the process of delivering the product to the customer.
                  */
                 $participant = $paymentStorage->participant;
+
+                $confirmationToken = ConfirmationToken::find($payment->metadata->confirmationTokenId);
+                $confirmationToken->confirmed = true;
+                $confirmationToken->save();
+
                 Mail::to($participant)
-                    ->send(new emailPaymentSucceeded($participant));
+                    ->send(new emailPaymentSucceeded($participant, PaymentTypes::coerce($payment->metadata->paymentType)));
 
                 return response(null, 200);
             } elseif ($payment->isOpen()) {

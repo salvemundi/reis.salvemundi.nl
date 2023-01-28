@@ -2,25 +2,28 @@
 
 namespace App\Mail;
 
+use App\Models\ConfirmationToken;
 use App\Models\Participant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class emailVerificationResponse extends Mailable
+class finalPayment extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private Participant $participant;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Participant $participant)
-    {
+    private Participant $participant;
+    private ConfirmationToken $confirmationToken;
+
+    public function __construct(Participant $participant, ConfirmationToken $confirmationToken) {
         $this->participant = $participant;
+        $this->confirmationToken = $confirmationToken;
     }
 
     /**
@@ -31,7 +34,7 @@ class emailVerificationResponse extends Mailable
     public function build()
     {
         return $this
-            ->subject("Bevestiging e-mail verificatie")
-            ->markdown('mails/emailVerificationResponse',['participant' => $this->participant]);
+            ->subject("Final payment")
+            ->markdown('mails/finalPayment',['participant' => $this->participant, 'confirmationToken' => $this->confirmationToken]);
     }
 }

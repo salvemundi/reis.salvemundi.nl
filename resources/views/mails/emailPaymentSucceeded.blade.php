@@ -1,15 +1,15 @@
 @component('mail::message')
 
-Beste {{ $participant->firstName }},
+Dear {{ $participant->firstName }},
 
-Je betaling is in goede orde ontvangen.
-Bedankt voor het inschrijven voor de reis!
+Your payment has been received in good order.
+Thank you for registering for the trip!
 
-Bewaar de QR-code in de bijlagen goed!
+You can find the QR-code for check-in in the attachments of this email!
 
-Voor meer nieuws en updates: https://reis.salvemundi.nl/blogs
+For more news and updates: https://reis.salvemundi.nl/blogs
 
-Met vriendelijke groet,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

@@ -34,7 +34,7 @@ class paymentFailed extends Mailable
     public function build()
     {
         return $this
-            ->subject("Betaling is niet gelukt")
+            ->subject("Payment has failed")
             ->markdown('mails/paymentFailed',['participant' => $this->participant, 'payment' => $this->payment]);
     }
 }

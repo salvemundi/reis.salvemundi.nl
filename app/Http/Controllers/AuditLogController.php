@@ -13,15 +13,14 @@ use http\Exception\InvalidArgumentException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 
 class AuditLogController extends Controller
 {
     public function index(): Factory|View|Application
     {
         $this->log(AuditCategory::Other(), 'Inzien van audit logs');
-        $logs = AuditLog::orderBy('created_at','desc')->get();
-        return view('admin/auditLogs',['logs' => $logs]);
+        $logs = AuditLog::orderBy('created_at','desc')->with('user','participant','setting','blog','schedule')->get();
+        return view('admin/auditLogs')->with(['logs' => $logs]);
     }
 
     public static function Log(AuditCategory $category, string $description, Participant $participant = null, Blog $blog = null, Setting $setting = null, Schedule $schedule = null): void

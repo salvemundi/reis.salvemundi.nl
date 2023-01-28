@@ -1,13 +1,13 @@
 @component('mail::message')
 
-Beste {{ $participant->firstName }},
+Dear {{ $participant->firstName }},
 
-Bedankt voor het inschrijven!
+Thank you for registering!
 
-Helaas ben je te laat, maar wees niet getreurd je zit in de wachtrij!
-Check vooral ook de email verificatie mail en klik op de link om je email te verifieren!
+Unfortunately you're too late, but don't worry you're in the queue!
+Be sure to check your email and verify your email.
 
-Met vriendelijke groet,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

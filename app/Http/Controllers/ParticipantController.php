@@ -6,7 +6,6 @@ use App\Enums\AuditCategory;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\resendVerificationEmail;
 use App\Jobs\sendQRCodesToNonParticipants;
-use App\Models\Activity;
 use App\Models\Setting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -20,12 +19,10 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Mail\VerificationMail;
 use App\Mail\VerifySignUpWaitingList;
 use App\Models\VerificationToken;
 use App\Models\ConfirmationToken;
-use App\Mail\parentMailSignup;
 use App\Mail\manuallyAddedMail;
 use App\Mail\emailConfirmationSignup;
 use Throwable;
@@ -62,35 +59,29 @@ class ParticipantController extends Controller {
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
-        $participants = Participant::all();
         AuditLogController::Log(AuditCategory::Other(),'Bezocht pagina met alle deelnemers');
-        if ($request->userId) {
-            $selectedParticipant = Participant::find($request->userId);
-            $dateToday = Carbon::now()->toDate();
-            AuditLogController::Log(AuditCategory::ParticipantManagement(), "Ziet gegevens van " . $selectedParticipant->firstName . " " . $selectedParticipant->lastName, $selectedParticipant);
-            if(!isset($selectedParticipant)) {
+
+        $participants = Participant::all();
+        $dateToday = Carbon::now()->toDate();
+        $selectedParticipant = Participant::find($request->userId);
+
+        if(!isset($selectedParticipant)) {
+            if($request->userId) {
                 return redirect("/participants");
             }
-
-            foreach($participants as $participant) {
-                if($participant->payments != null) {
-                    $participant->latestPayment = $participant->payments()->latest()->first();
-                }
-                $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
-            }
-
-            $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
-            return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant, 'age' => $age]);
         } else {
-            $dateToday = Carbon::now()->toDate();
-            foreach($participants as $participant) {
-                if($participant->payments != null) {
-                    $participant->latestPayment = $participant->payments()->latest()->first();
-                }
-                $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
-            }
+            $age = Carbon::parse($selectedParticipant->birthday)->diff(Carbon::now())->format('%y years');
+            AuditLogController::Log(AuditCategory::ParticipantManagement(), "Ziet gegevens van " . $selectedParticipant->firstName . " " . $selectedParticipant->lastName, $selectedParticipant);
         }
-        return view('admin/participants', ['participants' => $participants]);
+
+        foreach($participants as $participant) {
+            if($participant->payments != null) {
+                $participant->latestPayment = $participant->payments()->latest()->first();
+            }
+            $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
+        }
+
+        return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant ?? null, 'age' => $age ?? null]);
     }
 
     public function checkedInView(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -141,6 +132,20 @@ class ParticipantController extends Controller {
         return back();
     }
 
+    public function changeReserveList(Request $request): RedirectResponse {
+        $participant = Participant::find($request->userId);
+        $participant->isOnReserveList = !$participant->isOnReserveList;
+        $participant->save();
+
+        $string = $participant->isOnReserveList ?
+            "Heeft " . $participant->firstName . " " . $participant->lastName. " in de wachtrij gezet" :
+            "Heeft " . $participant->firstName . " " . $participant->lastName. " uit de wachtrij gehaald";
+
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), $string ,$participant);
+
+        return back();
+    }
+
     public function checkOutEveryone() {
         Participant::query()->update(['checkedIn' => false]);
         AuditLogController::Log(AuditCategory::Other(), "Heeft iedereen uit gechecked");
@@ -162,7 +167,7 @@ class ParticipantController extends Controller {
     /**
      * @throws Throwable
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, bool $saveActivities = false): RedirectResponse
     {
         if($request->input('confirmation') == null) {
             $request->validate([
@@ -180,9 +185,9 @@ class ParticipantController extends Controller {
             ]);
         } else {
             $request->validate([
-                'firstName' => ['nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]'],
+                'firstName' => 'nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]',
                 'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-                'lastName' =>  ['nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]'],
+                'lastName' =>  'nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]',
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
@@ -229,14 +234,13 @@ class ParticipantController extends Controller {
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
-
-        $activityCollection = new Collection();
-
-        foreach ($request->only(['activities'])['activities'] as $uuid) {
-            $activityCollection->add($this->activityController->show($uuid));
+        if($saveActivities) {
+            $activityCollection = new Collection();
+            foreach ($request->only(['activities'])['activities'] as $uuid) {
+                $activityCollection->add($this->activityController->show($uuid));
+            }
+            $this->linkActivities($participant, $activityCollection);
         }
-        $this->linkActivities($participant, $activityCollection);
-
         $participant->save();
 
         return back()->with('message', 'Informatie is opgeslagen!');
@@ -279,6 +283,8 @@ class ParticipantController extends Controller {
         Mail::to($participant->email)
             ->send(new VerificationMail($participant, $token));
         if ((int)Setting::where('name', 'MaxAmountParticipants')->first()->value < Participant::count()) {
+            $participant->isOnReserveList = true;
+            $participant->save();
             Mail::to($participant->email)
                 ->send(new VerifySignUpWaitingList($participant));
             return back()->with('message', 'Je hebt je succesvol ingeschreven maar je bent helaas te laat en staat in de wachtrij.');
@@ -312,16 +318,6 @@ class ParticipantController extends Controller {
         return back()->with('message', 'De mails zijn verstuurd!');
     }
 
-    public function sendQRCodesToNonParticipants(): RedirectResponse {
-        $paidParticipants = Participant::where('role','!=',Roles::participant())->get();
-
-        foreach($paidParticipants as $participant) {
-            sendQRCodesToNonParticipants::dispatch($participant);
-        }
-        AuditLogController::Log(AuditCategory::Other(), "Heeft alle qr-codes opnieuw verzonden naar alle niet-deelnemers");
-        return back()->with('message', 'De mails zijn verstuurd!');
-    }
-
     public function storeEdit(Request $request): RedirectResponse
     {
         $request->validate([
@@ -348,7 +344,6 @@ class ParticipantController extends Controller {
         $participant->phoneNumber = $request->input('participantPhoneNumber');
         $participant->medicalIssues = $request->input('participantMedicalIssues');
         $participant->role = $request->input('participantRole') ?? 0;
-        $participant->alreadyPaidForMembership = isset($request->participantAlreadyPaid);
         $participant->save();
         return back()->with('success','Deelnemer gegevens opgeslagen!');
     }
@@ -425,6 +420,24 @@ class ParticipantController extends Controller {
             return back()->with('success','Confirmatie email verstuurd!');
         }
         return back()->with('error','Deelnemer heeft al betaald!');
+    }
+
+    public function finalPaymentView(Request $request): Factory|View|Application {
+        $confirmationToken = ConfirmationToken::find($request->token);
+        $selectedActivities = $confirmationToken->participant->activities;
+
+        return view('/finalPayment', ['selectedActivities' => $selectedActivities, 'totalPaymentAmount' => $this->paymentController->calculateFinalPrice($request)]);
+    }
+
+    public function sendFinalPaymentEmail(): RedirectResponse {
+        $paidParticipants = $this->paymentController->getAllPaidUsers();
+
+        foreach($paidParticipants as $participant) {
+            resendQRCodeEmails::dispatch($participant);
+        }
+
+        AuditLogController::Log(AuditCategory::Other(), "Heeft alle qr-codes opnieuw verzonden naar alle betaalde deelnemers");
+        return back()->with('message', 'De mails zijn verstuurd!');
     }
 
     private function createConfirmationToken(Participant $participant): ConfirmationToken

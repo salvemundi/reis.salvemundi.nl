@@ -66,5 +66,15 @@ class SettingsSeeder extends Seeder
             $setting->valueType = SettingTypes::int();
             $setting->save();
         }
+
+        // Amount people need to pay for the trip without the aanbetaling
+        if(!Setting::where('name', 'FinalPaymentAmount')->exists()) {
+            $setting = new Setting();
+            $setting->name = "FinalPaymentAmount";
+            $setting->value = 100.00;
+            $setting->description = "Stel het bedrag in voor het totale bedrag exclusief aanbetaling.";
+            $setting->valueType = SettingTypes::int();
+            $setting->save();
+        }
     }
 }

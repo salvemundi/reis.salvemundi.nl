@@ -62,15 +62,7 @@ setActive("participants");
 
                         <form method="POST" action="/participants/resendQRcode">
                             @csrf
-                            <button type="submit" class="dropdown-item">Stuur QR-code kiddos</button>
-                        </form>
-
-                    </li>
-                    <li>
-
-                        <form method="POST" action="/participants/resendQRcodeNonParticipants">
-                            @csrf
-                            <button type="submit" class="dropdown-item">Stuur QR-code non kiddos</button>
+                            <button type="submit" class="dropdown-item">Stuur QR-codes</button>
                         </form>
 
                     </li>
@@ -116,6 +108,7 @@ setActive("participants");
                         @endif
                         <th data-field="email" data-sortable="false">email</th>
                         <th data-field="paid" data-sortable="true">Betaald</th>
+                        <th data-field="isOnReserveList" data-sortable="true">Wachtrij</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -136,24 +129,40 @@ setActive("participants");
                                 <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference }}</td>
                             @endif
                             <td data-value="{{ $participant->email }}">{{$participant->email}}</td>
-                            <td data-value="{{ $participant->paid }}">
-                                @if($participant->latestPayment)
-                                    @if($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::paid)
-                                        <span class="badge rounded-pill bg-success text-black">Betaald</span>
-                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::pending)
-                                        <span class="badge rounded-pill bg-warning text-black">In behandeling</span>
-                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::canceled)
-                                        <span class="badge rounded-pill bg-secondary">Geannuleerd</span>
-                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::expired)
-                                        <span class="badge rounded-pill bg-secondary">Verlopen</span>
-                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::failed)
-                                        <span class="badge rounded-pill bg-danger">Gefaald</span>
-                                    @elseif($participant->latestPayment->paymentStatus == \App\Enums\PaymentStatus::open)
-                                        <span class="badge rounded-pill bg-secondary">Open</span>
-                                    @endif
+                            <td>
+                                @if($participant->hasCompletedFinalPayment())
+                                    <span class="badge rounded-pill bg-success text-black">Restbetaling voltooid</span>
                                 @else
-                                    <span class="badge rounded-pill bg-secondary">Geen transacties</span>
+                                    @if($participant->hasCompletedDownPayment())
+                                        <span class="badge rounded-pill bg-success text-black">Aanbetaling voltooid</span>
+                                    @else
+                                        @if($participant->latestPayment)
+                                            @switch($participant->latestPayment->paymentStatus)
+                                                @case(1)
+                                                    <span class="badge rounded-pill bg-warning text-black">{{ \App\Enums\PaymentStatus::getDescription(1) }}</span>
+                                                    @break
+                                                @case(6)
+                                                    <span class="badge rounded-pill bg-danger text-black">{{ \App\Enums\PaymentStatus::getDescription(6) }}</span>
+                                                    @break
+                                                @default
+                                                    <span class="badge rounded-pill bg-secondary">{{ \App\Enums\PaymentStatus::getDescription($participant->latestPayment->paymentStatus) }}</span>
+                                                    @break
+                                            @endswitch
+                                        @else
+                                            <span class="badge rounded-pill bg-secondary">Geen transacties</span>
+                                        @endif
+                                    @endif
                                 @endif
+                            </td>
+                            <td>
+                                <form action="/participants/reserveList/{{ $participant->id }}" method="POST">
+                                    @csrf
+                                    @if($participant->isOnReserveList)
+                                        <button type="submit" class="btn btn-primary buttonPart me-2">Zet in de wachtrij</button>
+                                    @else
+                                        <button type="submit" class="btn btn-danger buttonPart me-2">Zet in de wachtrij</button>
+                                    @endif
+                                </form>
                             </td>
                         </tr>
                     @endforeach
@@ -175,7 +184,7 @@ setActive("participants");
             @else
                 <div class="card-body aboveEightTeen d-flex">
             @endif
-                    <div class="flex-column w-50">
+                    <div class="flex-column ">
                         <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
                         <span>
                             @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
@@ -214,6 +223,16 @@ setActive("participants");
                             </div>
                         </span>
                     </div>
+                    @if($selectedParticipant != null)
+                        <div class="flex-column">
+                            <p>Opties gekozen:</p>
+                            @foreach($selectedParticipant->activities as $activity)
+                                <ul>
+                                    <li>{{ $activity->name }}</li>
+                                </ul>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

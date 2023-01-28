@@ -2,13 +2,12 @@
 
 Dear {{ $participant->firstName }},
 
-{!! nl2br($konttent) !!}
+Your down payment has been received in good order.
+Thank you for registering for the trip!
 
-@if(isset($confirmationToken))
-Paymentlink:
+Soon you will hear more from us!
 
-{{ env('APP_URL') }}inschrijven/betalen/{{ $confirmationToken->id }}
-@endif
+For more news and updates: https://reis.salvemundi.nl/blogs
 
 Kind regards,
 

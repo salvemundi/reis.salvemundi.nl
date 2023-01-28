@@ -54,6 +54,7 @@ class VerificationController extends Controller
 
         return view('verifyResponse', ['Response' => false]);
     }
+    /* @var $participant Participant */
 
     public function getVerifiedParticipants(): Collection
     {
@@ -61,7 +62,7 @@ class VerificationController extends Controller
         $participants = Participant::all();
         foreach($participants as $participant) {
 
-            if($participant->isVerified() && $participant->role == Roles::participant()->value) {
+            if($participant->isVerified() && $participant->role == Roles::participant()->value && !$participant->isOnReserveList) {
                 array_push($userArr, $participant);
             }
         }

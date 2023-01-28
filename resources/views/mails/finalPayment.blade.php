@@ -1,14 +1,10 @@
 @component('mail::message')
-
 Dear {{ $participant->firstName }},
 
-{!! nl2br($konttent) !!}
-
-@if(isset($confirmationToken))
-Paymentlink:
+You can now complete your registration by clicking on this link!
+Keep in mind that it is no longer possible to apply or change activities as these have already been booked and/or reserved by the organization.
 
 {{ env('APP_URL') }}inschrijven/betalen/{{ $confirmationToken->id }}
-@endif
 
 Kind regards,
 

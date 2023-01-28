@@ -1,12 +1,12 @@
 @component('mail::message')
 
-Beste {{ $participant->firstName }},
+Dear {{ $participant->firstName }},
 
-Bedankt voor het verifiëren van je email!
+Thanks for verifying your email!
 
-Binnenkort zal je meer van ons horen.
+Soon you will hear more from us.
 
-Met vriendelijke groet,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

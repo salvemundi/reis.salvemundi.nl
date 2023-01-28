@@ -15,8 +15,6 @@ use App\Models\Occupied;
 use Carbon\Carbon;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {

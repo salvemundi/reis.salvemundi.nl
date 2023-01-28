@@ -15,7 +15,7 @@
     <form action="/inschrijven/betalen/{{ $confirmationToken->id }}" method="post" enctype="multipart/form-data">
         @csrf
         <br>
-        <h2 class="h2">Fill / confirm in the following information</h2>
+        <h2 class="h2">Confirm the following information</h2>
         <input type="hidden" name="uid" id="uid" value="{{ $confirmationToken->participant->id }}">
         <input type="hidden" name="confirmation" id="confirmation" value="1">
         <div class="form-group">

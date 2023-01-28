@@ -40,7 +40,7 @@
                 </a>
                 <a id="activities" href="/activities" class="nav_link">
                     <i class="fas fa-skiing circlePlus"></i>
-                    <span class="nav_name">Activiteiten</span>
+                    <span class="nav_name">Opties</span>
                 </a>
                 <a id="settings" href="/settings" class="nav_link">
                     <i class="fas fa-cog circlePlus"></i>

@@ -22,15 +22,15 @@
             @endif
                 @csrf
                 <br>
-                <h2 class="h2">Activiteit toevoegen / bewerken</h2>
+                <h2 class="h2">Optie toevoegen / bewerken</h2>
 
                 <div class="form-group">
-                    <label for="name">Activiteit naam*</label>
+                    <label for="name">Optie naam*</label>
                     <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ $activity->name ?? old('name') }}" id="name" name="name" placeholder="Activiteit naam...">
                 </div><br>
 
                 <div class="form-group">
-                    <label for="price">Activiteit prijs*</label>
+                    <label for="price">Optie prijs*</label>
                     <input class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" value="{{ $activity->price ?? old('price') }}" id="price" name="price" placeholder="Activiteit prijs...">
                 </div><br>
 

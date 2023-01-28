@@ -1,10 +1,11 @@
 @component('mail::message')
 
-Beste {{ $participant->firstName }},
+Dear {{ $participant->firstName }},
 
-Hierbij nog een keer je QR-code voor de reis, mocht je deze hebben kwijt geraakt.
+Here's your QR code for the trip again, incase you have lost it.
+Hereby again your QR-code if you have lost the previous mail.
 
-Met vriendelijke groet,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

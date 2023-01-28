@@ -124,5 +124,8 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::post('/activities/delete/{activityId}', [ActivityController::class, 'delete']);
         Route::get('/activities/update/{activityId}',[ActivityController::class, 'showCreatePage']);
         Route::post('/activities/update/{activityId}',[ActivityController::class, 'update']);
+
+        // ReserveList
+        Route::post('/participants/reserveList/{userId}', [ParticipantController::class, 'changeReserveList']);
     });
 });

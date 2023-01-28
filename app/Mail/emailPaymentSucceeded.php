@@ -36,7 +36,7 @@ class emailPaymentSucceeded extends Mailable
      */
     public function build()
     {
-        switch($this->paymentType) {
+        switch($this->paymentType->value) {
             case(PaymentTypes::DownPayment):
                 return $this
                     ->subject("Confirmation of down payment")

@@ -5,7 +5,7 @@ You now can pay your down payment if you click the link below!
 
 {{ env('APP_URL') }}inschrijven/betalen/{{ $confirmationToken->id }}
 
-Sincerely,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

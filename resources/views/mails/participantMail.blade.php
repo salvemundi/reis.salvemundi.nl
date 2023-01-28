@@ -1,16 +1,16 @@
 @component('mail::message')
 
-Beste {{ $participant->firstName }},
+Dear {{ $participant->firstName }},
 
 {!! nl2br($konttent) !!}
 
 @if(isset($confirmationToken))
-Betalingslink:
+Paymentlink:
 
 {{ env('APP_URL') }}inschrijven/betalen/{{ $confirmationToken->id }}
 @endif
 
-Met vriendelijke groet,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

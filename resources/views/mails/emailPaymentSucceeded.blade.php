@@ -9,7 +9,7 @@ You can find the QR-code for check-in in the attachments of this email!
 
 For more news and updates: https://reis.salvemundi.nl/blogs
 
-Sincerely,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

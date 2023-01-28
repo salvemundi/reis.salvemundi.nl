@@ -62,15 +62,7 @@ setActive("participants");
 
                         <form method="POST" action="/participants/resendQRcode">
                             @csrf
-                            <button type="submit" class="dropdown-item">Stuur QR-code kiddos</button>
-                        </form>
-
-                    </li>
-                    <li>
-
-                        <form method="POST" action="/participants/resendQRcodeNonParticipants">
-                            @csrf
-                            <button type="submit" class="dropdown-item">Stuur QR-code non kiddos</button>
+                            <button type="submit" class="dropdown-item">Stuur QR-codes</button>
                         </form>
 
                     </li>
@@ -116,6 +108,7 @@ setActive("participants");
                         @endif
                         <th data-field="email" data-sortable="false">email</th>
                         <th data-field="paid" data-sortable="true">Betaald</th>
+                        <th data-field="isOnReserveList" data-sortable="true">Wachtrij</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -161,6 +154,16 @@ setActive("participants");
                                     @endif
                                 @endif
                             </td>
+                            <td>
+                                <form action="/participants/reserveList/{{ $participant->id }}" method="POST">
+                                    @csrf
+                                    @if($participant->isOnReserveList)
+                                        <button type="submit" class="btn btn-primary buttonPart me-2">Zet in de wachtrij</button>
+                                    @else
+                                        <button type="submit" class="btn btn-danger buttonPart me-2">Zet in de wachtrij</button>
+                                    @endif
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -181,7 +184,7 @@ setActive("participants");
             @else
                 <div class="card-body aboveEightTeen d-flex">
             @endif
-                    <div class="flex-column w-50">
+                    <div class="flex-column ">
                         <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
                         <span>
                             @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
@@ -220,6 +223,16 @@ setActive("participants");
                             </div>
                         </span>
                     </div>
+                    @if($selectedParticipant != null)
+                        <div class="flex-column">
+                            <p>Opties gekozen:</p>
+                            @foreach($selectedParticipant->activities as $activity)
+                                <ul>
+                                    <li>{{ $activity->name }}</li>
+                                </ul>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

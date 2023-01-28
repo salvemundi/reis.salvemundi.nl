@@ -29,10 +29,10 @@ class PaymentController extends Controller
     public function payForReis(string $token, int $amount, PaymentTypes $paymentType = null): Response|RedirectResponse
     {
         $confirmationToken = ConfirmationToken::findOrFail($token);
-        $amountWithDecimal = number_format($amount, 2);
+        $amountWithDecimal = str_replace(",", "", number_format($amount, 2));
         try{
             $mollie = $this->createMollieInstance();
-            $paymentObject = $this->createPaymentEntry($confirmationToken->participant);
+            $paymentObject = $this->createPaymentEntry($confirmationToken->participant, $paymentType);
             $payment = $mollie->payments->create([
                 "amount" => [
                     "currency" => "EUR",
@@ -70,7 +70,7 @@ class PaymentController extends Controller
 
             if ($participant != null) {
                 if ($participant->latestPayment != null || $participant->latestPayment->paymentStatus == PaymentStatus::paid) {
-                    return view('SuccessPage');
+                    return view('SuccessPage')->with(['paymentType' => $participant->latestPayment->paymentType]);
                 }
             return view('paymentFailed');
             }
@@ -90,7 +90,7 @@ class PaymentController extends Controller
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         /** @var $verifiedParticipants Participant[] */
         foreach($verifiedParticipants as $participant) {
-            if($participant->hasCompletedAllPayments() && $participant->role == Roles::participant()->value) {
+            if($participant->hasCompletedAllPayments() && $participant->role == Roles::participant()->value && !$participant->isOnReserveList) {
                 $userArr[] = $participant;
             }
         }
@@ -103,7 +103,7 @@ class PaymentController extends Controller
         $userArr = [];
         /** @var $verifiedParticipants Participant[] */
         foreach($verifiedParticipants as $participant) {
-            if (!$participant->hasCompletedAllPayments() && $participant->role == Roles::participant()->value) {
+            if (!$participant->hasCompletedAllPayments() && $participant->role == Roles::participant()->value && !$participant->isOnReserveList) {
                 $userArr[] = $participant;
             }
         }
@@ -125,7 +125,7 @@ class PaymentController extends Controller
     {
         $participant = $confirmationToken->participant;
 
-        if ($participant->hasCompletedDownPayment) {
+        if ($participant->hasCompletedDownPayment()) {
             (float)$basePrice = Setting::where('name', 'FinalPaymentAmount')->first()->value;
             /** @var  $activity activity */
             foreach ($participant->activities as $activity) {
@@ -137,11 +137,12 @@ class PaymentController extends Controller
         }
     }
 
-    private function createPaymentEntry(Participant $participant): Payment
+    private function createPaymentEntry(Participant $participant, PaymentTypes $paymentType = null): Payment
     {
         $payment = new Payment;
         $payment->save();
         $payment->participant()->associate($participant)->save();
+        $payment->paymentType = $paymentType->value ?? PaymentTypes::DownPayment;
         return $payment;
     }
 }

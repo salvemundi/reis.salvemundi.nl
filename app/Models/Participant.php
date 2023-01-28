@@ -24,7 +24,7 @@ class Participant extends Model
 
     protected $table = 'participants';
 
-    protected $fillable = ['firstName', 'insertion', 'lastName', 'birthday', 'email', 'phoneNumber', 'medicalIssues', 'role', 'checkedIn'];
+    protected $fillable = ['firstName', 'insertion', 'lastName', 'birthday', 'email', 'phoneNumber', 'medicalIssues', 'role', 'checkedIn', 'isOnReserveList'];
 
     public  function getHaspaidAttribute(): bool {
         return $this->hasCompletedAllPayments();

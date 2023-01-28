@@ -6,7 +6,7 @@ Thanks for verifying your email!
 
 Soon you will hear more from us.
 
-Sincerely,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

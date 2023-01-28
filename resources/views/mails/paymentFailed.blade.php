@@ -1,19 +1,18 @@
 @component('mail::message')
 
-Beste {{ $participant->firstName }},
+Dear {{ $participant->firstName }},
 
-Helaas hebben we dit keer slecht nieuws. We zien dat je betaling niet goed is ontvangen bij onze betalings provider.
-Probeer het later opnieuw!
+Your payment has failed, please try again using the previously provided link.
 
-Mocht het je meerdere keren niet lukken of is het geld wel afgeschreven maar ontvang je alsnog deze mail?
+Incase your payment has been withdrawn from your bankaccount and you are still receiving this email, please contact us.
 
-Neem dan contact op met per mail: info@salvemundi.nl of via WhatsApp: <a href="https://wa.me/+31624827777" target="_blank">+31 6 24827777</a>
+Contact us via the mail: or via WhatsApp: <a href="https://wa.me/+31624827777" target="_blank">+31 6 24827777</a>
 
-Jouw betalings ID: {{ $payment->mollie_transaction_id }}
+Your payment-ID: {{ $payment->mollie_transaction_id }}
 
-Alvast bedankt!
+Thanks in advance!
 
-Met vriendelijke groet,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

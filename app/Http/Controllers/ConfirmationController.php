@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\PaymentTypes;
 use App\Jobs\resendConfirmationEmailToAllUsers;
 use App\Models\ConfirmationToken;
+use App\Models\Participant;
 use App\Models\Setting;
 use App\Models\Activity;
 use Illuminate\Contracts\Foundation\Application;
@@ -36,7 +37,7 @@ class ConfirmationController extends Controller
         if(!$token || $token->confirmed) {
             return redirect('/')->with('error','Token is not valid!');
         }
-        return view('confirmSignup')->with(['confirmationToken' => $token,'activities' => $this->activityController->index(),'price' => $this->paymentController->calculateFinalPrice($token)]);
+        return view('confirmSignup')->with(['confirmationToken' => $token,'activities' => $this->activityController->index(),'price' => $this->paymentController->calculateFinalPrice($token),'basePrice' => Setting::where('name','FinalPaymentAmount')->first()->value]);
     }
 
     public function confirm(Request $request): Response|RedirectResponse
@@ -54,11 +55,11 @@ class ConfirmationController extends Controller
 
             if(!$user->hasCompletedFinalPayment() && $user->hasCompletedDownPayment()) {
                 $this->participantController->store($request);
-                return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name', 'Aanbetaling')->first()->value, PaymentTypes::FinalPayment());
+                return $this->paymentController->payForReis($confirmationToken->id, $this->paymentController->calculateFinalPrice($confirmationToken), PaymentTypes::FinalPayment());
             }
             if(!$user->hasCompletedDownPayment()){
                 $this->participantController->store($request, true);
-                return $this->paymentController->payForReis($confirmationToken->id, $this->paymentController->calculateFinalPrice($confirmationToken), PaymentTypes::DownPayment());
+                return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name', 'Aanbetaling')->first()->value, PaymentTypes::DownPayment());
             }
             $this->participantController->store($request);
 
@@ -70,9 +71,9 @@ class ConfirmationController extends Controller
     public function sendConfirmEmailToAllUsers(): RedirectResponse
     {
         $verifiedParticipants = $this->verifiedController->getVerifiedParticipants();
-
+        /** @var Participant $participant */
         foreach($verifiedParticipants as $participant) {
-            if (!$participant->hasPaid()) {
+            if (!$participant->hasCompletedAllPayments()) {
                 $newConfirmationToken = new ConfirmationToken();
                 $newConfirmationToken->participant()->associate($participant);
                 $newConfirmationToken->save();

@@ -132,6 +132,20 @@ class ParticipantController extends Controller {
         return back();
     }
 
+    public function changeReserveList(Request $request): RedirectResponse {
+        $participant = Participant::find($request->userId);
+        $participant->isOnReserveList = !$participant->isOnReserveList;
+        $participant->save();
+
+        $string = $participant->isOnReserveList ?
+            "Heeft " . $participant->firstName . " " . $participant->lastName. " in de wachtrij gezet" :
+            "Heeft " . $participant->firstName . " " . $participant->lastName. " uit de wachtrij gehaald";
+
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), $string ,$participant);
+
+        return back();
+    }
+
     public function checkOutEveryone() {
         Participant::query()->update(['checkedIn' => false]);
         AuditLogController::Log(AuditCategory::Other(), "Heeft iedereen uit gechecked");
@@ -171,9 +185,9 @@ class ParticipantController extends Controller {
             ]);
         } else {
             $request->validate([
-                'firstName' => ['nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]'],
+                'firstName' => 'nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]',
                 'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-                'lastName' =>  ['nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]'],
+                'lastName' =>  'nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]',
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
@@ -269,6 +283,8 @@ class ParticipantController extends Controller {
         Mail::to($participant->email)
             ->send(new VerificationMail($participant, $token));
         if ((int)Setting::where('name', 'MaxAmountParticipants')->first()->value < Participant::count()) {
+            $participant->isOnReserveList = true;
+            $participant->save();
             Mail::to($participant->email)
                 ->send(new VerifySignUpWaitingList($participant));
             return back()->with('message', 'Je hebt je succesvol ingeschreven maar je bent helaas te laat en staat in de wachtrij.');
@@ -299,16 +315,6 @@ class ParticipantController extends Controller {
         }
 
         AuditLogController::Log(AuditCategory::Other(), "Heeft alle qr-codes opnieuw verzonden naar alle betaalde deelnemers");
-        return back()->with('message', 'De mails zijn verstuurd!');
-    }
-
-    public function sendQRCodesToNonParticipants(): RedirectResponse {
-        $paidParticipants = Participant::where('role','!=',Roles::participant())->get();
-
-        foreach($paidParticipants as $participant) {
-            sendQRCodesToNonParticipants::dispatch($participant);
-        }
-        AuditLogController::Log(AuditCategory::Other(), "Heeft alle qr-codes opnieuw verzonden naar alle niet-deelnemers");
         return back()->with('message', 'De mails zijn verstuurd!');
     }
 

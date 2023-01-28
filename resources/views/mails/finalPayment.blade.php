@@ -6,7 +6,7 @@ Keep in mind that it is no longer possible to apply or change activities as thes
 
 {{ env('APP_URL') }}inschrijven/betalen/{{ $confirmationToken->id }}
 
-Sincerely,
+Kind regards,
 
 Salve Mundi <br>
 Rachelsmolen 1 <br>

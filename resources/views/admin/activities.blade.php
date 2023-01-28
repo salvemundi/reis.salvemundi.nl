@@ -25,6 +25,7 @@
                         <th data-field="name" data-sortable="true">Naam</th>
                         <th data-field="price" data-sortable="true">Prijs</th>
                         <th data-field="options" data-sortable="true">Opties</th>
+                        <th data-field="verkocht" data-sortable="true">Aantal verkocht</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,6 +41,8 @@
                                     Verwijderen
                                 </button>
                             </td>
+                            <td data-value="{{ $activity->participants()->count() }}">{{ $activity->participants()->count() }}</td>
+
                         </tr>
                         <div class="modal fade" id="deleteModal{{ $activity->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">

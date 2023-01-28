@@ -158,7 +158,7 @@ setActive("participants");
                                 <form action="/participants/reserveList/{{ $participant->id }}" method="POST">
                                     @csrf
                                     @if($participant->isOnReserveList)
-                                        <button type="submit" class="btn btn-primary buttonPart me-2">Zet in de wachtrij</button>
+                                        <button type="submit" class="btn btn-primary buttonPart me-2">Zet uit de wachtrij</button>
                                     @else
                                         <button type="submit" class="btn btn-danger buttonPart me-2">Zet in de wachtrij</button>
                                     @endif

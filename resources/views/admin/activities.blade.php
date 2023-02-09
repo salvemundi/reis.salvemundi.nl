@@ -36,10 +36,11 @@
                             <td data-value="{{ $activity->description }}">{{ $activity->description }}</td>
                             <td data-value="{{ $activity->price }}">{{ $activity->price }}</td>
                             <td data-value="{{ $activity->id }}">
-                                <a class="btn btn-primary" href="/activities/update/{{ $activity->id }}">
+                                <a class="btn btn-primary mb-1 w-100" href="/activities/update/{{ $activity->id }}">
                                     Bewerken
                                 </a>
-                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $activity->id }}">
+
+                                <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $activity->id }}">
                                     Verwijderen
                                 </button>
                             </td>

@@ -23,6 +23,7 @@
                     <thead>
                     <tr class="tr-class-1">
                         <th data-field="name" data-sortable="true">Naam</th>
+                        <th data-field="description" data-sortable="true">Omschrijving</th>
                         <th data-field="price" data-sortable="true">Prijs</th>
                         <th data-field="options" data-sortable="true">Opties</th>
                         <th data-field="verkocht" data-sortable="true">Aantal verkocht</th>
@@ -32,12 +33,14 @@
                     @foreach ($activities as $activity)
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
                             <td data-value="{{ $activity->name }}">{{ $activity->name }}</td>
+                            <td data-value="{{ $activity->description }}">{{ $activity->description }}</td>
                             <td data-value="{{ $activity->price }}">{{ $activity->price }}</td>
                             <td data-value="{{ $activity->id }}">
-                                <a class="btn btn-primary" href="/activities/update/{{ $activity->id }}">
+                                <a class="btn btn-primary mb-1 w-100" href="/activities/update/{{ $activity->id }}">
                                     Bewerken
                                 </a>
-                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $activity->id }}">
+
+                                <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $activity->id }}">
                                     Verwijderen
                                 </button>
                             </td>

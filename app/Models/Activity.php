@@ -11,7 +11,7 @@ class Activity extends Model
 {
     use HasFactory, UsesUuid;
     protected $table = 'activities';
-    protected $fillable = ['name','price'];
+    protected $fillable = ['name','price', 'description'];
 
     public function participants(): BelongsToMany
     {

@@ -413,7 +413,7 @@ class ParticipantController extends Controller {
     public function sendParticipantConfirmationEmail(Request $request): RedirectResponse
     {
         $participant = Participant::find($request->userId);
-        if(!$participant->hasPaid()) {
+        if(!$participant->hasCompletedDownPayment()) {
             Mail::to($participant->email)
                 ->send(new emailConfirmationSignup($participant, $this->createConfirmationToken($participant)));
             AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft nieuwe confirmatie mail gestuurd naar " . $participant->firstName . " " . $participant->lastName, $participant);

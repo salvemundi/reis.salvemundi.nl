@@ -30,7 +30,7 @@ class VerifySignUpWaitingList extends Mailable
     public function build()
     {
         return $this
-                ->subject("Bevestiging e-mail verificatie")
+                ->subject("Confirmation e-mail verification")
                 ->markdown('mails/verifySignUpWaitingList', ['participant'=> $this->participant]);
     }
 }

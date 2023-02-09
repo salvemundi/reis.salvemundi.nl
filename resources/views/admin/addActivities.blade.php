@@ -30,6 +30,11 @@
                 </div><br>
 
                 <div class="form-group">
+                    <label for="description">Omschrijving</label>
+                    <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" type="textarea" id="description" name="description" placeholder="Omschrijving...">{{{ $activity->description ?? old('description') }}}</textarea>
+                </div><br>
+
+                <div class="form-group">
                     <label for="price">Optie prijs*</label>
                     <input class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" value="{{ $activity->price ?? old('price') }}" id="price" name="price" placeholder="Activiteit prijs...">
                 </div><br>

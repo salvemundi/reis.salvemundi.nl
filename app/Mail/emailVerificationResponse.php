@@ -31,7 +31,7 @@ class emailVerificationResponse extends Mailable
     public function build()
     {
         return $this
-            ->subject("Bevestiging e-mail verificatie")
+            ->subject("Confirmation e-mail verification")
             ->markdown('mails/emailVerificationResponse',['participant' => $this->participant]);
     }
 }

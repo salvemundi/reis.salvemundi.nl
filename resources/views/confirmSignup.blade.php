@@ -56,7 +56,7 @@
                     <div class="form-check mt-2">
                         <input class="form-check-input" name="activities[]" value="{{ $activity->id }}" type="checkbox" id="flexCheckDefault{{ $activity->id }}">
                         <label class="form-check-label" for="flexCheckDefault{{ $activity->id }}">
-                            {{ ucfirst($activity->name) }}: Price: €{{ $activity->price }}
+                            {{ ucfirst($activity->name) }}: Price: €{{ $activity->price }} <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top" title="{{ $activity->description }}"></i>
                         </label>
                     </div>
                 @endforeach

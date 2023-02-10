@@ -19,7 +19,7 @@
         <input type="hidden" name="uid" id="uid" value="{{ $confirmationToken->participant->id }}">
         <input type="hidden" name="confirmation" id="confirmation" value="1">
         <div class="form-group">
-            <label for="voornaam">Firstname*</label>
+            <label for="voornaam">Full Firstname* <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top" title="The same that has been written on your passport or id"></i></label>
             <input class="form-control{{ $errors->has('firstName') ? ' is-invalid' : '' }}" name="firstName" value="{{ $confirmationToken->participant->firstName }}" >
         </div><br>
         @if($confirmationToken->participant->insertion != "" || $confirmationToken->participant->insertion != null)

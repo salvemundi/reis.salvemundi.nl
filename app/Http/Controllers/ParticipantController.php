@@ -390,21 +390,17 @@ class ParticipantController extends Controller {
 
         $participant->save();
 
-        if ($participant->role != Roles::participant) {
-            Mail::to($participant->email)
-                ->send(new manuallyAddedMail($participant));
-        } else {
-            $verificationToken = $this->verificationController->createNewVerificationToken($participant);
-            $verificationToken->verified = true;
-            $verificationToken->save();
+        $verificationToken = $this->verificationController->createNewVerificationToken($participant);
+        $verificationToken->verified = true;
+        $verificationToken->save();
 
-            $newConfirmationToken = new ConfirmationToken();
-            $newConfirmationToken->participant()->associate($participant);
-            $newConfirmationToken->save();
+        $newConfirmationToken = new ConfirmationToken();
+        $newConfirmationToken->participant()->associate($participant);
+        $newConfirmationToken->save();
 
-            Mail::to($participant->email)
-                ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
-        }
+        Mail::to($participant->email)
+            ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
+
         AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft deelnemer " . $participant->firstName . " " . $participant->lastName. " toegevoegd", $participant);
 
         return back()->with('message', 'Deelnemer is opgeslagen!');

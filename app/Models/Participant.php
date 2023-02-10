@@ -74,10 +74,6 @@ class Participant extends Model
     }
 
     public function hasCompletedDownPayment(): bool {
-        if($this->role !== Roles::participant) {
-            return true;
-        }
-
         foreach($this->payments()->get() as $payment) {
             if($payment->paymentStatus === PaymentStatus::paid && $payment->paymentType === PaymentTypes::DownPayment) {
                 return true;
@@ -87,10 +83,6 @@ class Participant extends Model
     }
 
     public function hasCompletedFinalPayment(): bool {
-        if($this->role !== Roles::participant) {
-            return true;
-        }
-
         foreach($this->payments()->get() as $payment) {
             if($payment->paymentStatus === PaymentStatus::paid && $payment->paymentType === PaymentTypes::FinalPayment) {
                 return true;

@@ -33,10 +33,8 @@
                                     <div class="col-md-6">
                                         <img class="imageBlog" src="{{ asset('storage/blogImages/'.$blog->id.'.'.$blog->imageExtension)}}" alt="">
                                     </div>
-                                </div>
                                 @endif
-                            </div>
-
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -45,5 +43,4 @@
         @endforeach
     </div>
 </div>
-
 @endsection

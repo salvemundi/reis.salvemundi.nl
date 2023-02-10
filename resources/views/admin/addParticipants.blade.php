@@ -15,7 +15,7 @@ setActive("add");
             {{ session()->get('error') }}
         </div>
         @endif
-        <form action="/create/store" method="post" enctype="multipart/form-data">
+        <form action="/add/store" method="post" enctype="multipart/form-data">
             @csrf
             <br>
             <h2 class="h2">Deelnemer toevoegen</h2>

@@ -25,18 +25,6 @@ setActive("participants");
         </div>
     @endif
         <div class="d-flex">
-
-            <div class="dropdown" style="margin-left: 4px;">
-                <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                    Export
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><a class="dropdown-item" href="">Export</a></li>
-                    <li><a class="dropdown-item" href="">Export</a></li>
-                    <li><a class="dropdown-item" href="">Export</a></li>
-                    <li><a class="dropdown-item" href="">Export</a></li>
-                </ul>
-            </div>
             <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#checkoutEveryoneModal">
                 Check allen uit
             </button>

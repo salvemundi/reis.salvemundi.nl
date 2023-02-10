@@ -33,7 +33,7 @@
                         @if(!$log->participant->purpleOnly)
                             Deelnemer: {{ $log->participant->getFullName() }}<br>
                             Is 18 jaar of ouder: {{ $log->participant->getAbove18Attribute() ? 'ja' : 'nee'}}<br>
-                            Heeft betaald: {{$log->participant->hasPaid() ? 'ja' : 'nee'}}<br>
+                            Heeft betaald: {{$log->participant->hasCompletedAllPayments() ? 'ja' : 'nee'}}<br>
                         @endif
                         Email: {{ $log->participant->email }}<br>
                         @break

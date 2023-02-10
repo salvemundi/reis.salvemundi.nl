@@ -102,7 +102,7 @@ setActive("participants");
                 <tbody>
                     @foreach ($participants as $participant)
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
-                            <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->insertion ?? ""}} {{ $participant->lastName }}</td>
+                            <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->insertion ?? null}} {{ $participant->lastName }}</td>
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
                             <td data-value="{{ $participant->isVerified() }}">{{ $participant->isVerified() ? 'Ja' : 'Nee' }}</td>
 

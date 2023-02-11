@@ -61,8 +61,8 @@ class ParticipantController extends Controller {
     {
         AuditLogController::Log(AuditCategory::Other(),'Bezocht pagina met alle deelnemers');
 
-        $participants = Participant::all();
-        $dateToday = Carbon::now()->toDate();
+        $participants = Participant::orderBy('created_at', 'ASC')->get();
+        $dateToday = Carbon::now();
         $selectedParticipant = Participant::find($request->userId);
 
         if(!isset($selectedParticipant)) {
@@ -78,7 +78,7 @@ class ParticipantController extends Controller {
             if($participant->payments != null) {
                 $participant->latestPayment = $participant->payments()->latest()->first();
             }
-            $participant->dateDifference = $dateToday->diff($participant->created_at)->d;
+            $participant->dateDifference = $dateToday->diffInDays($participant->created_at);
         }
 
         return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant ?? null, 'age' => $age ?? null]);

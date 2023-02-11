@@ -91,7 +91,8 @@ setActive("participants");
                         <th data-field="checkedIn" data-sortable="true">Checked in</th>
                         <th data-field="data" data-sortable="true">Gegevens</th>
                         @if(Request::is('participants'))
-                            <th data-field="createdat" data-sortable="true">Laatste aanpassing</th>
+                            <th data-field="createdat" data-sortable="true">Dag van inschrijving</th>
+                            <th data-field="updatedat" data-sortable="true">Laatste aanpassing</th>
                             <th data-field="daysDif" data-sortable="true">Dagen geleden ingeschreven</th>
                         @endif
                         <th data-field="email" data-sortable="false">email</th>
@@ -113,7 +114,8 @@ setActive("participants");
                             @endif
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
                             @if(Request::is('participants'))
-                                <td data-value="{{ $participant->firstName }}">{{ $participant->updated_at }}</td>
+                                <td data-value="{{ $participant->created_at }}">{{ $participant->created_at }}</td>
+                                <td data-value="{{ $participant->updated_at }}">{{ $participant->updated_at }}</td>
                                 <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference }}</td>
                             @endif
                             <td data-value="{{ $participant->email }}">{{$participant->email}}</td>

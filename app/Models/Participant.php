@@ -31,7 +31,7 @@ class Participant extends Model
     }
 
     public function activities() {
-        return $this->belongsToMany(Activity::class);
+        return $this->belongsToMany(Activity::class)->distinct();
     }
 
     public function getAbove18Attribute(): bool {

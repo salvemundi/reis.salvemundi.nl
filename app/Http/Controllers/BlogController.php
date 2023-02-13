@@ -60,7 +60,6 @@ class BlogController extends Controller
             'file' => ['mimes:png,jpg,jpeg'],
         ]);
 
-
         if($request->input('blogId')) {
             $blog = Blog::find($request->input('blogId'));
         } else {

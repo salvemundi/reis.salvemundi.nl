@@ -44,7 +44,7 @@
                                     Verwijderen
                                 </button>
                             </td>
-                            <td data-value="{{ $activity->participants()->distinct()->count() }}">{{ $activity->participants()->distinct()->count() }}</td>
+                            <td data-value="{{ $activity->participants()->distinct('participants.id')->count() }}">{{ $activity->participants()->distinct('participants.id')->count() }}</td>
                         </tr>
                         <div class="modal fade" id="deleteModal{{ $activity->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">

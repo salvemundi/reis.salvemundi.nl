@@ -343,6 +343,7 @@ class ParticipantController extends Controller {
         $participant->birthday = $request->input('participantBirthday');
         $participant->phoneNumber = $request->input('participantPhoneNumber');
         $participant->medicalIssues = $request->input('participantMedicalIssues');
+        $participant->specials = $request->input('participantSpecial');
         $participant->role = $request->input('participantRole') ?? 0;
         $participant->save();
         return back()->with('success','Deelnemer gegevens opgeslagen!');

@@ -177,8 +177,8 @@ class ParticipantController extends Controller {
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
-                'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
-                'specials' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
+                'medicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ();,-]+$/',
+                'specials' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ();,-]+$/',
                 'role' => 'nullable',
                 'checkedIn' => 'nullable',
                 'activities' => 'required',
@@ -328,8 +328,8 @@ class ParticipantController extends Controller {
             'participantEmail' => 'required|email:rfc,dns|max:65',
             'participantPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
             'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
-            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/',
-            'participantSpecial' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ,-]+$/'
+            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ();,-]+$/',
+            'participantSpecial' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ();,-]+$/'
         ]);
         $participant = Participant::find($request->userId);
         AuditLogController::Log(AuditCategory::ParticipantManagement(), "Bewerkt gegevens van " . $participant->firstName . " " . $participant->lastName, $participant);

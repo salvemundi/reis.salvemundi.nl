@@ -203,6 +203,11 @@ class ParticipantController extends Controller {
         } else {
             $participant = new Participant;
             $participant->id = Str::uuid()->toString();
+            if($request->input('role') != null) {
+                $participant->role = $request->input('role');
+            } else {
+                $participant->role = 0;
+            }
         }
 
         if($request->input('confirmation') == null) {
@@ -221,12 +226,6 @@ class ParticipantController extends Controller {
 
         $participant->medicalIssues = $request->input('medicalIssues');
         $participant->specials = $request->input('specials');
-
-        if($request->input('role') != null) {
-            $participant->role = $request->input('role');
-        } else {
-            $participant->role = 0;
-        }
 
         // what is this shit
         if($request->input('checkedIn') != null) {

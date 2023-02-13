@@ -62,7 +62,7 @@ class VerificationController extends Controller
         $participants = Participant::all();
         foreach($participants as $participant) {
 
-            if($participant->isVerified() && $participant->role == Roles::participant()->value && !$participant->isOnReserveList) {
+            if($participant->isVerified() && !$participant->isOnReserveList) {
                 array_push($userArr, $participant);
             }
         }
@@ -75,7 +75,7 @@ class VerificationController extends Controller
         $userArr = [];
         $participants = Participant::all();
         foreach($participants as $participant) {
-            if(!$participant->isVerified() && $participant->role == Roles::participant()->value) {
+            if(!$participant->isVerified()) {
                 array_push($userArr, $participant);
             }
         }

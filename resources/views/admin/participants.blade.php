@@ -168,83 +168,72 @@ setActive("participants");
             </div>
         @endif
         @isset($selectedParticipant)
-            <div class="card">
-            @if ($age <= 18)
-                <div class="card-body underEightTeen d-flex">
-            @else
-                <div class="card-body aboveEightTeen d-flex">
-            @endif
-                    <div class="flex-column ">
-                        <h5 class="card-title">{{ $selectedParticipant->firstName}} {{ $selectedParticipant->lastName }}</h5>
-                        <span>
-                            @if (\Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') <= 18)<br>
-                                <b> Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
+                @include('include.participantEditModal', ['participant' => $selectedParticipant])
+                @include('include.participantConfirmationMailModal', ['participant' => $selectedParticipant])
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $selectedParticipant->firstName }}{{ $selectedParticipant->insertion ?? null}} {{ $selectedParticipant->lastName }}</h5>
+                        <p class="card-text">Gegevens:</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Leeftijd: {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }}</li>
+                        <li class="list-group-item">E-mail: {{$selectedParticipant->email}}</li>
+                        <li class="list-group-item">Telefoon nummer: {{ $selectedParticipant->phoneNumber }}</li>
+                        <li class="list-group-item">Allergieën: {{ $selectedParticipant->medicalIssues ?? "N.v.t" }}</li>
+                        <li class="list-group-item">Bijzonderheden: {{ $selectedParticipant->specials ?? "N.v.t" }}</li>
+                    </ul>
+                    <div class="card-body">
+                        <p class="card-text">Geselecteerde activiteiten:</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach($selectedParticipant->activities as $activity)
+                                <li class="list-group-item">{{ $activity->name }}</li>
+                        @endforeach
+                    </ul>
+                    <div class="card-body">
+                        <div class="d-flex flex-sm-row flex-column ">
+                            @if (!$selectedParticipant->checkedIn)
+                                <form method="post" class="center" action="/participants/{{ $selectedParticipant->id }}/checkIn">
+                                    @csrf
+                                    <button type="submit" href="#" style="visibility: visible !important;" class="card-link card-link-button">Check in</button>
+                                </form>
                             @else
-                                <b class="aboveEightTeen">Leeftijd:</b> {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }} <br>
+                                <form method="post" class="center" action="/participants/{{ $selectedParticipant->id }}/checkOut">
+                                    @csrf
+                                    <button type="submit" href="#" style="visibility: visible !important;" class="card-link card-link-button">Check uit</button>
+                                </form>
                             @endif
-                            <b>Email:</b> {{ $selectedParticipant->email}}<br>
-                            <b>Telefoon nummer:</b> {{ $selectedParticipant->phoneNumber}}<br>
-                            <b>Allergieën:</b> {{ $selectedParticipant->medicalIssues}}<br>
-                            <b>Bijzonderheden:</b> {{ $selectedParticipant->specials}}<br>
 
-                            <div style="display: flex; flex-direction: row;">
-                                @include('include.participantEditModal', ['participant' => $selectedParticipant])
-                                @include('include.participantConfirmationMailModal', ['participant' => $selectedParticipant])
-                                <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $selectedParticipant->id }}">
-                                    Bewerk
-                                </button>
-                                @if (!$selectedParticipant->checkedIn)
-                                    <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkIn">
-                                        @csrf
-                                            <button type="submit" class="btn btn-primary buttonPart me-2">Checkin</button>
-                                    </form>
-                                @else
-                                    <form method="post" action="/participants/{{ $selectedParticipant->id }}/checkOut">
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger buttonPart me-2">Checkout</button>
-                                    </form>
-                                @endif
-                                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Verwijderen
-                                </button>
-                                <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationMailModal{{$selectedParticipant->id}}">
-                                    Confirmatie mail
-                                </button>
-                            </div>
-                        </span>
-                    </div>
-                    @if($selectedParticipant != null)
-                        <div class="flex-column">
-                            <p>Opties gekozen:</p>
-                            @foreach($selectedParticipant->activities as $activity)
-                                <ul>
-                                    <li>{{ $activity->name }}</li>
-                                </ul>
-                            @endforeach
+                            <button href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="card-link card-link-button">Verwijder</button>
+                            <button class="card-link card-link-button" data-bs-toggle="modal" data-bs-target="#confirmationMailModal{{$selectedParticipant->id}}">
+                                Confirmatie mail
+                            </button>
+                            <button type="button" class="card-link card-link-button" data-bs-toggle="modal" data-bs-target="#edit{{ $selectedParticipant->id }}">
+                                Bewerk
+                            </button>
                         </div>
-                    @endif
+                    </div>
                 </div>
-            </div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Verwijder</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Verwijder</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Weet je zeker dat jij deelnemer {{ $selectedParticipant->firstName. " " .$selectedParticipant->lastName }} wilt verwijderen?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <form method="post" action="/participants/{{ $selectedParticipant->id }}/delete">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">Verwijder</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                      Weet je zeker dat jij deelnemer {{ $selectedParticipant->firstName. " " .$selectedParticipant->lastName }} wilt verwijderen?
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <form method="post" action="/participants/{{ $selectedParticipant->id }}/delete">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Verwijder</button>
-                    </form>
-                    </div>
-                  </div>
                 </div>
-              </div>
         @endisset
     </div>
 </div>

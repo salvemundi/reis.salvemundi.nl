@@ -46,3 +46,15 @@
     color: $salveMundi-light;
     margin: 0 !important;
 }
+.icon-activity-delete {
+    background-color: rgba(178, 126, 174, 0);
+    transition: 0.2s ease-in-out;
+    padding: 0.3rem;
+    border-radius: 5px;
+    color: $salveMundi-light
+}
+.icon-activity-delete:hover {
+    background-color: rgba(178, 126, 174, 0.35);
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+}

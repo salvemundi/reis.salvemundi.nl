@@ -172,7 +172,7 @@ setActive("participants");
                 @include('include.participantConfirmationMailModal', ['participant' => $selectedParticipant])
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $selectedParticipant->firstName }}{{ $selectedParticipant->insertion ?? null}} {{ $selectedParticipant->lastName }}</h5>
+                        <h5 class="card-title">{{ $selectedParticipant->firstName }} {{ $selectedParticipant->insertion ?? null}} {{ $selectedParticipant->lastName }}</h5>
                         <p class="card-text">Gegevens:</p>
                     </div>
                     <ul class="list-group list-group-flush">

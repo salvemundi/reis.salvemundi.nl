@@ -190,11 +190,9 @@ setActive("participants");
                             @include('include.deleteActivityFromParticipantModal', ['participant' => $selectedParticipant,'activity' => $activity])
                                 <li class="list-group-item">
                                         <div style="float:left;">{{ $activity->name }}</div>
-                                        @if(!$selectedParticipant->hasCompletedAllPayments() || true)
                                             <button style="float:right;scale: 1.3;" class="card-link-button"  data-bs-toggle="modal" data-bs-target="#deleteActivity{{$activity->id}}From{{$selectedParticipant->id}}">
                                                 <a data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Ontkoppel activiteit"><i class="icon-activity-delete fas fa-minus-circle float-right"></i></a>
                                             </button>
-                                        @endif
                                 </li>
                         @endforeach
                     </ul>

@@ -52,7 +52,7 @@ body {
     box-shadow: none !important;
 }
 
-.btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show,.showsidebar > .btn-primary.dropdown-toggle {
+.btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active > .btn-primary.dropdown-toggle {
     color: white !important;
     background-color: $salveMundi-link !important;
     border-color: $salveMundi-link !important;

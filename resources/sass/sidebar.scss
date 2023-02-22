@@ -128,7 +128,7 @@ a {
     font-size: 1.25rem
 }
 
-.show {
+.showsidebar {
     left: 0
 }
 
@@ -177,11 +177,9 @@ a {
         left: 0;
         padding: 1rem 1rem 0 0
     }
-
-    .show {
+    .showsidebar {
         width: calc(var(--nav-width) + 156px)
     }
-
     .body-pd {
         padding-left: calc(var(--nav-width) + 188px)
     }

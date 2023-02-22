@@ -162,14 +162,11 @@ setActive("participants");
     </div>
     @if(!Request::is('participants'))
     <div class="col-12 col-md-6 container mb-5">
-        @if (\Session::has('message'))
-            <div class="alert alert-danger m-1" role="alert">
-                {!! \Session::get('message') !!}
-            </div>
-        @endif
         @isset($selectedParticipant)
                 @include('include.participantEditModal', ['participant' => $selectedParticipant])
                 @include('include.participantConfirmationMailModal', ['participant' => $selectedParticipant])
+                @include('include.addActivityToParticipantModal', ['participant' => $selectedParticipant,'$activities' => $activities])
+
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{ $selectedParticipant->firstName }} {{ $selectedParticipant->insertion ?? null}} {{ $selectedParticipant->lastName }}</h5>
@@ -182,12 +179,21 @@ setActive("participants");
                         <li class="list-group-item">Allergieën: {{ $selectedParticipant->medicalIssues ?? "N.v.t" }}</li>
                         <li class="list-group-item">Bijzonderheden: {{ $selectedParticipant->specials ?? "N.v.t" }}</li>
                     </ul>
-                    <div class="card-body">
-                        <p class="card-text">Geselecteerde activiteiten:</p>
+                    <div class="card-body d-flex flex-md-row flex-column">
+                        <p class="card-text center">Geselecteerde activiteiten:</p>
+                        <button style="scale: 1.3" class="card-link-button"  data-bs-toggle="modal" data-bs-target="#addActivityTo{{$selectedParticipant->id}}">
+                            <a data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Koppel activiteit"><i class="icon-activity-delete fas fa-plus-circle"></i></a>
+                        </button>
                     </div>
                     <ul class="list-group list-group-flush">
                         @foreach($selectedParticipant->activities as $activity)
-                                <li class="list-group-item">{{ $activity->name }}</li>
+                            @include('include.deleteActivityFromParticipantModal', ['participant' => $selectedParticipant,'activity' => $activity])
+                                <li class="list-group-item">
+                                        <div style="float:left;">{{ $activity->name }}</div>
+                                            <button style="float:right;scale: 1.3;" class="card-link-button"  data-bs-toggle="modal" data-bs-target="#deleteActivity{{$activity->id}}From{{$selectedParticipant->id}}">
+                                                <a data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Ontkoppel activiteit"><i class="icon-activity-delete fas fa-minus-circle float-right"></i></a>
+                                            </button>
+                                </li>
                         @endforeach
                     </ul>
                     <div class="card-body">

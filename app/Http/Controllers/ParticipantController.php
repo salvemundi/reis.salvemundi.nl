@@ -6,6 +6,7 @@ use App\Enums\AuditCategory;
 use App\Jobs\resendQRCodeEmails;
 use App\Jobs\resendVerificationEmail;
 use App\Jobs\sendQRCodesToNonParticipants;
+use App\Models\Activity;
 use App\Models\Setting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -36,6 +37,29 @@ class ParticipantController extends Controller {
         $this->verificationController = new VerificationController();
         $this->paymentController = new PaymentController();
         $this->activityController = new ActivityController();
+    }
+
+    public function addActivity(Request $request): RedirectResponse
+    {
+        $activity = Activity::find($request->input('selectedActivity'));
+        $participant = Participant::find($request->userId);
+        if($activity === null || $participant === null) {
+            return back()->with('message','Activiteit of deelnemer niet gevonden');
+        }
+        $participant->activities()->attach($activity, ['id' => Str::uuid()->toString()]);
+        $participant->saveOrFail();
+        return back()->with('message','Activiteit toegevoegd!');
+    }
+    public function removeActivity(Request $request): RedirectResponse
+    {
+        $activity = Activity::find($request->activityId);
+        $participant = Participant::find($request->userId);
+        if($activity === null || $participant === null) {
+            return back()->with('message','Activiteit of deelnemer niet gevonden');
+        }
+        $participant->activities()->detach($activity);
+        $participant->saveOrFail();
+        return back()->with('message','Activiteit ontkoppeld!');
     }
 
     /**
@@ -81,7 +105,7 @@ class ParticipantController extends Controller {
             $participant->dateDifference = $dateToday->diffInDays($participant->created_at);
         }
 
-        return view('admin/participants', ['participants' => $participants, 'selectedParticipant' => $selectedParticipant ?? null, 'age' => $age ?? null]);
+        return view('admin/participants', ['activities' => Activity::all(),'participants' => $participants, 'selectedParticipant' => $selectedParticipant ?? null, 'age' => $age ?? null]);
     }
 
     public function checkedInView(Request $request): View|Factory|Redirector|RedirectResponse|Application

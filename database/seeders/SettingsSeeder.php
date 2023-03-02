@@ -63,7 +63,7 @@ class SettingsSeeder extends Seeder
             $setting->name = "Aanbetaling";
             $setting->value = 60.00;
             $setting->description = "Stel het bedrag voor de aanbetaling in.";
-            $setting->valueType = SettingTypes::int();
+            $setting->valueType = SettingTypes::float();
             $setting->save();
         }
 
@@ -73,7 +73,7 @@ class SettingsSeeder extends Seeder
             $setting->name = "FinalPaymentAmount";
             $setting->value = 100.00;
             $setting->description = "Stel het bedrag in voor het totale bedrag exclusief aanbetaling.";
-            $setting->valueType = SettingTypes::int();
+            $setting->valueType = SettingTypes::float();
             $setting->save();
         }
     }

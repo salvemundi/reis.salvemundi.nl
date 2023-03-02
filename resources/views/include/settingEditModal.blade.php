@@ -33,6 +33,12 @@
                                     <input type="number" name="value" class="form-control" id="numberValue" placeholder="Enter value">
                             </div>
                             @break
+                        @case(App\Enums\SettingTypes::float()->value)
+                            <div class="mb-3">
+                                <label for="numberValue" class="form-label">Waarde:</label>
+                                <input type="number" name="value" class="form-control" id="numberValue" placeholder="Enter value" step=".01">
+                            </div>
+                            @break
                         @case(App\Enums\SettingTypes::date()->value)
                             <div class="mb-3">
                                     <label for="dateValue" class="form-label">Datum:</label>

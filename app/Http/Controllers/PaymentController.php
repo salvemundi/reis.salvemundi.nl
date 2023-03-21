@@ -26,10 +26,11 @@ class PaymentController extends Controller
         $this->verificationController = new VerificationController();
     }
 
-    public function payForReis(string $token, int $amount, PaymentTypes $paymentType = null): Response|RedirectResponse
+    public function payForReis(string $token, float $amount, PaymentTypes $paymentType = null): Response|RedirectResponse
     {
         $confirmationToken = ConfirmationToken::findOrFail($token);
         $amountWithDecimal = str_replace(",", "", number_format($amount, 2));
+
         try{
             $mollie = $this->createMollieInstance();
             $paymentObject = $this->createPaymentEntry($confirmationToken->participant, $paymentType);

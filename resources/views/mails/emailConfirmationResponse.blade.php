@@ -1,7 +1,11 @@
 @component('mail::message')
 Dear {{ $participant->firstName }},
 
+@if($participant->hasCompletedDownPayment())
+You now can pay your final payment if you click the link below!
+@else
 You now can pay your down payment if you click the link below!
+@endif
 
 {{ env('APP_URL') }}inschrijven/betalen/{{ $confirmationToken->id }}
 

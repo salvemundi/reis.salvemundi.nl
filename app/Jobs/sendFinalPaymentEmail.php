@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Mail;
 class sendFinalPaymentEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public int $tries = 1;
+    public $backoff = 70;
+
 
     private Participant $participant;
     private ConfirmationToken $newConfirmationToken;

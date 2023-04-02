@@ -91,7 +91,7 @@ class PaymentController extends Controller
         $verifiedParticipants = $this->verificationController->getVerifiedParticipants();
         /** @var $verifiedParticipants Participant[] */
         foreach($verifiedParticipants as $participant) {
-            if($participant->hasCompletedAllPayments() && $participant->role == Roles::participant()->value && !$participant->isOnReserveList) {
+            if($participant->hasCompletedAllPayments() && !$participant->isOnReserveList) {
                 $userArr[] = $participant;
             }
         }

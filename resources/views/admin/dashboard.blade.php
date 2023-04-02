@@ -34,8 +34,8 @@ setActive("dashboard");
             <div class="card-body">
                 <div class="row align-items-center gx-0">
                     <div class="col">
-                        <h6 class="text-uppercase text-muted mb-2">Aantal betaalde deelnemers:</h6>
-                        <span class="h2 mb-0">{{ $amountParticipantsPaid }} / {{ $amountParticipants }}</span>
+                        <h6 class="text-uppercase text-muted mb-2">Aantal betaalde reizigers:</h6>
+                        <span class="h2 mb-0">{{ $amountParticipantsPaid }} / {{ $amountAllTravelers }}</span>
                     </div>
                 </div>
             </div>

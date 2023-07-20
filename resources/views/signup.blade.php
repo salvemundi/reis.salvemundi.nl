@@ -7,7 +7,7 @@
             <div class="col-auto col-lg-6 col-12 pl-5">
                 <h1 class="display-5">Fontys ICT goes international!</h1>
                 <div>
-                    <b>Date:</b> 29 April - 3 May <br><b>Costs:</b> Will be determined
+                    <b>Date:</b> To be determined <br><b>Costs:</b> To be determined
                 </div>
                 <p>
                     <ul>
@@ -27,7 +27,7 @@
                 </p>
                 <div class="videoWrapper my-3">
                     <iframe class="iframeStyle" width="100%" height="100%"
-                        src="https://www.youtube.com/embed/HAbcfJPOIbI" frameborder="0"
+                        src="https://www.youtube.com/embed/F6E4hGAtBR4" frameborder="0"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen></iframe>
                 </div>
@@ -167,7 +167,7 @@
             <div class="col-12 col-md-6">
                 <div class="videoWrapper">
                     <iframe class="iframeStyle" width="100%" height="100%"
-                        src="https://www.youtube.com/embed/HAbcfJPOIbI" frameborder="0"
+                        src="https://www.youtube.com/embed/F6E4hGAtBR4" frameborder="0"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen></iframe>
                 </div>

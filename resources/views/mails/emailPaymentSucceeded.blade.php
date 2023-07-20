@@ -15,7 +15,7 @@ You can find the QR-code for check-in in the attachments of this email!
 @if($participant->activities != null)
 
 <p>
-The events you registered for are:<br>
+The activities you registered for are:<br>
 </p>
 
 @component('mail::table')

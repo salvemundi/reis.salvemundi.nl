@@ -181,8 +181,7 @@
         </div>
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>What we did the previous trip</h3>
-            The previous trip we went to Prague. There we stayed at a hostel really close at a metro station so we could travel the city when we liked that. During the trip we did some activities like visiting a beer brewery (pilsner was invented in Czech Republic), a boat trip and a pub crawl. We saw a lot from the city and we had a lot of fun!
-        </div>
+            On our last trip, we went to Budapest. In Budapest, we stayed at a hostel which was near the city center, which means the public transport was also really close to us so we could travel the city whenever we felt like it. During this trip, we have done some activities such as going to the Hungaroring (Formula 1 circuit), Sparty (Budapest bath party) and we went to the Budapest Zoo. Furthermore, we have seen a lot of the beautiful city and we had loads of fun being there!        </div>
     </div>
 </div>
 

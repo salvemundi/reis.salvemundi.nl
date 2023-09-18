@@ -7,7 +7,7 @@
             <div class="col-auto col-lg-6 col-12 pl-5">
                 <h1 class="display-5">Fontys ICT goes international!</h1>
                 <div>
-                    <b>Date:</b> To be determined <br><b>Costs:</b> To be determined
+                    <b>Date:</b> 14 - 17 October <br><b>Costs:</b> € 79,63
                 </div>
                 <p>
                     <ul>

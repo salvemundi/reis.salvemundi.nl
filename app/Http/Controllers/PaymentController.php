@@ -133,7 +133,7 @@ class PaymentController extends Controller
                 $basePrice += (float)$activity->price;
             }
             $role = Roles::coerce($participant->role);
-            if($role == Roles::crew) {
+            if($role->value == Roles::crew) {
                 $basePrice -= (float)Setting::where('name','CrewDiscount')->first()->value;
             }
             return $basePrice;

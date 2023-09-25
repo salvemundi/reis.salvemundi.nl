@@ -132,6 +132,10 @@ class PaymentController extends Controller
             foreach ($participant->activities as $activity) {
                 $basePrice += (float)$activity->price;
             }
+            $role = Roles::coerce($participant->role);
+            if($role == Roles::crew) {
+                $basePrice -= (float)Setting::where('name','CrewDiscount')->first()->value;
+            }
             return $basePrice;
         } else {
             return (float)Setting::where('name', 'Aanbetaling')->first()->value;

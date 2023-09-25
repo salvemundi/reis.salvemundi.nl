@@ -82,7 +82,7 @@ class SettingsSeeder extends Seeder
             $setting = new Setting();
             $setting->name = "CrewDiscount";
             $setting->value = 20.00;
-            $setting->description = "Stel het bedrag in voor het totale bedrag exclusief aanbetaling.";
+            $setting->description = "Stel het bedrag in voor de korting van de crew.";
             $setting->valueType = SettingTypes::float();
             $setting->save();
         }

@@ -20,7 +20,7 @@ class Participant extends Model
 
     protected $keyType = 'string';
 
-    protected $appends = array('hasCompletedDownPayment', 'hasCompletedFinalPayment', 'above18');
+    protected $appends = array('haspaid', 'above18');
 
     protected $table = 'participants';
 

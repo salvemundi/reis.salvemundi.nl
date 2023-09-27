@@ -39,7 +39,7 @@ class VerificationController extends Controller
             $today = Carbon::now()->format('Y-m-d'); //yyyy-mm-dd
 
             if(Setting::where('name','AutoSendPaymentEmailDate')->first()->value <= $today) {
-                if(!$verificationToken->participant->hasPaid()) {
+                if(!$verificationToken->participant->hasCompletedDownPayment()) {
                     $newConfirmationToken = new ConfirmationToken();
                     $newConfirmationToken->participant()->associate($participant);
                     $newConfirmationToken->save();

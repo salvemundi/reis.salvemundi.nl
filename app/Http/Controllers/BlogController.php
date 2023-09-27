@@ -131,7 +131,7 @@ class BlogController extends Controller
 
         if(isset($request->Verified)) {
             foreach($verifiedParticipants as $participant) {
-                if(!$participant->hasPaid()) {
+                if(!$participant->hasCompletedDownPayment()) {
                     array_push($userArr, $participant);
                 }
             }

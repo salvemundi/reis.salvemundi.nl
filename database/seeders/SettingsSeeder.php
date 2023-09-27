@@ -76,5 +76,15 @@ class SettingsSeeder extends Seeder
             $setting->valueType = SettingTypes::float();
             $setting->save();
         }
+
+        // Crew discount
+        if(!Setting::where('name', 'CrewDiscount')->exists()) {
+            $setting = new Setting();
+            $setting->name = "CrewDiscount";
+            $setting->value = 20.00;
+            $setting->description = "Stel het bedrag in voor de korting van de crew.";
+            $setting->valueType = SettingTypes::float();
+            $setting->save();
+        }
     }
 }

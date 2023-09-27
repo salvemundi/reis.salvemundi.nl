@@ -23,7 +23,7 @@ The activities you registered for are:<br>
     | Activity       | Description   | Price  |
     | -------------  |:-------------:| --------:|
     @foreach($participant->activities as $activity)
-    | {{$activity->name}} | {{ $activity->description }} | € {{$activity->price}} |
+    | {{$activity->name}} | {{ $activity->description }} | €{{$activity->price}} |
     @endforeach
 @endcomponent
 @endif

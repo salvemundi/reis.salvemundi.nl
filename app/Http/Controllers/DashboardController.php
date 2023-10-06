@@ -27,7 +27,6 @@ class DashboardController extends Controller
         $viewVars['amountAllTravelers']             = Participant::all()->count();
         $viewVars['amountParticipantsPaid']         = count($this->paymentController->getAllPaidUsers());
         $viewVars['amountParticipantsCheckedIn']    = Participant::where('role', Roles::participant)->where('checkedIn', true)->count();
-        $viewVars['amountEveryone']                 = $viewVars['amountParticipantsPaid'] + $viewVars['amountCrew'];
 
         return view('admin/dashboard', $viewVars);
     }

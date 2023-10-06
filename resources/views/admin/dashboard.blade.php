@@ -15,10 +15,10 @@ setActive("dashboard");
                     <div class="row align-items-center gx-0">
                         <div class="col">
                             <h6 class="text-uppercase text-muted mb-2">Mensen ingecheckt / totaal:</h6>
-                            <span class="h2 mb-0">{{ $amountTotalCheckedIn }} / {{ $amountEveryone }}</span>
+                            <span class="h2 mb-0">{{ $amountTotalCheckedIn }} / {{ $amountAllTravelers }}</span>
                             <div class="progress mt-2">
-                                @if($amountEveryone > 0 && $amountTotalCheckedIn > 0)
-                                    <div class="progress-bar bg-samu progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{100.0 / $amountEveryone * $amountTotalCheckedIn}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                @if($amountAllTravelers > 0 && $amountTotalCheckedIn > 0)
+                                    <div class="progress-bar bg-samu progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{100.0 / $amountAllTravelers * $amountTotalCheckedIn}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                 @endif
                             </div>
                         </div>

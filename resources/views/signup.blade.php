@@ -5,26 +5,25 @@
     @if($checkSignUp)
         <div class="row justify-content-center">
             <div class="col-auto col-lg-6 col-12 pl-5">
-                <h1 class="display-5">Fontys ICT goes international!</h1>
+                <h1 class="display-5">Fontys ICT gaat internationaal!</h1>
                 <div>
-                    <b>Date:</b> 14 - 17 October <br><b>Costs:</b> € 79,63
+                    <b>Datum:</b> Onder voorbehoud van beschikbare data van de vliegtuigmaatschappijen (hou 29 april tot en met 5 mei vrij) we gaan in die week 5 dagen in totaal weg.
+                    <br><b>Geschatte Kosten:</b> € 290 - € 350
                 </div>
-                <p>
-                    <ul>
-                        <li>
-                            Explore the world with Salve Mundi
-                        </li>
-                        <li>
-                            A trip you will never forget
-                        </li>
-                        <li>
-                            We organize the flight, the accommodation and some activities!
-                        </li>
-                        <li>
-                            Every member of a study association of FHICT is able to join this trip.
-                        </li>
-                    </ul>
-                </p>
+                <ul>
+                    <li>
+                        Verken de wereld met Salve Mundi
+                    </li>
+                    <li>
+                        Een reis die je nooit zal vergeten
+                    </li>
+                    <li>
+                        Wij regelen het vervoer, de accommodatie en leuke activiteiten!
+                    </li>
+                    <li>
+                        Waar wacht je op?! Schrijf je in!
+                    </li>
+                </ul>
                 <div class="videoWrapper my-3">
                     <iframe class="iframeStyle" width="100%" height="100%"
                         src="https://www.youtube.com/embed/F6E4hGAtBR4" frameborder="0"
@@ -35,8 +34,8 @@
 
             <div class="col-lg-6 px-md-5 mb-3">
                 <div class="box h-100 px-md-5 px-4 py-3 p-auto">
-                    <h2 class="mt-3 text-center">Do you want to join the trip? <br> <b>Sign up down below!</b></h2>
-                    We can not assure you a ticket for this trip when you register. There are limited amount of tickets available, so I would sign up quick to claim your ticket!
+                    <h2 class="mt-3 text-center">Wil je mee? <br> <b>Schrijf je in!</b></h2>
+                    Als jij je inschrijft kunnen we niet direct een plek garanderen. Er zijn een limiet aantal plekken beschikbaar, Dus claim je plekje snel!
                     <div class="mb-3">
                         <form action="/inschrijven" method="post">
                             @csrf
@@ -59,23 +58,23 @@
                                 </div>
                             @endif
 
-                            <label for="firstName" class="form-label">Firstname</label>
+                            <label for="firstName" class="form-label">Voornaam</label>
                             <input type="text"
                                 class="form-control{{ $errors->has('firstName') ? ' is-invalid' : '' }}"
                                 value="{{ old('firstName') }}" name="firstName" id="firstName"
-                                placeholder="Firstname">
+                                placeholder="Voornaam">
 
-                            <label for="insertion" class="form-label">Insertion</label>
+                            <label for="insertion" class="form-label">Tussenvoegsel</label>
                             <input type="text"
                                 class="form-control{{ $errors->has('insertion') ? ' is-invalid' : '' }}"
                                 value="{{ old('insertion') }}" name="insertion" id="insertion"
-                                placeholder="Insertion">
+                                placeholder="Tussenvoegsel">
 
-                            <label for="lastName" class="form-label">Lastname</label>
+                            <label for="lastName" class="form-label">Achternaam</label>
                             <input type="text"
                                 class="form-control{{ $errors->has('lastName') ? ' is-invalid' : '' }}"
                                 value="{{ old('lastName') }}" name="lastName" id="lastName"
-                                placeholder="Lastname">
+                                placeholder="Achternaam">
 
                             <label for="email" class="form-label">Email</label>
                             <input type="email"
@@ -83,7 +82,7 @@
                                 value="{{ old('email') }}" name="email" id="email"
                                 placeholder="name@example.com">
 
-                            <label for="phoneNumber" class="form-label">Phonenumber</label>
+                            <label for="phoneNumber" class="form-label">Telefoonnummer</label>
                             <input type="text" minlength="10" maxlength="15"
                                 class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}"
                                 max="15" value="{{ old('phoneNumber') }}" name="phoneNumber"
@@ -92,7 +91,7 @@
                             <div class="form-check mt-2">
                                 <input class="form-check-input" name="cbx" type="checkbox" id="flexCheckDefault">
                                 <label class="form-check-label" for="flexCheckDefault">
-                                    I accept the <a href="{{ asset('storage/documents/algemenevoorwaarden.pdf') }}" download> terms and conditions</a>
+                                    Ik accepteer de <a href="{{ asset('storage/documents/algemenevoorwaarden.pdf') }}" download> Algemene voorwaarden</a>
                                 </label>
                             </div>
 
@@ -105,13 +104,13 @@
             <div class="col-12 col-md-6 addMarginBottom">
                 <div class="timer d-flex h-100 pt-3">
                     <div class="container my-auto">
-                        <h1 id="headline">Next trip:</h1>
+                        <h1 id="headline">Volgende reis:</h1>
                         <div id="countdown">
                             <ul class="ps-0">
-                                <li><span id="days"></span>Days</li>
-                                <li><span id="hours"></span>Hours</li>
-                                <li><span id="minutes"></span>Minutes</li>
-                                <li><span id="seconds"></span>Seconds</li>
+                                <li><span id="days"></span>Dagen</li>
+                                <li><span id="hours"></span>Uren</li>
+                                <li><span id="minutes"></span>Minuten</li>
+                                <li><span id="seconds"></span>Seconden</li>
                             </ul>
                         </div>
                     </div>
@@ -120,33 +119,30 @@
     @else
         <div class="row justify-content-center">
             <div class="col-auto col-md-6 col-12 pl-5">
-                <h1 class="display-5">Fontys ICT goes international!</h1>
+                <h1 class="display-5">Fontys ICT gaat international!</h1>
                 <div>
-                    <b>Date:</b> 29 April - 3 May <br><b>Costs:</b> Will be determined
+                    <b>Date:</b> Onder voorbehoud van beschikbare data van de vliegtuigmaatschappijen (hou 29 april tot en met 5 mei vrij) we gaan in die week 5 dagen in totaal weg.
+                    <br><b>Geschatte Kosten:</b> € 290 - € 350
                 </div>
-                <p>
-                    <ul>
-                        <li>
-                            Explore the world with Salve Mundi
-                        </li>
-                        <li>
-                            A trip you will never forget
-                        </li>
-                        <li>
-                            We organize the flight, the accommodation and some activities!
-                        </li>
-                        <li>
-                            Every member of a study association of FHICT is able to join this trip.
-                        </li>
-                    </ul>
-                </p>
+                <ul>
+                    <li>
+                        Verken de wereld met Salve Mundi
+                    </li>
+                    <li>
+                        Een reis die je nooit zal vergeten
+                    </li>
+                    <li>
+                        Wij regelen het vervoer, de accommodatie en leuke activiteiten!
+                    </li>
+                    <li>
+                        Waar wacht je op?! Schrijf je in!
+                    </li>
+                </ul>
             </div>
 
             <div class="m-auto col-md-6 px-md-5 text-left">
-                <h2><b>Registration will be available on the 11th of January at 12:00.</b></h2>
-                 We can not assure you a ticket for this trip when you register. There are limited amount of tickets available, so I would sign up quick to claim your ticket!
-                <h4 class="mt-2"><b>Do you want to know where we are going? Check our hints <a
-                            href="/blogs">here!</a></b></h4>
+                <h2 class="mt-3 text-center">Wil je mee? <br> <b>Schrijf je in!</b></h2>
+                Als jij je inschrijft kunnen we niet direct een plek garanderen. Er zijn een limiet aantal plekken beschikbaar, Dus claim je plekje snel!
             </div>
 
             <div class="col-12 col-md-6 addMarginBottom">
@@ -155,10 +151,10 @@
                         <h1 id="headline">Next trip:</h1>
                         <div id="countdown">
                             <ul class="ps-0">
-                                <li><span id="days"></span>Days</li>
-                                <li><span id="hours"></span>Hours</li>
-                                <li><span id="minutes"></span>Minutes</li>
-                                <li><span id="seconds"></span>Seconds</li>
+                                <li><span id="days"></span>Dagen</li>
+                                <li><span id="hours"></span>Uren</li>
+                                <li><span id="minutes"></span>Minuten</li>
+                                <li><span id="seconds"></span>Seconden</li>
                             </ul>
                         </div>
                     </div>
@@ -176,13 +172,11 @@
     @endif
     <div class="row">
         <div class="col-12 col-md-6 px-md-5 my-4">
-            <h3>What can I expect from this trip?</h3>
-            Every year Salve Mundi tries to organize a trip for students of FHICT. The members of the study associations Proxy and IERA are also invited to this trip. During this trip you will see a lot of the city where we are going to, and we will do some activities during this trip. You do not have to worry about a thing. We organized the whole trip, from the airport we are flying from to the hostel in the city that we are going to. During the trip we will have activities and you have free time to fill in yourself. The entire trip takes an average of 5 days.
-        </div>
+            <h3>Wat kan ik verwachten van de reis commissie?</h3>
+            De Reiscommissie organiseert elk jaar 2 reizen, een zomerreis, en een winterreis. De zomerreis is vaak 5 dagen, 4 overnachtingen in een grote, bekende en populaire stad. De winterreis is vaak alleen een weekend, en hier proberen we vaak de wat kleinere steden op te zoeken. Tijdens de reis worden er activiteiten georganiseerd waar je je vantevoren voor in kan schrijven. Dit kan vanalles zijn, van pubcrawls tot musea, en boottochten tot F1 circuits! We proberen een goed balans te houden tussen activiteiten en vrije tijd. Ook proberen we alle zorgen weg te nemen, en we regelen dus de vlucht, het vervoer, het verblijf en de activiteiten! We zorgen dat je nuttige informatie hebt over de stad waar we heen gaan, van bezienswaardigheden tot OV informatie! Schrijf je dus nu in, en verken de wereld samen met Salve Mundi!        </div>
         <div class="col-12 col-md-6 px-md-5 my-4">
-            <h3>What we did the previous trip</h3>
-            On our last trip, we went to Budapest. In Budapest, we stayed at a hostel which was near the city center, which means the public transport was also really close to us so we could travel the city whenever we felt like it. During this trip, we have done some activities such as going to the Hungaroring (Formula 1 circuit), Sparty (Budapest bath party) and we went to the Budapest Zoo. Furthermore, we have seen a lot of the beautiful city and we had loads of fun being there!        </div>
-    </div>
+            <h3>Hoe was onze vorige Reis</h3>
+            Op onze vorige zomerreis zijn we naar Budapest gegaan. Hier zijn we verbleven in een hostel dat dicht bij het centrum lag. Ook hebben we voor een hostel gekozen waartet OV (zowel bus,tram als metro) dichtbij lagen, zodat iedereen alle mogelijkheden had om de stad te verkennen! Tijdens de reis, zijn we naar de Hungaroring geweest (het F1 circuit van Hongarije), we zijn naar Sparty geweest (Een feest in een badhuis dat uniek is in de wereld), en we zijn naar de dierentuin van Budapest geweest! Natuurlijk hebben we met zijn allen de stad verkend, en we hebben natuurlijk een hoop onvergetelijke herinneringen gemaakt!    </div>
 </div>
 
 </div>
@@ -202,7 +196,7 @@
             mm = String(today.getMonth() + 1).padStart(2, "0"),
             yyyy = today.getFullYear(),
             nextYear = yyyy + 1,
-            dayMonth = "10/14/",
+            dayMonth = "04/29/",
             birthday = dayMonth + yyyy;
 
         today = mm + "/" + dd + "/" + yyyy;

@@ -7,24 +7,23 @@
             <div class="col-auto col-lg-6 col-12 pl-5">
                 <h1 class="display-5">Fontys ICT gaat internationaal!</h1>
                 <div>
-                    <b>Datum:</b> 29 april - 5 mei <br><b>Kosten:</b> € 130~
+                    <b>Datum:</b> Onder voorbehoud van beschikbare data van de vliegtuigmaatschappijen (hou 29 april tot en met 5 mei vrij) we gaan in die week 5 dagen in totaal weg.
+                    <br><b>Geschatte Kosten:</b> € 290 - € 350
                 </div>
-                <p>
-                    <ul>
-                        <li>
-                            Verken de wereld met Salve Mundi
-                        </li>
-                        <li>
-                            Een reis die je nooit zal vergeten
-                        </li>
-                        <li>
-                            Wij regelen het vervoer, de accommodatie en leuke activiteiten!
-                        </li>
-                        <li>
-                            Waar wacht je op?! Schrijf je in!
-                        </li>
-                    </ul>
-                </p>
+                <ul>
+                    <li>
+                        Verken de wereld met Salve Mundi
+                    </li>
+                    <li>
+                        Een reis die je nooit zal vergeten
+                    </li>
+                    <li>
+                        Wij regelen het vervoer, de accommodatie en leuke activiteiten!
+                    </li>
+                    <li>
+                        Waar wacht je op?! Schrijf je in!
+                    </li>
+                </ul>
                 <div class="videoWrapper my-3">
                     <iframe class="iframeStyle" width="100%" height="100%"
                         src="https://www.youtube.com/embed/F6E4hGAtBR4" frameborder="0"
@@ -36,7 +35,7 @@
             <div class="col-lg-6 px-md-5 mb-3">
                 <div class="box h-100 px-md-5 px-4 py-3 p-auto">
                     <h2 class="mt-3 text-center">Wil je mee? <br> <b>Schrijf je in!</b></h2>
-                    Als jij je inschrijft kunnen we niet direct een plek garanderen. Er zijn een limiet aantal plekken beschikbaar, Dus claim je ticket snel!
+                    Als jij je inschrijft kunnen we niet direct een plek garanderen. Er zijn een limiet aantal plekken beschikbaar, Dus claim je plekje snel!
                     <div class="mb-3">
                         <form action="/inschrijven" method="post">
                             @csrf
@@ -122,29 +121,28 @@
             <div class="col-auto col-md-6 col-12 pl-5">
                 <h1 class="display-5">Fontys ICT gaat international!</h1>
                 <div>
-                    <b>Date:</b> 29 April - 3 May <br><b>Costs:</b> Will be determined
+                    <b>Date:</b> Onder voorbehoud van beschikbare data van de vliegtuigmaatschappijen (hou 29 april tot en met 5 mei vrij) we gaan in die week 5 dagen in totaal weg.
+                    <br><b>Geschatte Kosten:</b> € 290 - € 350
                 </div>
-                <p>
-                    <ul>
-                        <li>
-                            Verken de wereld met Salve Mundi
-                        </li>
-                        <li>
-                            Een reis die je nooit zal vergeten
-                        </li>
-                        <li>
-                            Wij regelen het vervoer, de accommodatie en leuke activiteiten!
-                        </li>
-                        <li>
-                            Waar wacht je op?! Schrijf je in!
-                        </li>
-                    </ul>
-                </p>
+                <ul>
+                    <li>
+                        Verken de wereld met Salve Mundi
+                    </li>
+                    <li>
+                        Een reis die je nooit zal vergeten
+                    </li>
+                    <li>
+                        Wij regelen het vervoer, de accommodatie en leuke activiteiten!
+                    </li>
+                    <li>
+                        Waar wacht je op?! Schrijf je in!
+                    </li>
+                </ul>
             </div>
 
             <div class="m-auto col-md-6 px-md-5 text-left">
                 <h2 class="mt-3 text-center">Wil je mee? <br> <b>Schrijf je in!</b></h2>
-                Als jij je inschrijft kunnen we niet direct een plek garanderen. Er zijn een limiet aantal plekken beschikbaar, Dus claim je ticket snel!
+                Als jij je inschrijft kunnen we niet direct een plek garanderen. Er zijn een limiet aantal plekken beschikbaar, Dus claim je plekje snel!
             </div>
 
             <div class="col-12 col-md-6 addMarginBottom">
@@ -198,7 +196,7 @@
             mm = String(today.getMonth() + 1).padStart(2, "0"),
             yyyy = today.getFullYear(),
             nextYear = yyyy + 1,
-            dayMonth = "10/14/",
+            dayMonth = "04/29/",
             birthday = dayMonth + yyyy;
 
         today = mm + "/" + dd + "/" + yyyy;

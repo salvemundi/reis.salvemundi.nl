@@ -269,7 +269,8 @@ class ParticipantController extends Controller {
         return back()->with('message', 'Informatie is opgeslagen!');
     }
 
-    public function signup(Request $request) {
+    public function signup(Request $request): RedirectResponse
+    {
         $request->validate([
             'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
@@ -299,12 +300,14 @@ class ParticipantController extends Controller {
 
         $participant->save();
 
-        $token = new VerificationToken;
-        $token->participant()->associate($participant);
-        $token->save();
 
-        Mail::to($participant->email)
-            ->send(new VerificationMail($participant, $token));
+
+//        $token = new VerificationToken;
+//        $token->participant()->associate($participant);
+//        $token->save();
+
+//        Mail::to($participant->email)
+//            ->send(new VerificationMail($participant, $token));
         if ((int)Setting::where('name', 'MaxAmountParticipants')->first()->value < Participant::count()) {
             $participant->isOnReserveList = true;
             $participant->save();
@@ -312,7 +315,14 @@ class ParticipantController extends Controller {
                 ->send(new VerifySignUpWaitingList($participant));
             return back()->with('message', 'Je hebt je succesvol ingeschreven maar je bent helaas te laat en staat in de wachtrij.');
         }
-        return back()->with('message', 'Je hebt je ingeschreven! Check je mail om jou email te verifiëren');
+
+        $token = new ConfirmationToken();
+        $token->participant()->associate($participant);
+        $token->save();
+
+        Mail::to($participant->email)
+            ->send(new emailConfirmationSignup($participant, $token));
+        return redirect('/inschrijven/betalen/'.$token->id)->with('message', 'Voltooi de aanbeteling om je inschrijving te bevestigen!');
     }
 
     public function sendEmailsToNonVerified(): RedirectResponse {

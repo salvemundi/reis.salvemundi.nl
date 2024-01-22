@@ -142,7 +142,7 @@
 
             <div class="m-auto col-md-6 px-md-5 text-left">
                 <h2 class="mt-3 text-center">Wil je mee? <br> <b>Schrijf je in!</b></h2>
-                Als jij je inschrijft kunnen we niet direct een plek garanderen. Er zijn een limiet aantal plekken beschikbaar, Dus claim je plekje snel!
+                De inschrijvingen gaan donderdag om 12:00 open, zorg dus dat je klaar staat! Je kan je dan hier inschrijven.
             </div>
 
             <div class="col-12 col-md-6 addMarginBottom">
@@ -173,10 +173,15 @@
     <div class="row">
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>Wat kan ik verwachten van de reis commissie?</h3>
-            De Reiscommissie organiseert elk jaar 2 reizen, een zomerreis, en een winterreis. De zomerreis is vaak 5 dagen, 4 overnachtingen in een grote, bekende en populaire stad. De winterreis is vaak alleen een weekend, en hier proberen we vaak de wat kleinere steden op te zoeken. Tijdens de reis worden er activiteiten georganiseerd waar je je vantevoren voor in kan schrijven. Dit kan vanalles zijn, van pubcrawls tot musea, en boottochten tot F1 circuits! We proberen een goed balans te houden tussen activiteiten en vrije tijd. Ook proberen we alle zorgen weg te nemen, en we regelen dus de vlucht, het vervoer, het verblijf en de activiteiten! We zorgen dat je nuttige informatie hebt over de stad waar we heen gaan, van bezienswaardigheden tot OV informatie! Schrijf je dus nu in, en verken de wereld samen met Salve Mundi!        </div>
+                De Reiscommissie organiseert jaarlijks twee avontuurlijke reizen: een zomerreis en een winterreis. Onze zomerreis strekt zich meestal uit over 5 dagen met 4 overnachtingen in een bruisende, bekende stad. Voor de winterreis kiezen we vaak voor een weekendje weg, waarbij we juist de charme van kleinere steden verkennen.
+                Tijdens deze reizen bieden we een gevarieerd activiteitenprogramma aan, waarvoor je je van tevoren kunt inschrijven. Denk aan alles, van gezellige pubcrawls tot culturele museumbezoeken en sfeervolle boottochten tot spannende F1-circuitervaringen! We streven naar een perfecte balans tussen georganiseerde activiteiten en vrije tijd.
+                Geen stress! Wij regelen alles, van de vlucht en het vervoer tot het verblijf en de activiteiten. Daarnaast voorzien we je van nuttige informatie over de stad die we bezoeken, van must-see bezienswaardigheden tot handige OV-details!
+                Wacht niet langer en schrijf je nu in om samen met Salve Mundi de wereld te verkennen!        </div>
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>Hoe was onze vorige Reis</h3>
-            Op onze vorige zomerreis zijn we naar Budapest gegaan. Hier zijn we verbleven in een hostel dat dicht bij het centrum lag. Ook hebben we voor een hostel gekozen waartet OV (zowel bus,tram als metro) dichtbij lagen, zodat iedereen alle mogelijkheden had om de stad te verkennen! Tijdens de reis, zijn we naar de Hungaroring geweest (het F1 circuit van Hongarije), we zijn naar Sparty geweest (Een feest in een badhuis dat uniek is in de wereld), en we zijn naar de dierentuin van Budapest geweest! Natuurlijk hebben we met zijn allen de stad verkend, en we hebben natuurlijk een hoop onvergetelijke herinneringen gemaakt!    </div>
+                Tijdens onze laatste zomerreis hebben we Budapest verkend. Ons verblijf bevond zich in een centraal gelegen hostel, strategisch gekozen nabij het stadscentrum en goed verbonden met het openbaar vervoer (zowel bus, tram als metro). Zo had iedereen de vrijheid om de stad op eigen tempo te ontdekken!
+
+                Gedurende de reis hebben we enkele bijzondere plekken bezocht, waaronder de Hungaroring (het F1-circuit van Hongarije), Sparty (een uniek feest in een badhuis wereldwijd bekend), en de dierentuin van Budapest! Natuurlijk hebben we gezamenlijk de stad verkend en vele onvergetelijke herinneringen gecreëerd.    </div>
 </div>
 
 </div>

@@ -363,8 +363,8 @@ class ParticipantController extends Controller {
             'participantEmail' => 'required|email:rfc,dns|max:65',
             'participantPhoneNumber' => 'nullable|max:15|regex:/(^[0-9]+$)+/',
             'participantAddress' => ['nullable', 'max:65', 'regex:/^[a-zA-Z0-9 ]+$/'],
-            'participantMedicalIssues' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ();,-]+$/',
-            'participantSpecial' => 'nullable|max:250|regex:/^[a-zA-Z0-9\s ();,-]+$/'
+            'participantMedicalIssues' => 'nullable|max:250',
+            'participantSpecial' => 'nullable|max:250'
         ]);
         $participant = Participant::find($request->userId);
         AuditLogController::Log(AuditCategory::ParticipantManagement(), "Bewerkt gegevens van " . $participant->firstName . " " . $participant->lastName, $participant);

@@ -193,10 +193,10 @@ class ParticipantController extends Controller {
      */
     public function store(Request $request, bool $saveActivities = false): RedirectResponse
     {
-        if($request->input('confirmation') == null) {
+        if ($request->input('confirmation') == null) {
             $request->validate([
                 'firstName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
-                'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+                'insertion' => ['nullable', 'max:32', 'regex:/^[a-zA-Z ]+$/'],
                 'lastName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
@@ -210,8 +210,8 @@ class ParticipantController extends Controller {
         } else {
             $request->validate([
                 'firstName' => 'nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]',
-                'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
-                'lastName' =>  'nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]',
+                'insertion' => ['nullable', 'max:32', 'regex:/^[a-zA-Z ]+$/'],
+                'lastName' => 'nullable', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/]',
                 'birthday' => 'required',
                 'email' => 'required|email:rfc,dns|max:65',
                 'phoneNumber' => 'required|max:15|regex:/(^[0-9]+$)+/',
@@ -222,25 +222,25 @@ class ParticipantController extends Controller {
             ]);
         }
 
-        if($request->input('uid') != null) {
+        if ($request->input('uid') != null) {
             $participant = Participant::find($request->input('uid'));
         } else {
             $participant = new Participant;
             $participant->id = Str::uuid()->toString();
-            if($request->input('role') != null) {
+            if ($request->input('role') != null) {
                 $participant->role = $request->input('role');
             } else {
                 $participant->role = 0;
             }
         }
 
-        if($request->input('confirmation') == null) {
-            if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
-                return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+        if ($request->input('confirmation') == null) {
+            if (Setting::where('name', 'SignupPageEnabled')->first()->value == 'false') {
+                return back()->with('error', 'Inschrijvingen zijn helaas gesloten!');
             }
         } else {
-            if(Setting::where('name','ConfirmationEnabled')->first()->value == 'false') {
-                return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+            if (Setting::where('name', 'ConfirmationEnabled')->first()->value == 'false') {
+                return back()->with('error', 'Inschrijvingen zijn helaas gesloten!');
             }
         }
 
@@ -252,17 +252,19 @@ class ParticipantController extends Controller {
         $participant->specials = $request->input('specials');
 
         // what is this shit
-        if($request->input('checkedIn') != null) {
+        if ($request->input('checkedIn') != null) {
             $participant->checkedIn = Roles::coerce((int)$request->input('checkedIn'));
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
-        if($saveActivities && Activity::all() != null && $request->only(['activities'])['activities'] != null) {
-            $activityCollection = new Collection();
-            foreach ($request->only(['activities'])['activities'] as $uuid) {
-                $activityCollection->add($this->activityController->show($uuid));
+        if (Activity::all() != null) {
+            if ($saveActivities && $request->only(['activities'])['activities'] != null) {
+                $activityCollection = new Collection();
+                foreach ($request->only(['activities'])['activities'] as $uuid) {
+                    $activityCollection->add($this->activityController->show($uuid));
+                }
+                $this->linkActivities($participant, $activityCollection);
             }
-            $this->linkActivities($participant, $activityCollection);
         }
         $participant->save();
 

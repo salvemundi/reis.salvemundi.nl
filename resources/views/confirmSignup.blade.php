@@ -48,33 +48,33 @@
             <label for="voornaam">Phonenumber*</label>
             <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ $confirmationToken->participant->phoneNumber }}" id="phoneNumber" name="phoneNumber" placeholder="Phonenumber...">
         </div><br>
-
-        @if(!$confirmationToken->participant->hasCompletedDownPayment())
-            <div class="form-group">
-                <label for="activities">Choose the options you would like</label>
-                @foreach($activities as $activity)
-                    <div class="form-check mt-2">
-                        <input class="form-check-input" name="activities[]" value="{{ $activity->id }}" type="checkbox" id="flexCheckDefault{{ $activity->id }}">
-                        <label class="form-check-label" for="flexCheckDefault{{ $activity->id }}">
-                            {{ ucfirst($activity->name) }}: Price: €{{ $activity->price }} <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top" title="{{ $activity->description }}"></i>
-                        </label>
-                    </div>
-                @endforeach
-            </div>
-        @else
-            <div class="form-group">
-                <label for="activities">Base trip price (excluding down payment): €{{ $basePrice }}</label>
-            </div>
-            <div class="form-group">
-                <label for="activities">Options you have chosen before:</label>
-                <ul>
-                @foreach($confirmationToken->participant->activities as $activity)
-                        <li>{{ ucfirst($activity->name) }} (€{{ $activity->price }})</li>
-                @endforeach
-                </ul>
-            </div>
+        @if($activities != null)
+            @if($confirmationToken->participant->hasCompletedDownPayment())
+                <div class="form-group">
+                    <label for="activities">Choose the options you would like</label>
+                    @foreach($activities as $activity)
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" name="activities[]" value="{{ $activity->id }}" type="checkbox" id="flexCheckDefault{{ $activity->id }}">
+                            <label class="form-check-label" for="flexCheckDefault{{ $activity->id }}">
+                                {{ ucfirst($activity->name) }}: Price: €{{ $activity->price }} <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top" title="{{ $activity->description }}"></i>
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="form-group">
+                    <label for="activities">Base trip price (excluding down payment): €{{ $basePrice }}</label>
+                </div>
+                <div class="form-group">
+                    <label for="activities">Options you have chosen before:</label>
+                    <ul>
+                    @foreach($confirmationToken->participant->activities as $activity)
+                            <li>{{ ucfirst($activity->name) }} (€{{ $activity->price }})</li>
+                    @endforeach
+                    </ul>
+                </div>
+            @endif
         @endif
-
         <div class="form-group">
             <label for="voornaam">Allergies</label>
             <textarea class="form-control{{ $errors->has('medicalIssues') ? ' is-invalid' : '' }}" type="textarea" id="medicalIssues" name="medicalIssues" placeholder="Allergies...">{{{  $confirmationToken->participant->medicalIssues }}}</textarea>

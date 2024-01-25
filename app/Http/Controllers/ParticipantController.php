@@ -257,7 +257,7 @@ class ParticipantController extends Controller {
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
-        if (Activity::all() != null) {
+        if (Activity::all()->count() != 0) {
             if ($saveActivities && $request->only(['activities'])['activities'] != null) {
                 $activityCollection = new Collection();
                 foreach ($request->only(['activities'])['activities'] as $uuid) {

@@ -28,12 +28,14 @@ use App\Mail\manuallyAddedMail;
 use App\Mail\emailConfirmationSignup;
 use Throwable;
 
-class ParticipantController extends Controller {
+class ParticipantController extends Controller
+{
     private VerificationController $verificationController;
     private PaymentController $paymentController;
     private ActivityController $activityController;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->verificationController = new VerificationController();
         $this->paymentController = new PaymentController();
         $this->activityController = new ActivityController();
@@ -43,30 +45,31 @@ class ParticipantController extends Controller {
     {
         $activity = Activity::find($request->input('selectedActivity'));
         $participant = Participant::find($request->userId);
-        if($activity === null || $participant === null) {
-            return back()->with('message','Activiteit of deelnemer niet gevonden');
+        if ($activity === null || $participant === null) {
+            return back()->with('message', 'Activiteit of deelnemer niet gevonden');
         }
         $participant->activities()->attach($activity, ['id' => Str::uuid()->toString()]);
         $participant->saveOrFail();
-        return back()->with('message','Activiteit toegevoegd!');
+        return back()->with('message', 'Activiteit toegevoegd!');
     }
     public function removeActivity(Request $request): RedirectResponse
     {
         $activity = Activity::find($request->activityId);
         $participant = Participant::find($request->userId);
-        if($activity === null || $participant === null) {
-            return back()->with('message','Activiteit of deelnemer niet gevonden');
+        if ($activity === null || $participant === null) {
+            return back()->with('message', 'Activiteit of deelnemer niet gevonden');
         }
         $participant->activities()->detach($activity);
         $participant->saveOrFail();
-        return back()->with('message','Activiteit ontkoppeld!');
+        return back()->with('message', 'Activiteit ontkoppeld!');
     }
 
     /**
      * @throws Throwable
      */
-    public function linkActivities(Participant $participant, Collection $activities): Participant {
-        foreach($activities as $activity) {
+    public function linkActivities(Participant $participant, Collection $activities): Participant
+    {
+        foreach ($activities as $activity) {
             $participant->activities()->attach($activity, ['id' => Str::uuid()->toString()]);
         }
         $participant->saveOrFail();
@@ -76,21 +79,21 @@ class ParticipantController extends Controller {
 
     public function view(): Factory|View|Application
     {
-        $checkSignUp = Setting::where('name','SignupPageEnabled')->first()->value;
+        $checkSignUp = Setting::where('name', 'SignupPageEnabled')->first()->value;
         $checkSignUp = filter_var($checkSignUp, FILTER_VALIDATE_BOOLEAN);
         return view('/signup', ['checkSignUp' => $checkSignUp]);
     }
 
     public function getParticipantsWithInformation(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
-        AuditLogController::Log(AuditCategory::Other(),'Bezocht pagina met alle deelnemers');
+        AuditLogController::Log(AuditCategory::Other(), 'Bezocht pagina met alle deelnemers');
 
         $participants = Participant::orderBy('created_at', 'ASC')->get();
         $dateToday = Carbon::now();
         $selectedParticipant = Participant::find($request->userId);
 
-        if(!isset($selectedParticipant)) {
-            if($request->userId) {
+        if (!isset($selectedParticipant)) {
+            if ($request->userId) {
                 return redirect("/participants");
             }
         } else {
@@ -98,14 +101,14 @@ class ParticipantController extends Controller {
             AuditLogController::Log(AuditCategory::ParticipantManagement(), "Ziet gegevens van " . $selectedParticipant->firstName . " " . $selectedParticipant->lastName, $selectedParticipant);
         }
 
-        foreach($participants as $participant) {
-            if($participant->payments != null) {
+        foreach ($participants as $participant) {
+            if ($participant->payments != null) {
                 $participant->latestPayment = $participant->payments()->latest()->first();
             }
             $participant->dateDifference = $dateToday->diffInDays($participant->created_at);
         }
 
-        return view('admin/participants', ['activities' => Activity::all(),'participants' => $participants, 'selectedParticipant' => $selectedParticipant ?? null, 'age' => $age ?? null]);
+        return view('admin/participants', ['activities' => Activity::all(), 'participants' => $participants, 'selectedParticipant' => $selectedParticipant ?? null, 'age' => $age ?? null]);
     }
 
     public function checkedInView(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -114,7 +117,7 @@ class ParticipantController extends Controller {
 
         if ($request->userId) {
             $selectedParticipant = Participant::find($request->userId);
-            if(!isset($selectedParticipant)) {
+            if (!isset($selectedParticipant)) {
                 return redirect("/participants");
             }
 
@@ -126,10 +129,11 @@ class ParticipantController extends Controller {
         return view('admin/participantCheckedIn', ['participants' => $availableParticipants]);
     }
 
-    public function getParticipant($token) {
+    public function getParticipant($token)
+    {
         $participant = Participant::find($token);
         $age = Carbon::parse($participant->birthday)->diff(Carbon::now())->format('%y');
-        if($age >= 18) {
+        if ($age >= 18) {
             $participant->above18 = true;
         } else {
             $participant->above18 = false;
@@ -138,53 +142,59 @@ class ParticipantController extends Controller {
         return $participant->toJson();
     }
 
-    public function checkIn(Request $request) {
+    public function checkIn(Request $request)
+    {
         $participant = Participant::find($request->userId);
         $participant->checkedIn = true;
         $participant->save();
-        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " in gechecked", $participant);
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName . " in gechecked", $participant);
 
         return back();
     }
 
-    public function checkOut(Request $request) {
+    public function checkOut(Request $request)
+    {
         $participant = Participant::find($request->userId);
         $participant->checkedIn = false;
         $participant->save();
-        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " uit gechecked", $participant);
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName . " uit gechecked", $participant);
 
         return back();
     }
 
-    public function changeReserveList(Request $request): RedirectResponse {
+    public function changeReserveList(Request $request): RedirectResponse
+    {
         $participant = Participant::find($request->userId);
         $participant->isOnReserveList = !$participant->isOnReserveList;
         $participant->save();
 
         $string = $participant->isOnReserveList ?
-            "Heeft " . $participant->firstName . " " . $participant->lastName. " in de wachtrij gezet" :
-            "Heeft " . $participant->firstName . " " . $participant->lastName. " uit de wachtrij gehaald";
+            "Heeft " . $participant->firstName . " " . $participant->lastName . " in de wachtrij gezet" :
+            "Heeft " . $participant->firstName . " " . $participant->lastName . " uit de wachtrij gehaald";
 
-        AuditLogController::Log(AuditCategory::ParticipantManagement(), $string ,$participant);
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), $string, $participant);
 
         return back();
     }
 
-    public function checkOutEveryone() {
+    public function checkOutEveryone()
+    {
         Participant::query()->update(['checkedIn' => false]);
         AuditLogController::Log(AuditCategory::Other(), "Heeft iedereen uit gechecked");
 
         return back();
     }
 
-    public function delete(Request $request) {
+    public function delete(Request $request)
+    {
         $participant = Participant::find($request->userId);
         $participant->delete();
-        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName. " verwijderd", $participant);
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft " . $participant->firstName . " " . $participant->lastName . " verwijderd", $participant);
         return redirect("/participants");
     }
 
-    public function viewAdd() {
+    public function viewAdd()
+    {
         return view('admin/addParticipants');
     }
 
@@ -258,7 +268,7 @@ class ParticipantController extends Controller {
             $participant->checkedIn = Roles::coerce(0);
         }
         if (Activity::all()->count() != 0) {
-            if ($saveActivities && $request->only(['activities'])['activities'] != null) {
+            if ($saveActivities && isset($request->only(['activities'])['activities'])) {
                 $activityCollection = new Collection();
                 foreach ($request->only(['activities'])['activities'] as $uuid) {
                     $activityCollection->add($this->activityController->show($uuid));
@@ -275,14 +285,14 @@ class ParticipantController extends Controller {
     {
         $request->validate([
             'firstName' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
-            'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'insertion' => ['nullable', 'max:32', 'regex:/^[a-zA-Z ]+$/'],
             'lastName' => ['required', 'max:65', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'email' => 'required|email:rfc,dns|max:65',
             'phoneNumber' => 'required|min:10|max:15|regex:/(^[0-9+]+$)+/|',
         ]);
 
-        if(Setting::where('name','SignupPageEnabled')->first()->value == 'false') {
-            return back()->with('error','Inschrijvingen zijn helaas gesloten!');
+        if (Setting::where('name', 'SignupPageEnabled')->first()->value == 'false') {
+            return back()->with('error', 'Inschrijvingen zijn helaas gesloten!');
         }
 
         if (Participant::where('email', $request->input('email'))->count() > 0) {
@@ -304,12 +314,12 @@ class ParticipantController extends Controller {
 
 
 
-//        $token = new VerificationToken;
-//        $token->participant()->associate($participant);
-//        $token->save();
+        //        $token = new VerificationToken;
+        //        $token->participant()->associate($participant);
+        //        $token->save();
 
-//        Mail::to($participant->email)
-//            ->send(new VerificationMail($participant, $token));
+        //        Mail::to($participant->email)
+        //            ->send(new VerificationMail($participant, $token));
         if ((int)Setting::where('name', 'MaxAmountParticipants')->first()->value < Participant::count()) {
             $participant->isOnReserveList = true;
             $participant->save();
@@ -324,13 +334,14 @@ class ParticipantController extends Controller {
 
         Mail::to($participant->email)
             ->send(new emailConfirmationSignup($participant, $token));
-        return redirect('/inschrijven/betalen/'.$token->id)->with('message', 'Voltooi de aanbeteling om je inschrijving te bevestigen!');
+        return redirect('/inschrijven/betalen/' . $token->id)->with('message', 'Voltooi de aanbeteling om je inschrijving te bevestigen!');
     }
 
-    public function sendEmailsToNonVerified(): RedirectResponse {
+    public function sendEmailsToNonVerified(): RedirectResponse
+    {
         $nonVerifiedParticipants = $this->verificationController->getNonVerifiedParticipants();
 
-        foreach($nonVerifiedParticipants as $participant) {
+        foreach ($nonVerifiedParticipants as $participant) {
             $verificationToken = $this->verificationController->createNewVerificationToken($participant);
             $verificationToken->save();
 
@@ -342,10 +353,11 @@ class ParticipantController extends Controller {
         return back()->with('message', 'De mails zijn verstuurd!');
     }
 
-    public function resendQRCodeEmails(): RedirectResponse {
+    public function resendQRCodeEmails(): RedirectResponse
+    {
         $paidParticipants = $this->paymentController->getAllPaidUsers();
 
-        foreach($paidParticipants as $participant) {
+        foreach ($paidParticipants as $participant) {
             resendQRCodeEmails::dispatch($participant);
         }
 
@@ -357,7 +369,7 @@ class ParticipantController extends Controller {
     {
         $request->validate([
             'participantFirstName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
-            'participantInsertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'participantInsertion' => ['nullable', 'max:32', 'regex:/^[a-zA-Z ]+$/'],
             'participantLastName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
             'participantBirthday' => 'nullable',
             'participantEmail' => 'required|email:rfc,dns|max:65',
@@ -368,8 +380,8 @@ class ParticipantController extends Controller {
         ]);
         $participant = Participant::find($request->userId);
         AuditLogController::Log(AuditCategory::ParticipantManagement(), "Bewerkt gegevens van " . $participant->firstName . " " . $participant->lastName, $participant);
-        if($participant == null) {
-            return back()->with('error','Deelnemer niet gevonden!');
+        if ($participant == null) {
+            return back()->with('error', 'Deelnemer niet gevonden!');
         }
         $participant->firstName = $request->input('participantFirstName');
         $participant->insertion = $request->input('participantInsertion');
@@ -381,7 +393,7 @@ class ParticipantController extends Controller {
         $participant->specials = $request->input('participantSpecial');
         $participant->role = $request->input('participantRole') ?? 0;
         $participant->save();
-        return back()->with('success','Deelnemer gegevens opgeslagen!');
+        return back()->with('success', 'Deelnemer gegevens opgeslagen!');
     }
 
 
@@ -389,7 +401,7 @@ class ParticipantController extends Controller {
     {
         $request->validate([
             'firstName' => ['required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
-            'insertion' => ['nullable','max:32','regex:/^[a-zA-Z ]+$/'],
+            'insertion' => ['nullable', 'max:32', 'regex:/^[a-zA-Z ]+$/'],
             'lastName' =>  ['required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/'],
             'birthday' => 'required',
             'email' => 'required|email:rfc,dns|max:65',
@@ -412,13 +424,13 @@ class ParticipantController extends Controller {
         $participant->medicalIssues = $request->input('medicalIssues');
         $participant->specials = $request->input('specials');
 
-        if($request->input('role') != null) {
+        if ($request->input('role') != null) {
             $participant->role = $request->input('role');
         } else {
             $participant->role = 0;
         }
 
-        if($request->input('checkedIn') != null) {
+        if ($request->input('checkedIn') != null) {
             $participant->checkedIn = Roles::coerce((int)$request->input('checkedIn'));
         } else {
             $participant->checkedIn = Roles::coerce(0);
@@ -437,7 +449,7 @@ class ParticipantController extends Controller {
         Mail::to($participant->email)
             ->send(new emailConfirmationSignup($participant, $newConfirmationToken));
 
-        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft deelnemer " . $participant->firstName . " " . $participant->lastName. " toegevoegd", $participant);
+        AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft deelnemer " . $participant->firstName . " " . $participant->lastName . " toegevoegd", $participant);
 
         return back()->with('message', 'Deelnemer is opgeslagen!');
     }
@@ -445,16 +457,17 @@ class ParticipantController extends Controller {
     public function sendParticipantConfirmationEmail(Request $request): RedirectResponse
     {
         $participant = Participant::find($request->userId);
-        if(!$participant->hasCompletedFinalPayment()) {
+        if (!$participant->hasCompletedFinalPayment()) {
             Mail::to($participant->email)
                 ->send(new emailConfirmationSignup($participant, $this->createConfirmationToken($participant)));
             AuditLogController::Log(AuditCategory::ParticipantManagement(), "Heeft nieuwe confirmatie mail gestuurd naar " . $participant->firstName . " " . $participant->lastName, $participant);
-            return back()->with('success','Confirmatie email verstuurd!');
+            return back()->with('success', 'Confirmatie email verstuurd!');
         }
-        return back()->with('error','Deelnemer heeft al betaald!');
+        return back()->with('error', 'Deelnemer heeft al betaald!');
     }
 
-    public function finalPaymentView(Request $request): Factory|View|Application {
+    public function finalPaymentView(Request $request): Factory|View|Application
+    {
         $confirmationToken = ConfirmationToken::find($request->token);
         $selectedActivities = $confirmationToken->participant->activities;
 

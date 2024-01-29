@@ -26,17 +26,20 @@ class Participant extends Model
 
     protected $fillable = ['firstName', 'insertion', 'lastName', 'birthday', 'email', 'phoneNumber', 'medicalIssues', 'role', 'checkedIn', 'isOnReserveList'];
 
-    public  function getHaspaidAttribute(): bool {
+    public  function getHaspaidAttribute(): bool
+    {
         return $this->hasCompletedAllPayments();
     }
 
-    public function activities() {
+    public function activities()
+    {
         return $this->belongsToMany(Activity::class)->distinct();
     }
 
-    public function getAbove18Attribute(): bool {
+    public function getAbove18Attribute(): bool
+    {
         $age = Carbon::parse($this->birthday)->diff(Carbon::now())->format('%y');
-        if($age >= 18) {
+        if ($age >= 18) {
             return true;
         } else {
             return false;
@@ -45,22 +48,22 @@ class Participant extends Model
 
     public function verificationToken(): BelongsTo
     {
-        return $this->belongsTo(VerificationToken::class,'id','participantId','verify_email');
+        return $this->belongsTo(VerificationToken::class, 'id', 'participantId', 'verify_email');
     }
 
     public function confirmationToken(): BelongsTo
     {
-        return $this->belongsTo(ConfirmationToken::class,'id','participantId','confirm_signup_request');
+        return $this->belongsTo(ConfirmationToken::class, 'id', 'participantId', 'confirm_signup_request');
     }
 
     public function auditLogs(): HasMany
     {
-        return $this->hasMany(AuditLog::class,'participantId','id');
+        return $this->hasMany(AuditLog::class, 'participantId', 'id');
     }
 
     public function getFullName(): string
     {
-        if($this->insertion != "" || $this->insertion != null){
+        if ($this->insertion != "" || $this->insertion != null) {
             $name = $this->firstName . " " . $this->insertion . " " . $this->lastName;
         } else {
             $name = $this->firstName . " " . $this->lastName;
@@ -70,34 +73,38 @@ class Participant extends Model
 
     public function payments(): HasMany
     {
-        return $this->hasMany(Payment::class,'participant_id','id');
+        return $this->hasMany(Payment::class, 'participant_id', 'id');
     }
 
-    public function hasCompletedDownPayment(): bool {
-        foreach($this->payments as $payment) {
-            if($payment->paymentStatus === PaymentStatus::paid && $payment->paymentType === PaymentTypes::DownPayment) {
+    public function hasCompletedDownPayment(): bool
+    {
+        foreach ($this->payments as $payment) {
+            if ($payment->paymentStatus === PaymentStatus::paid && $payment->paymentType === PaymentTypes::DownPayment) {
                 return true;
             }
         }
         return false;
     }
 
-    public function hasCompletedFinalPayment(): bool {
-        foreach($this->payments as $payment) {
-            if($payment->paymentStatus === PaymentStatus::paid && $payment->paymentType === PaymentTypes::FinalPayment) {
+    public function hasCompletedFinalPayment(): bool
+    {
+        foreach ($this->payments as $payment) {
+            if ($payment->paymentStatus === PaymentStatus::paid && $payment->paymentType === PaymentTypes::FinalPayment) {
                 return true;
             }
         }
         return false;
     }
 
-    public function hasCompletedAllPayments(): bool {
+    public function hasCompletedAllPayments(): bool
+    {
         return $this->hasCompletedDownPayment() && $this->hasCompletedFinalPayment();
     }
 
-    public function isVerified():bool {
-        foreach($this->verificationToken()->get() as $token) {
-            if($token->verified) {
+    public function isVerified(): bool
+    {
+        foreach ($this->verificationToken()->get() as $token) {
+            if ($token->verified) {
                 return true;
             }
         }

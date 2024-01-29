@@ -22,7 +22,8 @@ class ConfirmationController extends Controller
     private VerificationController $verifiedController;
     private ActivityController $activityController;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->participantController = new ParticipantController();
         $this->paymentController = new PaymentController();
         $this->verifiedController = new VerificationController();
@@ -33,10 +34,10 @@ class ConfirmationController extends Controller
     {
         $token = ConfirmationToken::find($request->token);
 
-        if(!$token || $token->confirmed) {
-            return redirect('/')->with('error','Token is not valid!');
+        if (!$token || $token->confirmed) {
+            return redirect('/')->with('error', 'Token is not valid!');
         }
-        return view('confirmSignup')->with(['confirmationToken' => $token,'activities' => $this->activityController->index(),'price' => $this->paymentController->calculateFinalPrice($token),'basePrice' => Setting::where('name','FinalPaymentAmount')->first()->value]);
+        return view('confirmSignup')->with(['confirmationToken' => $token, 'activities' => $this->activityController->index(), 'price' => $this->paymentController->calculateFinalPrice($token), 'basePrice' => Setting::where('name', 'FinalPaymentAmount')->first()->value]);
     }
 
     public function confirm(Request $request): Response|RedirectResponse
@@ -44,42 +45,42 @@ class ConfirmationController extends Controller
         $token = $request->token;
         $confirmationToken = ConfirmationToken::find($token);
         $user = $confirmationToken->participant;
-        if(Setting::where('name','ConfirmationEnabled')->first()->value == 'false') {
-            return back()->with('error','Confirmation signups are currently closed!');
+        if (Setting::where('name', 'ConfirmationEnabled')->first()->value == 'false') {
+            return back()->with('error', 'Confirmation signups are currently closed!');
         }
         if ($token && $confirmationToken !== null) {
-            if($confirmationToken->confirmed) {
-                redirect('/')->with('error','This token is already confirmed!');
+            if ($confirmationToken->confirmed) {
+                redirect('/')->with('error', 'This token is already confirmed!');
             }
 
-            if(!$user->hasCompletedFinalPayment() && $user->hasCompletedDownPayment()) {
-                $this->participantController->store($request);
+            if (!$user->hasCompletedFinalPayment() && $user->hasCompletedDownPayment()) {
+                $this->participantController->store($request, true);
                 return $this->paymentController->payForReis($confirmationToken->id, $this->paymentController->calculateFinalPrice($confirmationToken), PaymentTypes::FinalPayment());
             }
-            if(!$user->hasCompletedDownPayment()){
+            if (!$user->hasCompletedDownPayment()) {
                 $this->participantController->store($request, true);
                 return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name', 'Aanbetaling')->first()->value, PaymentTypes::DownPayment());
             }
             $this->participantController->store($request);
 
-            return back()->with('success','Information saved!');
+            return back()->with('success', 'Information saved!');
         }
-        return back()->with('error','input is not valid');
+        return back()->with('error', 'input is not valid');
     }
 
     public function sendConfirmEmailToAllUsers(): RedirectResponse
     {
         $verifiedParticipants = $this->verifiedController->getVerifiedParticipants();
         /** @var Participant $participant */
-        foreach($verifiedParticipants as $participant) {
+        foreach ($verifiedParticipants as $participant) {
             if (!$participant->hasCompletedAllPayments()) {
                 $newConfirmationToken = new ConfirmationToken();
                 $newConfirmationToken->participant()->associate($participant);
                 $newConfirmationToken->save();
 
-                resendConfirmationEmailToAllUsers::dispatch($participant,$newConfirmationToken);
+                resendConfirmationEmailToAllUsers::dispatch($participant, $newConfirmationToken);
             }
         }
-        return back()->with('status','Mails zijn verstuurd!');
+        return back()->with('status', 'Mails zijn verstuurd!');
     }
 }

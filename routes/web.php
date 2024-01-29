@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::middleware(['GlobalMiddleware'])->group(function () {
     // Login Azure
     Route::get('/login', [AuthController::class, 'signIn']);
@@ -33,25 +34,24 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
     // Signup
     Route::post('/inschrijven', [ParticipantController::class, 'signup']);
-    Route::get('/inschrijven', function() {
+    Route::get('/inschrijven', function () {
         return redirect('/'); // Fix 405 error
     });
 
     Route::get('/', [ParticipantController::class, 'view']);
-
-    Route::get('/inschrijven/verify/{token}',[VerificationController::class,'verify']);
+    Route::get('/inschrijven/verify/{token}', [VerificationController::class, 'verify']);
 
     // Payment
     Route::get('/inschrijven/betalen/success/{userId}', [PaymentController::class, 'returnSuccessPage'])->name('payment.success');
-    Route::get('/inschrijven/betalen/{token}',[ConfirmationController::class, 'confirmSignUpView']);
-    Route::post('/inschrijven/betalen/{token}',[ConfirmationController::class, 'confirm']);
+    Route::get('/inschrijven/betalen/{token}', [ConfirmationController::class, 'confirmSignUpView']);
+    Route::post('/inschrijven/betalen/{token}', [ConfirmationController::class, 'confirm']);
     Route::get('/inschrijven/betalen/paymentFailed', [PaymentController::class, 'returnSuccessPage']);
 
-    Route::post('webhooks/mollie',[WebhookController::class, 'handle'])->name('webhooks.mollie');
+    Route::post('webhooks/mollie', [WebhookController::class, 'handle'])->name('webhooks.mollie');
 
     // Blogs / news
-    Route::get('/blogs',[BlogController::class, 'showBlogs']);
-    Route::get('/blogs/{blogId}',[BlogController::class, 'showBlog']);
+    Route::get('/blogs', [BlogController::class, 'showBlogs']);
+    Route::get('/blogs/{blogId}', [BlogController::class, 'showBlog']);
 
     // Schedule qr pagina
     Route::get('/qr-code', [ScheduleController::class, 'index']);
@@ -72,14 +72,14 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         Route::post('/participants/{userId}/checkIn', [ParticipantController::class, 'checkIn']);
         Route::post('/participants/{userId}/checkOut', [ParticipantController::class, 'checkOut']);
         Route::post('/participants/{userId}/delete', [ParticipantController::class, 'delete']);
-        Route::post('/participants/{userId}/storeEdit', [ParticipantController::class,'storeEdit']);
-        Route::post('/participants/checkOutEveryone', [ParticipantController::class,'checkOutEveryone']);
+        Route::post('/participants/{userId}/storeEdit', [ParticipantController::class, 'storeEdit']);
+        Route::post('/participants/checkOutEveryone', [ParticipantController::class, 'checkOutEveryone']);
         Route::post('/participants/resendVerificationEmails', [ParticipantController::class, 'sendEmailsToNonVerified']);
         Route::post('/participants/resendQRcode', [ParticipantController::class, 'resendQRCodeEmails']);
         Route::post('/participants/resendQRcodeNonParticipants', [ParticipantController::class, 'sendQRCodesToNonParticipants']);
         Route::post('/participants/{userId}/sendConfirmationEmail', [ParticipantController::class, 'sendParticipantConfirmationEmail']);
-        Route::post('/participants/{userId}/activity/add',[ParticipantController::class,'addActivity']);
-        Route::post('/participants/{userId}/activity/{activityId}/del',[ParticipantController::class,'removeActivity']);
+        Route::post('/participants/{userId}/activity/add', [ParticipantController::class, 'addActivity']);
+        Route::post('/participants/{userId}/activity/{activityId}/del', [ParticipantController::class, 'removeActivity']);
 
         Route::get('/add', [ParticipantController::class, 'viewAdd']);
         Route::post('/add/store', [ParticipantController::class, 'storeSelfAddedParticipant']);
@@ -92,40 +92,40 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
         });
 
         // Posts / blogs
-        Route::get('/blogsadmin',[BlogController::class, 'showBlogsAdmin']);
-        Route::get('/blogsadmin/save',[BlogController::class, 'showBlogInputs']);
-        Route::post('/blogsadmin/save',[BlogController::class, 'saveBlog']);
+        Route::get('/blogsadmin', [BlogController::class, 'showBlogsAdmin']);
+        Route::get('/blogsadmin/save', [BlogController::class, 'showBlogInputs']);
+        Route::post('/blogsadmin/save', [BlogController::class, 'saveBlog']);
 
         //  Update blogs / posts
-        Route::get('/blogsadmin/save/{blogId}',[BlogController::class, 'showBlogInputs']);
-        Route::post('/blogsadmin/save/{blogId}',[BlogController::class, 'saveBlog']);
+        Route::get('/blogsadmin/save/{blogId}', [BlogController::class, 'showBlogInputs']);
+        Route::post('/blogsadmin/save/{blogId}', [BlogController::class, 'saveBlog']);
         // Delete blogs
-        Route::get('/blogsadmin/delete/{blogId}',[BlogController::class, 'deleteBlog']);
+        Route::get('/blogsadmin/delete/{blogId}', [BlogController::class, 'deleteBlog']);
 
         // Events
         Route::get('/events', [ScheduleController::class, 'getAllEvents']);
-        Route::get('/events/save',[ScheduleController::class, 'showEventInputs']);
-        Route::post('/events/save',[ScheduleController::class, 'saveEvent']);
+        Route::get('/events/save', [ScheduleController::class, 'showEventInputs']);
+        Route::post('/events/save', [ScheduleController::class, 'saveEvent']);
         //  Update events
-        Route::get('/events/save/{eventId}',[ScheduleController::class, 'showEventInputs']);
-        Route::post('/events/save/{eventId}',[ScheduleController::class, 'store']);
+        Route::get('/events/save/{eventId}', [ScheduleController::class, 'showEventInputs']);
+        Route::post('/events/save/{eventId}', [ScheduleController::class, 'store']);
         // Delete events
-        Route::get('/events/delete/{eventId}',[ScheduleController::class, 'deleteEvent']);
+        Route::get('/events/delete/{eventId}', [ScheduleController::class, 'deleteEvent']);
 
         // Settings
-        Route::get('/settings',[SettingController::class, 'showSettings']);
-        Route::post('/settings/{settingId}/store',[SettingController::class, 'storeSetting']);
+        Route::get('/settings', [SettingController::class, 'showSettings']);
+        Route::post('/settings/{settingId}/store', [SettingController::class, 'storeSetting']);
 
         // Logs
-        Route::get('/logs',[AuditLogController::class,'index']);
+        Route::get('/logs', [AuditLogController::class, 'index']);
 
         // Activities
-        Route::get('/activities',[ActivityController::class,'view']);
-        Route::get('/activities/create',[ActivityController::class, 'showCreatePage']);
-        Route::post('/activities/create/save',[ActivityController::class, 'store']);
+        Route::get('/activities', [ActivityController::class, 'view']);
+        Route::get('/activities/create', [ActivityController::class, 'showCreatePage']);
+        Route::post('/activities/create/save', [ActivityController::class, 'store']);
         Route::post('/activities/delete/{activityId}', [ActivityController::class, 'delete']);
-        Route::get('/activities/update/{activityId}',[ActivityController::class, 'showCreatePage']);
-        Route::post('/activities/update/{activityId}',[ActivityController::class, 'update']);
+        Route::get('/activities/update/{activityId}', [ActivityController::class, 'showCreatePage']);
+        Route::post('/activities/update/{activityId}', [ActivityController::class, 'update']);
 
         // ReserveList
         Route::post('/participants/reserveList/{userId}', [ParticipantController::class, 'changeReserveList']);

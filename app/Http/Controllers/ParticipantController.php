@@ -67,12 +67,17 @@ class ParticipantController extends Controller
     /**
      * @throws Throwable
      */
-    public function linkActivities(Participant $participant, Collection $activities): Participant
+    public function linkActivities(Participant $participant, Collection $activities = null): Participant
     {
-        foreach ($activities as $activity) {
-            $participant->activities()->attach($activity, ['id' => Str::uuid()->toString()]);
+        if ($activities != null) {
+            $ids = $activities->pluck('id')->toArray();
+            foreach ($ids as $id) {
+                $data_to_sync[$id] = ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString()];
+            }
+            $participant->activities()->sync($data_to_sync, false);
+        } else {
+            $participant->activities()->sync(null);
         }
-        $participant->saveOrFail();
 
         return $participant;
     }
@@ -274,6 +279,8 @@ class ParticipantController extends Controller
                     $activityCollection->add($this->activityController->show($uuid));
                 }
                 $this->linkActivities($participant, $activityCollection);
+            } else {
+                $this->linkActivities($participant);
             }
         }
         $participant->save();

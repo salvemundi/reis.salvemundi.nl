@@ -69,15 +69,17 @@ class ParticipantController extends Controller
      */
     public function linkActivities(Participant $participant, Collection $activities = null): Participant
     {
-        if ($activities != null) {
-            $ids = $activities->pluck('id')->toArray();
-            foreach ($ids as $id) {
-                $data_to_sync[$id] = ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString()];
-            }
-            $participant->activities()->sync($data_to_sync, false);
-        } else {
-            $participant->activities()->sync(null);
+        $data_to_sync = [];
+
+        if ($activities) {
+            $data_to_sync = $activities->pluck('id')
+                ->mapWithKeys(function ($id) {
+                    return [$id => ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString()]];
+                })
+                ->toArray();
         }
+
+        $participant->activities()->sync($data_to_sync);
 
         return $participant;
     }

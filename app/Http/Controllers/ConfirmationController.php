@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\PaymentTypes;
+use App\Enums\Roles;
 use App\Jobs\resendConfirmationEmailToAllUsers;
 use App\Models\ConfirmationToken;
 use App\Models\Participant;
@@ -37,7 +38,13 @@ class ConfirmationController extends Controller
         if (!$token || $token->confirmed) {
             return redirect('/')->with('error', 'Token is not valid!');
         }
-        return view('confirmSignup')->with(['confirmationToken' => $token, 'activities' => $this->activityController->index(), 'price' => $this->paymentController->calculateFinalPrice($token), 'basePrice' => Setting::where('name', 'FinalPaymentAmount')->first()->value]);
+        $baseprice = Setting::where('name', 'FinalPaymentAmount')->first()->value;
+
+        if($token->user->role == Roles::crew()) {
+            $baseprice = (int)Setting::where('name', 'FinalPaymentAmount')->first()->value - (int)Setting::where('name', 'CrewDiscount')->first()->value;
+        }
+
+        return view('confirmSignup')->with(['confirmationToken' => $token, 'activities' => $this->activityController->index(), 'price' => $this->paymentController->calculateFinalPrice($token), 'basePrice' => $baseprice]);
     }
 
     public function confirm(Request $request): Response|RedirectResponse

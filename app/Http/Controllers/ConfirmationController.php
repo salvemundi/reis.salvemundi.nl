@@ -40,7 +40,7 @@ class ConfirmationController extends Controller
         }
         $baseprice = Setting::where('name', 'FinalPaymentAmount')->first()->value;
 
-        if($token->user->role == Roles::crew()) {
+        if($token->participant->role == Roles::crew()) {
             $baseprice = (int)Setting::where('name', 'FinalPaymentAmount')->first()->value - (int)Setting::where('name', 'CrewDiscount')->first()->value;
         }
 

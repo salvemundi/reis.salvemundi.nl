@@ -87,12 +87,11 @@ setActive("participants");
                     <tr class="tr-class-1">
                         <th data-field="firstName" data-sortable="true">Naam</th>
                         <th data-field="role" data-sortable="true">Rol</th>
-                        <th data-field="verified" data-sortable="true">Geverifieerd</th>
+                        <th data-field="verified" data-sortable="true">Geboortedatum</th>
                         <th data-field="checkedIn" data-sortable="true">Checked in</th>
                         <th data-field="data" data-sortable="true">Gegevens</th>
                         @if(Request::is('participants'))
                             <th data-field="createdat" data-sortable="true">Dag van inschrijving</th>
-                            <th data-field="updatedat" data-sortable="true">Laatste aanpassing</th>
                             <th data-field="daysDif" data-sortable="true">Dagen geleden ingeschreven</th>
                         @endif
                         <th data-field="email" data-sortable="false">email</th>
@@ -105,7 +104,7 @@ setActive("participants");
                         <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
                             <td data-value="{{ $participant->firstName }}">{{ $participant->firstName }} {{ $participant->insertion ?? null}} {{ $participant->lastName }}</td>
                             <td data-value="{{ $participant->role }}">{{ \App\Enums\Roles::fromValue($participant->role)->description }}</td>
-                            <td data-value="{{ $participant->isVerified() }}">{{ $participant->isVerified() ? 'Ja' : 'Nee' }}</td>
+                            <td data-value="{{ $participant->birthday }}">{{$participant->birthday ?? "Niet ingevuld"}}</td>
 
                             @if($participant->checkedIn == 1)
                                 <td data-value="{{ $participant->checkedIn }}">True</td>
@@ -115,7 +114,6 @@ setActive("participants");
                             <td data-value="{{ $participant->id }}"><a href="/participants/{{$participant->id}}"><button type="button" class="btn btn-primary">Details</button></a></td>
                             @if(Request::is('participants'))
                                 <td data-value="{{ $participant->created_at }}">{{ $participant->created_at }}</td>
-                                <td data-value="{{ $participant->updated_at }}">{{ $participant->updated_at }}</td>
                                 <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference }}</td>
                             @endif
                             <td data-value="{{ $participant->email }}">{{$participant->email}}</td>

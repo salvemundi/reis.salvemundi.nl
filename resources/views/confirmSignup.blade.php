@@ -65,6 +65,7 @@
         <div class="form-group">
             <label for="activities">Base trip price (excluding down payment): €{{ $basePrice }}</label>
         </div>
+        @if($confirmationToken->participant->activities->count() > 0)
         <div class="form-group">
             <label for="activities">Options you have chosen before:</label>
             <ul>
@@ -73,6 +74,7 @@
                 @endforeach
             </ul>
         </div>
+        @endif
         @endif
         @endif
         <div class="form-group">

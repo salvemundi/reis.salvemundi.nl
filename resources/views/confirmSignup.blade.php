@@ -97,6 +97,7 @@
         </div>
     </form>
 </div>
+@if($confirmationToken->participant->hasCompletedDownPayment())
 <script>
     function updatePrice() {
         let basePrice = parseFloat("{{ $basePrice }}"); // Convert base price to float
@@ -119,4 +120,5 @@
         checkbox.addEventListener('change', updatePrice);
     });
 </script>
+@endif
 @endsection

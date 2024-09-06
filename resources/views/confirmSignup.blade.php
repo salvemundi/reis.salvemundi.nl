@@ -49,7 +49,7 @@
             <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ $confirmationToken->participant->phoneNumber }}" id="phoneNumber" name="phoneNumber" placeholder="Phonenumber...">
         </div><br>
         @if($activities != null)
-        @if($confirmationToken->participant->hasCompletedDownPayment())
+        @if(!$confirmationToken->participant->hasCompletedDownPayment())
         <div class="form-group">
             <label for="activities">Choose the options you would like</label>
             @foreach($activities as $activity)

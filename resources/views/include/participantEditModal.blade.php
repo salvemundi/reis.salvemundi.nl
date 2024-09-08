@@ -41,6 +41,13 @@
                     </div>
                     <br>
 
+                    @if($driverSignup)
+                        <div class="form-group mb-4 form-check">
+                            <input @if($participant->driverVolunteer) checked @endif class="form-check-input form-check me-2" type="checkbox" name="driverVolunteer" id="driverVolunteer">
+                            <label class="form-check-label mt-2" for="driverSignup">Wil vrijwillig bus rijden</label>
+                        </div>
+                    @endif
+
                     <label for="participantRole" class="form-label">Rol: </label>
                     <select id="participantRole" name="participantRole" class="form-select mb-3" aria-label="Default select example">
                             @foreach(App\Enums\Roles::asArray() as $key => $val)

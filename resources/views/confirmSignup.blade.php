@@ -48,7 +48,14 @@
             <label for="voornaam">Phonenumber*</label>
             <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ $confirmationToken->participant->phoneNumber }}" id="phoneNumber" name="phoneNumber" placeholder="Phonenumber...">
         </div><br>
-        @if($activities != null)
+
+        @if($driverSignup)
+            <div class="form-group mb-4 form-check">
+                <input class="form-check-input form-check me-2" type="checkbox" name="driverVolunteer" id="driverVolunteer">
+                <label class="form-check-label mt-2" for="driverSignup">Ik wil vrijwillig aanmelden om busje te rijden tijdens de reis</label>
+            </div>
+        @endif
+        @if($activities->count() > 0)
         @if(!$confirmationToken->participant->hasCompletedDownPayment())
         <div class="form-group">
             <label for="activities">Choose the options you would like</label>

@@ -115,7 +115,13 @@ class ParticipantController extends Controller
             $participant->dateDifference = $dateToday->diffInDays($participant->created_at);
         }
 
-        return view('admin/participants', ['activities' => Activity::all(), 'participants' => $participants, 'selectedParticipant' => $selectedParticipant ?? null, 'age' => $age ?? null]);
+        return view('admin/participants', [
+            'activities' => Activity::all(),
+            'participants' => $participants,
+            'selectedParticipant' => $selectedParticipant ?? null,
+            'age' => $age ?? null,
+            'driverSignup' => Setting::where('name', 'DriverVolunteer')->first()->value
+        ]);
     }
 
     public function checkedInView(Request $request): View|Factory|Redirector|RedirectResponse|Application
@@ -267,6 +273,7 @@ class ParticipantController extends Controller
 
         $participant->medicalIssues = $request->input('medicalIssues');
         $participant->specials = $request->input('specials');
+        $participant->driverVolunteer = (bool)$request->input('driverVolunteer');
 
         // what is this shit
         if ($request->input('checkedIn') != null) {
@@ -401,6 +408,8 @@ class ParticipantController extends Controller
         $participant->medicalIssues = $request->input('participantMedicalIssues');
         $participant->specials = $request->input('participantSpecial');
         $participant->role = $request->input('participantRole') ?? 0;
+        $participant->driverVolunteer = (bool)$request->input('driverVolunteer');
+
         $participant->save();
         return back()->with('success', 'Deelnemer gegevens opgeslagen!');
     }

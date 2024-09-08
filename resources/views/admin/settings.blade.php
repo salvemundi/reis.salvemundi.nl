@@ -21,7 +21,15 @@
                     @include('include/settingEditModal', ['setting' => $setting])
                     <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
                         <td data-value="{{ $setting->name }}">{{ $setting->description }}</td>
+                        @if($setting->valueType == App\Enums\SettingTypes::boolean()->value)
+                            @if($setting->value)
+                                <td data-value="{{ $setting->value }}">Aan</td>
+                            @else
+                                <td data-value="{{ $setting->value }}">Uit</td>
+                            @endif
+                        @else
                         <td data-value="{{ $setting->value }}">{{ $setting->value }}</td>
+                        @endif
                         <td data-value="{{ $setting->value }}">
                             <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $setting->id }}">
                                 Bewerk

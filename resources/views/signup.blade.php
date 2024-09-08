@@ -7,8 +7,8 @@
             <div class="col-auto col-lg-6 col-12 pl-5">
                 <h1 class="display-5">Fontys ICT gaat internationaal!</h1>
                 <div>
-                    <b>Datum:</b> Onder voorbehoud van beschikbare data van de vliegtuigmaatschappijen (hou 29 april tot en met 5 mei vrij) we gaan in die week 5 dagen in totaal weg.
-                    <br><b>Geschatte Kosten:</b> € 290 - € 350
+                    <b>Datum:</b> 19 tot 23 oktober 2024
+                    <br><b>Geschatte Kosten:</b> € 100 - € 140
                 </div>
                 <ul>
                     <li>
@@ -179,9 +179,9 @@
                 Wacht niet langer en schrijf je nu in om samen met Salve Mundi de wereld te verkennen!        </div>
         <div class="col-12 col-md-6 px-md-5 my-4">
             <h3>Hoe was onze vorige Reis</h3>
-                Tijdens onze laatste zomerreis hebben we Budapest verkend. Ons verblijf bevond zich in een centraal gelegen hostel, strategisch gekozen nabij het stadscentrum en goed verbonden met het openbaar vervoer (zowel bus, tram als metro). Zo had iedereen de vrijheid om de stad op eigen tempo te ontdekken!
-
-                Gedurende de reis hebben we enkele bijzondere plekken bezocht, waaronder de Hungaroring (het F1-circuit van Hongarije), Sparty (een uniek feest in een badhuis wereldwijd bekend), en de dierentuin van Budapest! Natuurlijk hebben we gezamenlijk de stad verkend en vele onvergetelijke herinneringen gecreëerd.    </div>
+            Met onze laatste reis hebben we Barcelona verkend! We hebben genoten van de zon in combinatie met leuke activiteiten zoals padellen, en crazy 88 en ng veel meer leuke dingen!
+            In onze vrije tijd hebben we vooral genoten van de Spaanse keuken en de gezellige sfeer in de stad. Kortom, het was een onvergetelijke reis!
+        </div>
 </div>
 
 </div>
@@ -201,7 +201,7 @@
             mm = String(today.getMonth() + 1).padStart(2, "0"),
             yyyy = today.getFullYear(),
             nextYear = yyyy + 1,
-            dayMonth = "04/29/",
+            dayMonth = "10/19/",
             birthday = dayMonth + yyyy;
 
         today = mm + "/" + dd + "/" + yyyy;

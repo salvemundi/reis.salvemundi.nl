@@ -13,11 +13,11 @@
                                 <label for="booleanValue" class="form-label">Aan/uit:</label>
                                 <select class="form-select mb-1" id="booleanValue" name="value" aria-label="Default select example">
                                     @if($setting->value)
-                                        <option selected value="true">True</option>
-                                        <option value="false">False</option>
+                                        <option selected value="true">Aan</option>
+                                        <option value="false">Uit</option>
                                     @else
-                                        <option value="true">True</option>
-                                        <option selected value="false">False</option>
+                                        <option value="true">Aan</option>
+                                        <option selected value="false">Uit</option>
                                     @endif
                                 </select>
                             @break

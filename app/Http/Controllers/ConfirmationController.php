@@ -39,15 +39,21 @@ class ConfirmationController extends Controller
             return redirect('/')->with('error', 'Token is not valid!');
         }
         $baseprice = Setting::where('name', 'FinalPaymentAmount')->first()->value;
-
+        $driverSignup = Setting::where('name', 'DriverVolunteer')->first()->value;
         if($token->participant->role == Roles::crew) {
             $baseprice = (int)Setting::where('name', 'FinalPaymentAmount')->first()->value - (int)Setting::where('name', 'CrewDiscount')->first()->value;
         }
 
-        return view('confirmSignup')->with(['confirmationToken' => $token, 'activities' => $this->activityController->index(), 'price' => $this->paymentController->calculateFinalPrice($token), 'basePrice' => $baseprice]);
+        return view('confirmSignup')->with([
+            'confirmationToken' => $token,
+            'activities' => $this->activityController->index(),
+            'price' => $this->paymentController->calculateFinalPrice($token),
+            'basePrice' => $baseprice,
+            'driverSignup' => $driverSignup
+        ]);
     }
 
-    public function confirm(Request $request): Response|RedirectResponse
+    public function  confirm(Request $request): Response|RedirectResponse
     {
         $token = $request->token;
         $confirmationToken = ConfirmationToken::find($token);

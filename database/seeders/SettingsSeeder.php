@@ -86,5 +86,15 @@ class SettingsSeeder extends Seeder
             $setting->valueType = SettingTypes::float();
             $setting->save();
         }
+
+        // Enable voluntary driver sign up for the trip
+        if(!Setting::where('name', 'DriverVolunteer')->exists()) {
+            $setting = new Setting();
+            $setting->name = "DriverVolunteer";
+            $setting->value = false;
+            $setting->description = "Zet de vrijwillige chauffeur inschrijving aan of uit.";
+            $setting->valueType = SettingTypes::boolean();
+            $setting->save();
+        }
     }
 }

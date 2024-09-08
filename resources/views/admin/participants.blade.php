@@ -93,6 +93,9 @@ setActive("participants");
                         @if(Request::is('participants'))
                             <th data-field="createdat" data-sortable="true">Dag van inschrijving</th>
                             <th data-field="daysDif" data-sortable="true">Dagen geleden ingeschreven</th>
+                            @if($driverSignup)
+                                <th data-field="driverVolunteer" data-sortable="true">Wil vrijwillig rijden</th>
+                            @endif
                         @endif
                         <th data-field="email" data-sortable="false">email</th>
                         <th data-field="paid" data-sortable="true">Betaald</th>
@@ -115,6 +118,13 @@ setActive("participants");
                             @if(Request::is('participants'))
                                 <td data-value="{{ $participant->created_at }}">{{ $participant->created_at }}</td>
                                 <td data-value="{{ $participant->dateDifference }}">{{ $participant->dateDifference }}</td>
+                                @if($driverSignup)
+                                    @if($participant->driverVolunteer)
+                                        <td data-value="{{ $participant->driverVolunteer }}"><span class="badge rounded-pill bg-success">Ja</span></td>
+                                    @else
+                                        <td data-value="{{ $participant->driverVolunteer }}"><span class="badge rounded-pill bg-secondary">Nee</span></td>
+                                    @endif
+                                @endif
                             @endif
                             <td data-value="{{ $participant->email }}">{{$participant->email}}</td>
                             <td>
@@ -174,6 +184,9 @@ setActive("participants");
                         <li class="list-group-item">Leeftijd: {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }}</li>
                         <li class="list-group-item">E-mail: {{$selectedParticipant->email}}</li>
                         <li class="list-group-item">Telefoon nummer: {{ $selectedParticipant->phoneNumber }}</li>
+                        @if($driverSignup)
+                            <li class="list-group-item">Wil vrijwillig rijden: {!! $selectedParticipant->driverVolunteer ? '<span class="badge rounded-pill bg-success">Ja</span>' : '<span class="badge rounded-pill bg-secondary">Nee</span>' !!}</li>
+                        @endif
                         <li class="list-group-item">Allergieën: {{ $selectedParticipant->medicalIssues ?? "N.v.t" }}</li>
                         <li class="list-group-item">Bijzonderheden: {{ $selectedParticipant->specials ?? "N.v.t" }}</li>
                     </ul>

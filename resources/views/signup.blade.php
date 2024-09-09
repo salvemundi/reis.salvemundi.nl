@@ -142,7 +142,7 @@
 
             <div class="m-auto col-md-6 px-md-5 text-left">
                 <h2 class="mt-3 text-center">Wil je mee? <br> <b>Schrijf je in!</b></h2>
-                De inschrijvingen gaan donderdag om 12:00 open, zorg dus dat je klaar staat! Je kan je dan hier inschrijven.
+                De inschrijvingen gaan vandaag om 13:00 open, zorg dus dat je klaar staat! Je kan je dan hier inschrijven.
             </div>
 
             <div class="col-12 col-md-6 addMarginBottom">

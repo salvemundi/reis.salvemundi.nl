@@ -22,7 +22,7 @@
                     <tr id="tr-id-3" class="tr-class-2" data-title="bootstrap table">
                         <td data-value="{{ $setting->name }}">{{ $setting->description }}</td>
                         @if($setting->valueType == App\Enums\SettingTypes::boolean()->value)
-                            @if($setting->value)
+                            @if($setting->value == 'true')
                                 <td data-value="{{ $setting->value }}">Aan</td>
                             @else
                                 <td data-value="{{ $setting->value }}">Uit</td>

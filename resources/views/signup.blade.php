@@ -121,8 +121,8 @@
             <div class="col-auto col-md-6 col-12 pl-5">
                 <h1 class="display-5">Fontys ICT gaat international!</h1>
                 <div>
-                    <b>Date:</b> Onder voorbehoud van beschikbare data van de vliegtuigmaatschappijen (hou 29 april tot en met 5 mei vrij) we gaan in die week 5 dagen in totaal weg.
-                    <br><b>Geschatte Kosten:</b> € 290 - € 350
+                    <b>Date:</b> 19 tot 23 oktober 2024
+                    <br><b>Geschatte Kosten:</b> € 100 - € 140
                 </div>
                 <ul>
                     <li>

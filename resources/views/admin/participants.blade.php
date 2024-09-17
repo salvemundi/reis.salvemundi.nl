@@ -183,6 +183,9 @@ setActive("participants");
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Leeftijd: {{ \Carbon\Carbon::parse($selectedParticipant->birthday)->diff(\Carbon\Carbon::now())->format('%y years') }}</li>
                         <li class="list-group-item">E-mail: {{$selectedParticipant->email}}</li>
+                        @if(app\Models\Setting::where('name', 'CollectIdentificationDocuments')->first()->value == 'true')
+                        <li class="list-group-item">Documenten: {{app\Enums\DocumentTypes::getDescription($selectedParticipant->documentType ?? 0) . " | Nr: ". ($selectedParticipant->documentNumber ? $selectedParticipant->documentNumber : "Onbekend")}}</li>
+                        @endif
                         <li class="list-group-item">Telefoon nummer: {{ $selectedParticipant->phoneNumber }}</li>
                         @if($driverSignup)
                             <li class="list-group-item">Wil vrijwillig rijden: {!! $selectedParticipant->driverVolunteer ? '<span class="badge rounded-pill bg-success">Ja</span>' : '<span class="badge rounded-pill bg-secondary">Nee</span>' !!}</li>

@@ -41,6 +41,24 @@
                     </div>
                     <br>
 
+                    <div class="form-group">
+                        <label for="voornaam">Document Type*</label>
+                        <select class="form-control" name="documentType">
+                            @foreach(\App\Enums\DocumentTypes::asArray() as $key => $val)
+                                @if($val === $participant->documentType)
+                                    <option selected value="{{$val}}">{{\App\Enums\DocumentTypes::getDescription($val)}}</option>
+                                @else
+                                    <option value="{{$val}}">{{\App\Enums\DocumentTypes::getDescription($val)}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div><br>
+
+                    <div class="form-group">
+                        <label for="voornaam">Document nummer*</label>
+                        <input class="form-control{{ $errors->has('documentNumber') ? ' is-invalid' : '' }}" value="{{ $participant->documentNumber }}" id="documentNumber" name="documentNumber" placeholder="Document number...">
+                    </div><br>
+
                     @if($driverSignup)
                         <div class="form-group mb-4 form-check">
                             <input @if($participant->driverVolunteer) checked @endif class="form-check-input form-check me-2" type="checkbox" name="driverVolunteer" id="driverVolunteer">

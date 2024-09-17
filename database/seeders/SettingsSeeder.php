@@ -96,5 +96,15 @@ class SettingsSeeder extends Seeder
             $setting->valueType = SettingTypes::boolean();
             $setting->save();
         }
+
+        // Setting to require document / passport data collection
+        if(!Setting::where('name', 'CollectIdentificationDocuments')->exists()) {
+            $setting = new Setting();
+            $setting->name = "CollectIdentificationDocuments";
+            $setting->value = false;
+            $setting->description = "Zet het verzamelen van identificatie documenten aan of uit.";
+            $setting->valueType = SettingTypes::boolean();
+            $setting->save();
+        }
     }
 }

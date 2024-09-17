@@ -216,6 +216,9 @@ class ParticipantController extends Controller
      */
     public function store(Request $request, bool $saveActivities = false): RedirectResponse
     {
+        $collectIdentificationDocuments = Setting::where('name', 'CollectIdentificationDocuments')->first()->value;
+        $collectIdentificationDocuments = filter_var($collectIdentificationDocuments, FILTER_VALIDATE_BOOLEAN);
+
         if ($request->input('confirmation') == null) {
             $request->validate([
                 'firstName' => 'required', 'regex:/^[a-zA-Z á é í ó ú ý Á É Í Ó Ú Ý ç Ç â ê î ô û Â Ê Î Ô Û à è ì ò ù À È Ì Ò Ù ä ë ï ö ü ÿ Ä Ë Ï Ö Ü Ÿ ã õ ñ Ã Õ Ñ]+$/',
@@ -229,6 +232,8 @@ class ParticipantController extends Controller
                 'role' => 'nullable',
                 'checkedIn' => 'nullable',
                 'activities' => 'required',
+                'documentType' => $collectIdentificationDocuments ? 'required' : 'nullable',
+                'documentNumber' => $collectIdentificationDocuments ? 'required' : 'nullable',
             ]);
         } else {
             $request->validate([
@@ -242,6 +247,8 @@ class ParticipantController extends Controller
                 'specials' => 'nullable|max:250',
                 'role' => 'nullable',
                 'checkedIn' => 'nullable',
+                'documentType' => $collectIdentificationDocuments ? 'required' : 'nullable',
+                'documentNumber' => $collectIdentificationDocuments ? 'required' : 'nullable',
             ]);
         }
 
@@ -270,7 +277,8 @@ class ParticipantController extends Controller
         $participant->birthday = $request->input('birthday');
         $participant->email = $request->input('email');
         $participant->phoneNumber = $request->input('phoneNumber');
-
+        $participant->documentType = $request->input('documentType');
+        $participant->documentNumber = $request->input('documentNumber');
         $participant->medicalIssues = $request->input('medicalIssues');
         $participant->specials = $request->input('specials');
         $participant->driverVolunteer = (bool)$request->input('driverVolunteer');
@@ -404,6 +412,8 @@ class ParticipantController extends Controller
         $participant->lastName = $request->input('participantLastName');
         $participant->email = $request->input('participantEmail');
         $participant->birthday = $request->input('participantBirthday');
+        $participant->documentType = $request->input('documentType');
+        $participant->documentNumber = $request->input('documentNumber');
         $participant->phoneNumber = $request->input('participantPhoneNumber');
         $participant->medicalIssues = $request->input('participantMedicalIssues');
         $participant->specials = $request->input('participantSpecial');

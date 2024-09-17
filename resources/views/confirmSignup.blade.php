@@ -48,8 +48,25 @@
             <label for="voornaam">Phonenumber*</label>
             <input class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}" value="{{ $confirmationToken->participant->phoneNumber }}" id="phoneNumber" name="phoneNumber" placeholder="Phonenumber...">
         </div><br>
+        @if(app\Models\Setting::where('name', 'CollectIdentificationDocuments')->first()->value == 'true')
+        <div class="form-group">
+            <label for="voornaam">Document Type*</label>
+            <select class="form-control" name="documentType">
+                @foreach(\App\Enums\DocumentTypes::asArray() as $key => $val)
+                    @if($val === $confirmationToken->participant->documentType ?? 0)
+                        <option selected value="{{$val}}">{{\App\Enums\DocumentTypes::getDescription($val)}}</option>
+                    @else
+                        <option value="{{$val}}">{{\App\Enums\DocumentTypes::getDescription($val)}}</option>
+                    @endif                @endforeach
+            </select>
+        </div><br>
 
-        @if($driverSignup)
+        <div class="form-group">
+            <label for="voornaam">Document nummer*</label>
+            <input class="form-control{{ $errors->has('documentNumber') ? ' is-invalid' : '' }}" value="{{ $confirmationToken->participant->documentNumber }}" id="documentNumber" name="documentNumber" placeholder="Document number...">
+        </div><br>
+        @endif
+        @if($driverSignup && !$confirmationToken->participant->hasCompletedDownPayment())
             <div class="form-group mb-4 form-check">
                 <input class="form-check-input form-check me-2" type="checkbox" name="driverVolunteer" id="driverVolunteer">
                 <label class="form-check-label mt-2" for="driverSignup">Ik wil vrijwillig aanmelden om busje te rijden tijdens de reis</label>

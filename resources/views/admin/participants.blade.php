@@ -56,7 +56,16 @@ setActive("participants");
                     </li>
                 </ul>
             </div>
-
+            <div class="dropdown" style="margin-left: 4px;">
+                <button class="btn btn-secondary dropdown-toggle" style="width: auto !important;" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Exporteren
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li>
+                        <a href="/admin/export/all" class="dropdown-item" style="color: black !important;">Exporteer deelnemers</a>
+                    </li>
+                </ul>
+            </div>
             <!-- Modal -->
             <div class="modal fade" id="checkoutEveryoneModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">

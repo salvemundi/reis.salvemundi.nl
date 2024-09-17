@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ConfirmationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegistrationController;
@@ -129,5 +130,8 @@ Route::middleware(['GlobalMiddleware'])->group(function () {
 
         // ReserveList
         Route::post('/participants/reserveList/{userId}', [ParticipantController::class, 'changeReserveList']);
+
+        // Exports
+        Route::get('/admin/export/all', [ExportController::class, 'exportAllToExcel']);
     });
 });

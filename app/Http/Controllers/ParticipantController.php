@@ -218,6 +218,8 @@ class ParticipantController extends Controller
     {
         $collectIdentificationDocuments = Setting::where('name', 'CollectIdentificationDocuments')->first()->value;
         $collectIdentificationDocuments = filter_var($collectIdentificationDocuments, FILTER_VALIDATE_BOOLEAN);
+        $driverSignup = Setting::where('name','DriverVolunteer')->first()->value;
+        $driverSignup = filter_var($driverSignup, FILTER_VALIDATE_BOOLEAN);
 
         if ($request->input('confirmation') == null) {
             $request->validate([
@@ -281,8 +283,9 @@ class ParticipantController extends Controller
         $participant->documentNumber = $request->input('documentNumber');
         $participant->medicalIssues = $request->input('medicalIssues');
         $participant->specials = $request->input('specials');
-        $participant->driverVolunteer = (bool)$request->input('driverVolunteer');
-
+        if($driverSignup && !$participant->hasCompletedDownPayment()) {
+            $participant->driverVolunteer = (bool)$request->input('driverVolunteer');
+        }
         // what is this shit
         if ($request->input('checkedIn') != null) {
             $participant->checkedIn = Roles::coerce((int)$request->input('checkedIn'));

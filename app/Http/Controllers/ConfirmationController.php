@@ -40,6 +40,8 @@ class ConfirmationController extends Controller
         }
         $baseprice = Setting::where('name', 'FinalPaymentAmount')->first()->value;
         $driverSignup = Setting::where('name', 'DriverVolunteer')->first()->value;
+        $activitySignupAfterDownPayment = Setting::where('name', 'ActivitySignupAfterDownPayment')->first()->value;
+        $activitySignupAfterDownPayment = filter_var($activitySignupAfterDownPayment, FILTER_VALIDATE_BOOLEAN);
         if($token->participant->role == Roles::crew) {
             $baseprice = (int)Setting::where('name', 'FinalPaymentAmount')->first()->value - (int)Setting::where('name', 'CrewDiscount')->first()->value;
         }
@@ -49,7 +51,8 @@ class ConfirmationController extends Controller
             'activities' => $this->activityController->index(),
             'price' => $this->paymentController->calculateFinalPrice($token),
             'basePrice' => $baseprice,
-            'driverSignup' => $driverSignup
+            'driverSignup' => $driverSignup,
+            'activitySignupAfterDownPayment' => $activitySignupAfterDownPayment
         ]);
     }
 
@@ -58,6 +61,8 @@ class ConfirmationController extends Controller
         $token = $request->token;
         $confirmationToken = ConfirmationToken::find($token);
         $user = $confirmationToken->participant;
+        $activitySignupAfterDownPayment = Setting::where('name', 'ActivitySignupAfterDownPayment')->first()->value;
+        $activitySignupAfterDownPayment = filter_var($activitySignupAfterDownPayment, FILTER_VALIDATE_BOOLEAN);
         if (Setting::where('name', 'ConfirmationEnabled')->first()->value == 'false') {
             return back()->with('error', 'Confirmation signups are currently closed!');
         }
@@ -74,7 +79,7 @@ class ConfirmationController extends Controller
                 $this->participantController->store($request, true);
                 return $this->paymentController->payForReis($confirmationToken->id, Setting::where('name', 'Aanbetaling')->first()->value, PaymentTypes::DownPayment());
             }
-            $this->participantController->store($request);
+            $this->participantController->store($request, $activitySignupAfterDownPayment);
 
             return back()->with('success', 'Information saved!');
         }

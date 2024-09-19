@@ -73,7 +73,7 @@
             </div>
         @endif
         @if($activities->count() > 0)
-        @if(!$confirmationToken->participant->hasCompletedDownPayment())
+        @if(!$confirmationToken->participant->hasCompletedDownPayment() ||  $activitySignupAfterDownPayment)
         <div class="form-group">
             <label for="activities">Choose the options you would like</label>
             @foreach($activities as $activity)

@@ -106,5 +106,15 @@ class SettingsSeeder extends Seeder
             $setting->valueType = SettingTypes::boolean();
             $setting->save();
         }
+
+        // Allow activity sign up after down payment
+        if(!Setting::where('name', 'ActivitySignupAfterDownPayment')->exists()) {
+            $setting = new Setting();
+            $setting->name = "ActivitySignupAfterDownPayment";
+            $setting->value = false;
+            $setting->description = "Laat mensen bij de rest betaling ook nog inschrijven voor activiteiten.";
+            $setting->valueType = SettingTypes::boolean();
+            $setting->save();
+        }
     }
 }

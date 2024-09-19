@@ -25,9 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $isAdmin = $this->userIsAdmin();;
-        Gate::define('viewPulse', function ($isAdmin) {
-            return  $isAdmin;
+        Gate::define('viewPulse', function (User $user = null) {
+            return $this->userIsAdmin();
         });
 
         try {

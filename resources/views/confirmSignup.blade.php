@@ -143,6 +143,7 @@
     document.querySelectorAll('.activity-checkbox').forEach(function(checkbox) {
         checkbox.addEventListener('change', updatePrice);
     });
+    updatePrice(); // Update price on page load
 </script>
 @endif
 @endsection

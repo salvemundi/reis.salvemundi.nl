@@ -78,7 +78,7 @@
             <label for="activities">Choose the options you would like</label>
             @foreach($activities as $activity)
             <div class="form-check mt-2">
-                <input @if(!empty($confirmationToken->participant->activities->find($activity->id))) checked @endif class="activity-checkbox form-check-input" name="activities[]" data-price="{{ $activity->price}}" value="{{ $activity->id }}" type="checkbox" id="flexCheckDefault{{ $activity->id }}">
+                <input @if(!empty($confirmationToken->participant->activities->find($activity->id)) || true) checked @endif class="activity-checkbox form-check-input" name="activities[]" data-price="{{ $activity->price}}" value="{{ $activity->id }}" type="checkbox" id="flexCheckDefault{{ $activity->id }}">
                 <label class="form-check-label" for="flexCheckDefault{{ $activity->id }}">
                     {{ ucfirst($activity->name) }}: Price: €{{ $activity->price }} <i class="fas fa-info-circle purple" style="white-space: pre-line;" data-toggle="tooltip" data-placement="top" title="{{ $activity->description }}"></i>
                 </label>

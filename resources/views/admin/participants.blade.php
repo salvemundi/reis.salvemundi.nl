@@ -141,7 +141,7 @@ setActive("participants");
                                     <span class="badge rounded-pill bg-success text-black">Restbetaling voltooid</span>
                                 @else
                                     @if($participant->hasCompletedDownPayment())
-                                        <span class="badge rounded-pill bg-success text-black">Aanbetaling voltooid</span>
+                                        <span class="badge rounded-pill bg-info text-black">Aanbetaling voltooid</span>
                                     @else
                                         @if($participant->latestPayment)
                                             @switch($participant->latestPayment->paymentStatus)

@@ -112,7 +112,7 @@ class ParticipantController extends Controller
             if ($participant->payments != null) {
                 $participant->latestPayment = $participant->payments()->latest()->first();
             }
-            $participant->dateDifference = $dateToday->diffInDays($participant->created_at);
+            $participant->dateDifference = abs((int) $dateToday->diffInDays($participant->created_at));
         }
 
         return view('admin/participants', [

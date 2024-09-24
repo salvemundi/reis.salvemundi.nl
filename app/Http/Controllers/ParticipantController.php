@@ -306,7 +306,7 @@ class ParticipantController extends Controller
             }
         }
         $participant->save();
-
+        Log::info($participant->getFullName() .' Store');
         return back()->with('message', 'Informatie is opgeslagen!');
     }
 

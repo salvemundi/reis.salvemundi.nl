@@ -294,6 +294,8 @@ class ParticipantController extends Controller
         } else {
             $participant->checkedIn = Roles::coerce(0);
         }
+        Log::info($participant->getFullName() .' Store');
+        
         if (Activity::all()->count() != 0) {
             if ($saveActivities && isset($request->only(['activities'])['activities'])) {
                 $activityCollection = new Collection();
@@ -306,7 +308,6 @@ class ParticipantController extends Controller
             }
         }
         $participant->save();
-        Log::info($participant->getFullName() .' Store');
         return back()->with('message', 'Informatie is opgeslagen!');
     }
 

@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Models\Participant;
 use App\Enums\Roles;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -27,6 +28,7 @@ use App\Models\VerificationToken;
 use App\Models\ConfirmationToken;
 use App\Mail\manuallyAddedMail;
 use App\Mail\emailConfirmationSignup;
+use Ramsey\Uuid\Uuid;
 use Throwable;
 
 class ParticipantController extends Controller
@@ -75,7 +77,10 @@ class ParticipantController extends Controller
         if ($activities) {
             $data_to_sync = $activities->pluck('id')
                 ->mapWithKeys(function ($id) {
-                    return [$id => ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString()]];
+                    do {
+                        $uuid = Uuid::uuid4()->toString();
+                    } while (DB::table('activity_participant')->where('id', $uuid)->exists());
+                    return [$id => ['id' => $uuid]];
                 })
                 ->toArray();
         }

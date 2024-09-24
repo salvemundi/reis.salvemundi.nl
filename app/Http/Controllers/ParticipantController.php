@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Models\Participant;
 use App\Enums\Roles;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str;

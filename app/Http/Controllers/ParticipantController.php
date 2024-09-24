@@ -79,6 +79,7 @@ class ParticipantController extends Controller
                 ->toArray();
         }
 
+        Log::info($data_to_sync);
         $participant->activities()->sync($data_to_sync);
 
         return $participant;

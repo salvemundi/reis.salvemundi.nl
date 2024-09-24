@@ -76,19 +76,23 @@ class ParticipantController extends Controller
 
         if ($activities) {
             $data_to_sync = $activities->pluck('id')
-                ->mapWithKeys(function ($id) {
-                    do {
-                        $uuid = Uuid::uuid4()->toString();
-                    } while (DB::table('activity_participant')->where('id', $uuid)->exists());
-                    return [$id => ['id' => $uuid]];
+                ->mapWithKeys(function ($id) use ($participant) {
+                        return [$id => ['id' => Uuid::uuid4()->toString()]];
                 })
                 ->toArray();
         }
-
         Log::info($data_to_sync);
+        $this->deleteDuplicateActivityRelationships();
         $participant->activities()->sync($data_to_sync);
-
         return $participant;
+    }
+
+    private function deleteDuplicateActivityRelationships(): void
+    {
+        // Delete all duplicate relationships
+        DB::table('activity_participant')
+            ->whereRaw('id NOT IN (SELECT MIN(id) FROM activity_participant GROUP BY activity_id, participant_id)')
+            ->delete();
     }
 
     public function view(): Factory|View|Application
@@ -300,7 +304,7 @@ class ParticipantController extends Controller
             $participant->checkedIn = Roles::coerce(0);
         }
         Log::info($participant->getFullName() .' Store');
-        
+
         if (Activity::all()->count() != 0) {
             if ($saveActivities && isset($request->only(['activities'])['activities'])) {
                 $activityCollection = new Collection();

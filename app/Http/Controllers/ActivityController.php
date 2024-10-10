@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Participant;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -19,7 +20,13 @@ class ActivityController extends Controller
 
     public function showCreatePage(Request $request): Factory|View|Application {
         if($request->activityId) {
-            return view('admin/addActivities')->with(['activity' => $this->show($request->activityId)]);
+            $unlinkedParticipants = Participant::whereDoesntHave('activities', function ($query) use ($request) {
+                $query->where('activities.id', $request->activityId);
+            })->get();
+            $unlinkedParticipants = $unlinkedParticipants->filter(function ($participant) {
+                return $participant->hasCompletedAllPayments();
+            });
+            return view('admin/addActivities')->with(['unlinkedParticipants' => $unlinkedParticipants,'activity' => $this->show($request->activityId)]);
         }
         return view('admin/addActivities');
     }

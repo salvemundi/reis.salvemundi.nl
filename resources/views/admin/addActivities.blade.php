@@ -3,6 +3,16 @@
     <script>
         setActive("activities");
     </script>
+    <style>
+        .nav-tabs{
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .nav-link {
+            color: black !important;
+        }
+
+    </style>
     <div class="container center">
         <div id="contact" class="col-md-6">
             @if(session()->has('message'))
@@ -44,6 +54,33 @@
                     <input class="btn btn-primary" type="submit" value="Opslaan">
                 </div>
             </form>
+            <h5>Alle deelnemers die niet mee doen aan deze activiteit</h5>
+            <nav>
+                <div class="nav nav-tabs d-flex flex-row justify-content-start" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Wel ingeschreven</button>
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Niet ingeschreven</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                    @foreach($activity->participants as $participant)
+                        <div class="card">
+                            <div class="card-body text-black">
+                                {{$participant->getFullName()}}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                    @foreach($unlinkedParticipants as $participant)
+                        <div class="card">
+                            <div class="card-body text-black">
+                                {{$participant->getFullName()}}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
     </div>
 @endsection

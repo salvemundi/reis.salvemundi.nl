@@ -35,7 +35,7 @@ class ConfirmationController extends Controller
     {
         $token = ConfirmationToken::find($request->token);
 
-        if (!$token || $token->confirmed) {
+        if (!$token || $token->confirmed || $token->participant == null) {
             return redirect('/')->with('error', 'Token is not valid!');
         }
         $baseprice = Setting::where('name', 'FinalPaymentAmount')->first()->value;

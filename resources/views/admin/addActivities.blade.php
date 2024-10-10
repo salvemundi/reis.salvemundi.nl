@@ -54,7 +54,7 @@
                     <input class="btn btn-primary" type="submit" value="Opslaan">
                 </div>
             </form>
-            <h5>Alle deelnemers die niet mee doen aan deze activiteit</h5>
+            <h5>Inschrijvingen</h5>
             <nav>
                 <div class="nav nav-tabs d-flex flex-row justify-content-start" id="nav-tab" role="tablist">
                     <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Wel ingeschreven</button>

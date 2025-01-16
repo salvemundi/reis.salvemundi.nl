@@ -121,8 +121,8 @@
             <div class="col-auto col-md-6 col-12 pl-5">
                 <h1 class="display-5">Fontys ICT gaat international!</h1>
                 <div>
-                    <b>Date:</b> 19 tot 23 oktober 2024
-                    <br><b>Geschatte Kosten:</b> € 100 - € 140
+                    <b>Date:</b> 30 april tot 4 mei 2025
+                    <br><b>Geschatte Kosten:</b> € 300
                 </div>
                 <ul>
                     <li>

@@ -367,13 +367,18 @@ class ParticipantController extends Controller
             return back()->with('message', 'Je hebt je succesvol ingeschreven maar je bent helaas te laat en staat in de wachtrij.');
         }
 
-        $token = new ConfirmationToken();
-        $token->participant()->associate($participant);
-        $token->save();
-
-        Mail::to($participant->email)
-            ->send(new emailConfirmationSignup($participant, $token));
-        return redirect('/inschrijven/betalen/' . $token->id)->with('message', 'Voltooi de aanbeteling om je inschrijving te bevestigen!');
+        if(Setting::where('name','ConfirmationEnabled')->first()->value == 'false') {
+            $participant->isOnReserveList = true;
+            $participant->save();
+            return back()->with('error', 'We hebben je inschrijving ontvangen!');
+        } else {
+            $token = new ConfirmationToken();
+            $token->participant()->associate($participant);
+            $token->save();
+            Mail::to($participant->email)
+                ->send(new emailConfirmationSignup($participant, $token));
+            return redirect('/inschrijven/betalen/' . $token->id)->with('message', 'Voltooi de aanbeteling om je inschrijving te bevestigen!');
+        }
     }
 
     public function sendEmailsToNonVerified(): RedirectResponse

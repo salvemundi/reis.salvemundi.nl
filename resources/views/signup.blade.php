@@ -121,8 +121,8 @@
             <div class="col-auto col-md-6 col-12 pl-5">
                 <h1 class="display-5">Fontys ICT gaat international!</h1>
                 <div>
-                    <b>Date:</b> 19 tot 23 oktober 2024
-                    <br><b>Geschatte Kosten:</b> € 100 - € 140
+                    <b>Date:</b> 30 april tot 4 mei 2025
+                    <br><b>Geschatte Kosten:</b> € 300
                 </div>
                 <ul>
                     <li>
@@ -142,7 +142,7 @@
 
             <div class="m-auto col-md-6 px-md-5 text-left">
                 <h2 class="mt-3 text-center">Wil je mee? <br> <b>Schrijf je in!</b></h2>
-                De inschrijvingen gaan vandaag om 13:00 open, zorg dus dat je klaar staat! Je kan je dan hier inschrijven.
+                De inschrijvingen gaan op de gecommuniceerde datum open, zorg dus dat je klaar staat! Je kan je dan hier inschrijven.
             </div>
 
             <div class="col-12 col-md-6 addMarginBottom">
